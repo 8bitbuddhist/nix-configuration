@@ -39,8 +39,9 @@ with lib;
     systemd.services = {
       "nixos-rebuild" = {
         script = ''
-          nixos-rebuild build . --flake
+          ${pkgs.nixos-rebuild}/bin/nixos-rebuild build --flake .
         '';
+		path = [ "/run/current-system/sw" ];
         serviceConfig = {
           Type = "oneshot";
           User = "${config.users.users.aires.name}";
@@ -50,8 +51,9 @@ with lib;
 
       "nixos-activate" = {
         script = ''
-          ./result/switch-to-configuration switch
+          ${config.users.users.aires.home}/Development/nix-configuration/result/bin/switch-to-configuration switch
         '';
+		path = [ "/run/current-system/sw" ];
         requires = [ "nixos-rebuild.service" ];
         serviceConfig = {
           Type = "oneshot";
