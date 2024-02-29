@@ -5,7 +5,7 @@ let
   nix-secrets = builtins.fetchGit {
     url = "ssh://git@code.8bitbuddhism.com:22222/andre/nix-secrets.git";
     ref = "main";
-    rev = "a5b902f720e1e51df0f688b29d449c910468fb28";
+    rev = "75076eba4de5d8539cc1a2a85bf3924c9ae4b7b9";
   };
 in{
   imports = [
