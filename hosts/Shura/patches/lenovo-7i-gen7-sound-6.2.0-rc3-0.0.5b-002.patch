@@ -1,0 +1,134 @@
+diff --git a/sound/pci/hda/cs35l41_hda.c b/sound/pci/hda/cs35l41_hda.c
+index f7815ee24f83..93d86c5a9d53 100644
+--- a/sound/pci/hda/cs35l41_hda.c
++++ b/sound/pci/hda/cs35l41_hda.c
+@@ -1270,6 +1270,8 @@ static int cs35l41_hda_read_acpi(struct cs35l41_hda *cs35l41, const char *hid, i
+ 	size_t nval;
+ 	int i, ret;
+ 
++	printk("CSC3551: probing %s\n", hid);
++
+ 	adev = acpi_dev_get_first_match_dev(hid, NULL, -1);
+ 	if (!adev) {
+ 		dev_err(cs35l41->dev, "Failed to find an ACPI device for %s\n", hid);
+@@ -1287,8 +1289,9 @@ static int cs35l41_hda_read_acpi(struct cs35l41_hda *cs35l41, const char *hid, i
+ 	property = "cirrus,dev-index";
+ 	ret = device_property_count_u32(physdev, property);
+ 	if (ret <= 0) {
+-		ret = cs35l41_no_acpi_dsd(cs35l41, physdev, id, hid);
+-		goto err_put_physdev;
++	    //ret = cs35l41_no_acpi_dsd(cs35l41, physdev, id, hid);
++	    //goto err_put_physdev;
++	    goto no_acpi_dsd;
+ 	}
+ 	if (ret > ARRAY_SIZE(values)) {
+ 		ret = -EINVAL;
+@@ -1383,6 +1386,92 @@ static int cs35l41_hda_read_acpi(struct cs35l41_hda *cs35l41, const char *hid, i
+ 	put_device(physdev);
+ 
+ 	return ret;
++
++no_acpi_dsd:
++	/*
++	 * Device CLSA0100 doesn't have _DSD so a gpiod_get by the label reset won't work.
++	 * And devices created by i2c-multi-instantiate don't have their device struct pointing to
++	 * the correct fwnode, so acpi_dev must be used here.
++	 * And devm functions expect that the device requesting the resource has the correct
++	 * fwnode.
++	 */
++
++	printk("CSC3551: no_acpi_dsd: %s\n", hid);
++
++	/* TODO: This is a hack. */
++	if (strncmp(hid, "CSC3551", 7) == 0) {
++	    goto csc3551;
++	}
++
++	if (strncmp(hid, "CLSA0100", 8) != 0)
++		return -EINVAL;
++
++	/* check I2C address to assign the index */
++	cs35l41->index = id == 0x40 ? 0 : 1;
++	cs35l41->hw_cfg.spk_pos = cs35l41->index;
++	cs35l41->channel_index = 0;
++	cs35l41->reset_gpio = gpiod_get_index(physdev, NULL, 0, GPIOD_OUT_HIGH);
++	cs35l41->hw_cfg.bst_type = CS35L41_EXT_BOOST_NO_VSPK_SWITCH;
++	hw_cfg->gpio2.func = CS35L41_GPIO2_INT_OPEN_DRAIN;
++	hw_cfg->gpio2.valid = true;
++	cs35l41->hw_cfg.valid = true;
++	put_device(physdev);
++
++	return 0;
++
++ csc3551:
++
++	printk("CSC3551: id == 0x%x\n", id);
++
++	// cirrus,dev-index
++	if(id == 0x40)
++	    cs35l41->index = 0;
++	else
++	    cs35l41->index = 1;
++
++	cs35l41->channel_index = 0;
++
++	cs35l41->reset_gpio = gpiod_get_index(physdev, NULL, cs35l41->index, GPIOD_OUT_LOW);
++
++	printk("CS3551: reset_gpio == 0x%x\n", cs35l41->reset_gpio);
++
++	// cirrus,speaker-position
++	if(cs35l41->index == 0)
++	    hw_cfg->spk_pos = 0;
++	else
++	    hw_cfg->spk_pos = 1;
++
++	// cirrus,gpio1-func
++	hw_cfg->gpio1.func = 1;
++        hw_cfg->gpio1.valid = true;
++
++	// cirrus,gpio2-func
++	hw_cfg->gpio2.func = 0x02;
++        hw_cfg->gpio2.valid = true;
++
++	// cirrus,boost-peak-milliamp
++	hw_cfg->bst_ipk = -1;
++
++	// cirrus,boost-ind-nanohenry
++	hw_cfg->bst_ind = -1;
++
++	// cirrus,boost-cap-microfarad
++	hw_cfg->bst_cap = -1;
++
++	cs35l41->speaker_id = cs35l41_get_speaker_id(physdev, cs35l41->index, nval, -1);
++
++        if (hw_cfg->bst_ind > 0 || hw_cfg->bst_cap > 0 || hw_cfg->bst_ipk > 0)
++                hw_cfg->bst_type = CS35L41_INT_BOOST;
++        else
++                hw_cfg->bst_type = CS35L41_EXT_BOOST;
++
++	hw_cfg->valid = true;
++
++	put_device(physdev);
++
++	printk("CSC3551: Done.\n");
++
++	return 0;
+ }
+ 
+ int cs35l41_hda_probe(struct device *dev, const char *device_name, int id, int irq,
+diff --git a/sound/pci/hda/patch_realtek.c b/sound/pci/hda/patch_realtek.c
+index e103bb3693c0..8ec2b0f99d8c 100644
+--- a/sound/pci/hda/patch_realtek.c
++++ b/sound/pci/hda/patch_realtek.c
+@@ -9682,6 +9682,11 @@ static const struct snd_pci_quirk alc269_fixup_tbl[] = {
+ 	SND_PCI_QUIRK(0x17aa, 0x3853, "Lenovo Yoga 7 15ITL5", ALC287_FIXUP_YOGA7_14ITL_SPEAKERS),
+ 	SND_PCI_QUIRK(0x17aa, 0x3855, "Legion 7 16ITHG6", ALC287_FIXUP_LEGION_16ITHG6),
+ 	SND_PCI_QUIRK(0x17aa, 0x3869, "Lenovo Yoga7 14IAL7", ALC287_FIXUP_YOGA9_14IAP7_BASS_SPK_PIN),
++	SND_PCI_QUIRK(0x17aa, 0x3874, "Legion 7 16IAX7", ALC287_FIXUP_CS35L41_I2C_2),
++	SND_PCI_QUIRK(0x17aa, 0x386f, "Legion 7 16IAX7", ALC287_FIXUP_CS35L41_I2C_2),
++	SND_PCI_QUIRK(0x17aa, 0x3803, "Legion 7i slim 16IAH7", ALC287_FIXUP_CS35L41_I2C_2),
++	SND_PCI_QUIRK(0x17aa, 0x3856, "Yoga Slim 7 Carbon 14ACN6", ALC287_FIXUP_CS35L41_I2C_2),
++	SND_PCI_QUIRK(0x17aa, 0x3877, "Legion 7 slim 16ARHA7", ALC287_FIXUP_CS35L41_I2C_2),
+ 	SND_PCI_QUIRK(0x17aa, 0x3902, "Lenovo E50-80", ALC269_FIXUP_DMIC_THINKPAD_ACPI),
+ 	SND_PCI_QUIRK(0x17aa, 0x3977, "IdeaPad S210", ALC283_FIXUP_INT_MIC),
+ 	SND_PCI_QUIRK(0x17aa, 0x3978, "Lenovo B50-70", ALC269_FIXUP_DMIC_THINKPAD_ACPI),
