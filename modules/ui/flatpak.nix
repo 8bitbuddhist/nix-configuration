@@ -15,6 +15,9 @@ with lib;
 		services.flatpak = {
 			enable = true;
 
+			# Manage all Flatpaks
+			uninstallUnmanagedPackages = true;
+
 			# Enable daily automatic updates
 			update.auto = {
 				enable = true;
