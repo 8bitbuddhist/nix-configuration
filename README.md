@@ -6,31 +6,29 @@ A full set of configuration files managed via NixOS. This project follows the ge
 
 ### Note on secrets management
 
-Secrets are stored in a separate repo called `nix-secrets`, which gets pulled automagically for all configs. See `hosts/common/default.nix`. This is a poor man's secret management solution, but y'know what, it works. These "secrets" will be readable to users on the system with access to the `/nix/store/`, but for single-user systems, it's fine.
+Secrets are stored in a separate repo called `nix-secrets`, which is included here as a submodule. It gets pulled into the main config via `hosts/common/default.nix`. This is a poor man's secret management solution, but y'know what, it works. These "secrets" will be readable to users on the system with access to the `/nix/store/`, but for single-user systems, it's fine.
 
-### Building the system
+Initialize the submodule with:
 
-When using nix-secrets, we need to separate the build process into two steps (because of secrets being stored in a private repo; the alternative is to give root access to the private repo on all hosts). First step is to create the build by running this as `aires`:
-
-```zsh
-nixos-rebuild build --flake .#Shura
+```sh
+git submodule update --init --recursive
 ```
 
-When the build is done, run this command as root:
+### Applying the configuration
 
-```zsh
-sudo ./result/bin/switch-to-configuration switch
+To apply the config for the first time (e.g. on a fresh install), run this command, replacing `Shura` with the name of the host:
+
+```sh
+sudo nixos-rebuild switch --flake .#Shura
+```
+
+For subsequent builds, you can omit the hostname:
+
+```sh
+sudo nixos-rebuild switch --flake .
 ```
 
 `switch` replaces the running system immediately, or you can use `boot` to only apply the switch during the next reboot. After applying the build at least once (or setting the hostname manually), you can omit the hostname from the command and just run `nixos-rebuild build --flake .`
-
-#### Normal build process
-
-Normally (without a secret GitHub repo) you'd just use `sudo nixos-rebuild` like so:
-
-```zsh
-sudo nixos-rebuild switch --flake .#Shura
-```
 
 ### Testing
 
@@ -51,7 +49,7 @@ nixos-rebuild build-vm --flake .
 `flake.lock` locks the version of any packages/modules used. To update them, run `nix flake update` first:
 
 ```zsh
-nix flake update && nixos-rebuild build --flake . && sudo ./result/bin/switch-to-configuration switch
+nix flake update && sudo nixos-rebuild switch --flake .
 ```
 
 Home-manager also installs a ZSH alias, so you can just run `update` or `upgrade` for the same effect.

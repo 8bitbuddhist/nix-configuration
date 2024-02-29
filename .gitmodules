@@ -1,0 +1,3 @@
+[submodule "nix-secrets"]
+	path = nix-secrets
+	url = ssh://git@code.8bitbuddhism.com:22222/andre/nix-secrets.git

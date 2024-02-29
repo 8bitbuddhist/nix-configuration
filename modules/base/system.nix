@@ -35,47 +35,7 @@ with lib;
 			};
 		};
 
-    # Enable automatic updates. I'm using a weird setup here to account for pulling secrets from a private repo, which requires aires' SSH keys.
-    systemd.services = {
-      "nixos-rebuild" = {
-        script = ''
-          ${pkgs.nixos-rebuild}/bin/nixos-rebuild build --flake .
-        '';
-		path = [ "/run/current-system/sw" ];
-        serviceConfig = {
-          Type = "oneshot";
-          User = "${config.users.users.aires.name}";
-          WorkingDirectory = "${config.users.users.aires.home}/Development/nix-configuration";
-        };
-      };
-
-      "nixos-activate" = {
-        script = ''
-          ${config.users.users.aires.home}/Development/nix-configuration/result/bin/switch-to-configuration switch
-        '';
-		path = [ "/run/current-system/sw" ];
-        requires = [ "nixos-rebuild.service" ];
-        serviceConfig = {
-          Type = "oneshot";
-          User = "${config.users.users.root.name}";
-          WorkingDirectory = "${config.users.users.aires.home}/Development/nix-configuration";
-        };
-      };
-    };
-    systemd.timers = {
-      "nixos-update" = {
-        wantedBy = [ "timers.target" ];
-        wants = [ "network-online.target" ];
-        timerConfig = {
-          Unit = "nixos-activate.service";
-          OnCalendar = "daily";
-          Persistent = true; 
-        };
-      };
-    };
-
-		# Configure automatic updates (deprecated in favor of systemd timers)
-    /*
+		# Configure automatic updates
 		system = {
 			# Enable automatic updates
 			autoUpgrade = {
@@ -92,7 +52,6 @@ with lib;
 				allowReboot = false;
 			};
 		};
-    */
 
 		# Set your time zone.
 		time.timeZone = "America/New_York";
