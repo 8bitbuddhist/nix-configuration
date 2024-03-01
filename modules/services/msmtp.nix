@@ -13,13 +13,7 @@ with lib;
 	config = mkIf cfg.enable {
 		programs.msmtp = {
 			enable = true;
-			accounts.default = {
-				auth = true;
-				tls = true;
-				from = "root@${config.networking.hostName}";
-				user = "root";
-				# SMTP host and password set in nix-secrets
-			};
+			# Authentication details set in nix-secrets
 		};
 	};
 }
