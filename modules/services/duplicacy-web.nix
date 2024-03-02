@@ -47,6 +47,6 @@ rec {
 			environment = {
 				HOME = cfg.environment;
 			};
-		}	//	optionalAttrs (cfg.autostart == true) { wantedBy = ["multi-user.target"]; };	# Start at boot if autostart is enabled.
+		}	//	optionalAttrs cfg.autostart { wantedBy = ["multi-user.target"]; };	# Start at boot if autostart is enabled.
 	};
 }

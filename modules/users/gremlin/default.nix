@@ -36,7 +36,7 @@ with lib;
 			};
 
 			# Install gremlin-specific flatpaks
-			services.flatpak.packages = lib.mkIf (config.services.flatpak.enable == true) [
+			services.flatpak.packages = lib.mkIf config.services.flatpak.enable [
 				"com.google.Chrome"
 				"com.slack.Slack"
 			];
@@ -96,11 +96,11 @@ with lib;
 		})
 
 		# Enable Syncthing
-		(mkIf (cfg.services.syncthing.enable == true) {
+		(mkIf cfg.services.syncthing.enable {
 			users.users.gremlin = {
 				packages = [
 					pkgs.syncthing
-					(mkIf (cfg.services.syncthing.enableTray == true) pkgs.syncthingtray)
+					(mkIf cfg.services.syncthing.enableTray pkgs.syncthingtray)
 				];
 			};
 
@@ -116,7 +116,7 @@ with lib;
 				};
 
 				# Override the default Syncthing settings so it doesn't start on boot
-				systemd.user.services."syncthing" = mkIf (cfg.services.syncthing.autostart == false) {
+				systemd.user.services."syncthing" = mkIf (!cfg.services.syncthing.autostart) {
 					Install = lib.mkForce {};
 				};
 			};

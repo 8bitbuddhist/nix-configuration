@@ -43,11 +43,11 @@ with lib;
 
 		services.k3s = {
 			enable = true;
-			role = cfg.role;
+			inherit (cfg) role;
 			extraFlags = toString [
 				# "--kubelet-arg=v=4" # Optionally add additional args to k3s
 			];
-		}	//	optionalAttrs (cfg.role == "agent") { serverAddr = cfg.serverAddr; };
+		}	//	optionalAttrs (cfg.role == "agent") { inherit (cfg) serverAddr; };
 
 		# Increase number of open file handlers so K3s doesn't exhaust them...again.
 		systemd.extraConfig = ''

@@ -11,7 +11,7 @@ with lib;
 	config = mkIf cfg.enable {
 		services.apcupsd = {
 			enable = true;
-			configText = (builtins.readFile ./etc/apcupsd.conf);
+			configText = builtins.readFile ./etc/apcupsd.conf;
 		};
 	};
 }

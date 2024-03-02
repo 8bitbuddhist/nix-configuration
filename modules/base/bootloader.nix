@@ -24,7 +24,7 @@ with lib;
 	};
 
 	config = mkIf cfg.enable (mkMerge[
-		(mkIf (cfg.secureboot.enable == true) {
+		(mkIf cfg.secureboot.enable {
 			boot = {
 				# Enable Secure Boot
 				bootspec.enable = true;
@@ -48,7 +48,7 @@ with lib;
 		})
 
 		# Plain boot
-		(mkIf (cfg.secureboot.enable == false) {
+		(mkIf (!cfg.secureboot.enable) {
 			boot = {
 				loader.systemd-boot.enable = true;
 				loader.efi.canTouchEfiVariables = true;

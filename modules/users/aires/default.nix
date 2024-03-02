@@ -24,7 +24,7 @@ with lib;
 	};
 
 	config = mkIf cfg.enable (mkMerge [
-		({
+		{
 			users.users.aires = {
 				isNormalUser = true;
 				description = "Aires";
@@ -36,7 +36,7 @@ with lib;
 			};
 
 			# Install aires-specific Flatpaks
-			services.flatpak.packages = mkIf (config.services.flatpak.enable == true) [
+			services.flatpak.packages = mkIf config.services.flatpak.enable [
 				"com.discordapp.Discord"
 				"org.telegram.desktop"
 			];
@@ -58,7 +58,7 @@ with lib;
 				home.homeDirectory = "/home/aires";
 
 				# Install extra packages, specifically gnome extensions
-				home.packages = lib.mkIf (config.host.ui.gnome.enable) [
+				home.packages = lib.mkIf config.host.ui.gnome.enable [
 					pkgs.gnomeExtensions.wallpaper-slideshow
 				];
 
@@ -109,10 +109,10 @@ with lib;
 					};
 				};
 			};
-		})
+		}
 
 		# Autologin aires
-		(mkIf (cfg.autologin == true) {
+		(mkIf cfg.autologin {
 			services.xserver.displayManager.autoLogin = {
 				enable = true;
 				user = "aires";	
@@ -124,10 +124,10 @@ with lib;
 		})
 
 		# Enable Syncthing
-		(mkIf (cfg.services.syncthing.enable == true) {
+		(mkIf cfg.services.syncthing.enable {
 			users.users.aires.packages = [
 				pkgs.syncthing
-				(mkIf (cfg.services.syncthing.enableTray == true) pkgs.syncthingtray)
+				(mkIf cfg.services.syncthing.enableTray pkgs.syncthingtray)
 			];
 
 			# Open port 8080
@@ -147,7 +147,7 @@ with lib;
 				};
 
 				# Override the default Syncthing settings so it doesn't start on boot
-				systemd.user.services."syncthing" = mkIf (cfg.services.syncthing.autostart == false) {
+				systemd.user.services."syncthing" = mkIf (!cfg.services.syncthing.autostart) {
 					Install = lib.mkForce {};
 				};
 			};

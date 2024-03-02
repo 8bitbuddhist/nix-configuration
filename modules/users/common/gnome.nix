@@ -1,6 +1,6 @@
 { lib, pkgs, osConfig, ... }: {
 	# Additional Gnome configurations via home-manager. Imported by default by aires and gremlin.
-	dconf.settings = lib.mkIf (osConfig.host.ui.gnome.enable) {
+	dconf.settings = lib.mkIf osConfig.host.ui.gnome.enable {
 		"org/gnome/mutter" = {
 			edge-tiling = true;
 			workspaces-only-on-primary = false;

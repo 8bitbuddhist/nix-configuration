@@ -32,7 +32,7 @@ with lib;
 		];
 
 		# Reduce audio latency per https://nixos.wiki/wiki/PipeWire#Low-latency_setup
-		services.pipewire.extraConfig.pipewire = lib.mkIf (config.sound.enable == true) {
+		services.pipewire.extraConfig.pipewire = lib.mkIf config.sound.enable {
 			"92-low-latency.conf" = {
 				"context.properties" = {
 					"default.clock.rate" = 48000;

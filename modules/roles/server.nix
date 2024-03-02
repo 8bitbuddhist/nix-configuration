@@ -1,6 +1,6 @@
 { config, lib, modulesPath, pkgs, ... }:
 let
-	role = config.host.role;
+	inherit (config.host) role;
 in
 	with lib;
 {

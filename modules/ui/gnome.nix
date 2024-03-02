@@ -34,9 +34,9 @@ with lib;
 		};
 		
 		# Remove default packages that came with the install
-		services.xserver.excludePackages = (with pkgs; [
+		services.xserver.excludePackages = with pkgs; [
 			xterm
-		]);
+		];
 		environment.gnome.excludePackages = (with pkgs; [
 			gnome-photos
 			gnome-tour
