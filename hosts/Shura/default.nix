@@ -24,11 +24,11 @@ in
 		role = "workstation";
 		apps = {
 			development.enable = true;
-      dj.enable = true;
+			dj.enable = true;
 			gaming.enable = true;
 			hugo.enable = true;
-      media.enable = true;
-      office.enable = true;
+			media.enable = true;
+			office.enable = true;
 			pandoc.enable = true;
 			recording.enable = true;
 		};
@@ -85,7 +85,7 @@ in
 
 	# Configure the virtual machine created by nixos-rebuild build-vm
 	virtualisation.vmVariant.virtualisation = {
-		memorySize =  4096;
+		memorySize =	4096;
 		cores = 4;
 	};
 
@@ -98,7 +98,7 @@ in
 			title NixOS
 			linux /live/vmlinuz-linux
 			initrd /live/initramfs-linux.img
-			options img_dev=/dev/nvme0n1p3 img_loop=nixos-gnome-23.11.3019.8bf65f17d807-x86_64-linux.isosudo  copytoram
+			options img_dev=/dev/nvme0n1p3 img_loop=nixos-gnome-23.11.3019.8bf65f17d807-x86_64-linux.isosudo	copytoram
 		'';
 	};
 }

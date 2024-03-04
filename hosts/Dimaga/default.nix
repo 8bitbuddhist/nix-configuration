@@ -15,8 +15,8 @@
 		apps = {
 			development.enable = true;
 			hugo.enable = true;
-      media.enable = true;
-      office.enable = true;
+			media.enable = true;
+			office.enable = true;
 			pandoc.enable = true;
 		};
 		ui = {
@@ -40,7 +40,7 @@
 
 	# Configure the virtual machine created by nixos-rebuild build-vm
 	virtualisation.vmVariant.virtualisation = {
-		memorySize =  2048;
+		memorySize =	2048;
 		cores = 2;
 	};
 }

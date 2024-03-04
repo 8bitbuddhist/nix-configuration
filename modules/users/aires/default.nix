@@ -65,13 +65,13 @@ with lib;
 				# Set up git
 				programs.git = {
 					enable = true;
-          # Username and email set in nix-secrets
+					# Username and email set in nix-secrets
 					extraConfig = {
 						push.autoSetupRemote = "true";
 					};
 				};
 
-        # SSH set up in nix-secrets
+				# SSH set up in nix-secrets
 
 				# Set up Zsh
 				programs.zsh = {
@@ -85,9 +85,9 @@ with lib;
 					};
 					enableAutosuggestions = true;
 					syntaxHighlighting.enable = true;
-					history.ignoreDups = true;  # Do not enter command lines into the history list if they are duplicates of the previous event.
+					history.ignoreDups = true;	# Do not enter command lines into the history list if they are duplicates of the previous event.
 					prezto = {
-						git.submoduleIgnore = "untracked";  # Ignore submodules when they are untracked.
+						git.submoduleIgnore = "untracked";	# Ignore submodules when they are untracked.
 					};
 					shellAliases = {
 						dry-build = "cd ~/Development/nix-configuration && nix flake update && nixos-rebuild dry-build --flake .";

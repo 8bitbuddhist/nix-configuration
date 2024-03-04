@@ -73,7 +73,7 @@ with lib;
 
 		# Install Flatpaks
 		services.flatpak.packages = [
-      "com.mattjakeman.ExtensionManager"
+			"com.mattjakeman.ExtensionManager"
 			"org.bluesabre.MenuLibre"
 			"org.gnome.baobab"
 			"org.gnome.Calculator"

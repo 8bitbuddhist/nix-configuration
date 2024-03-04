@@ -70,10 +70,10 @@
 					];
 				};
 
-        Pihole = nixpkgs.lib.nixosSystem {
+				Pihole = nixpkgs.lib.nixosSystem {
 					system = "aarch64-linux";
 					modules = defaultModules.base ++ [
-            nixos-hardware.nixosModules.raspberry-pi-4
+						nixos-hardware.nixosModules.raspberry-pi-4
 						./hosts/Pihole
 					];
 				};

@@ -1,10 +1,10 @@
 { ... }: {
-  imports = [
-    ./apps
-    ./base
-    ./roles
-    ./services
-    ./ui
-    ./users
-  ];
+	imports = [
+		./apps
+		./base
+		./roles
+		./services
+		./ui
+		./users
+	];
 }

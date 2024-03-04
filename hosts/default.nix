@@ -1,8 +1,8 @@
 { ... }: {
-  imports = [
-    ./Dimaga
-    ./Haven
-    ./Pihole
-    ./Shura
-  ];
+	imports = [
+		./Dimaga
+		./Haven
+		./Pihole
+		./Shura
+	];
 }

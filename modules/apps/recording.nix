@@ -16,7 +16,7 @@ with lib;
 			packages = [
 				"com.obsproject.Studio"
 				"com.obsproject.Studio.Plugin.DroidCam"
-        "org.kde.kdenlive"
+				"org.kde.kdenlive"
 			];
 		};
 

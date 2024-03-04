@@ -32,9 +32,9 @@ with lib;
 			# Install Flatpaks. For details, see https://github.com/gmodena/nix-flatpak
 			packages = [		
 				"com.github.tchx84.Flatseal"
-        "md.obsidian.Obsidian"
-        "org.keepassxc.KeePassXC"
-        "org.mozilla.firefox"
+				"md.obsidian.Obsidian"
+				"org.keepassxc.KeePassXC"
+				"org.mozilla.firefox"
 			];
 		};
 
@@ -50,7 +50,7 @@ with lib;
 			aggregatedIcons = pkgs.buildEnv {
 				name = "system-icons";
 				paths = with pkgs; [
-					#libsForQt5.breeze-qt5  # for plasma
+					#libsForQt5.breeze-qt5	# for plasma
 					gnome.gnome-themes-extra
 				];
 				pathsToLink = [ "/share/icons" ];

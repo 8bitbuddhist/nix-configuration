@@ -58,7 +58,7 @@ with lib;
 
 				# Set up git
 				programs.git = {
-          # Name and email set in nix-secrets
+					# Name and email set in nix-secrets
 					enable = true;
 					extraConfig = {
 						push.autoSetupRemote = "true";
@@ -77,9 +77,9 @@ with lib;
 					];
 					enableAutosuggestions = true;
 					syntaxHighlighting.enable = true;
-					history.ignoreDups = true;  # Do not enter command lines into the history list if they are duplicates of the previous event.
+					history.ignoreDups = true;	# Do not enter command lines into the history list if they are duplicates of the previous event.
 					prezto = {
-						git.submoduleIgnore = "untracked";  # Ignore submodules when they are untracked.
+						git.submoduleIgnore = "untracked";	# Ignore submodules when they are untracked.
 					};
 					shellAliases = {
 						please = "sudo";
