@@ -12,27 +12,27 @@ Services=00000001-5f60-4c4f-9c83-a7953298d40d;00001800-0000-1000-8000-00805f9b34
 Key=763775163AD76AF443DAEAEBCCED3776
 
 [PeripheralLongTermKey]
-Key=BE68B197C7F98340A5A40DEF3EBE4545
+Key=962B9CEAE31CAE1573BE763A8C64980F
 Authenticated=2
 EncSize=16
 EDiv=0
 Rand=0
 
 [SlaveLongTermKey]
-Key=BE68B197C7F98340A5A40DEF3EBE4545
+Key=962B9CEAE31CAE1573BE763A8C64980F
 Authenticated=2
 EncSize=16
 EDiv=0
 Rand=0
-
-[ConnectionParameters]
-MinInterval=6
-MaxInterval=6
-Latency=0
-Timeout=300
 
 [DeviceID]
 Source=2
 Vendor=1118
 Product=2850
 Version=1301
+
+[ConnectionParameters]
+MinInterval=6
+MaxInterval=6
+Latency=0
+Timeout=300
