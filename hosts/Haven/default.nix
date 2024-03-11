@@ -3,7 +3,7 @@
 # Settings specific to Haven
 
 let
-	start-haven = pkgs.writeText "info" (builtins.readFile ./start-haven.sh);
+	start-haven = pkgs.writeShellScriptBin "start-haven" (builtins.readFile ./start-haven.sh);
 in
 {
 	imports = [
@@ -58,9 +58,7 @@ in
 	};
 
 	# Add script for booting Haven
-	systemd.tmpfiles.rules = [
-		"d ${config.users.users.aires.home}/bin/ 0700 aires users"	# First, make sure the directory exists
-		"L+ ${config.users.users.aires.home}/bin/start-haven 0700 - - - ${start-haven}"
+	environment.systemPackages = [
+		start-haven
 	];
-
 }
