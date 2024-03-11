@@ -23,7 +23,10 @@ in
 	host = {
 		role = "workstation";
 		apps = {
-			development.enable = true;
+			development = {
+				enable = true;
+				kubernetes.enable = true;
+			};
 			dj.enable = true;
 			gaming.enable = true;
 			hugo.enable = true;
@@ -53,23 +56,6 @@ in
 			};
 		};
 	};
-
-	# Configure users
-	users.users = {
-		aires = {
-			extraGroups = [ "libvirt" "gremlin" ];
-		};
-		gremlin = {
-			extraGroups = [ "libvirt" ];
-		};
-	};
-
-	# Add packages specific to Shura
-	environment.systemPackages = with pkgs; [
-		kubectl
-		kubevirt	# Virtctl command-line tool
-		linuxKernel.packages.linux_zen.xpadneo	# Xbox controller driver
-	];
 
 	# Move files into target system
 	systemd.tmpfiles.rules = [

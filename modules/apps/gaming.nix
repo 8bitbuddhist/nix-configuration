@@ -16,5 +16,11 @@ with lib;
 			"com.valvesoftware.Steam"
 			"org.firestormviewer.FirestormViewer"
 		];
+
+		# Enable Xbox controller driver (XPadNeo)
+		boot = {
+			extraModulePackages = with config.boot.kernelPackages; [ xpadneo ];
+			kernelModules = [ "hid_xpadneo" ];
+		};
 	};
 }

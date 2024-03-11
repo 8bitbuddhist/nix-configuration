@@ -29,11 +29,7 @@
 		
 		kernelModules = [
 			"kvm-amd"
-			"hid_xpadneo"
 		];
-
-		# Add XPadNeo
-		extraModulePackages = with config.boot.kernelPackages; [ xpadneo ];
 
 		# Add kernel patch to enable sound over the speakers.
 		# This might not be necessary for long - see https://forums.lenovo.com/topic/findpost/27/5258964/6212600
