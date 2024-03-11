@@ -15,7 +15,7 @@ in
 
 	host = {
 		role = "server";
-		development.kubernetes.enable = true;
+		apps.development.kubernetes.enable = true;
 		services = {
 			apcupsd.enable = true;
 			duplicacy-web = {
