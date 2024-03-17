@@ -83,7 +83,7 @@ with lib;
 							];
 							theme = "gentoo";
 					};
-					enableAutosuggestions = true;
+					autosuggestion.enable = true;
 					syntaxHighlighting.enable = true;
 					history.ignoreDups = true;	# Do not enter command lines into the history list if they are duplicates of the previous event.
 					prezto = {
