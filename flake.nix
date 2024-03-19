@@ -4,14 +4,14 @@
 	description = "Aires' system Flake";
 	
 	inputs = {
-		# Configure nixpkgs
+		# Track base packages against Nix unstable
 		nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
 
-		# For SecureBoot support
+		# SecureBoot support
 		lanzaboote.url = "github:nix-community/lanzaboote/v0.3.0";
 
-		# For Flatpak support
-		nix-flatpak.url = "github:gmodena/nix-flatpak/v0.3.0"; # Use github:gmodena/nix-flatpak/?ref=<tag> to change release version, nix-flatpak/<commit> to reference a specific commit, or remove to track main (unstable).
+		# Flatpak support
+		nix-flatpak.url = "github:gmodena/nix-flatpak/v0.3.0";
 
 		# Hardware configurations
 		nixos-hardware.url = "github:NixOS/nixos-hardware/master";

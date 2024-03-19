@@ -30,7 +30,7 @@ if [ ! -f /dev/mapper/storage ]; then
 		fi
 
 		echo "Starting SyncThing:"
-		systemctl --user -M aires@ start syncthing.service
+		systemctl --machine aires@.host --user start syncthing.service
 		if [ $? -eq "0" ]; then
 			echo "SyncThing started."
 		else

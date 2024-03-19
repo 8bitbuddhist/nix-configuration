@@ -42,13 +42,11 @@ with lib;
 				enable = true;
 				flake = "${config.users.users.aires.home}/Development/nix-configuration";
 				flags = [
-					"--commit-lock-file" # Create a new commit when flake.lock updates
 					"--update-input"
 					"nixpkgs"
-					"-L" # print build logs
+					"--commit-lock-file" # Create a new commit when flake.lock updates
 				];
-				dates = "02:00";
-				randomizedDelaySec = "45min";
+				dates = "daily";
 				allowReboot = false;
 			};
 		};
