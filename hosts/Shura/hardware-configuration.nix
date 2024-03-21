@@ -3,7 +3,7 @@
 let
 	lenovo-speaker-fix-module = pkgs.callPackage ./patches/lenovo-speaker-fix.nix {
     # Make sure the module targets the same kernel as your system is using.
-    kernel = config.boot.kernelPackages.kernel;
+    inherit (config.boot.kernelPackages) kernel;
   };
 in
 {
@@ -37,6 +37,7 @@ in
 		];
 
 		# Add kernel patch to enable sound over the speakers.
+		# Patch sourced from https://github.com/christian-bendiksen/kernel-6.8.0-63.16ARHA7.fc40
 		extraModulePackages = [
 			(lenovo-speaker-fix-module.overrideAttrs (_: {
 				patches = [ ./patches/lenovo_16ARHA7_sound_fix.patch ];
