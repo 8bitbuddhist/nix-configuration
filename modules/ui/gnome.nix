@@ -3,16 +3,6 @@
 # UI and desktop-related options
 let
 	cfg = config.host.ui.gnome;
-
-	# Override Qogir icon theme to keep it more up-to-date
-	qogir-icon-theme_new = pkgs.qogir-icon-theme.overrideAttrs (old: {
-		version = "git";
-		src = builtins.fetchGit {
-			url = "https://github.com/vinceliuice/Qogir-icon-theme.git";
-			ref = "master";
-			rev = "37f41bfc4b09b2e3fe2185e3173f98a42272c05b";
-		};
-	});
 in
 with lib;
 {
@@ -78,7 +68,7 @@ with lib;
 			gnomeExtensions.forge
 			# Themeing
 			gnome.gnome-themes-extra
-			qogir-icon-theme_new
+			papirus-icon-theme
 		];
 
 		# Install Flatpaks

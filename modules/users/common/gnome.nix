@@ -19,6 +19,12 @@
 
 			# Configure workspace
 			enable-hot-corners = true;
+
+			# Set icon theme
+			icon-theme = "Papirus-Dark";
+
+			# Set legacy application theme
+			gtk-theme = "Adwaita-dark";
 		};
 
 		# Configure touchpad scroll & tap behavior
