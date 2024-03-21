@@ -21,7 +21,7 @@ with lib;
 				"dev.k8slens.OpenLens"
 			];
 		})
-		(mkIf (cfg.kubernetes.enable) {
+		(mkIf cfg.kubernetes.enable {
 			environment.systemPackages = with pkgs; [
 				kubectl
 				kubernetes-helm

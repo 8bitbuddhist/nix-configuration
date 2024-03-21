@@ -47,57 +47,61 @@ with lib;
 					../common/gnome.nix
 				];
 
-				# The state version is required and should stay at the version you originally installed.
-				home.stateVersion = "24.05";
+        home = {
+          # The state version is required and should stay at the version you originally installed.
+          stateVersion = "24.05";
 
-				# Let home Manager install and manage itself.
-				programs.home-manager.enable = true;
+          # Basic setup
+          username = "aires";
+          homeDirectory = "/home/aires";
 
-				# Basic setup
-				home.username = "aires";
-				home.homeDirectory = "/home/aires";
+          # Install extra packages, specifically gnome extensions
+          packages = lib.mkIf config.host.ui.gnome.enable [
+            pkgs.gnomeExtensions.wallpaper-slideshow
+          ];
+        };
 
-				# Install extra packages, specifically gnome extensions
-				home.packages = lib.mkIf config.host.ui.gnome.enable [
-					pkgs.gnomeExtensions.wallpaper-slideshow
-				];
+        programs = {
+          # Let home Manager install and manage itself.
+          home-manager.enable = true;
 
-				# Set up git
-				programs.git = {
-					enable = true;
-					# Username and email set in nix-secrets
-					extraConfig = {
-						push.autoSetupRemote = "true";
-					};
-				};
+          # Set up git
+          git = {
+            enable = true;
+            # Username and email set in nix-secrets
+            extraConfig = {
+              push.autoSetupRemote = "true";
+            };
+          };
+
+          # Set up Zsh
+          zsh = {
+            enable = true;
+              oh-my-zsh = {
+                enable = true;
+                plugins = [
+                  "git"
+                ];
+                theme = "gentoo";
+            };
+            autosuggestion.enable = true;
+            syntaxHighlighting.enable = true;
+            history.ignoreDups = true;	# Do not enter command lines into the history list if they are duplicates of the previous event.
+            prezto = {
+              git.submoduleIgnore = "untracked";	# Ignore submodules when they are untracked.
+            };
+            shellAliases = {
+              dry-build = "cd ~/Development/nix-configuration && nix flake update && nixos-rebuild dry-build --flake .";
+              update = "cd ~/Development/nix-configuration && nix flake update && sudo nixos-rebuild switch --flake .";
+              upgrade = "update";
+              protontricks = "flatpak run com.github.Matoking.protontricks";
+              please = "sudo";
+            };
+            loginExtra = "fastfetch";
+          };
+        };
 
 				# SSH set up in nix-secrets
-
-				# Set up Zsh
-				programs.zsh = {
-					enable = true;
-						oh-my-zsh = {
-							enable = true;
-							plugins = [
-								"git"
-							];
-							theme = "gentoo";
-					};
-					autosuggestion.enable = true;
-					syntaxHighlighting.enable = true;
-					history.ignoreDups = true;	# Do not enter command lines into the history list if they are duplicates of the previous event.
-					prezto = {
-						git.submoduleIgnore = "untracked";	# Ignore submodules when they are untracked.
-					};
-					shellAliases = {
-						dry-build = "cd ~/Development/nix-configuration && nix flake update && nixos-rebuild dry-build --flake .";
-						update = "cd ~/Development/nix-configuration && nix flake update && sudo nixos-rebuild switch --flake .";
-						upgrade = "update";
-						protontricks = "flatpak run com.github.Matoking.protontricks";
-						please = "sudo";
-					};
-					loginExtra = "fastfetch";
-				};
 
 				# Gnome settings specific to aires on Shura
 				dconf.settings = lib.mkIf (config.networking.hostName == "Shura") {

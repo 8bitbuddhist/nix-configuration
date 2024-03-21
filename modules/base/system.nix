@@ -106,17 +106,19 @@ with lib;
 			};
 		};
 
-		# Scrub BTRFS partitions if the root partition is btrfs
-		services.btrfs.autoScrub = lib.mkIf (config.fileSystems."/".fsType == "btrfs") {
-			enable = true;
-			interval = "weekly";
-			fileSystems = [ "/" ];
-		};
+    services = {
+      # Scrub BTRFS partitions if the root partition is btrfs
+      btrfs.autoScrub = lib.mkIf (config.fileSystems."/".fsType == "btrfs") {
+        enable = true;
+        interval = "weekly";
+        fileSystems = [ "/" ];
+      };
 
-		# Enable fwupd (firmware updater)
-		services.fwupd.enable = true;
+      # Enable fwupd (firmware updater)
+      fwupd.enable = true;
 
-		# Allow systemd user services to keep running after the user has logged out
-		services.logind.killUserProcesses = false;
+      # Allow systemd user services to keep running after the user has logged out
+      logind.killUserProcesses = false;
+    };
 	};
 }
