@@ -96,6 +96,7 @@ with lib;
 						protontricks = "flatpak run com.github.Matoking.protontricks";
 						please = "sudo";
 					};
+					loginExtra = "fastfetch";
 				};
 
 				# Gnome settings specific to aires on Shura

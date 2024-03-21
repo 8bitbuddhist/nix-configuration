@@ -17,7 +17,7 @@ with lib;
 				home-manager
 				nano
 				p7zip
-				tpm2-tss
+				fastfetch
 			];
 
 			# Set default editor to nano

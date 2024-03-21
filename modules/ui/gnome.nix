@@ -74,6 +74,7 @@ with lib;
 		# Install Flatpaks
 		services.flatpak.packages = [
 			"com.mattjakeman.ExtensionManager"
+			"dev.geopjr.Tuba"
 			"org.bluesabre.MenuLibre"
 			"org.gnome.baobab"
 			"org.gnome.Calculator"
@@ -88,6 +89,7 @@ with lib;
 			"org.gnome.Music"
 			"org.gnome.seahorse.Application"
 			"org.gnome.TextEditor"
+			"org.gnome.World.Secrets"
 			"org.gtk.Gtk3theme.Adwaita-dark"
 		];
 
