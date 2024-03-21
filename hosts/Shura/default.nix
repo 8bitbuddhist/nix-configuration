@@ -74,17 +74,4 @@ in
 		memorySize =	4096;
 		cores = 4;
 	};
-
-	# FIXME: Add extra boot entry for the recovery image. This doesn't work with lanzaboote though :(
-	# NixOS config: https://nixos.org/manual/nixos/stable/options.html#opt-boot.loader.systemd-boot.extraEntries
-	# Systemd-boot config: https://wiki.archlinux.org/title/Systemd-boot#Adding_loaders
-	# Booting an ISO from disk: https://www.reddit.com/r/archlinux/comments/qy281v/boot_an_archlinux_iso_directly_from_my_boot_using/ 
-	boot.loader.systemd-boot.extraEntries = {
-		"nixos-live.conf" = ''
-			title NixOS
-			linux /live/vmlinuz-linux
-			initrd /live/initramfs-linux.img
-			options img_dev=/dev/nvme0n1p3 img_loop=nixos-gnome-23.11.3019.8bf65f17d807-x86_64-linux.isosudo	copytoram
-		'';
-	};
 }
