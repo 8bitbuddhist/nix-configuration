@@ -48,6 +48,7 @@ with lib;
 				];
 				dates = "daily";
 				allowReboot = false;
+				operation = "boot";	# Don't switch, just create a boot entry
 			};
 		};
 
