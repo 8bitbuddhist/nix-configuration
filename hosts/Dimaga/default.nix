@@ -20,6 +20,7 @@
 			office.enable = true;
 			pandoc.enable = true;
 		};
+		services.fprintd.enable = true;
 		ui = {
 			flatpak.enable = true;
 			gnome.enable = true;
