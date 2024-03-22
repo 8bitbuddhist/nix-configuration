@@ -1,7 +1,7 @@
 # Lenovo Legion S7 16ARHA7 configuration
 { config, lib, pkgs, modulesPath, ... }:
 let
-	lenovo-speaker-fix-module = pkgs.callPackage ./patches/lenovo-speaker-fix.nix {
+	lenovo-speaker-fix-module = pkgs.callPackage ./patches/lenovo-16ARHA7_speaker-fix.nix {
     # Make sure the module targets the same kernel as your system is using.
     inherit (config.boot.kernelPackages) kernel;
   };
@@ -38,11 +38,7 @@ in
 
 		# Add kernel patch to enable sound over the speakers.
 		# Patch sourced from https://github.com/christian-bendiksen/kernel-6.8.0-63.16ARHA7.fc40
-		extraModulePackages = [
-			(lenovo-speaker-fix-module.overrideAttrs (_: {
-				patches = [ ./patches/lenovo_16ARHA7_sound_fix.patch ];
-			}))
-		];
+		extraModulePackages = [ lenovo-speaker-fix-module ];
 	};
 
 	fileSystems = {

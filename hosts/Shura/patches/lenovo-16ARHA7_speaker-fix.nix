@@ -1,7 +1,8 @@
+# Patch sourced from https://github.com/christian-bendiksen/kernel-6.8.0-63.16ARHA7.fc40
 { pkgs, lib, kernel ? pkgs.linuxPackages_latest.kernel }:
 
 pkgs.stdenv.mkDerivation {
-  pname = "lenovo-speaker-fix-module";
+  pname = "lenovo-16ARHA7-speaker-fix-module";
   inherit (kernel) src version postPatch nativeBuildInputs;
 
   kernel_dev = kernel.dev;
@@ -28,8 +29,10 @@ pkgs.stdenv.mkDerivation {
       modules_install
   '';
 
+	patches = [ ./lenovo_16ARHA7_sound_fix.patch ];
+
   meta = {
-    description = "Fix to get the speakers working for 16ARHA7";
+    description = "Patch to get the speakers working for Lenovo Legion Slim 7 Gen 7 AMD (16ARHA7)";
     license = lib.licenses.gpl3;
   };
 }
