@@ -15,6 +15,7 @@
 		apps = {
 			development.enable = true;
 			hugo.enable = true;
+			kdeconnect.enable = true;
 			media.enable = true;
 			office.enable = true;
 			pandoc.enable = true;

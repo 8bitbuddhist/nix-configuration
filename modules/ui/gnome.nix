@@ -96,7 +96,6 @@ with lib;
 				# Gnome extensions
 				gnomeExtensions.appindicator
 				gnomeExtensions.dash-to-panel
-				gnomeExtensions.gsconnect
 				gnomeExtensions.forge
 				# Themeing
 				gnome.gnome-themes-extra

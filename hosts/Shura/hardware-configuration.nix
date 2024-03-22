@@ -89,6 +89,8 @@ in
 		hostName = "Shura";
 	};
 
+	# TODO: Add fingerprint detection, but see this change first: https://bugs.launchpad.net/oem-priority/+bug/2024149
+
 	nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
 	hardware.cpu.amd.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;
 }

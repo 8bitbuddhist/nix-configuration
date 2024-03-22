@@ -2,6 +2,8 @@
 
 A full set of configuration files managed via NixOS. This project follows the general structure of https://github.com/tiredofit/nixos-config
 
+[!WARNING] DO NOT DOWNLOAD AND RUN `nixos-rebuild` ON THIS REPOSITORY! These are my personal configuration files. I invite you to look through them, modify them, and take inspiration from them, but if you run `nixos-rebuild`, it _will completely overwrite your current system_!
+
 ## Running
 
 ### Note on secrets management
@@ -12,6 +14,14 @@ Initialize the submodule with:
 
 ```sh
 git submodule update --init --recursive
+```
+
+### Updating Flakes
+
+This repo uses Flakes. To get the latest packages and update your `flake.lock` file, run this command before `nixos-rebuild`:
+
+```sh
+nix flake update
 ```
 
 ### Applying the configuration
@@ -28,7 +38,7 @@ For subsequent builds, you can omit the hostname:
 sudo nixos-rebuild switch --flake .
 ```
 
-`switch` replaces the running system immediately, or you can use `boot` to only apply the switch during the next reboot. After applying the build at least once (or setting the hostname manually), you can omit the hostname from the command and just run `nixos-rebuild build --flake .`
+`switch` replaces the running system immediately, or you can use `boot` to only apply the switch during the next reboot.
 
 ### Testing
 
