@@ -10,8 +10,9 @@ with lib;
 	};
 
 	config = mkIf cfg.enable {
+		warnings = [ "Hugo package temporarily disabled until this build issue gets fixed: https://github.com/NixOS/nixpkgs/pull/298026" ];
 		environment.systemPackages = with pkgs; [
-			#hugo # Temporarily disabled until this build issue gets fixed: https://github.com/NixOS/nixpkgs/pull/298026
+			#hugo
 			rsync
 			yarn
 		];
