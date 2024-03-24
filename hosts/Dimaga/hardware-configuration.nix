@@ -21,7 +21,7 @@
 		"/" = {
 			device = "/dev/disk/by-uuid/76d67291-5aed-4f2a-b71f-1c2871cefe24";
 			fsType = "btrfs";
-			options = [ "subvol=@" ];
+			options = [ "subvol=@,compress=zstd" ];
 		};
 		"/boot" = {
 			device = "/dev/disk/by-uuid/0C53-A645";
@@ -29,7 +29,10 @@
 		};
 	};
 
-	swapDevices = [ ];
+	swapDevices = [{
+		device = "/swapfile";
+		size = 4096;
+	}];
 
 	networking = {
 		# Enables DHCP on each ethernet and wireless interface. In case of scripted networking
