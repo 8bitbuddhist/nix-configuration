@@ -29,7 +29,6 @@ in
 			};
 			dj.enable = true;
 			gaming.enable = true;
-			hugo.enable = true;
 			kdeconnect.enable = true;
 			media.enable = true;
 			office.enable = true;
