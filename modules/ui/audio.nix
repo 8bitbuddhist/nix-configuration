@@ -25,9 +25,5 @@ with lib;
 			pulse.enable = true;
 			jack.enable = true;
 		};
-
-		services.flatpak.packages = lib.mkIf config.host.ui.flatpak.enable [
-			"com.github.wwmm.easyeffects"
-		];
 	};
 }
