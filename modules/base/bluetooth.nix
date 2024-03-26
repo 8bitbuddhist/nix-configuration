@@ -30,17 +30,5 @@ with lib;
 		environment.systemPackages = with pkgs; [
 			liblc3
 		];
-
-		# Reduce audio latency per https://nixos.wiki/wiki/PipeWire#Low-latency_setup
-		services.pipewire.extraConfig.pipewire = lib.mkIf config.sound.enable {
-			"92-low-latency.conf" = {
-				"context.properties" = {
-					"default.clock.rate" = 48000;
-					"default.clock.quantum" = 32;
-					"default.clock.min-quantum" = 32;
-					"default.clock.max-quantum" = 32;
-				};
-			};
-		};
 	};
 }
