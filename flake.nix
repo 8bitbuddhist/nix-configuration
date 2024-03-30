@@ -21,6 +21,8 @@
 			url = "github:nix-community/home-manager/master";
 			inputs.nixpkgs.follows = "nixpkgs"; # Use system packages list where available
 		};
+	
+		# TODO: Add Disko - https://github.com/nix-community/disko
 	};
 
 	outputs = inputs@{ self, nixpkgs, lanzaboote, nix-flatpak, home-manager, nixos-hardware, ... }:

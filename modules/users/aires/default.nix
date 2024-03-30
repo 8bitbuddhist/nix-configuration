@@ -92,8 +92,8 @@ with lib;
             };
             shellAliases = {
               dry-build = "cd ~/Development/nix-configuration && nix flake update && nixos-rebuild dry-build --flake .";
-              update = "cd ~/Development/nix-configuration && nix flake update && sudo nixos-rebuild switch --flake .";
-              upgrade = "update";
+              update = "upgrade";
+              upgrade = "cd ~/Development/nix-configuration && nixos-upgrade";
               protontricks = "flatpak run com.github.Matoking.protontricks";
               please = "sudo";
             };

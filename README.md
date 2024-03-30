@@ -16,13 +16,17 @@ Initialize the submodule with:
 git submodule update --init --recursive
 ```
 
-### Updating Flakes
+### Upgrading
 
-This repo uses Flakes. To get the latest packages and update your `flake.lock` file, run this command before `nixos-rebuild`:
+This config comes with a script for upgrading the system called `nixos-upgrade.sh`. To run this script, just run `nixos-upgrade` or `upgrade`.
 
-```sh
-nix flake update
-```
+Running this script does three things:
+
+1. Update `flake.lock`
+2. Build the new closure and list the updates that will be applied
+3. (Optionally) Install the new closure
+
+By default, the script calls `nixos-rebuild boot`. You can change this to switch or any other rebuild operation by passing it as an argument when calling the script, e.g. `nixos-upgrade switch` or `nixos-upgrade test`.
 
 ### Applying the configuration
 
@@ -53,16 +57,6 @@ To preview changes in a virtual machine, use this command to create a virtual ma
 ```zsh
 nixos-rebuild build-vm --flake .
 ```
-
-### Updating
-
-`flake.lock` locks the version of any packages/modules used. To update them, run `nix flake update` first:
-
-```zsh
-nix flake update && sudo nixos-rebuild switch --flake .
-```
-
-Home-manager also installs a ZSH alias, so you can just run `update` or `upgrade` for the same effect.
 
 ## Layout
 
