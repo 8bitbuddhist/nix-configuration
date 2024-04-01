@@ -9,7 +9,7 @@ let
 	};
 
 	# Install upgrade script
-	nixos-upgrade = pkgs.writeShellScriptBin "start-haven" (builtins.readFile ./nixos-upgrade.sh);
+	nixos-upgrade = pkgs.writeShellScriptBin "nixos-upgrade" (builtins.readFile ./nixos-upgrade.sh);
 in{
 	imports = [
 		../../modules
