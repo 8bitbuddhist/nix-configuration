@@ -53,6 +53,7 @@ with lib;
 					#libsForQt5.breeze-qt5	# for plasma
 					gnome.gnome-themes-extra
 					papirus-icon-theme
+					qogir-icon-theme
 				];
 				pathsToLink = [ "/share/icons" ];
 			};

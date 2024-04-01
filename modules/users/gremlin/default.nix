@@ -114,7 +114,7 @@ with lib;
 					enable = true;
 					extraOptions = [
 						"--gui-address=0.0.0.0:8081"
-						"--home=${config.users.users.gremlin.home}.config/syncthing"
+						"--home=${config.users.users.gremlin.home}/.config/syncthing"
 						"--no-default-folder"
 					];		
 				};

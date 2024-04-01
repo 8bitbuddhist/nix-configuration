@@ -100,6 +100,7 @@ with lib;
 				# Themeing
 				gnome.gnome-themes-extra
 				papirus-icon-theme
+				qogir-icon-theme
 			];
 		};
 

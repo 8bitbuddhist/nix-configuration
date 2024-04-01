@@ -58,6 +58,9 @@ in
 		};
 	};
 
+	# Open port for OpenVPN
+    networking.firewall.allowedUDPPorts = [ 1194 ];
+
 	# Add script for booting Haven
 	environment.systemPackages = [
 		start-haven
