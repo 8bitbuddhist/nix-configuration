@@ -26,10 +26,11 @@ while [[ $# -gt 0 ]]; do
 			;;
 		-h|--help)
 			usage
-			shift
+			exit
 			;;
 		*)
-			break
+			echo "Unknown argument $1"
+			exit 1
 			;;
 	esac
 done
@@ -39,19 +40,23 @@ echo "Using installation mode: $OPERATION"
 cd ~/Development/nix-configuration
 nix flake update
 nixos-rebuild build --flake .
-echo "Updates to apply:"
-nix store diff-closures /run/current-system ./result | awk '/[0-9] →|→ [0-9]/ && !/nixos/' || echo
+UPDATES=$(nix store diff-closures /run/current-system ./result | awk '/[0-9] →|→ [0-9]/ && !/nixos/' || echo)
 
-if [ $AUTOACCEPT == false ]; then
-	read -p "Continue with upgrade (y/n) ? " choice
-	case "$choice" in 
-		y|Y|yes ) echo "Running nixos-rebuild $OPERATION :";;
-		n|N|no ) echo "Upgrade cancelled." && exit;;
-		* ) echo "Invalid option. Upgrade cancelled." && exit;;
-	esac
+if [ $UPDATES ]; then
+	echo "NixOS updates to apply: "
+	echo $UPDATES
+	if [ $AUTOACCEPT == false ]; then
+		read -p "Continue with upgrade (y/n) ? " choice
+		case "$choice" in 
+			y|Y|yes ) echo "Running nixos-rebuild $OPERATION :";;
+			n|N|no ) echo "Upgrade cancelled." && exit;;
+			* ) echo "Invalid option. Upgrade cancelled." && exit;;
+		esac
+	fi
+	sudo nixos-rebuild $OPERATION --flake .
+else
+	echo "No NixOS updates found."
 fi
-
-sudo nixos-rebuild $OPERATION --flake .
 
 echo "Updating Flatpaks:"
 flatpak update
