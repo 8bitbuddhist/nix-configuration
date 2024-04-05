@@ -42,7 +42,7 @@ nix flake update
 nixos-rebuild build --flake .
 UPDATES=$(nix store diff-closures /run/current-system ./result | awk '/[0-9] →|→ [0-9]/ && !/nixos/' || echo)
 
-if [ $UPDATES ]; then
+if [ "$UPDATES" ]; then
 	echo "NixOS updates to apply: "
 	echo $UPDATES
 	if [ $AUTOACCEPT == false ]; then
