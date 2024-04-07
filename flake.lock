@@ -188,6 +188,22 @@
         "type": "github"
       }
     },
+    "nixos-hardware-16arha7": {
+      "locked": {
+        "lastModified": 1712449958,
+        "narHash": "sha256-QDJaTsWRA42nidOWhS3hN3v9IiQW8SvEY2yPF9qbqzA=",
+        "owner": "8bitbuddhist",
+        "repo": "nixos-hardware",
+        "rev": "defa95f33bf4749ce8e3f60621ad3aeefa656229",
+        "type": "github"
+      },
+      "original": {
+        "owner": "8bitbuddhist",
+        "ref": "lenovo-legion-16ARHA7",
+        "repo": "nixos-hardware",
+        "type": "github"
+      }
+    },
     "nixpkgs": {
       "locked": {
         "lastModified": 1682741954,
@@ -273,6 +289,7 @@
         "lanzaboote": "lanzaboote",
         "nix-flatpak": "nix-flatpak",
         "nixos-hardware": "nixos-hardware",
+        "nixos-hardware-16arha7": "nixos-hardware-16arha7",
         "nixpkgs": "nixpkgs_2"
       }
     },

@@ -15,6 +15,7 @@
 
 		# Hardware configurations
 		nixos-hardware.url = "github:NixOS/nixos-hardware/master";
+		nixos-hardware-16arha7.url = "github:8bitbuddhist/nixos-hardware/lenovo-legion-16ARHA7";
 
 		# Home-manager
 		home-manager = {
@@ -25,7 +26,7 @@
 		# TODO: Add Disko - https://github.com/nix-community/disko
 	};
 
-	outputs = inputs@{ self, nixpkgs, lanzaboote, nix-flatpak, home-manager, nixos-hardware, ... }:
+	outputs = inputs@{ self, nixpkgs, lanzaboote, nix-flatpak, home-manager, nixos-hardware, nixos-hardware-16arha7, ... }:
 		let 
 			inherit (self) outputs;
 			inherit (nixpkgs) lib;
@@ -69,7 +70,6 @@
 				Haven = nixpkgs.lib.nixosSystem {
 					system = "x86_64-linux";
 					modules = defaultModules.base ++ [
-						nixos-hardware.nixosModules.common-cpu-amd
       			nixos-hardware.nixosModules.common-cpu-amd-pstate
 						./hosts/Haven
 					];
@@ -86,9 +86,7 @@
 				Shura = nixpkgs.lib.nixosSystem {
 					system = "x86_64-linux";
 					modules = defaultModules.base ++ [
-						nixos-hardware.nixosModules.common-cpu-amd
-      			nixos-hardware.nixosModules.common-cpu-amd-pstate
-						nixos-hardware.nixosModules.common-gpu-amd
+						nixos-hardware-16arha7.nixosModules.lenovo-legion-16arha7
 						./hosts/Shura
 					];
 				};
