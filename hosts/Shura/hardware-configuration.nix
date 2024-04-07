@@ -32,9 +32,7 @@ in
 			};
 		};
 		
-		kernelModules = [
-			"kvm-amd"
-		];
+		kernelModules = [ "kvm-amd" ];
 
 		# Add kernel patch to enable sound over the speakers.
 		# Patch sourced from https://github.com/christian-bendiksen/kernel-6.8.0-63.16ARHA7.fc40
@@ -65,18 +63,6 @@ in
 		size = 16384;
 	}];
 
-	# Enable AMDGPU
-	hardware = {
-		opengl = {
-			driSupport = true; # This is already enabled by default, but just in case.
-			driSupport32Bit = true; # For 32 bit applications.
-
-			extraPackages = with pkgs; [
-				rocmPackages.clr.icd	# OpenCL
-			];
-		};
-	};
-
 	networking = {
 		# Enables DHCP on each ethernet and wireless interface. In case of scripted networking
 		# (the default) this is the recommended approach. When using systemd-networkd it's
@@ -92,5 +78,4 @@ in
 	# TODO: Add fingerprint detection, but see this change first: https://bugs.launchpad.net/oem-priority/+bug/2024149
 
 	nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
-	hardware.cpu.amd.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;
 }

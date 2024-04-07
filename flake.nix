@@ -61,6 +61,7 @@
 				Dimaga = nixpkgs.lib.nixosSystem {
 					system = "x86_64-linux";
 					modules = defaultModules.base ++ [
+						nixos-hardware.nixosModules.common-cpu-intel
 						./hosts/Dimaga
 					];
 				};
@@ -68,6 +69,8 @@
 				Haven = nixpkgs.lib.nixosSystem {
 					system = "x86_64-linux";
 					modules = defaultModules.base ++ [
+						nixos-hardware.nixosModules.common-cpu-amd
+      			nixos-hardware.nixosModules.common-cpu-amd-pstate
 						./hosts/Haven
 					];
 				};
@@ -83,6 +86,9 @@
 				Shura = nixpkgs.lib.nixosSystem {
 					system = "x86_64-linux";
 					modules = defaultModules.base ++ [
+						nixos-hardware.nixosModules.common-cpu-amd
+      			nixos-hardware.nixosModules.common-cpu-amd-pstate
+						nixos-hardware.nixosModules.common-gpu-amd
 						./hosts/Shura
 					];
 				};
