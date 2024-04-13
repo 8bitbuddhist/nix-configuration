@@ -45,6 +45,7 @@ with lib;
 			home-manager.users.aires = {
 				imports = [
 					../common/gnome.nix
+					../common/zsh.nix
 				];
 
 				home = {
@@ -79,32 +80,21 @@ with lib;
 						};
 					};
 
-					# Set up Zsh
-					zsh = {
-						enable = true;
-							oh-my-zsh = {
-								enable = true;
-								plugins = [
-									"git"
-								];
-								theme = "gentoo";
-						};
-						autosuggestion.enable = true;
-						syntaxHighlighting.enable = true;
-						history.ignoreDups = true;	# Do not enter command lines into the history list if they are duplicates of the previous event.
-						prezto = {
-							git.submoduleIgnore = "untracked";	# Ignore submodules when they are untracked.
-						};
-						shellAliases = {
-							dry-build = "cd ~/Development/nix-configuration && nix flake update && nixos-rebuild dry-build --flake .";
-							update = "upgrade";
-							upgrade = "cd ~/Development/nix-configuration && nixos-upgrade";
-							protontricks = "flatpak run com.github.Matoking.protontricks";
-							please = "sudo";
-						};
-						loginExtra = "fastfetch";
-					};
-				};
+          # Set up Zsh
+          zsh = {
+						oh-my-zsh = {
+							theme = "gentoo";
+            };
+            shellAliases = {
+              dry-build = "cd ~/Development/nix-configuration && nix flake update && nixos-rebuild dry-build --flake .";
+              update = "upgrade";
+              upgrade = "cd ~/Development/nix-configuration && nixos-upgrade";
+              protontricks = "flatpak run com.github.Matoking.protontricks";
+              please = "sudo";
+            };
+            loginExtra = "fastfetch";
+          };
+        };
 
 				# SSH set up in nix-secrets
 
@@ -123,7 +113,7 @@ with lib;
 
 		# Autologin aires
 		(mkIf cfg.autologin {
-			services.xserver.displayManager.autoLogin = {
+			services.displayManager.autoLogin = {
 				enable = true;
 				user = "aires";	
 			};
