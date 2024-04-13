@@ -46,54 +46,64 @@ with lib;
 					../common/gnome.nix
 				];
 
-        home = {
-          # Basic setup
-          username = "gremlin";
-          homeDirectory = "/home/gremlin";
+				home = {
+					# Basic setup
+					username = "gremlin";
+					homeDirectory = "/home/gremlin";
 
-          # The state version is required and should stay at the version you originally installed.
-				  stateVersion = "24.05";
-        };
+					# The state version is required and should stay at the version you originally installed.
+					stateVersion = "24.05";
 
-        programs = {
-          # Let home Manager install and manage itself.
-          home-manager.enable = true;
+					# Set environment variables
+					sessionVariables = {
+						KUBECONFIG = "/home/gremlin/.kube/config";
+					};
+					
+					# Install packages specific to Gremlin
+					packages = [
+						pkgs.awscli2
+					];
+				};
 
-          # Set up git
-          git = {
-            # Name and email set in nix-secrets
-            enable = true;
-            extraConfig = {
-              push.autoSetupRemote = "true";
-            };
-          };
+				programs = {
+					# Let home Manager install and manage itself.
+					home-manager.enable = true;
 
-          # Set up Zsh
-          zsh = {
-            enable = true;
-            # Install and source the p10k theme
-            plugins = [
-              { name = "powerlevel10k"; src = pkgs.zsh-powerlevel10k; file = "share/zsh-powerlevel10k/powerlevel10k.zsh-theme"; }
-              { name = "powerlevel10k-config"; src = ./p10k-config; file = "p10k.zsh"; }
-            ];
-            autosuggestion.enable = true;
-            syntaxHighlighting.enable = true;
-            history.ignoreDups = true;	# Do not enter command lines into the history list if they are duplicates of the previous event.
-            prezto = {
-              git.submoduleIgnore = "untracked";	# Ignore submodules when they are untracked.
-            };
-            shellAliases = {
-              please = "sudo";
-            };
+					# Set up git
+					git = {
+						# Name and email set in nix-secrets
+						enable = true;
+						extraConfig = {
+							push.autoSetupRemote = "true";
+						};
+					};
 
-            oh-my-zsh = {
-              enable = true;
-              plugins = [
-                "git"
-              ];
-            };
-          };
-        };
+					# Set up Zsh
+					zsh = {
+						enable = true;
+						# Install and source the p10k theme
+						plugins = [
+							{ name = "powerlevel10k"; src = pkgs.zsh-powerlevel10k; file = "share/zsh-powerlevel10k/powerlevel10k.zsh-theme"; }
+							{ name = "powerlevel10k-config"; src = ./p10k-config; file = "p10k.zsh"; }
+						];
+						autosuggestion.enable = true;
+						syntaxHighlighting.enable = true;
+						history.ignoreDups = true;	# Do not enter command lines into the history list if they are duplicates of the previous event.
+						prezto = {
+							git.submoduleIgnore = "untracked";	# Ignore submodules when they are untracked.
+						};
+						shellAliases = {
+							please = "sudo";
+						};
+
+						oh-my-zsh = {
+							enable = true;
+							plugins = [
+								"git"
+							];
+						};
+					};
+				};
 
 				# SSH entries set in nix-secrets
 			};

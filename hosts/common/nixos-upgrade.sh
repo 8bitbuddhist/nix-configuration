@@ -29,8 +29,9 @@ while [[ $# -gt 0 ]]; do
 			exit
 			;;
 		*)
-			echo "Unknown argument $1"
-			exit 1
+			#echo "Unknown argument $1"
+			#exit 1
+			break
 			;;
 	esac
 done

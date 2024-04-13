@@ -44,14 +44,14 @@ in
 				enable = true;
 				services.syncthing = {
 					enable = true;
-					enableTray = true;
+					enableTray = false;	# Recent versions of STT don't recognize Gnome's tray. Uninstalling for now.
 				};
 			};
 			gremlin = {
 				enable = true;
 				services.syncthing = {
 					enable = true;
-					enableTray = true;
+					enableTray = false;
 				};
 			};
 		};

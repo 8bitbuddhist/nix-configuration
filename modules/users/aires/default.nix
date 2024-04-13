@@ -47,59 +47,64 @@ with lib;
 					../common/gnome.nix
 				];
 
-        home = {
-          # The state version is required and should stay at the version you originally installed.
-          stateVersion = "24.05";
+				home = {
+					# The state version is required and should stay at the version you originally installed.
+					stateVersion = "24.05";
 
-          # Basic setup
-          username = "aires";
-          homeDirectory = "/home/aires";
+					# Basic setup
+					username = "aires";
+					homeDirectory = "/home/aires";
 
-          # Install extra packages, specifically gnome extensions
-          packages = lib.mkIf config.host.ui.gnome.enable [
-            pkgs.gnomeExtensions.wallpaper-slideshow
-          ];
-        };
+					# Install extra packages, specifically gnome extensions
+					packages = lib.mkIf config.host.ui.gnome.enable [
+						pkgs.gnomeExtensions.wallpaper-slideshow
+					];
 
-        programs = {
-          # Let home Manager install and manage itself.
-          home-manager.enable = true;
+					# Set environment variables
+					sessionVariables = {
+						KUBECONFIG = "/home/aires/.kube/config";
+					};
+				};
 
-          # Set up git
-          git = {
-            enable = true;
-            # Username and email set in nix-secrets
-            extraConfig = {
-              push.autoSetupRemote = "true";
-            };
-          };
+				programs = {
+					# Let home Manager install and manage itself.
+					home-manager.enable = true;
 
-          # Set up Zsh
-          zsh = {
-            enable = true;
-              oh-my-zsh = {
-                enable = true;
-                plugins = [
-                  "git"
-                ];
-                theme = "gentoo";
-            };
-            autosuggestion.enable = true;
-            syntaxHighlighting.enable = true;
-            history.ignoreDups = true;	# Do not enter command lines into the history list if they are duplicates of the previous event.
-            prezto = {
-              git.submoduleIgnore = "untracked";	# Ignore submodules when they are untracked.
-            };
-            shellAliases = {
-              dry-build = "cd ~/Development/nix-configuration && nix flake update && nixos-rebuild dry-build --flake .";
-              update = "upgrade";
-              upgrade = "cd ~/Development/nix-configuration && nixos-upgrade";
-              protontricks = "flatpak run com.github.Matoking.protontricks";
-              please = "sudo";
-            };
-            loginExtra = "fastfetch";
-          };
-        };
+					# Set up git
+					git = {
+						enable = true;
+						# Username and email set in nix-secrets
+						extraConfig = {
+							push.autoSetupRemote = "true";
+						};
+					};
+
+					# Set up Zsh
+					zsh = {
+						enable = true;
+							oh-my-zsh = {
+								enable = true;
+								plugins = [
+									"git"
+								];
+								theme = "gentoo";
+						};
+						autosuggestion.enable = true;
+						syntaxHighlighting.enable = true;
+						history.ignoreDups = true;	# Do not enter command lines into the history list if they are duplicates of the previous event.
+						prezto = {
+							git.submoduleIgnore = "untracked";	# Ignore submodules when they are untracked.
+						};
+						shellAliases = {
+							dry-build = "cd ~/Development/nix-configuration && nix flake update && nixos-rebuild dry-build --flake .";
+							update = "upgrade";
+							upgrade = "cd ~/Development/nix-configuration && nixos-upgrade";
+							protontricks = "flatpak run com.github.Matoking.protontricks";
+							please = "sudo";
+						};
+						loginExtra = "fastfetch";
+					};
+				};
 
 				# SSH set up in nix-secrets
 
