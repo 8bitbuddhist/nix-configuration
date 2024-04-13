@@ -44,6 +44,7 @@ with lib;
 			home-manager.users.gremlin = {
 				imports = [
 					../common/gnome.nix
+					../common/zsh.nix
 				];
 
         home = {
@@ -70,27 +71,13 @@ with lib;
 
           # Set up Zsh
           zsh = {
-            enable = true;
             # Install and source the p10k theme
             plugins = [
               { name = "powerlevel10k"; src = pkgs.zsh-powerlevel10k; file = "share/zsh-powerlevel10k/powerlevel10k.zsh-theme"; }
               { name = "powerlevel10k-config"; src = ./p10k-config; file = "p10k.zsh"; }
             ];
-            autosuggestion.enable = true;
-            syntaxHighlighting.enable = true;
-            history.ignoreDups = true;	# Do not enter command lines into the history list if they are duplicates of the previous event.
-            prezto = {
-              git.submoduleIgnore = "untracked";	# Ignore submodules when they are untracked.
-            };
             shellAliases = {
               please = "sudo";
-            };
-
-            oh-my-zsh = {
-              enable = true;
-              plugins = [
-                "git"
-              ];
             };
           };
         };
