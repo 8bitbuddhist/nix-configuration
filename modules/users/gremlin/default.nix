@@ -66,31 +66,31 @@ with lib;
 					];
 				};
 
-        programs = {
-          # Let home Manager install and manage itself.
-          home-manager.enable = true;
+				programs = {
+					# Let home Manager install and manage itself.
+					home-manager.enable = true;
 
-          # Set up git
-          git = {
-            # Name and email set in nix-secrets
-            enable = true;
-            extraConfig = {
-              push.autoSetupRemote = "true";
-            };
-          };
+					# Set up git
+					git = {
+						# Name and email set in nix-secrets
+						enable = true;
+						extraConfig = {
+							push.autoSetupRemote = "true";
+						};
+					};
 
-          # Set up Zsh
-          zsh = {
-            # Install and source the p10k theme
-            plugins = [
-              { name = "powerlevel10k"; src = pkgs.zsh-powerlevel10k; file = "share/zsh-powerlevel10k/powerlevel10k.zsh-theme"; }
-              { name = "powerlevel10k-config"; src = ./p10k-config; file = "p10k.zsh"; }
-            ];
-            shellAliases = {
-              please = "sudo";
-            };
-          };
-        };
+					# Set up Zsh
+					zsh = {
+						# Install and source the p10k theme
+						plugins = [
+							{ name = "powerlevel10k"; src = pkgs.zsh-powerlevel10k; file = "share/zsh-powerlevel10k/powerlevel10k.zsh-theme"; }
+							{ name = "powerlevel10k-config"; src = ./p10k-config; file = "p10k.zsh"; }
+						];
+						shellAliases = {
+							please = "sudo";
+						};
+					};
+				};
 
 				# SSH entries set in nix-secrets
 			};
