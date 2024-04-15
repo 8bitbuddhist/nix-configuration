@@ -41,11 +41,6 @@ with lib;
 			autoUpgrade = {
 				enable = true;
 				flake = "${config.users.users.aires.home}/Development/nix-configuration";
-				flags = [
-					"--update-input"
-					"nixpkgs"
-					"--commit-lock-file" # Create a new commit when flake.lock updates
-				];
 				dates = "daily";
 				allowReboot = false;
 				operation = "boot";	# Don't switch, just create a boot entry
