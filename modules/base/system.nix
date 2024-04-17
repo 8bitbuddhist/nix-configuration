@@ -69,6 +69,9 @@ with lib;
 
 		# Configure nix
 		nix = {
+			# Use the latest and greatest Nix
+			package = pkgs.nixVersions.unstable;
+
 			# Enables Flakes
 			settings.experimental-features = [ "nix-command" "flakes" ];
 
@@ -79,7 +82,7 @@ with lib;
 			gc = {
 				automatic = true;
 				dates = "daily";
-				options = "--delete-older-than 14d";
+				options = "--delete-older-than +10";	# Keep only the last ten generations
 			};
 
 			# Configure NixOS to use the same software channel as Flakes

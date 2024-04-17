@@ -94,9 +94,10 @@ with lib;
 				# Gnome tweak tools
 				gnome.gnome-tweaks
 				# Gnome extensions
-				gnomeExtensions.appindicator
-				gnomeExtensions.dash-to-panel
-				gnomeExtensions.forge
+				# FIXME: Disable temporarily due to broken version in Nixpkgs
+				#gnomeExtensions.appindicator
+				#gnomeExtensions.dash-to-panel
+				#gnomeExtensions.forge
 				# Themeing
 				gnome.gnome-themes-extra
 				papirus-icon-theme
