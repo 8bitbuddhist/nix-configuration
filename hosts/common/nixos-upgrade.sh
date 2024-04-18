@@ -41,23 +41,23 @@ echo "Using installation mode: $OPERATION"
 cd ~/Development/nix-configuration
 nix flake update
 nixos-rebuild build --flake .
-UPDATES=$(nix store diff-closures /run/current-system ./result | awk '/[0-9] →|→ [0-9]/ && !/nixos/' || echo)
+PACKAGE_UPDATES=$(nix store diff-closures /run/current-system ./result | awk '/[0-9] →|→ [0-9]/ && !/nixos/' || echo)
 
-if [ "$UPDATES" ]; then
-	echo "NixOS updates to apply: "
-	echo $UPDATES
-	if [ $AUTOACCEPT == false ]; then
-		read -p "Continue with upgrade (y/n) ? " choice
-		case "$choice" in 
-			y|Y|yes ) echo "Running nixos-rebuild $OPERATION :";;
-			n|N|no ) echo "Upgrade cancelled." && exit;;
-			* ) echo "Invalid option. Upgrade cancelled." && exit;;
-		esac
-	fi
-	sudo nixos-rebuild $OPERATION --flake .
-else
-	echo "No NixOS updates found."
+if [ "$PACKAGE_UPDATES" ]; then
+	echo "Packages to update: "
+	echo $PACKAGE_UPDATES
 fi
+
+if [ $AUTOACCEPT == false ]; then
+	read -p "Continue with upgrade (y/n) ? " choice
+	case "$choice" in
+		y|Y|yes ) echo "Running nixos-rebuild $OPERATION :";;
+		n|N|no ) echo "Upgrade cancelled." && exit;;
+		* ) echo "Invalid option. Upgrade cancelled." && exit;;
+	esac
+fi
+
+sudo nixos-rebuild $OPERATION --flake .
 
 echo "Updating Flatpaks:"
 flatpak update
