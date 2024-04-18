@@ -82,7 +82,7 @@ with lib;
 			gc = {
 				automatic = true;
 				dates = "daily";
-				options = "--delete-older-than +10";	# Keep only the last ten generations
+				options = "--delete-older-than 7d";
 			};
 
 			# Configure NixOS to use the same software channel as Flakes
