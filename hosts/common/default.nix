@@ -7,17 +7,9 @@ let
 		ref = "main";
 		rev = "55fc814d477d956ab885e157f24c2d43f433dc7a";
 	};
-
-	# Install upgrade script
-	nixos-upgrade = pkgs.writeShellScriptBin "nixos-upgrade" (builtins.readFile ./nixos-upgrade.sh);
 in{
 	imports = [
 		../../modules
 		"${nix-secrets}/default.nix"
-	];
-
-	# Add upgrade script
-	environment.systemPackages = [
-		nixos-upgrade
 	];
 }

@@ -86,9 +86,8 @@ with lib;
 							theme = "gentoo";
             };
             shellAliases = {
-              dry-build = "cd ~/Development/nix-configuration && nix flake update && nixos-rebuild dry-build --flake .";
               update = "upgrade";
-              upgrade = "cd ~/Development/nix-configuration && nixos-upgrade";
+              upgrade = "nh os boot --update --ask";
               protontricks = "flatpak run com.github.Matoking.protontricks";
               please = "sudo";
             };

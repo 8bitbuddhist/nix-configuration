@@ -18,10 +18,12 @@ with lib;
 				nano
 				p7zip
 				fastfetch
+				nh	# Nix Helper: https://github.com/viperML/nh
 			];
 
-			# Set default editor to nano
-			variables.EDITOR = "nano";
+			variables = {
+				EDITOR = "nano";	# Set default editor to nano
+			};
 		
 			# System configuration file overrides
 			etc = {
@@ -78,13 +80,6 @@ with lib;
 			# Enable periodic nix store optimization
 			optimise.automatic = true;
 
-			# Enable garbage collection
-			gc = {
-				automatic = true;
-				dates = "daily";
-				options = "--delete-older-than 7d";
-			};
-
 			# Configure NixOS to use the same software channel as Flakes
 			registry = lib.mapAttrs (_: value: { flake = value; }) inputs;
 			nixPath = lib.mapAttrsToList (key: value: "${key}=${value.to.path}") config.nix.registry;
@@ -102,6 +97,18 @@ with lib;
 					set tabsize 4
 					set softwrap
 				'';
+			};
+
+			nh = {
+				enable = true;
+				flake = "/home/aires/Development/nix-configuration";
+				
+				# Alternative garbage collection system to nix.gc.automatic
+				clean = {
+					enable = true;
+					dates = "daily";
+					extraArgs = "--keep-since 7d --keep 10";	# Keep the last 10 entries
+				};
 			};
 		};
 
