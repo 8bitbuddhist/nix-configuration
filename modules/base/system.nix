@@ -125,6 +125,13 @@ with lib;
 
       # Allow systemd user services to keep running after the user has logged out
       logind.killUserProcesses = false;
+
+			# Enable SMART monitoring
+			smartd = {
+				enable = true;
+				autodetect = true;
+				notifications.wall.enable = true;
+			};
     };
 	};
 }
