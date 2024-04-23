@@ -58,6 +58,7 @@
 			};
 		in {
 			nixosConfigurations = {
+        # Microsoft Surface Laptop Go
 				Dimaga = nixpkgs.lib.nixosSystem {
 					system = "x86_64-linux";
 					modules = defaultModules.base ++ [
@@ -66,6 +67,7 @@
 					];
 				};
 
+        # Home server
 				Haven = nixpkgs.lib.nixosSystem {
 					system = "x86_64-linux";
 					modules = defaultModules.base ++ [
@@ -74,6 +76,16 @@
 					];
 				};
 
+        # Microsoft Surface Pro 7
+        Khanda = nixpkgs.lib.nixosSystem {
+					system = "x86_64-linux";
+					modules = defaultModules.base ++ [
+            nixos-hardware.nixosModules.microsoft-surface-pro-intel
+						./hosts/Khanda
+					];
+				};
+
+        # Raspberry Pi
 				Pihole = nixpkgs.lib.nixosSystem {
 					system = "aarch64-linux";
 					modules = defaultModules.base ++ [
@@ -82,6 +94,7 @@
 					];
 				};
 
+        # Lenovo Legion Slim 7 Gen 7 AMD
 				Shura = nixpkgs.lib.nixosSystem {
 					system = "x86_64-linux";
 					modules = defaultModules.base ++ [
