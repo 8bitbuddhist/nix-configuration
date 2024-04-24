@@ -1,9 +1,12 @@
 { lib, pkgs, osConfig, ... }: {
-	# Additional Gnome configurations via home-manager. Imported by default by aires and gremlin.
+	# Additional Gnome configurations via home-manager.
 	dconf.settings = lib.mkIf osConfig.host.ui.gnome.enable {
 		"org/gnome/mutter" = {
 			edge-tiling = true;
 			workspaces-only-on-primary = false;
+			experimental-features = [
+				"scale-monitor-framebuffer"	# Fractional scaling
+			];
 		};
 
 		"org/gnome/desktop/interface" = {
