@@ -12,6 +12,7 @@ in
 	];
 
 	system.stateVersion = "24.05";
+	system.autoUpgrade.enable = lib.mkForce false;
 
 	host = {
 		role = "server";
