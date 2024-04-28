@@ -2,7 +2,8 @@
 
 A full set of configuration files managed via NixOS. This project follows the general structure of https://github.com/tiredofit/nixos-config
 
-[!WARNING] DO NOT DOWNLOAD AND RUN `nixos-rebuild` ON THIS REPOSITORY! These are my personal configuration files. I invite you to look through them, modify them, and take inspiration from them, but if you run `nixos-rebuild`, it _will completely overwrite your current system_!
+> [!WARNING]
+> DO NOT DOWNLOAD AND RUN `nixos-rebuild` ON THIS REPOSITORY! These are my personal configuration files. I invite you to look through them, modify them, and take inspiration from them, but if you run `nixos-rebuild`, it _will completely overwrite your current system_!
 
 ## Running
 
@@ -16,18 +17,6 @@ Initialize the submodule with:
 git submodule update --init --recursive
 ```
 
-### Upgrading
-
-This config comes with a script for upgrading the system called `nixos-upgrade.sh`. To run this script, just run `nixos-upgrade` or `upgrade`.
-
-Running this script does three things:
-
-1. Update `flake.lock`
-2. Build the new closure and list the updates that will be applied
-3. (Optionally) Install the new closure
-
-By default, the script calls `nixos-rebuild boot`. You can change this to switch or any other rebuild operation by passing it as an argument when calling the script, e.g. `nixos-upgrade switch` or `nixos-upgrade test`.
-
 ### Applying the configuration
 
 To apply the config for the first time (e.g. on a fresh install), run this command, replacing `Shura` with the name of the host:
@@ -36,13 +25,27 @@ To apply the config for the first time (e.g. on a fresh install), run this comma
 sudo nixos-rebuild switch --flake .#Shura
 ```
 
-For subsequent builds, you can omit the hostname:
+For subsequent builds, you can omit the hostname, and/or use nh:
+
+```sh
+nh os switch
+```
 
 ```sh
 sudo nixos-rebuild switch --flake .
 ```
 
 `switch` replaces the running system immediately, or you can use `boot` to only apply the switch during the next reboot.
+
+### Upgrading
+
+This config installs a [Nix wrapper called nh](https://github.com/viperML/nh). To use it, run:
+
+```sh
+nh os boot --update
+```
+
+You can replace `boot` with `switch`, or add `--ask` to confirm before installing.
 
 ### Testing
 
