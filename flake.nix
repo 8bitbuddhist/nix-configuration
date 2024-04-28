@@ -80,7 +80,7 @@
 				Khanda = nixpkgs.lib.nixosSystem {
 					system = "x86_64-linux";
 					modules = defaultModules.base ++ [
-					nixos-hardware.nixosModules.microsoft-surface-pro-intel	# FIXME: Needs kernel recompile to enable
+						nixos-hardware.nixosModules.microsoft-surface-pro-intel
 						./hosts/Khanda
 					];
 				};
