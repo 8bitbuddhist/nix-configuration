@@ -41,6 +41,8 @@ with lib;
 
 		# Workaround for getting Flatpak apps to use system fonts, icons, and cursors
 		# For details (and source), see https://github.com/NixOS/nixpkgs/issues/119433#issuecomment-1767513263
+		# NOTE: If fonts in Flatpaks appear incorrect (like squares), run this command to regenerate the font cache:
+		#  flatpak list --columns=application | xargs -I %s -- flatpak run --command=fc-cache %s -f -v
 		system.fsPackages = [ pkgs.bindfs ];
 		fileSystems = let
 			mkRoSymBind = path: {

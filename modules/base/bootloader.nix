@@ -1,4 +1,4 @@
-{ config, lib, ... }:
+{ config, lib, pkgs, ... }:
 
 # Bootloader
 let
@@ -40,6 +40,7 @@ with lib;
 
 			# Set up TPM. See https://nixos.wiki/wiki/TPM
 			# After installing and rebooting, set it up via https://wiki.archlinux.org/title/Systemd-cryptenroll#Trusted_Platform_Module
+			environment.systemPackages = with pkgs; [ tpm2-tss ];
 			security.tpm2 = {
 				enable = true;
 				pkcs11.enable = true;
