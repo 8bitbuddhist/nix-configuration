@@ -52,4 +52,7 @@
 		ipts.enable = true;
 		surface-control.enable = true;
 	};
+
+	# FIXME: Use default kernel to avoid full kernel rebuilds
+	boot.kernelPackages = lib.mkForce pkgs.linuxPackages_latest;
 }

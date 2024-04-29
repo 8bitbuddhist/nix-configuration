@@ -13,11 +13,15 @@
 	host = {
 		role = "workstation";
 		apps = {
-			development.enable = true;
+			development = {
+				enable = true;
+				kubernetes.enable = true;
+			};
 			kdeconnect.enable = true;
 			media.enable = true;
 			office.enable = true;
 			pandoc.enable = true;
+			recording.enable = true;
 		};
 		ui = {
 			flatpak.enable = true;
@@ -35,14 +39,21 @@
 					};
 				};
 			};
+			gremlin = {
+				enable = true;
+				services.syncthing = {
+					enable = true;
+					enableTray = false;
+				};
+			};
 		};
 	};
 
 	# Limit number of simultaneous builds so we have two free cores.
 	# 	5 max jobs * 2 cores each = 10 cores in total.
 	nix.settings = {
-		max-jobs = 5;
-		cores = 2;
+		max-jobs = 2;
+		cores = 10;
 	};
 
 	# Configure the virtual machine created by nixos-rebuild build-vm
