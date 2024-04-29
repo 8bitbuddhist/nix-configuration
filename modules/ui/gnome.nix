@@ -82,6 +82,7 @@ with lib;
 				geary # email reader
 				evince # document viewer
 				gnome-characters
+				gnome-software
 				totem # video player
 				tali # poker game
 				iagno # go game
