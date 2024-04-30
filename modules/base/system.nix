@@ -74,8 +74,13 @@ with lib;
 			# Use the latest and greatest Nix
 			package = pkgs.nixVersions.unstable;
 
-			# Enables Flakes
-			settings.experimental-features = [ "nix-command" "flakes" ];
+			settings = {
+				# Enables Flakes
+				experimental-features = [ "nix-command" "flakes" ];
+
+				# Avoid signature verification messages when doing remote builds
+				trusted-users = [ "${config.users.users.aires.name}" ];
+			};
 
 			# Enable periodic nix store optimization
 			optimise.automatic = true;

@@ -37,6 +37,17 @@ sudo nixos-rebuild switch --flake .
 
 `switch` replaces the running system immediately, or you can use `boot` to only apply the switch during the next reboot.
 
+#### Remote builds
+
+You can build any Nix or NixOS expression on a remote system before copying it over, as long as you have SSH access to the build target.
+
+> [!NOTE]
+> Run this command without sudo, otherwise SSHing into `haven` won't work.
+
+```sh
+nixos-rebuild boot --flake . --build-host haven
+```
+
 ### Upgrading
 
 This config installs a [Nix wrapper called nh](https://github.com/viperML/nh). To use it, run:

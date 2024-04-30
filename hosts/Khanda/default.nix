@@ -1,4 +1,4 @@
-{ pkgs, ... }:
+{ pkgs, lib, ... }:
 
 # Settings specific to Dimaga
 
@@ -9,6 +9,7 @@
 	];
 
 	system.stateVersion = "24.05";
+	system.autoUpgrade.enable = lib.mkForce false;
 
 	host = {
 		role = "workstation";
