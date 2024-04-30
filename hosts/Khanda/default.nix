@@ -13,15 +13,11 @@
 	host = {
 		role = "workstation";
 		apps = {
-			development = {
-				enable = true;
-				kubernetes.enable = true;
-			};
+			development.enable = true;
 			kdeconnect.enable = true;
 			media.enable = true;
 			office.enable = true;
 			pandoc.enable = true;
-			recording.enable = true;
 		};
 		ui = {
 			flatpak.enable = true;
@@ -37,13 +33,6 @@
 						autostart = true;
 						enableTray = false;
 					};
-				};
-			};
-			gremlin = {
-				enable = true;
-				services.syncthing = {
-					enable = true;
-					enableTray = false;
 				};
 			};
 		};

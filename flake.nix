@@ -76,7 +76,7 @@
 					];
 				};
 
-				# Microsoft Surface Pro 7
+				# Microsoft Surface Pro 9
 				Khanda = nixpkgs.lib.nixosSystem {
 					system = "x86_64-linux";
 					modules = defaultModules.base ++ [
