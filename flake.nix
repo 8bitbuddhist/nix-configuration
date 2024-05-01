@@ -58,7 +58,7 @@
 			};
 		in {
 			nixosConfigurations = {
-        		# Microsoft Surface Laptop Go
+				# Microsoft Surface Laptop Go
 				Dimaga = nixpkgs.lib.nixosSystem {
 					system = "x86_64-linux";
 					modules = defaultModules.base ++ [
@@ -94,7 +94,7 @@
 					];
 				};
 
-        		# Lenovo Legion Slim 7 Gen 7 AMD
+				# Lenovo Legion Slim 7 Gen 7 AMD
 				Shura = nixpkgs.lib.nixosSystem {
 					system = "x86_64-linux";
 					modules = defaultModules.base ++ [

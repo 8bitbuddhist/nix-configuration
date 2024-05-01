@@ -69,27 +69,6 @@ with lib;
 			};
 		};
 
-		# Configure nix
-		nix = {
-			# Use the latest and greatest Nix
-			package = pkgs.nixVersions.unstable;
-
-			settings = {
-				# Enables Flakes
-				experimental-features = [ "nix-command" "flakes" ];
-
-				# Avoid signature verification messages when doing remote builds
-				trusted-users = [ "${config.users.users.aires.name}" ];
-			};
-
-			# Enable periodic nix store optimization
-			optimise.automatic = true;
-
-			# Configure NixOS to use the same software channel as Flakes
-			registry = lib.mapAttrs (_: value: { flake = value; }) inputs;
-			nixPath = lib.mapAttrsToList (key: value: "${key}=${value.to.path}") config.nix.registry;
-		};
-
 		# Set up base apps
 		programs = {
 			direnv.enable = true;
