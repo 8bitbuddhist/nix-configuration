@@ -26,6 +26,7 @@ with lib;
 				kubectl
 				kubernetes-helm
 				kubevirt	# Virtctl command-line tool
+				statix	# Nix linting tool
 			];
 		})
 	];

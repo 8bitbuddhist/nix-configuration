@@ -6,7 +6,7 @@
 		./kdeconnect.nix
 		./media.nix
 		./office.nix
-		./pandoc.nix
 		./recording.nix
+		./writing.nix
 	];
 }

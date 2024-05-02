@@ -32,8 +32,8 @@ in
 			kdeconnect.enable = true;
 			media.enable = true;
 			office.enable = true;
-			pandoc.enable = true;
 			recording.enable = true;
+			writing.enable = true;
 		};
 		ui = {
 			flatpak.enable = true;

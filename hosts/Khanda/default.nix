@@ -18,7 +18,7 @@
 			kdeconnect.enable = true;
 			media.enable = true;
 			office.enable = true;
-			pandoc.enable = true;
+			writing.enable = true;
 		};
 		ui = {
 			flatpak.enable = true;

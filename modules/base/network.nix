@@ -5,8 +5,6 @@ _: {
 
 		# Enable firewall
 		nftables.enable = true;
-		firewall = {
-				enable = true;
-		};
+		firewall.enable = true;
 	};
 }

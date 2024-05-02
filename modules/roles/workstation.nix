@@ -14,11 +14,6 @@ in
 			flatpak.enable = true;
 		};
 
-		environment.systemPackages = with pkgs; [
-			direnv
-			statix	# Nix linting tool
-		];
-
 		boot = {
 			# Enable Plymouth
 			plymouth.enable = true;

@@ -16,13 +16,5 @@ with lib;
 			"org.libreoffice.LibreOffice"
 			"us.zoom.Zoom"
 		];
-
-		# Spelling and grammer checking: hosted on localhost:8081
-		services.languagetool = {
-			enable = true;
-			port = 8090;
-			public = false;
-			allowOrigin = "*";
-		};
 	};
 }
