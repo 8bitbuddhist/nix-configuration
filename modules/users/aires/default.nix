@@ -100,8 +100,8 @@ with lib;
 				# Gnome settings specific to aires on Shura
 				dconf.settings = lib.mkIf (config.networking.hostName == "Shura") {
 					"org/gnome/desktop/interface" = {
-						# Increase font scaling(if config.networking.hostName == "Haven" then false else true);
-						text-scaling-factor = 1.2;
+						# Increase font scaling;
+						text-scaling-factor = 1.3;
 
 						# Dark mode
 						color-scheme = "prefer-dark";

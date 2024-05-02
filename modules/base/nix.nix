@@ -2,7 +2,7 @@
 { pkgs, config, lib, inputs, ... }: {
 	nix = {
 		# Use the latest and greatest Nix
-		package = pkgs.nixVersions.unstable;
+		package = pkgs.nixVersions.latest;
 
 		settings = {
 			# Enables Flakes
