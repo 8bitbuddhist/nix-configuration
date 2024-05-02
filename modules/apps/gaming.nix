@@ -11,7 +11,8 @@ with lib;
 	};
 
 	config = mkIf cfg.enable {
-		services.flatpak.packages = lib.mkIf config.services.flatpak.enable [
+		host.ui.flatpak.enable = true;
+		services.flatpak.packages = [
 			"gg.minion.Minion"
 			"com.valvesoftware.Steam"
 			"org.firestormviewer.FirestormViewer"

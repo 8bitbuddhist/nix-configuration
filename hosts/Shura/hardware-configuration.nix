@@ -65,7 +65,15 @@
 		hostName = "Shura";
 	};
 
-	# TODO: Add fingerprint detection, but see this change first: https://bugs.launchpad.net/oem-priority/+bug/2024149
+	# Add fingerprint detection
+	services.fprintd = {
+		enable = true;
+		package = pkgs.fprintd-tod;
+		tod = {
+			enable = true;
+			driver = pkgs.libfprint-2-tod1-elan;
+		};
+	};
 
 	nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
 }

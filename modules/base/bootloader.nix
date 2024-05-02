@@ -36,6 +36,9 @@ with lib;
 					enable = true;
 					pkiBundle = "/etc/secureboot";
 				};
+
+				# Increase bootloader font size
+				lanzaboote.settings.console-mode = "auto";
 			};
 
 			# Set up TPM. See https://nixos.wiki/wiki/TPM

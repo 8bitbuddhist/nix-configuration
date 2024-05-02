@@ -7,6 +7,7 @@
 		./media.nix
 		./office.nix
 		./recording.nix
+		./social.nix
 		./writing.nix
 	];
 }

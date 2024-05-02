@@ -18,6 +18,7 @@
 			kdeconnect.enable = true;
 			media.enable = true;
 			office.enable = true;
+			social.enable = true;
 			writing.enable = true;
 		};
 		ui = {
