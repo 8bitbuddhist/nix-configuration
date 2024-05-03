@@ -1,7 +1,5 @@
 # Surface Pro 9
-{ config, lib, pkgs, modulesPath, ... }:
-
-{
+{ config, lib, pkgs, modulesPath, ... }: {
 	imports = [ (modulesPath + "/installer/scan/not-detected.nix") ];
 
 	boot = {

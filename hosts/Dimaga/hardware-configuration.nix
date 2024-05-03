@@ -1,7 +1,5 @@
-# Surface Laptop Go
-{ config, lib, pkgs, modulesPath, ... }:
-
-{
+# Surface Laptop Go 1st gen
+{ config, lib, pkgs, modulesPath, ... }: {
 	imports = [
 		(modulesPath + "/installer/scan/not-detected.nix")
 	];

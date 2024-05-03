@@ -1,6 +1,5 @@
-# Lenovo Legion S7 16ARHA7 configuration
-{ config, lib, pkgs, modulesPath, ... }:
-{
+# Lenovo Legion Slim 7 Gen 7 AMD (16ARHA7)
+{ config, lib, pkgs, modulesPath, ... }: {
 	imports = [
 		(modulesPath + "/installer/scan/not-detected.nix")
 	];

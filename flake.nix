@@ -1,5 +1,5 @@
+# Based on the Auxolotl template: https://github.com/auxolotl/templates
 # For info on Flakes, see: https://nixos-and-flakes.thiscute.world/nixos-with-flakes/nixos-with-flakes-enabled
-
 {
 	description = "Aires' system Flake";
 	
@@ -27,19 +27,18 @@
 
 	outputs = inputs@{ self, nixpkgs, lanzaboote, nix-flatpak, home-manager, nixos-hardware, ... }:
 		let 
-			inherit (self) outputs;
-			inherit (nixpkgs) lib;
-			systems = [ "x86_64-linux" "aarch64-linux" ];
-			forEachSystem = f: lib.genAttrs systems (sys: f pkgsFor.${sys});
-			pkgsFor = lib.genAttrs systems (system: import nixpkgs {
-				inherit system;
-				config.allowUnfree = true;
-			});
+			forAllSystems = function:
+				nixpkgs.lib.genAttrs [
+				"x86_64-linux"
+				"aarch64-linux"
+			] (system: function nixpkgs.legacyPackages.${system});
+			config.allowUnfree = true;
 			
 			# Define shared modules and imports
 			defaultModules = {
 				base = [
 					{ _module.args = { inherit inputs; }; }
+					./hosts/default.nix
 					lanzaboote.nixosModules.lanzaboote
 					nix-flatpak.nixosModules.nix-flatpak
 					home-manager.nixosModules.home-manager {
@@ -57,8 +56,9 @@
 				];
 			};
 		in {
+			formatter = forAllSystems (pkgs: pkgs.nixfmt-rfc-style);
 			nixosConfigurations = {
-				# Microsoft Surface Laptop Go
+
 				Dimaga = nixpkgs.lib.nixosSystem {
 					system = "x86_64-linux";
 					modules = defaultModules.base ++ [
@@ -67,7 +67,6 @@
 					];
 				};
 
-				# Home server
 				Haven = nixpkgs.lib.nixosSystem {
 					system = "x86_64-linux";
 					modules = defaultModules.base ++ [
@@ -76,7 +75,6 @@
 					];
 				};
 
-				# Microsoft Surface Pro 9
 				Khanda = nixpkgs.lib.nixosSystem {
 					system = "x86_64-linux";
 					modules = defaultModules.base ++ [
@@ -85,7 +83,6 @@
 					];
 				};
 
-				# Raspberry Pi
 				Pihole = nixpkgs.lib.nixosSystem {
 					system = "aarch64-linux";
 					modules = defaultModules.base ++ [
@@ -94,7 +91,6 @@
 					];
 				};
 
-				# Lenovo Legion Slim 7 Gen 7 AMD
 				Shura = nixpkgs.lib.nixosSystem {
 					system = "x86_64-linux";
 					modules = defaultModules.base ++ [

@@ -17,21 +17,30 @@ Initialize the submodule with:
 git submodule update --init --recursive
 ```
 
-### Applying the configuration
+### Installing and upgrading
 
-To apply the config for the first time (e.g. on a fresh install), run this command, replacing `Shura` with the name of the host:
+To apply the config for the first time (e.g. on a fresh install), run these commands, replacing `Shura` with the name of the host:
 
 ```sh
+nix flake update
 sudo nixos-rebuild switch --flake .#Shura
-```
+``` 
 
-For subsequent builds, you can omit the hostname, and/or use nh:
+`nix flake update` updates the `flake.lock` file, which pins repositories to specific versions. Nix will then pull down any derivations it needs to meet the version.
+
+> [!NOTE]
+> This config installs a [Nix wrapper called nh](https://github.com/viperML/nh). Basic install/upgrade commands can be run using `nh`, but more advanced stuff should use `nixos-rebuild`.
+
+For subsequent builds, you can omit the hostname:
 
 ```sh
 nh os switch
 ```
 
-```sh
+or
+
+```sh 
+nix flake update
 sudo nixos-rebuild switch --flake .
 ```
 
@@ -48,15 +57,7 @@ You can build any Nix or NixOS expression on a remote system before copying it o
 nixos-rebuild boot --flake . --build-host haven
 ```
 
-### Upgrading
-
-This config installs a [Nix wrapper called nh](https://github.com/viperML/nh). To use it, run:
-
-```sh
-nh os boot --update
-```
-
-You can replace `boot` with `switch`, or add `--ask` to confirm before installing.
+You can also define build targets in a Nix config file. See Dimaga for an example.
 
 ### Testing
 

@@ -1,12 +1,5 @@
-{ pkgs, ... }:
-
-# Settings specific to Dimaga
-
-{
-	imports = [
-		./hardware-configuration.nix
-		../common
-	];
+{ pkgs, ... }: {
+	imports = [ ./hardware-configuration.nix ];
 
 	system.stateVersion = "24.05";
 
@@ -17,7 +10,7 @@
 			kdeconnect.enable = true;
 			media.enable = true;
 			office.enable = true;
-			pandoc.enable = true;
+			writing.enable = true;
 		};
 		ui = {
 			flatpak.enable = true;

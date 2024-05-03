@@ -1,7 +1,4 @@
 { config, pkgs, lib, ... }:
-
-# Configuration options unique to Shura
-
 let	
 	# Copy bluetooth device configs
 	shure-aonic-bluetooth = pkgs.writeText "info" (builtins.readFile ./bluetooth/shure-aonic-bluetooth-params);
@@ -13,10 +10,7 @@ let
 	monitorsConfig = pkgs.writeText "gdm_monitors.xml" monitorsXmlContent;
 in
 {
-	imports = [ 
-		./hardware-configuration.nix
-		../common
-	];
+	imports = [ ./hardware-configuration.nix ];
 
 	system.stateVersion = "24.05";
 

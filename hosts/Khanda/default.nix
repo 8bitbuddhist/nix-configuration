@@ -1,12 +1,5 @@
-{ pkgs, lib, ... }:
-
-# Settings specific to Dimaga
-
-{
-	imports = [
-		./hardware-configuration.nix
-		../common
-	];
+{ pkgs, lib, ... }: {
+	imports = [ ./hardware-configuration.nix ];
 
 	system.stateVersion = "24.05";
 	system.autoUpgrade.enable = lib.mkForce false;

@@ -1,15 +1,9 @@
 { pkgs, home-manager, lib, config, ... }:
-
-# Settings specific to Haven
-
 let
 	start-haven = pkgs.writeShellScriptBin "start-haven" (builtins.readFile ./start-haven.sh);
 in
 {
-	imports = [
-		./hardware-configuration.nix
-		../common
-	];
+	imports = [ ./hardware-configuration.nix ];
 
 	system.stateVersion = "24.05";
 	system.autoUpgrade.enable = lib.mkForce false;
