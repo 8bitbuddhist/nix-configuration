@@ -14,7 +14,10 @@
 		nix-flatpak.url = "github:gmodena/nix-flatpak/v0.4.1";
 
 		# Hardware configurations
-		nixos-hardware.url = "github:NixOS/nixos-hardware/master";
+		nixos-hardware.url = "github:NixOS/nixos-hardware";
+
+		# Auto-import modules
+		nypkgs.url = "github:yunfachi/nypkgs";
 
 		# Home-manager
 		home-manager = {
@@ -25,7 +28,7 @@
 		# TODO: Add Disko - https://github.com/nix-community/disko
 	};
 
-	outputs = inputs@{ self, nixpkgs, lanzaboote, nix-flatpak, home-manager, nixos-hardware, ... }:
+	outputs = inputs@{ self, nixpkgs, lanzaboote, nix-flatpak, home-manager, nixos-hardware, nypkgs,... }:
 		let 
 			forAllSystems = function:
 				nixpkgs.lib.genAttrs [
@@ -52,6 +55,10 @@
 							useUserPackages = true;
 							backupFileExtension = "home-manager-backup";
 						};
+					}
+					nypkgs.ylib.umport {
+						paths = [ ../modules ];
+						recursive = true;
 					}
 				];
 			};

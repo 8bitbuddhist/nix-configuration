@@ -2,7 +2,7 @@
 
 let
 	cfg = config.host.services.duplicacy-web;
-	duplicacy-web = pkgs.callPackage ../packages/duplicacy-web.nix { inherit pkgs lib; };
+	duplicacy-web = pkgs.callPackage ../../packages/duplicacy-web.nix { inherit pkgs lib; };
 in
 with lib;
 rec {
