@@ -80,7 +80,8 @@ This config uses two systems: Flakes, and Home-manager.
 - Flakes are the entrypoint, via `flake.nix`. This is where you include Flake modules and define Flake-specific options.
 - Home-manager configs live in the `users/` folders. Each user gets its own `home-manager.nix` file too.
 - Modules are stored in `modules`. All of these files are imported, and you enable the ones you want to use. For example, to install Flatpak, set `host.ui.flatpak.enable = true;`.
-    - After adding a new module, make sure to `git add` it _and_ `import` it in `default.nix`.
+    - After adding a new module, make sure to `git add` it.
+    - Modules are automatically imported - see `autoimport.nix`.
 
 ### Adding a host
 

@@ -10,6 +10,6 @@ let
 in{
 	imports = [
 		"${nix-secrets}/default.nix"
-		../modules
+		../modules/autoimport.nix
 	];
 }

@@ -235,40 +235,6 @@
         "type": "github"
       }
     },
-    "nixpkgs_3": {
-      "locked": {
-        "lastModified": 1714404219,
-        "narHash": "sha256-1YdyaIv7WM3snp3E5Ib4Fsr4Z6/IbR5aKqVo3VXkfEA=",
-        "owner": "NixOS",
-        "repo": "nixpkgs",
-        "rev": "aa30bcc07ba66e96bb6467e4a42f7845f11b6942",
-        "type": "github"
-      },
-      "original": {
-        "owner": "NixOS",
-        "ref": "master",
-        "repo": "nixpkgs",
-        "type": "github"
-      }
-    },
-    "nypkgs": {
-      "inputs": {
-        "nixpkgs": "nixpkgs_3"
-      },
-      "locked": {
-        "lastModified": 1714404288,
-        "narHash": "sha256-CTGtSlkTtETcDbt61jtXqIIy89Fzf/+8aEClPO/bcAg=",
-        "owner": "yunfachi",
-        "repo": "nypkgs",
-        "rev": "27648b0d368a565ff415fcd240056b41a97c0e7b",
-        "type": "github"
-      },
-      "original": {
-        "owner": "yunfachi",
-        "repo": "nypkgs",
-        "type": "github"
-      }
-    },
     "pre-commit-hooks-nix": {
       "inputs": {
         "flake-compat": [
@@ -306,8 +272,7 @@
         "lanzaboote": "lanzaboote",
         "nix-flatpak": "nix-flatpak",
         "nixos-hardware": "nixos-hardware",
-        "nixpkgs": "nixpkgs_2",
-        "nypkgs": "nypkgs"
+        "nixpkgs": "nixpkgs_2"
       }
     },
     "rust-overlay": {

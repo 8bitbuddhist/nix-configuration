@@ -43,8 +43,8 @@ with lib;
 
 			home-manager.users.gremlin = {
 				imports = [
-					../common/gnome.nix
-					../common/zsh.nix
+					../common/home-manager/gnome.nix
+					../common/home-manager/zsh.nix
 				];
 
 				home = {

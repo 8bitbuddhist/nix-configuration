@@ -1,7 +1,0 @@
-{ ... }: {
-	imports = [
-		./aires
-		./gremlin
-		./media
-	];
-}
