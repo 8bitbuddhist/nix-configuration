@@ -6,6 +6,7 @@
 			workspaces-only-on-primary = false;
 			experimental-features = [
 				"scale-monitor-framebuffer"	# Fractional scaling
+				"variable-refresh-rate"
 			];
 		};
 

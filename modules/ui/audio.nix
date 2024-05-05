@@ -27,22 +27,22 @@ with lib;
 			alsa.support32Bit = true;
 			pulse.enable = true;
 			jack.enable = true;
+
+			  # Reduce audio latency per https://nixos.wiki/wiki/PipeWire#Low-latency_setup
+			extraConfig.pipewire = mkIf cfg.enableLowLatency {
+				"92-low-latency.conf" = {
+					"context.properties" = {
+						"default.clock.rate" = 48000;
+						"default.clock.quantum" = 32;
+						"default.clock.min-quantum" = 32;
+						"default.clock.max-quantum" = 32;
+					};
+				};
+			};
 		};
 
 		services.flatpak.packages =	mkIf config.host.ui.flatpak.enable [
 			"com.github.wwmm.easyeffects"	
 		];
-
-	    # Reduce audio latency per https://nixos.wiki/wiki/PipeWire#Low-latency_setup
-		services.pipewire.extraConfig.pipewire = mkIf cfg.enableLowLatency {
-			"92-low-latency.conf" = {
-				"context.properties" = {
-					"default.clock.rate" = 48000;
-					"default.clock.quantum" = 32;
-					"default.clock.min-quantum" = 32;
-					"default.clock.max-quantum" = 32;
-				};
-			};
-		};
 	};
 }

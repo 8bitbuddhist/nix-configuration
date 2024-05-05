@@ -4,7 +4,7 @@
 	description = "Aires' system Flake";
 	
 	inputs = {
-		# Track base packages against Nix unstable
+		# Track base packages against unstable
 		nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
 
 		# SecureBoot support
