@@ -9,6 +9,7 @@ in
 	config = mkIf (role == "server") {
 		environment.systemPackages = with pkgs; [
 			htop
+			tmux
 		];
 	};
 }
