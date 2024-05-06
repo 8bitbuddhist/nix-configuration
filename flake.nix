@@ -5,7 +5,7 @@
 	
 	inputs = {
 		# Track base packages against unstable
-		nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
+		nixpkgs.url = "github:auxolotl/nixpkgs/nixos-unstable";
 
 		# Replace Nix with Lix: https://lix.systems/
 		lix = {
