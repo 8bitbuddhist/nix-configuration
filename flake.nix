@@ -7,6 +7,17 @@
 		# Track base packages against unstable
 		nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
 
+		# Replace Nix with Lix: https://lix.systems/
+		lix = {
+			url = "git+https://git@git.lix.systems/lix-project/lix?ref=refs/tags/2.90-beta.1";
+			flake = false;
+		};
+		lix-module = {
+			url = "git+https://git.lix.systems/lix-project/nixos-module";
+			inputs.lix.follows = "lix";
+			inputs.nixpkgs.follows = "nixpkgs";
+		};
+
 		# SecureBoot support
 		lanzaboote.url = "github:nix-community/lanzaboote/v0.3.0";
 
@@ -25,7 +36,7 @@
 		# TODO: Add Disko - https://github.com/nix-community/disko
 	};
 
-	outputs = inputs@{ self, nixpkgs, lanzaboote, nix-flatpak, home-manager, nixos-hardware, ... }:
+	outputs = inputs@{ self, nixpkgs, lanzaboote, nix-flatpak, home-manager, nixos-hardware, lix-module, ... }:
 		let 
 			forAllSystems = function:
 				nixpkgs.lib.genAttrs [
@@ -39,6 +50,7 @@
 				base = [
 					{ _module.args = { inherit inputs; }; }
 					./hosts/default.nix
+					lix-module.nixosModules.default
 					lanzaboote.nixosModules.lanzaboote
 					nix-flatpak.nixosModules.nix-flatpak
 					home-manager.nixosModules.home-manager {

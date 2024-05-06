@@ -1,12 +1,13 @@
 # Nix configuration
 { pkgs, config, lib, inputs, ... }: {
 	nix = {
-		# Use the latest and greatest Nix
-		package = pkgs.nixVersions.latest;
-
 		settings = {
-			# Enables Flakes
+			# Enable Flakes
 			experimental-features = [ "nix-command" "flakes" ];
+
+			# Use Lix instead of Nix
+			extra-substituters = [ "https://cache.lix.systems" ];
+			trusted-public-keys = [ "cache.lix.systems:aBnZUw8zA7H35Cz2RyKFVs3H4PlGTLawyY5KRbvJR8o=" ];
 
 			# Avoid signature verification messages when doing remote builds
 			trusted-users = [ "${config.users.users.aires.name}" ];
