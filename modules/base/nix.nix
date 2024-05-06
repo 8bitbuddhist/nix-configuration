@@ -32,6 +32,8 @@
 			supportedFeatures = [
 				"nixos-test"
 				"kvm"
+				"benchmark"
+				"big-parllel"
 			];
 		}];
 
