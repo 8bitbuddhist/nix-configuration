@@ -13,7 +13,10 @@ set -e
 # local storage partition
 echo "Unlocking storage partition:"
 # 4 TB HDD, partition #2
-cryptsetup luksOpen /dev/disk/by-uuid/8dc60329-d27c-4a4a-b76a-861b1e28400e storage
+#cryptsetup luksOpen /dev/disk/by-uuid/8dc60329-d27c-4a4a-b76a-861b1e28400e storage
+
+# RAID 5
+cryptsetup luksOpen /dev/md/Sapana storage
 
 # mount local storage
 if [ ! -f /dev/mapper/storage ]; then

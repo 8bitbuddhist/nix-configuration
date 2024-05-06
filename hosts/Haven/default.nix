@@ -53,8 +53,14 @@ in
 		};
 	};
 
+	# Enable mdadm and Sapana (RAID 5 primary storage)
+	boot.swraid = {
+		enable = true;
+		# mdadmConf configured in nix-secrets
+	};
+
 	# Open port for OpenVPN
-    networking.firewall.allowedUDPPorts = [ 1194 ];
+	networking.firewall.allowedUDPPorts = [ 1194 ];
 
 	# Add script for booting Haven
 	environment.systemPackages = [
