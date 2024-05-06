@@ -7,10 +7,10 @@ in
 	imports = [ (modulesPath + "/installer/scan/not-detected.nix") ];
 
 	config = mkIf (role == "server") {
+		host.apps.tmux.enable = true;
 		environment.systemPackages = with pkgs; [
 			htop
 			mdadm
-			tmux
 		];
 	};
 }
