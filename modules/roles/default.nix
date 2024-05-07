@@ -1,13 +1,13 @@
-{lib, ...}:
+{ lib, ... }:
 
 with lib;
 {
-	options = {
-		host.role = mkOption {
-			type = types.enum [
-				"server"
-				"workstation"
-			];
-		};
-	};
+  options = {
+    host.role = mkOption {
+      type = types.enum [
+        "server"
+        "workstation"
+      ];
+    };
+  };
 }

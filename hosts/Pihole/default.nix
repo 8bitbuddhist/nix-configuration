@@ -1,36 +1,37 @@
-{ pkgs, lib, ... }: {
-	imports = [ ./hardware-configuration.nix ];
+{ pkgs, lib, ... }:
+{
+  imports = [ ./hardware-configuration.nix ];
 
-	system.stateVersion = "24.05";
+  system.stateVersion = "24.05";
 
-	host = {
-		role = "server";
-		users.aires.enable = true;
-		boot.enable = false;
-	};
+  host = {
+    role = "server";
+    users.aires.enable = true;
+    boot.enable = false;
+  };
 
-	networking.hostName = "Pihole";
-	time.timeZone = "America/New_York";
+  networking.hostName = "Pihole";
+  time.timeZone = "America/New_York";
 
-	environment.systemPackages = with pkgs; [
-		libraspberrypi
-		raspberrypifw
-		raspberrypi-eeprom
-		linuxKernel.kernels.linux_rpi4
-	];
+  environment.systemPackages = with pkgs; [
+    libraspberrypi
+    raspberrypifw
+    raspberrypi-eeprom
+    linuxKernel.kernels.linux_rpi4
+  ];
 
-	# Connect to the network automagically
-	networking.networkmanager.enable = lib.mkForce false;
+  # Connect to the network automagically
+  networking.networkmanager.enable = lib.mkForce false;
 
-	# Enable SSH
-	services.openssh = {
-		enable = true;
-		ports = [ 33105 ];
+  # Enable SSH
+  services.openssh = {
+    enable = true;
+    ports = [ 33105 ];
 
-		settings = {
-			PasswordAuthentication = true;
-			AllowUsers = ["aires"];
-			PermitRootLogin = "no";
-		};
-	};
+    settings = {
+      PasswordAuthentication = true;
+      AllowUsers = [ "aires" ];
+      PermitRootLogin = "no";
+    };
+  };
 }
