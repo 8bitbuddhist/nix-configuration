@@ -1,9 +1,5 @@
 # Nix configuration
 { pkgs, config, lib, inputs, ... }: {
-	# Disable local documentation
-	# This is a temporary workaround to get Auxolotl to build. See https://forum.aux.computer/t/rebuild-is-failing/497/30
-	documentation.nixos.enable = false;
-
 	nix = {
 		settings = {
 			# Enable Flakes
