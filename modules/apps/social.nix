@@ -22,6 +22,9 @@ with lib;
     ];
 
     host.ui.flatpak.enable = true;
-    services.flatpak.packages = [ "com.discordapp.Discord" ];
+    services.flatpak.packages = [
+      "com.discordapp.Discord"
+      "chat.schildi.desktop"
+    ];
   };
 }

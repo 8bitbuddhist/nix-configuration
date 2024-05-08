@@ -5,7 +5,7 @@ pkgs.stdenv.mkDerivation rec {
   version = "1.8.0";
 
   src = builtins.fetchurl {
-    url = "https://acrosync.com/duplicacy-web/duplicacy_web_linux_x64_${version}";
+    url = "https://acrosync.com/${pname}/${pname}_linux_x64_${version}";
     sha256 = "f0b4d4c16781a6ccb137f161df9de86574e7a55660c582682c63062e26476c4a";
   };
 
