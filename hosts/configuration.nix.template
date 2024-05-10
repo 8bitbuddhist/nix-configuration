@@ -1,0 +1,34 @@
+# Template file for configuring a new host
+{
+  pkgs,
+  home-manager,
+  lib,
+  config,
+  ...
+}:
+{
+  # Generate hardware-configuration.nix by running this command on the host:
+  #   $ nixos-generate-config
+  imports = [ ./hardware-configuration.nix ];
+
+  system.stateVersion = "24.05";
+
+  host = {
+    role = "workstation";
+    apps = {
+      # Define applications here
+    };
+    services = {
+      # Define services here
+    };
+    users.aires = {
+      enable = true;
+      services.syncthing = {
+        enable = true;
+        autostart = true;
+      };
+    };
+  };
+
+  # Additional host-specific configuration options go here
+}
