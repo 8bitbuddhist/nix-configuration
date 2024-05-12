@@ -66,8 +66,6 @@
       "pinctrl_tigerlake"
     ];
     extraModulePackages = [ ];
-
-    kernelParams = [ "i915.enable_psr=0" ]; # Disable Intel Panel Self Refresh to reduce lag and hiccups
   };
 
   fileSystems = {

@@ -249,15 +249,16 @@
     },
     "nixos-hardware": {
       "locked": {
-        "lastModified": 1715148395,
-        "narHash": "sha256-lRxjTxY3103LGMjWdVqntKZHhlmMX12QUjeFrQMmGaE=",
-        "owner": "NixOS",
+        "lastModified": 1715528918,
+        "narHash": "sha256-VvRyabLoTbX69HRiSmgraHqPzz+cfjMJjYxSmBPz0vg=",
+        "owner": "8bitbuddhist",
         "repo": "nixos-hardware",
-        "rev": "a4e2b7909fc1bdf30c30ef21d388fde0b5cdde4a",
+        "rev": "2e28b5160b3fb8a1950a45f65e66fcca06920ac0",
         "type": "github"
       },
       "original": {
-        "owner": "NixOS",
+        "owner": "8bitbuddhist",
+        "ref": "surface-pro-9-disable-psr",
         "repo": "nixos-hardware",
         "type": "github"
       }
