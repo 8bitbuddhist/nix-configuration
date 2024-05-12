@@ -46,12 +46,6 @@ with lib;
         linger = true;
       };
 
-      # Install aires-specific Flatpaks
-      services.flatpak.packages = mkIf config.services.flatpak.enable [
-        "com.discordapp.Discord"
-        "org.telegram.desktop"
-      ];
-
       # Configure home-manager
       home-manager.users.aires = {
         imports = [

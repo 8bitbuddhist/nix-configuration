@@ -8,6 +8,11 @@
 # Gaming-related settings
 let
   cfg = config.host.apps.gaming;
+  reset-controllers-script = pkgs.writeShellScriptBin "reset-controllers" ''
+    #!/usr/bin/env bash
+    sudo rmmod hid_xpadneo && sudo modprobe hid_xpadneo
+    sudo systemctl restart bluetooth.service
+  '';
 in
 with lib;
 {
@@ -28,5 +33,8 @@ with lib;
       extraModulePackages = with config.boot.kernelPackages; [ xpadneo ];
       kernelModules = [ "hid_xpadneo" ];
     };
+
+    # Add script to restart xpadneo in case of issues
+    environment.systemPackages = [ reset-controllers-script ];
   };
 }

@@ -34,7 +34,7 @@ in
       };
       dj.enable = true;
       gaming.enable = true;
-      kdeconnect.enable = true;
+      kdeconnect.enable = false;
       media.enable = true;
       office.enable = true;
       recording.enable = true;
