@@ -25,7 +25,7 @@
     nix-flatpak.url = "github:gmodena/nix-flatpak/v0.4.1";
 
     # Hardware configurations
-    nixos-hardware.url = "github:NixOS/nixos-hardware";
+    nixos-hardware.url = "github:8bitbuddhist/nixos-hardware/surface-pro-9-disable-psr";
 
     # Home-manager
     home-manager = {
@@ -107,7 +107,7 @@
         Khanda = nixpkgs.lib.nixosSystem {
           system = "x86_64-linux";
           modules = defaultModules.base ++ [
-            nixos-hardware.nixosModules.microsoft-surface-pro-intel
+            nixos-hardware.nixosModules.microsoft-surface-pro-9
             ./hosts/Khanda
           ];
         };
