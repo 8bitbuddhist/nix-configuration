@@ -10,11 +10,7 @@ fi
 # Immediately exit on any errors
 set -e
 
-# local storage partition
 echo "Unlocking storage partition:"
-# 4 TB HDD, partition #2
-#cryptsetup luksOpen /dev/disk/by-uuid/8dc60329-d27c-4a4a-b76a-861b1e28400e storage
-
 # RAID 5
 cryptsetup luksOpen /dev/md/Sapana storage
 
@@ -23,6 +19,11 @@ if [ ! -f /dev/mapper/storage ]; then
     mount /dev/mapper/storage /storage
 
     if [ $? -eq "0" ]; then
+		echo "Unlocking backup partition:"
+		# 4 TB HDD, partition #2
+		cryptsetup luksOpen /dev/disk/by-uuid/8dc60329-d27c-4a4a-b76a-861b1e28400e backups --key-file /storage/backups_partition.key
+		mount /dev/mapper/backups /backups
+
 		echo "Storage and backup partitions mounted."
 
 		echo "Starting Duplicacy:"
