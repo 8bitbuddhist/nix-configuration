@@ -5,10 +5,10 @@ with lib;
 let
   # Fetch secrets
   # IMPORTANT: Make sure this repo exists on the filesystem first!
-  nix-secrets-ssh = builtins.fetchGit {
+  nix-secrets = builtins.fetchGit {
     url = "/home/aires/Development/nix-configuration/nix-secrets";
     ref = "main";
-    rev = "18340f7a56b754d807a5be2ef84f12ea3b34ce4e";
+    rev = "be1b413b4215984d10e15ffbd4a47a038d5a4292";
   };
 
   # Recursively constructs an attrset of a given folder, recursing on directories, value of attrs is the filetype
@@ -33,5 +33,5 @@ let
     );
 in
 {
-  imports = [ "${nix-secrets-ssh}" ] ++ validFiles ./.;
+  imports = [ "${nix-secrets}" ] ++ validFiles ./.;
 }
