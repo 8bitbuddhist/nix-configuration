@@ -8,7 +8,7 @@ let
   nix-secrets-ssh = builtins.fetchGit {
     url = "/home/aires/Development/nix-configuration/nix-secrets";
     ref = "main";
-    rev = "ddca37b4ed423e32e69f08a1f81d3adcd440fa44";
+    rev = "18340f7a56b754d807a5be2ef84f12ea3b34ce4e";
   };
 
   # Recursively constructs an attrset of a given folder, recursing on directories, value of attrs is the filetype
