@@ -13,7 +13,7 @@
       flake = false;
     };
     lix-module = {
-      url = "git+https://git.lix.systems/lix-project/nixos-module";
+      url = "git+https://git.lix.systems/lix-project/nixos-module?rev=7e8a5498db41de8c67315b4a2a4f82a2072ee73b";
       inputs.lix.follows = "lix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
@@ -64,7 +64,7 @@
               inherit inputs;
             };
           }
-          ./hosts/default.nix
+          ./modules/autoimport.nix
           lix-module.nixosModules.default
           lanzaboote.nixosModules.lanzaboote
           nix-flatpak.nixosModules.nix-flatpak
@@ -79,6 +79,9 @@
               useGlobalPkgs = true;
               useUserPackages = true;
               backupFileExtension = "home-manager-backup";
+              extraSpecialArgs = {
+                inherit inputs;
+              };
             };
           }
         ];

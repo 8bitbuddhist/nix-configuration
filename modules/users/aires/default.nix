@@ -34,6 +34,7 @@ with lib;
         isNormalUser = true;
         description = "Aires";
         uid = 1000;
+        hashedPassword = config.secrets.users.aires.hashedPassword;
         extraGroups = [
           "input"
           "networkmanager"
@@ -77,7 +78,8 @@ with lib;
           # Set up git
           git = {
             enable = true;
-            # Username and email set in nix-secrets
+            userName = config.secrets.users.aires.firstName;
+            userEmail = config.secrets.users.aires.email;
             extraConfig = {
               push.autoSetupRemote = "true";
             };

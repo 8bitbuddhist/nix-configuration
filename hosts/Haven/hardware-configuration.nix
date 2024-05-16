@@ -4,6 +4,7 @@
   lib,
   pkgs,
   modulesPath,
+  nix-secrets,
   ...
 }:
 {
@@ -26,6 +27,15 @@
         "btrfs"
       ];
       kernelModules = [ ];
+    };
+
+    # Enable mdadm for Sapana (RAID 5 primary storage).
+    swraid = {
+      enable = true;
+      mdadmConf = lib.mkIf (config.networking.hostName == "Haven") ''
+        ARRAY /dev/md/Sapana metadata=1.2 UUID=51076daf:efdb34dd:bce48342:3b549fcb
+        MAILADDR ${nix-secrets.users.aires.email}
+      '';
     };
   };
 

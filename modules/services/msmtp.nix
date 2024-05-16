@@ -1,5 +1,10 @@
 # See https://nixos.wiki/wiki/Msmtp
-{ config, lib, ... }:
+{
+  config,
+  lib,
+  nix-secrets,
+  ...
+}:
 
 let
   cfg = config.host.services.msmtp;
@@ -13,7 +18,17 @@ with lib;
   config = mkIf cfg.enable {
     programs.msmtp = {
       enable = true;
-      # Authentication details set in nix-secrets
+      accounts.default = {
+        host = nix-secrets.services.msmtp.host;
+        user = nix-secrets.services.msmtp.user;
+        password = nix-secrets.services.msmtp.password;
+        auth = true;
+        tls = true;
+        tls_starttls = true;
+        port = 587;
+        from = "${config.networking.hostName}@${nix-secrets.networking.primaryDomain}";
+        to = nix-secrets.users.aires.email;
+      };
     };
   };
 }

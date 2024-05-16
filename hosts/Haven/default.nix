@@ -59,16 +59,8 @@ in
     };
   };
 
-  boot = {
-    # Enable mdadm for Sapana (RAID 5 primary storage)
-    swraid = {
-      enable = true;
-      # mdadmConf configured in nix-secrets
-    };
-
-    # Allow Haven to be a build target for other architectures (mainly ARM64)
-    binfmt.emulatedSystems = [ "aarch64-linux" ];
-  };
+  # Allow Haven to be a build target for other architectures (mainly ARM64)
+  boot.binfmt.emulatedSystems = [ "aarch64-linux" ];
 
   # Open port for OpenVPN
   networking.firewall.allowedUDPPorts = [ 1194 ];

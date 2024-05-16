@@ -34,6 +34,7 @@ with lib;
         isNormalUser = true;
         description = "Gremlin";
         uid = 1001;
+        hashedPassword = config.secrets.users.gremlin.hashedPassword;
         extraGroups = [
           "networkmanager"
           "input"
@@ -78,8 +79,9 @@ with lib;
 
           # Set up git
           git = {
-            # Name and email set in nix-secrets
             enable = true;
+            userName = config.secrets.users.aires.firstName;
+            userEmail = config.secrets.users.aires.email;
             extraConfig = {
               push.autoSetupRemote = "true";
             };

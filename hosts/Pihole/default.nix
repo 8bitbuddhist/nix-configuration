@@ -1,4 +1,9 @@
-{ pkgs, lib, ... }:
+{
+  pkgs,
+  lib,
+  nix-secrets,
+  ...
+}:
 {
   imports = [ ./hardware-configuration.nix ];
 
@@ -21,7 +26,14 @@
   ];
 
   # Connect to the network automagically
-  networking.networkmanager.enable = lib.mkForce false;
+  networking = {
+    networkmanager.enable = lib.mkForce false;
+    wireless.networks = {
+      "${nix-secrets.networking.networks.home.SSID}" = {
+        psk = "${nix-secrets.networking.networks.home.password}";
+      };
+    };
+  };
 
   # Enable SSH
   services.openssh = {
