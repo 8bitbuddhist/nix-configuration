@@ -37,6 +37,12 @@
   # Build remotely
   nix.distributedBuilds = true;
 
+  # Enable thermal control
+  services.thermald.enable = true;
+
+  # Limit the number of cores Nix can use so at least one is always free
+  nix.settings.cores = 11;
+
   # Configure the virtual machine created by nixos-rebuild build-vm
   virtualisation.vmVariant.virtualisation = {
     memorySize = 2048;
