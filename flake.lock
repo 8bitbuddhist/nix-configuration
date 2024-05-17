@@ -218,11 +218,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1715863402,
-        "narHash": "sha256-WbNIHMe+NPRtn7AwFhIDYwMWwgTNJ5pVUXfcdhxv8ek=",
+        "lastModified": 1715885250,
+        "narHash": "sha256-IUFYAl3158Ig5vySnRBHoPReb2/S97bjodCo6FhzJv4=",
         "ref": "refs/heads/main",
-        "rev": "36dbb9dbfbac2b72c431a3a934258079931d0065",
-        "revCount": 80,
+        "rev": "53d713eb486f21d653af3ef3528e9a19ecfc45e5",
+        "revCount": 81,
         "type": "git",
         "url": "https://git.lix.systems/lix-project/nixos-module"
       },
@@ -245,6 +245,22 @@
         "ref": "v0.4.1",
         "repo": "nix-flatpak",
         "type": "github"
+      }
+    },
+    "nix-secrets": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1715904475,
+        "narHash": "sha256-5PyOjPdOhzX5qHq3ywwSsYCQT5OmWv870DlSYyuJBh4=",
+        "ref": "refs/heads/main",
+        "rev": "0bc545bf36759ca1ab67e2718bc5771eca72d02f",
+        "revCount": 23,
+        "type": "git",
+        "url": "file:///home/aires/Development/nix-configuration/nix-secrets"
+      },
+      "original": {
+        "type": "git",
+        "url": "file:///home/aires/Development/nix-configuration/nix-secrets"
       }
     },
     "nixos-hardware": {
@@ -349,6 +365,7 @@
         "lix": "lix",
         "lix-module": "lix-module",
         "nix-flatpak": "nix-flatpak",
+        "nix-secrets": "nix-secrets",
         "nixos-hardware": "nixos-hardware",
         "nixpkgs": "nixpkgs_2"
       }

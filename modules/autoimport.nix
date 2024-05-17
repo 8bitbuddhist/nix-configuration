@@ -3,14 +3,6 @@
 { lib, ... }:
 with lib;
 let
-  # Fetch secrets
-  # IMPORTANT: Make sure this repo exists on the filesystem first!
-  nix-secrets = builtins.fetchGit {
-    url = "/home/aires/Development/nix-configuration/nix-secrets";
-    ref = "main";
-    rev = "aed06e8c1f0d018fde197ae4e096012ed80cd08b";
-  };
-
   # Recursively constructs an attrset of a given folder, recursing on directories, value of attrs is the filetype
   getDir =
     dir:
@@ -33,5 +25,5 @@ let
     );
 in
 {
-  imports = [ "${nix-secrets}" ] ++ validFiles ./.;
+  imports = validFiles ./.;
 }

@@ -85,6 +85,12 @@ with lib;
             };
           };
 
+          # Set up SSH
+          ssh = {
+            enable = true;
+            matchBlocks = config.secrets.users.aires.sshConfig;
+          };
+
           # Set up Zsh
           zsh = {
             oh-my-zsh = {
@@ -99,8 +105,6 @@ with lib;
             loginExtra = "fastfetch";
           };
         };
-
-        # SSH set up in nix-secrets
 
         # Gnome settings specific to aires on Shura
         dconf.settings = lib.mkIf (config.networking.hostName == "Shura") {

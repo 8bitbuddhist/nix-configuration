@@ -87,6 +87,12 @@ with lib;
             };
           };
 
+          # Set up SSH
+          ssh = {
+            enable = true;
+            matchBlocks = config.secrets.users.gremlin.sshConfig;
+          };
+
           # Set up Zsh
           zsh = {
             # Install and source the p10k theme
@@ -107,8 +113,6 @@ with lib;
             };
           };
         };
-
-        # SSH entries set in nix-secrets
       };
     })
 

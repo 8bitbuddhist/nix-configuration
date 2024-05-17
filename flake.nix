@@ -33,6 +33,12 @@
       inputs.nixpkgs.follows = "nixpkgs"; # Use system packages list where available
     };
 
+    # "Secrets management"
+    nix-secrets = {
+      url = "git+file:///home/aires/Development/nix-configuration/nix-secrets";
+      flake = false;
+    };
+
     # TODO: Add Disko - https://github.com/nix-community/disko
   };
 
@@ -45,6 +51,7 @@
       home-manager,
       nixos-hardware,
       lix-module,
+      nix-secrets,
       ...
     }:
     let
@@ -57,32 +64,31 @@
       config.allowUnfree = true;
 
       # Define shared modules and imports
-      defaultModules = {
-        base = [
-          {
-            _module.args = {
-              inherit inputs;
-            };
-          }
-          ./modules/autoimport.nix
-          lix-module.nixosModules.default
-          lanzaboote.nixosModules.lanzaboote
-          nix-flatpak.nixosModules.nix-flatpak
-          home-manager.nixosModules.home-manager
-          {
-            home-manager = {
-              /*
-                When running, Home Manager will use the global package cache.
-                It will also back up any files that it would otherwise overwrite.
-                The originals will have the extension shown below.
-              */
-              useGlobalPkgs = true;
-              useUserPackages = true;
-              backupFileExtension = "home-manager-backup";
-            };
-          }
-        ];
-      };
+      defaultModules = [
+        {
+          _module.args = {
+            inherit inputs;
+          };
+        }
+        ./modules/autoimport.nix
+        (import nix-secrets)
+        lix-module.nixosModules.default
+        lanzaboote.nixosModules.lanzaboote
+        nix-flatpak.nixosModules.nix-flatpak
+        home-manager.nixosModules.home-manager
+        {
+          home-manager = {
+            /*
+              When running, Home Manager will use the global package cache.
+              It will also back up any files that it would otherwise overwrite.
+              The originals will have the extension shown below.
+            */
+            useGlobalPkgs = true;
+            useUserPackages = true;
+            backupFileExtension = "home-manager-backup";
+          };
+        }
+      ];
     in
     {
       formatter = forAllSystems (pkgs: pkgs.nixfmt-rfc-style);
@@ -90,7 +96,7 @@
 
         Dimaga = nixpkgs.lib.nixosSystem {
           system = "x86_64-linux";
-          modules = defaultModules.base ++ [
+          modules = defaultModules ++ [
             nixos-hardware.nixosModules.common-cpu-intel
             ./hosts/Dimaga
           ];
@@ -98,7 +104,7 @@
 
         Haven = nixpkgs.lib.nixosSystem {
           system = "x86_64-linux";
-          modules = defaultModules.base ++ [
+          modules = defaultModules ++ [
             nixos-hardware.nixosModules.common-cpu-amd-pstate
             ./hosts/Haven
           ];
@@ -106,7 +112,7 @@
 
         Khanda = nixpkgs.lib.nixosSystem {
           system = "x86_64-linux";
-          modules = defaultModules.base ++ [
+          modules = defaultModules ++ [
             nixos-hardware.nixosModules.microsoft-surface-pro-9
             ./hosts/Khanda
           ];
@@ -114,7 +120,7 @@
 
         Pihole = nixpkgs.lib.nixosSystem {
           system = "aarch64-linux";
-          modules = defaultModules.base ++ [
+          modules = defaultModules ++ [
             nixos-hardware.nixosModules.raspberry-pi-4
             ./hosts/Pihole
           ];
@@ -122,7 +128,7 @@
 
         Shura = nixpkgs.lib.nixosSystem {
           system = "x86_64-linux";
-          modules = defaultModules.base ++ [
+          modules = defaultModules ++ [
             nixos-hardware.nixosModules.lenovo-legion-16arha7
             ./hosts/Shura
           ];

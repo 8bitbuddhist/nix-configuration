@@ -50,7 +50,7 @@
           "nixos-test"
           "kvm"
           "benchmark"
-          "big-parllel"
+          "big-parallel"
         ];
       }
     ];
