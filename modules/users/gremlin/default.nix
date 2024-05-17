@@ -81,7 +81,7 @@ with lib;
           git = {
             enable = true;
             userName = config.secrets.users.aires.firstName;
-            userEmail = config.secrets.users.aires.email;
+            userEmail = config.secrets.users.gremlin.email;
             extraConfig = {
               push.autoSetupRemote = "true";
             };

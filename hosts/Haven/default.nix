@@ -44,6 +44,12 @@ in
     };
   };
 
+  # Enable BOINC (distributed research computing)
+  services.boinc = {
+    enable = true;
+    dataDir = "/var/lib/boinc";
+  };
+
   # Enable SSH
   services.openssh = {
     enable = true;
