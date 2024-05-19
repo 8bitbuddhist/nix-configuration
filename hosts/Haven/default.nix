@@ -180,7 +180,12 @@ in
           DOMAIN = "${config.secrets.networking.primaryDomain}";
           ROOT_URL = "https://code.${config.secrets.networking.primaryDomain}/";
           HTTP_PORT = 3000;
+          /*
+          DISABLE_SSH = false;
           SSH_PORT = config.secrets.services.forgejo.sshPort;
+          START_SSH_SERVER = true;
+          BUILTIN_SSH_SERVER_USER = "forgejo";
+          */
         };
       };
       useWizard = true;
@@ -232,6 +237,7 @@ in
     allowedTCPPorts = [
       80
       443
+      22222
     ];
   };
 
