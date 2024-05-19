@@ -11,25 +11,20 @@ fi
 set -e
 
 # Unlock and mount storage directory if we haven't already
-if [ ! -f /dev/mapper/storage ]; then
-	echo "Unlocking storage partition:"
+if [ -e "/dev/mapper/storage" ]; then
+	echo "Storage partition already mounted."
+else
+	echo "Unlocking storage partition..."
 	cryptsetup luksOpen /dev/md/Sapana storage
 	mount /dev/mapper/storage /storage
 	echo "Storage partition mounted."
 fi
 
-#echo "Unlocking backup partition:"
-# 4 TB HDD, partition #2
-#cryptsetup luksOpen /dev/disk/by-uuid/8dc60329-d27c-4a4a-b76a-861b1e28400e backups --key-file /storage/backups_partition.key
-#mount /dev/mapper/backups /backups
-#echo "Storage and backup partitions mounted."
-
-echo "Starting Duplicacy:"
-systemctl start duplicacy-web.service
-echo "Duplicacy started."
-
-echo "Starting SyncThing:"
+echo "Starting services..."
+systemctl restart duplicacy-web.service
+systemctl restart airsonic.service forgejo.service
 systemctl --machine aires@.host --user start syncthing.service
-echo "SyncThing started."
+systemctl restart nginx.service
+echo "Services started. Haven is ready to go!"
 
 exit 0

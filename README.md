@@ -55,7 +55,14 @@ There are a few different actions for handling the update:
 
 #### Using Remote builds
 
-You can build any Nix or NixOS expression on a remote system before copying it over, as long as the root user on the local system has SSH access to the build target.
+Nix can create builds for or on remote systems, and transfer them via SSH.
+
+##### Generating a build on a remote system
+
+You can run a build on a remote server, then pull it down to the local system. This is called a `distributedBuild`.
+
+> [!NOTE]
+> For distributed builds, the root user on the local system needs SSH access to the build target. This is done automatically.
 
 To enable root builds on a host, add this to its config:
 
@@ -64,6 +71,14 @@ nix.distributedBuilds = true;
 ```
 
 For hosts where `nix.distributedBuilds` is true, this repo automatically gives the local root user SSH access to an unprivileged user on the build systems. This is configured in `nix-secrets`, but the build systems are defined in [`modules/base/nix.nix`](https://github.com/8bitbuddhist/nix-configuration/blob/b816d821636f9d30be905af80fe578c25ce74b92/modules/base/nix.nix#L41).
+
+##### Pushing a build to a remote system
+
+Conversely, you can run a build on the local host, then push it to a remote system.
+
+```sh
+NIX_SSHOPTS="-o RequestTTY=force" nixos-rebuild --target-host user@example.com --use-remote-sudo switch
+```
 
 ### Testing without modifying the system
 

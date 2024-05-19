@@ -63,6 +63,9 @@ in
     };
   };
 
+  # Install additional packages
+  environment.systemPackages = [ pkgs.boinc ];
+
   # Move files into target system
   systemd.tmpfiles.rules = [
     # Use gremlin user's monitor config for GDM (defined above)
