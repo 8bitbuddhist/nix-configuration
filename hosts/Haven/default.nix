@@ -134,7 +134,7 @@ in
         (pkgs.callPackage ../../packages/airsonic-advanced.nix { inherit lib; })
       }/webapps/airsonic.war";
       port = 4040;
-      jre = pkgs.jdk17_headless;
+      jre = pkgs.jdk17;
       jvmOptions = [
         "-Dserver.use-forward-headers=true"
         "-Xmx4G" # Increase Java heap size to 4GB
