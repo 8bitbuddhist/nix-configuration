@@ -6,19 +6,6 @@
   ...
 }:
 let
-  cfg = config.services.forgejo;
-  forgejo-cli = pkgs.writeScriptBin "forgejo-cli" ''
-    #!${pkgs.runtimeShell}
-    cd ${cfg.stateDir}
-    sudo=exec
-    if [[ "$USER" != forgejo ]]; then
-      sudo='exec /run/wrappers/bin/sudo -u ${cfg.user} -g ${cfg.group} --preserve-env=GITEA_WORK_DIR --preserve-env=GITEA_CUSTOM'
-    fi
-    # Note that these variable names will change
-    export GITEA_WORK_DIR=${cfg.stateDir}
-    export GITEA_CUSTOM=${cfg.customDir}
-    $sudo ${lib.getExe cfg.package} "$@"
-  '';
   start-haven = pkgs.writeShellScriptBin "start-haven" (builtins.readFile ./start-haven.sh);
 
   subdomains = map (subdomain: subdomain + ".${config.secrets.networking.primaryDomain}") [
@@ -37,21 +24,29 @@ in
     apps.development.kubernetes.enable = true;
     services = {
       apcupsd.enable = true;
+      airsonic = {
+        enable = true;
+        domain = config.secrets.networking.primaryDomain;
+        home = "/storage/services/airsonic-advanced";
+      };
       duplicacy-web = {
         enable = true;
         autostart = false;
         environment = "${config.users.users.aires.home}";
+      };
+      forgejo = {
+        enable = true;
+        domain = config.secrets.networking.primaryDomain;
+        home = "/storage/services/forgejo";
       };
       msmtp.enable = true;
     };
     users = {
       aires = {
         enable = true;
-        services = {
-          syncthing = {
-            enable = true;
-            autostart = false;
-          };
+        services.syncthing = {
+          enable = true;
+          autostart = false;
         };
       };
       media.enable = true;
@@ -81,7 +76,6 @@ in
   # and readable by the Nginx user. The easiest way to achieve
   # this is to add the Nginx user to the ACME group.
   users.users.nginx.extraGroups = [ "acme" ];
-  users.users.airsonic.extraGroups = [ "media" ];
 
   services = {
     nginx = {
@@ -102,44 +96,7 @@ in
             return = "301 https://code.${config.secrets.networking.primaryDomain}";
           };
         };
-
-        # Forgejo
-        "code.${config.secrets.networking.primaryDomain}" = {
-          useACMEHost = "${config.secrets.networking.primaryDomain}";
-          forceSSL = true;
-          locations."/" = {
-            proxyPass = "http://127.0.0.1:3000";
-            proxyWebsockets = true;
-            extraConfig = "proxy_ssl_server_name on;"; # required when the target is also TLS server with multiple hosts
-          };
-        };
-
-        # Airsonic
-        "music.${config.secrets.networking.primaryDomain}" = {
-          useACMEHost = "${config.secrets.networking.primaryDomain}";
-          forceSSL = true;
-          locations."/" = {
-            proxyPass = "http://127.0.0.1:4040";
-            proxyWebsockets = true;
-            extraConfig = "proxy_ssl_server_name on;";
-          };
-        };
       };
-    };
-
-    # Enable Airsonic-Advanced (music streaming)
-    airsonic = {
-      enable = true;
-      war = "${
-        (pkgs.callPackage ../../packages/airsonic-advanced.nix { inherit lib; })
-      }/webapps/airsonic.war";
-      port = 4040;
-      jre = pkgs.jdk17;
-      jvmOptions = [
-        "-Dserver.use-forward-headers=true"
-        "-Xmx4G" # Increase Java heap size to 4GB
-      ];
-      home = "/storage/services/airsonic-advanced";
     };
 
     # Enable BOINC (distributed research computing)
@@ -148,19 +105,6 @@ in
       package = pkgs.boinc-headless;
       dataDir = "/var/lib/boinc";
       extraEnvPackages = [ pkgs.ocl-icd ];
-    };
-
-    # Enable Forgejo / Gitea (code repository)
-    forgejo = {
-      enable = true;
-      stateDir = "/storage/services/forgejo";
-      lfs.enable = true;
-      settings.server = {
-        DOMAIN = "${config.secrets.networking.primaryDomain}";
-        ROOT_URL = "https://code.${config.secrets.networking.primaryDomain}/";
-        HTTP_PORT = 3000;
-      };
-      useWizard = true;
     };
 
     # Enable SSH
@@ -180,21 +124,8 @@ in
     # TODO: VPN (Check out Wireguard)
   };
 
-  # Configure services
-  systemd.services = {
-    # Disable autostart for services. They get started via start-haven script
-    airsonic.wantedBy = lib.mkForce [ ];
-    forgejo.wantedBy = lib.mkForce [ ];
-
-    # Nginx: Disable autostart, and start sub-services first.
-    nginx = {
-      wantedBy = lib.mkForce [ ];
-      wants = [
-        config.systemd.services.airsonic.name
-        config.systemd.services.forgejo.name
-      ];
-    };
-  };
+  # Nginx: Disable autostart, and start sub-services first.
+  systemd.services.nginx.wantedBy = lib.mkForce [ ];
 
   # Open ports
   networking.firewall = {
@@ -205,13 +136,8 @@ in
     ];
   };
 
-  # Add extra packages:
-  # 1: forgejo CLI tool
-  # 2: Haven's startup script
-  environment.systemPackages = [
-    forgejo-cli
-    start-haven
-  ];
+  # Add Haven's startup script
+  environment.systemPackages = [ start-haven ];
 
   # Allow Haven to be a build target for other architectures (mainly ARM64)
   boot.binfmt.emulatedSystems = [ "aarch64-linux" ];
