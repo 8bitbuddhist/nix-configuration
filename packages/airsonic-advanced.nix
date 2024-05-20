@@ -16,7 +16,7 @@ stdenv.mkDerivation rec {
 
   buildCommand = ''
     mkdir -p "$out/webapps"
-    cp "$src" "$out/webapps/airsonic-advanced.war"
+    cp "$src" "$out/webapps/airsonic.war"
   '';
 
   passthru.tests = {
@@ -24,8 +24,8 @@ stdenv.mkDerivation rec {
   };
 
   meta = with lib; {
-    description = "Personal media streamer";
-    homepage = "https://airsonic.github.io";
+    description = "Free, web-based media streamer providing ubiquitous access to your music.";
+    homepage = "https://github.com/kagemomiji/airsonic-advanced/";
     sourceProvenance = with sourceTypes; [ binaryBytecode ];
     license = lib.licenses.gpl3;
     platforms = platforms.all;

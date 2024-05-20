@@ -61,14 +61,12 @@ in
   # TLS certificate renewal via Let's Encrypt
   security.acme = {
     acceptTerms = true;
-    defaults = {
-      email = "${config.secrets.users.aires.email}";
-    };
+    defaults.email = "${config.secrets.users.aires.email}";
 
     certs."${config.secrets.networking.primaryDomain}" = {
       dnsProvider = "namecheap";
       extraDomainNames = subdomains;
-      webroot = null; # Prevents an assertion error
+      webroot = null; # Required in order to prevent a failed assertion
       credentialFiles = {
         "NAMECHEAP_API_USER_FILE" = "${pkgs.writeText "namecheap-api-user" ''
           ${config.secrets.networking.namecheap.api.user}
@@ -92,18 +90,16 @@ in
       # Use recommended settings per https://nixos.wiki/wiki/Nginx#Hardened_setup_with_TLS_and_HSTS_preloading
       recommendedGzipSettings = true;
       recommendedOptimisation = true;
-      #recommendedProxySettings = true; # Recommended settings break Airsonic
       recommendedTlsSettings = true;
 
       virtualHosts = {
         # Base URL: make sure we've got Let's Encrypt running challenges here, and all other requests going to HTTPS
         "${config.secrets.networking.primaryDomain}" = {
-          # Catchall vhost, will redirect users to HTTPS for all vhosts
           default = true;
           enableACME = true;
-          #serverAliases = subdomains;
+          # Catchall vhost, will Redirect users to Forgejo
           locations."/" = {
-            return = "301 https://$host$request_uri";
+            return = "301 https://code.${config.secrets.networking.primaryDomain}";
           };
         };
 
@@ -111,19 +107,10 @@ in
         "code.${config.secrets.networking.primaryDomain}" = {
           useACMEHost = "${config.secrets.networking.primaryDomain}";
           forceSSL = true;
-          listen = [
-            {
-              port = 443;
-              addr = "0.0.0.0";
-              ssl = true;
-            }
-          ];
           locations."/" = {
             proxyPass = "http://127.0.0.1:3000";
-            proxyWebsockets = true; # needed if you need to use WebSocket
-            extraConfig =
-              # required when the target is also TLS server with multiple hosts
-              "proxy_ssl_server_name on;";
+            proxyWebsockets = true;
+            extraConfig = "proxy_ssl_server_name on;"; # required when the target is also TLS server with multiple hosts
           };
         };
 
@@ -131,16 +118,10 @@ in
         "music.${config.secrets.networking.primaryDomain}" = {
           useACMEHost = "${config.secrets.networking.primaryDomain}";
           forceSSL = true;
-          listen = [
-            {
-              port = 443;
-              addr = "0.0.0.0";
-              ssl = true;
-            }
-          ];
           locations."/" = {
             proxyPass = "http://127.0.0.1:4040";
-            proxyWebsockets = true; # needed if you need to use WebSocket
+            proxyWebsockets = true;
+            extraConfig = "proxy_ssl_server_name on;";
           };
         };
       };
@@ -151,12 +132,12 @@ in
       enable = true;
       war = "${
         (pkgs.callPackage ../../packages/airsonic-advanced.nix { inherit lib; })
-      }/webapps/airsonic-advanced.war";
+      }/webapps/airsonic.war";
       port = 4040;
       jre = pkgs.jdk17_headless;
       jvmOptions = [
         "-Dserver.use-forward-headers=true"
-        "-Xmx4G"
+        "-Xmx4G" # Increase Java heap size to 4GB
       ];
       home = "/storage/services/airsonic-advanced";
     };
@@ -173,20 +154,11 @@ in
     forgejo = {
       enable = true;
       stateDir = "/storage/services/forgejo";
-      # Enable support for Git Large File Storage
       lfs.enable = true;
-      settings = {
-        server = {
-          DOMAIN = "${config.secrets.networking.primaryDomain}";
-          ROOT_URL = "https://code.${config.secrets.networking.primaryDomain}/";
-          HTTP_PORT = 3000;
-          /*
-          DISABLE_SSH = false;
-          SSH_PORT = config.secrets.services.forgejo.sshPort;
-          START_SSH_SERVER = true;
-          BUILTIN_SSH_SERVER_USER = "forgejo";
-          */
-        };
+      settings.server = {
+        DOMAIN = "${config.secrets.networking.primaryDomain}";
+        ROOT_URL = "https://code.${config.secrets.networking.primaryDomain}/";
+        HTTP_PORT = 3000;
       };
       useWizard = true;
     };
@@ -197,12 +169,11 @@ in
       ports = [ config.secrets.hosts.haven.ssh.port ];
 
       settings = {
-        # require public key authentication for better security
+        # require public key authentication and disable root logins
         PasswordAuthentication = false;
         KbdInteractiveAuthentication = false;
         PubkeyAuthentication = true;
-
-        PermitRootLogin = "without-password";
+        PermitRootLogin = "no";
       };
     };
 
@@ -211,22 +182,16 @@ in
 
   # Configure services
   systemd.services = {
-    # Airsonic: Disable autostart and set environment variables. Started via start-haven script
-    airsonic = {
-      wantedBy = lib.mkForce [ ];
-    };
+    # Disable autostart for services. They get started via start-haven script
+    airsonic.wantedBy = lib.mkForce [ ];
+    forgejo.wantedBy = lib.mkForce [ ];
 
-    # Foregejo: Disable autostart. Started via start-haven script
-    forgejo = {
-      wantedBy = lib.mkForce [ ];
-    };
-
-    # Nginx: Disable autostart. Started via start-haven script
+    # Nginx: Disable autostart, and start sub-services first.
     nginx = {
       wantedBy = lib.mkForce [ ];
       wants = [
-        "airsonic.service"
-        "forgejo.service"
+        config.systemd.services.airsonic.name
+        config.systemd.services.forgejo.name
       ];
     };
   };
@@ -237,7 +202,6 @@ in
     allowedTCPPorts = [
       80
       443
-      22222
     ];
   };
 
