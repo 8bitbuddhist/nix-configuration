@@ -108,9 +108,6 @@ with lib;
                 file = "p10k.zsh";
               }
             ];
-            shellAliases = {
-              please = "sudo";
-            };
           };
         };
       };

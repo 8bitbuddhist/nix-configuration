@@ -10,13 +10,19 @@ in
 with lib;
 {
   options = {
-    host.services.apcupsd.enable = mkEnableOption (mdDoc "Enables apcupsd");
+    host.services.apcupsd = {
+      enable = mkEnableOption (mdDoc "Enables apcupsd");
+      configText = lib.mkOption {
+        type = lib.types.str;
+        description = "The configuration to pass to apcupsd.";
+      };
+    };
   };
 
   config = mkIf cfg.enable {
     services.apcupsd = {
       enable = true;
-      configText = builtins.readFile ./etc/apcupsd.conf;
+      configText = cfg.configText;
     };
   };
 }

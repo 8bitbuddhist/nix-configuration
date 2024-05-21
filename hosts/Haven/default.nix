@@ -42,7 +42,10 @@ in
           };
         };
       };
-      apcupsd.enable = true;
+      apcupsd = {
+        enable = true;
+        configText = builtins.readFile ./etc/apcupsd.conf;
+      };
       airsonic = {
         enable = true;
         domain = config.secrets.networking.primaryDomain;
@@ -79,15 +82,12 @@ in
         ports = [ config.secrets.hosts.haven.ssh.port ];
       };
     };
-    users = {
-      aires = {
+    users.aires = {
+      enable = true;
+      services.syncthing = {
         enable = true;
-        services.syncthing = {
-          enable = true;
-          autostart = false;
-        };
+        autostart = false;
       };
-      media.enable = true;
     };
   };
 

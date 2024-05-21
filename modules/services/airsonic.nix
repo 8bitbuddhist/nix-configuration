@@ -14,6 +14,7 @@ in
       autostart = lib.mkEnableOption (lib.mdDoc "Automatically starts Airsonic at boot.");
       enable = lib.mkEnableOption (lib.mdDoc "Enables Airsonic Advanced media streaming service.");
       home = lib.mkOption {
+        default = "";
         type = lib.types.str;
         description = "Where to store Airsonic's files";
       };

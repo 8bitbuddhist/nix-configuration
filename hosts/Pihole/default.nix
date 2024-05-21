@@ -13,6 +13,10 @@
     role = "server";
     users.aires.enable = true;
     boot.enable = false;
+    services.ssh = {
+      enable = true;
+      ports = [ nix-secrets.hosts.haven.ssh.port ];
+    };
   };
 
   networking.hostName = "Pihole";
@@ -32,18 +36,6 @@
       "${nix-secrets.networking.networks.home.SSID}" = {
         psk = "${nix-secrets.networking.networks.home.password}";
       };
-    };
-  };
-
-  # Enable SSH
-  services.openssh = {
-    enable = true;
-    ports = [ 33105 ];
-
-    settings = {
-      PasswordAuthentication = true;
-      AllowUsers = [ "aires" ];
-      PermitRootLogin = "no";
     };
   };
 }

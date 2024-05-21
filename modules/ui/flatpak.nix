@@ -38,13 +38,12 @@ with lib;
         }
       ];
 
-      # Install Flatpaks. For details, see https://github.com/gmodena/nix-flatpak
+      # Install base Flatpaks. For details, see https://github.com/gmodena/nix-flatpak
       packages = [
         "com.github.tchx84.Flatseal"
         "md.obsidian.Obsidian"
         "net.waterfox.waterfox"
         "org.keepassxc.KeePassXC"
-        "org.mozilla.firefox"
       ];
     };
 

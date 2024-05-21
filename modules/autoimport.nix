@@ -14,6 +14,7 @@ let
   files =
     dir: collect isString (mapAttrsRecursive (path: type: concatStringsSep "/" path) (getDir dir));
 
+  # Search all files and folders within and below the current directory.
   # Filters out directories that belong to home-manager, and don't end with .nix or are this file.
   # Also, make the strings absolute
   validFiles =

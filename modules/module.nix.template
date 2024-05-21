@@ -1,0 +1,41 @@
+# This is an example of a blank module.
+{ config, lib, ... }:
+
+let
+  cfg = config.host.services.myModule;
+in
+{
+  options = {
+    host.services.myModule = {
+      enable = lib.mkEnableOption (lib.mdDoc "Enables this example module.");
+      attributes = lib.mkOption {
+        default = { };
+        type = lib.types.attrs;
+        description = "An example of an attributes option.";
+      };
+      string = lib.mkOption {
+        default = "";
+        type = lib.types.str;
+        description = "An example of a string option.";
+      };
+      list = lib.mkOption {
+        default = [ ];
+        type = lib.types.listOf lib.types.int;
+        description = "An example of a list (of integers) option.";
+      };
+      enum = mkOption {
+        default = "one";
+        type = types.enum [
+          "one"
+          "two"
+        ];
+        description = "An example of an enum option.";
+      };
+    };
+
+  };
+
+  config = mkIf cfg.enable {
+    # Add changes applied by this module here.
+  };
+}

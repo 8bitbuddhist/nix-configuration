@@ -36,12 +36,10 @@ with lib;
 
         # Enable Gnome
         desktopManager.gnome.enable = true;
-        displayManager = {
-          gdm.enable = true;
-        };
+        displayManager.gdm.enable = true;
 
         # Remove default packages that came with the install
-        excludePackages = with pkgs; [ xterm ];
+        excludePackages = [ pkgs.xterm ];
       };
 
       # Install Flatpaks
@@ -66,8 +64,7 @@ with lib;
         "org.gtk.Gtk3theme.Adwaita-dark"
       ];
 
-      # Disable CUPS - not needed
-      printing.enable = false;
+      printing.enable = true;
     };
 
     environment = {

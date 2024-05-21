@@ -19,16 +19,14 @@
       flatpak.enable = true;
       gnome.enable = true;
     };
-    users = {
-      aires = {
-        enable = true;
-        autologin = true;
-        services = {
-          syncthing = {
-            enable = true;
-            autostart = true;
-            enableTray = false;
-          };
+    users.aires = {
+      enable = true;
+      autologin = true;
+      services = {
+        syncthing = {
+          enable = true;
+          autostart = true;
+          enableTray = false;
         };
       };
     };

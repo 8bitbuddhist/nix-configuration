@@ -29,6 +29,7 @@ in
       autostart = lib.mkEnableOption (lib.mdDoc "Automatically starts Forgejo at boot.");
       enable = lib.mkEnableOption (lib.mdDoc "Enables Forgejo Git hosting service.");
       home = lib.mkOption {
+        default = "";
         type = lib.types.str;
         description = "Where to store Forgejo's files";
       };

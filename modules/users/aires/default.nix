@@ -99,8 +99,6 @@ with lib;
             shellAliases = {
               update = "upgrade";
               upgrade = "nh os boot --update --ask";
-              protontricks = "flatpak run com.github.Matoking.protontricks";
-              please = "sudo";
             };
             loginExtra = "fastfetch";
           };
