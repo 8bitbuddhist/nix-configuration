@@ -1,4 +1,5 @@
 {
+  config,
   pkgs,
   lib,
   nix-secrets,
@@ -15,9 +16,11 @@
     boot.enable = false;
     services.ssh = {
       enable = true;
-      ports = [ nix-secrets.hosts.haven.ssh.port ];
+      ports = [ config.secrets.hosts.haven.ssh.port ];
     };
   };
+
+  nix.distributedBuilds = true;
 
   networking.hostName = "Pihole";
   time.timeZone = "America/New_York";
@@ -33,8 +36,8 @@
   networking = {
     networkmanager.enable = lib.mkForce false;
     wireless.networks = {
-      "${nix-secrets.networking.networks.home.SSID}" = {
-        psk = "${nix-secrets.networking.networks.home.password}";
+      "${config.secrets.networking.networks.home.SSID}" = {
+        psk = "${config.secrets.networking.networks.home.password}";
       };
     };
   };
