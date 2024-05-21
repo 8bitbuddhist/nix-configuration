@@ -25,6 +25,7 @@ in
     services = {
       acme = {
         enable = true;
+        defaultEmail = config.secrets.users.aires.email;
         certs = {
           "${config.secrets.networking.primaryDomain}" = {
             dnsProvider = "namecheap";
