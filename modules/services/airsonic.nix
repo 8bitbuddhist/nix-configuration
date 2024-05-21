@@ -2,15 +2,16 @@
   pkgs,
   config,
   lib,
-  subdomains,
   ...
 }:
 let
   cfg = config.host.services.airsonic;
+  subdomain = "music";
 in
 {
   options = {
     host.services.airsonic = {
+      autostart = lib.mkEnableOption (lib.mdDoc "Automatically starts Airsonic at boot.");
       enable = lib.mkEnableOption (lib.mdDoc "Enables Airsonic Advanced media streaming service.");
       home = lib.mkOption {
         type = lib.types.str;
@@ -28,7 +29,7 @@ in
     users.users.airsonic.extraGroups = [ "media" ];
 
     services = {
-      nginx.virtualHosts."music.${cfg.domain}" = {
+      nginx.virtualHosts."${subdomain}.${cfg.domain}" = {
         useACMEHost = cfg.domain;
         forceSSL = true;
         locations."/" = {
@@ -53,8 +54,7 @@ in
     };
 
     systemd.services = {
-      airsonic.wantedBy = lib.mkForce [ ];
       nginx.wants = [ config.systemd.services.airsonic.name ];
-    };
+    } // lib.optionalAttrs (!cfg.autostart) { airsonic.wantedBy = lib.mkForce [ ]; };
   };
 }

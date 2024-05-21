@@ -2,10 +2,10 @@
   pkgs,
   config,
   lib,
-  subdomains,
   ...
 }:
 let
+  subdomain = "code";
   cfg = config.host.services.forgejo;
 
   cli-cfg = config.services.forgejo;
@@ -26,10 +26,11 @@ in
 {
   options = {
     host.services.forgejo = {
+      autostart = lib.mkEnableOption (lib.mdDoc "Automatically starts Forgejo at boot.");
       enable = lib.mkEnableOption (lib.mdDoc "Enables Forgejo Git hosting service.");
       home = lib.mkOption {
         type = lib.types.str;
-        description = "Where to store Airsonic's files";
+        description = "Where to store Forgejo's files";
       };
       domain = lib.mkOption {
         type = lib.types.str;
@@ -41,7 +42,7 @@ in
   config = lib.mkIf cfg.enable {
     environment.systemPackages = [ forgejo-cli ];
     services = {
-      nginx.virtualHosts."code.${cfg.domain}" = {
+      nginx.virtualHosts."${subdomain}.${cfg.domain}" = {
         useACMEHost = cfg.domain;
         forceSSL = true;
         locations."/" = {
@@ -64,8 +65,7 @@ in
     };
 
     systemd.services = {
-      forgejo.wantedBy = lib.mkForce [ ];
       nginx.wants = [ config.systemd.services.forgejo.name ];
-    };
+    } // lib.optionalAttrs (!cfg.autostart) { forgejo.wantedBy = lib.mkForce [ ]; };
   };
 }
