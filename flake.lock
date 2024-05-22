@@ -250,11 +250,11 @@
     "nix-secrets": {
       "flake": false,
       "locked": {
-        "lastModified": 1716252757,
-        "narHash": "sha256-gTTs8PX/Rh6XNrglcVokmyee6kqAIZ2JL8W89n5aau0=",
+        "lastModified": 1716406677,
+        "narHash": "sha256-pzZcg9qu/TfrzKiKGffKi5PqruNWZceuFe5Ceg6x/p8=",
         "ref": "refs/heads/main",
-        "rev": "1bc67c9f5e4cfc11ff664b9d8a447276408638bd",
-        "revCount": 30,
+        "rev": "60462223ede840d1fc3996b18cbee2b7809dcc73",
+        "revCount": 31,
         "type": "git",
         "url": "file:///home/aires/Development/nix-configuration/nix-secrets"
       },

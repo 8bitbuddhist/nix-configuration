@@ -1,5 +1,10 @@
 # System options
-{ pkgs, config, ... }:
+{
+  pkgs,
+  config,
+  lib,
+  ...
+}:
 {
   # Set up the environment
   environment = {
@@ -30,8 +35,32 @@
     operation = "switch";
   };
 
-  # Enable fwupd (firmware updater)
-  services.fwupd.enable = true;
+  services = {
+    # Enable fwupd (firmware updater)
+    fwupd.enable = true;
+
+    # Autoscrub BTRFS partitions
+    btrfs.autoScrub = lib.mkIf (config.fileSystems."/".fsType == "btrfs") {
+      enable = true;
+      interval = "weekly";
+      fileSystems = [ "/" ];
+    };
+
+    # Allow systemd user services to keep running after the user has logged out
+    logind.killUserProcesses = false;
+
+    # Enable disk monitoring
+    smartd = {
+      enable = true;
+      autodetect = true;
+      notifications.wall.enable = true;
+    };
+  };
+
+  # Reduce logout stop timer duration
+  systemd.extraConfig = ''
+    DefaultTimeoutStopSec=30s
+  '';
 
   # Set your time zone.
   time.timeZone = "America/New_York";

@@ -5,9 +5,7 @@
   ...
 }:
 let
-  subdomain = "code";
   cfg = config.host.services.forgejo;
-
   cli-cfg = config.services.forgejo;
 
   forgejo-cli = pkgs.writeScriptBin "forgejo-cli" ''
@@ -33,18 +31,14 @@ in
         type = lib.types.str;
         description = "Where to store Forgejo's files";
       };
-      domain = lib.mkOption {
-        type = lib.types.str;
-        description = "FQDN for the host server";
-      };
     };
   };
 
   config = lib.mkIf cfg.enable {
     environment.systemPackages = [ forgejo-cli ];
     services = {
-      nginx.virtualHosts."${subdomain}.${cfg.domain}" = {
-        useACMEHost = cfg.domain;
+      nginx.virtualHosts."${config.secrets.services.forgejo.url}" = {
+        useACMEHost = config.secrets.networking.primaryDomain;
         forceSSL = true;
         locations."/" = {
           proxyPass = "http://127.0.0.1:3000";

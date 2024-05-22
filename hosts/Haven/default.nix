@@ -48,7 +48,6 @@ in
       };
       airsonic = {
         enable = true;
-        domain = config.secrets.networking.primaryDomain;
         home = "/storage/services/airsonic-advanced";
       };
       boinc.enable = true;
@@ -59,7 +58,6 @@ in
       };
       forgejo = {
         enable = true;
-        domain = config.secrets.networking.primaryDomain;
         home = "/storage/services/forgejo";
       };
       msmtp.enable = true;
@@ -72,7 +70,7 @@ in
             enableACME = true; # Enable Let's Encrypt
             locations."/" = {
               # Catchall vhost, will redirect users to Forgejo
-              return = "301 https://code.${config.secrets.networking.primaryDomain}";
+              return = "301 https://${config.secrets.services.forgejo.url}";
             };
           };
         };

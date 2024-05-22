@@ -6,7 +6,6 @@
 }:
 let
   cfg = config.host.services.airsonic;
-  subdomain = "music";
 in
 {
   options = {
@@ -18,10 +17,6 @@ in
         type = lib.types.str;
         description = "Where to store Airsonic's files";
       };
-      domain = lib.mkOption {
-        type = lib.types.str;
-        description = "FQDN for the host server";
-      };
     };
   };
 
@@ -30,8 +25,8 @@ in
     users.users.airsonic.extraGroups = [ "media" ];
 
     services = {
-      nginx.virtualHosts."${subdomain}.${cfg.domain}" = {
-        useACMEHost = cfg.domain;
+      nginx.virtualHosts."${config.secrets.services.airsonic.url}" = {
+        useACMEHost = config.secrets.networking.primaryDomain;
         forceSSL = true;
         locations."/" = {
           proxyPass = "http://127.0.0.1:4040";
