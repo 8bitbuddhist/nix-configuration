@@ -44,14 +44,5 @@ in
       virt-viewer
     ];
     programs.virt-manager.enable = true;
-
-    home-manager.users.${cfg.user} = {
-      dconf.settings = {
-        "org/virt-manager/virt-manager/connections" = {
-          autoconnect = [ "qemu:///system" ];
-          uris = [ "qemu:///system" ];
-        };
-      };
-    };
   };
 }
