@@ -55,7 +55,7 @@ in
       duplicacy-web = {
         enable = true;
         autostart = false;
-        environment = "${config.users.users.aires.home}"; # FIXME: Move to /storage
+        environment = "/storage/backups/Haven";
       };
       forgejo = {
         enable = true;
