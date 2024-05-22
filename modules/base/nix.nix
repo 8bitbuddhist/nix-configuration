@@ -28,8 +28,7 @@
       # Avoid signature verification messages when doing remote builds
       trusted-users = [
         config.users.users.aires.name
-        config.users.users.gremlin.name
-      ];
+      ] ++ lib.optionals (config.host.users.gremlin.enable) [ config.users.users.gremlin.name ];
     };
 
     # Enable periodic nix store optimization
