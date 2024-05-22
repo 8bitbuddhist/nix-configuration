@@ -26,7 +26,10 @@
       ];
 
       # Avoid signature verification messages when doing remote builds
-      trusted-users = [ config.users.users.aires.name ];
+      trusted-users = [
+        config.users.users.aires.name
+        config.users.users.gremlin.name
+      ];
     };
 
     # Enable periodic nix store optimization

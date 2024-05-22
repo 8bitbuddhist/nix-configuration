@@ -27,7 +27,7 @@
     flake = "${config.users.users.aires.home}/Development/nix-configuration";
     dates = "daily";
     allowReboot = false;
-    operation = "boot"; # Don't switch, just create a boot entry
+    operation = "switch";
   };
 
   # Enable fwupd (firmware updater)
