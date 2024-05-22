@@ -55,7 +55,7 @@ in
       duplicacy-web = {
         enable = true;
         autostart = false;
-        environment = "/storage/backups/Haven";
+        environment = "/storage/backups/settings/Haven";
       };
       forgejo = {
         enable = true;
