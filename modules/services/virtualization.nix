@@ -44,5 +44,10 @@ in
       virt-viewer
     ];
     programs.virt-manager.enable = true;
+
+    # Allow the default bridge interface to access the network
+    networking.firewall.trustedInterfaces = [
+      "virbr0"
+    ];
   };
 }
