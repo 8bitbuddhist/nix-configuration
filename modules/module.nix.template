@@ -35,7 +35,7 @@ in
 
   };
 
-  config = mkIf cfg.enable {
+  config = lib.mkIf cfg.enable {
     # Add changes applied by this module here.
   };
 }

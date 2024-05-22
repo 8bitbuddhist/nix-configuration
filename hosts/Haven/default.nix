@@ -79,6 +79,10 @@ in
         enable = true;
         ports = [ config.secrets.hosts.haven.ssh.port ];
       };
+      virtualization = {
+        enable = true;
+        user = "aires";
+      };
     };
     users.aires = {
       enable = true;

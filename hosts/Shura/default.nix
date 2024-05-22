@@ -66,6 +66,9 @@ in
   # Install additional packages
   environment.systemPackages = [ pkgs.boinc ];
 
+  # Enable virtual machine manager
+  programs.virt-manager.enable = true;
+
   # Move files into target system
   systemd.tmpfiles.rules = [
     # Use gremlin user's monitor config for GDM (defined above)
