@@ -11,7 +11,7 @@
       edge-tiling = true;
       workspaces-only-on-primary = false;
       experimental-features = [
-        "scale-monitor-framebuffer" # Fractional scaling
+        # "scale-monitor-framebuffer" # Fractional scaling
         "variable-refresh-rate"
       ];
     };

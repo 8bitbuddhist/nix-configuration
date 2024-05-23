@@ -46,8 +46,6 @@ in
     programs.virt-manager.enable = true;
 
     # Allow the default bridge interface to access the network
-    networking.firewall.trustedInterfaces = [
-      "virbr0"
-    ];
+    networking.firewall.trustedInterfaces = [ "virbr0" ];
   };
 }
