@@ -264,18 +264,18 @@
     },
     "nixos-hardware": {
       "locked": {
-        "lastModified": 1716522390,
-        "narHash": "sha256-m7PeeSOk/Lov702wXTmImwrK/YZXb7ymYgkeoBLvsJg=",
-        "owner": "8bitbuddhist",
-        "repo": "nixos-hardware",
-        "rev": "98564f268e74658d3620bd8eac09d8a0cd211671",
-        "type": "github"
+        "lastModified": 1716588418,
+        "narHash": "sha256-3EpFUFlZjE+UkBlSXp2lC65ysgUmpAHl13kjh45+et0=",
+        "ref": "master",
+        "rev": "80736f76ded618a54dce2db319247aeb902ce795",
+        "revCount": 1683,
+        "type": "git",
+        "url": "https://code.8bitbuddhism.com/aires/nixos-hardware"
       },
       "original": {
-        "owner": "8bitbuddhist",
-        "ref": "lenovo-16ARHA7-remove-speaker-fix",
-        "repo": "nixos-hardware",
-        "type": "github"
+        "ref": "master",
+        "type": "git",
+        "url": "https://code.8bitbuddhism.com/aires/nixos-hardware"
       }
     },
     "nixpkgs": {
