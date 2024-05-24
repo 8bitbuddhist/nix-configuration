@@ -8,14 +8,10 @@
 let
   start-haven = pkgs.writeShellScriptBin "start-haven" (builtins.readFile ./start-haven.sh);
 
-  #  subdomains = map (subdomain: subdomain + ".${config.secrets.networking.primaryDomain}") [
-  #    "code"
-  #    "music"
-  #  ];
-
   subdomains = [
     config.secrets.services.airsonic.url
     config.secrets.services.forgejo.url
+    config.secrets.services.gremlin-lab.url
   ];
 in
 {
@@ -75,6 +71,15 @@ in
             locations."/" = {
               # Catchall vhost, will redirect users to Forgejo
               return = "301 https://${config.secrets.services.forgejo.url}";
+            };
+          };
+          "${config.secrets.services.gremlin-lab.url}" = {
+            useACMEHost = config.secrets.networking.primaryDomain;
+            forceSSL = true;
+            locations."/" = {
+              proxyPass = "http://${config.secrets.services.gremlin-lab.ip}";
+              proxyWebsockets = true;
+              extraConfig = "proxy_ssl_server_name on;";
             };
           };
         };
