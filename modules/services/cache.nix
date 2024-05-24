@@ -20,7 +20,7 @@ in
     services = {
       nix-serve = {
         enable = true;
-        secretKeyFile = cfg.privateKeyFile;
+        secretKeyFile = cfg.secretKeyFile;
       };
 
       nginx.virtualHosts."${config.secrets.services.cache.url}" = {
