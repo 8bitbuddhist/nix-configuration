@@ -10,6 +10,7 @@ let
 
   subdomains = [
     config.secrets.services.airsonic.url
+    config.secrets.services.cache.url
     config.secrets.services.forgejo.url
     config.secrets.services.gremlin-lab.url
   ];
@@ -51,6 +52,10 @@ in
         home = "/storage/services/airsonic-advanced";
       };
       boinc.enable = true;
+      cache = {
+        enable = true;
+        secretKeyFile = "/storage/services/nix-cache/cache-priv-key.pem";
+      };
       duplicacy-web = {
         enable = true;
         autostart = false;
