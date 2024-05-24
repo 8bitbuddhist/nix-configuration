@@ -28,13 +28,9 @@ in
   host = {
     role = "workstation";
     apps = {
-      development = {
-        enable = true;
-        kubernetes.enable = true;
-      };
+      development.enable = true;
       dj.enable = true;
       gaming.enable = true;
-      kdeconnect.enable = false;
       media.enable = true;
       office.enable = true;
       recording.enable = true;

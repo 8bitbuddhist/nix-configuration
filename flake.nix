@@ -25,11 +25,11 @@
     nix-flatpak.url = "github:gmodena/nix-flatpak/v0.4.1";
 
     # Hardware configurations
-    nixos-hardware.url = "github:8bitbuddhist/nixos-hardware/surface-pro-9-disable-psr";
+    nixos-hardware.url = "github:8bitbuddhist/nixos-hardware/lenovo-16ARHA7-remove-speaker-fix";
 
     # Home-manager
     home-manager = {
-      url = "github:nix-community/home-manager/master";
+      url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs"; # Use system packages list where available
     };
 

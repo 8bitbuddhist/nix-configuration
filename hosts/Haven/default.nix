@@ -8,9 +8,14 @@
 let
   start-haven = pkgs.writeShellScriptBin "start-haven" (builtins.readFile ./start-haven.sh);
 
-  subdomains = map (subdomain: subdomain + ".${config.secrets.networking.primaryDomain}") [
-    "code"
-    "music"
+  #  subdomains = map (subdomain: subdomain + ".${config.secrets.networking.primaryDomain}") [
+  #    "code"
+  #    "music"
+  #  ];
+
+  subdomains = [
+    config.secrets.services.airsonic.url
+    config.secrets.services.forgejo.url
   ];
 in
 {
@@ -21,7 +26,6 @@ in
 
   host = {
     role = "server";
-    apps.development.kubernetes.enable = true;
     services = {
       acme = {
         enable = true;

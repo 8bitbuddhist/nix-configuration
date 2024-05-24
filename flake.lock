@@ -159,7 +159,6 @@
       },
       "original": {
         "owner": "nix-community",
-        "ref": "master",
         "repo": "home-manager",
         "type": "github"
       }
@@ -218,11 +217,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1715885250,
-        "narHash": "sha256-IUFYAl3158Ig5vySnRBHoPReb2/S97bjodCo6FhzJv4=",
+        "lastModified": 1716506851,
+        "narHash": "sha256-fzY708SyfHwLOFrg5ZU0fXW9mNdvRvqz64jg97vvpJM=",
         "ref": "refs/heads/main",
-        "rev": "53d713eb486f21d653af3ef3528e9a19ecfc45e5",
-        "revCount": 81,
+        "rev": "18fa4a89e208cb8e881f5f71c75bbd4c1c2fd37d",
+        "revCount": 83,
         "type": "git",
         "url": "https://git.lix.systems/lix-project/nixos-module"
       },
@@ -250,11 +249,11 @@
     "nix-secrets": {
       "flake": false,
       "locked": {
-        "lastModified": 1716476738,
-        "narHash": "sha256-xeGy/omF4PykBsyzc7SfEd28/nyNNlvuLAk4FxCqvZM=",
+        "lastModified": 1716494193,
+        "narHash": "sha256-N/23Gj51yL/mi+ReaJYGvRbP0Gw0BwZGho6fs1ZKB5s=",
         "ref": "refs/heads/main",
-        "rev": "6c75cdf7bafb4ccb6ae6580f10a9c44313b5dc9a",
-        "revCount": 36,
+        "rev": "dff720d59e1ea51d35dbd1acd9dd1ccdbb26fddc",
+        "revCount": 37,
         "type": "git",
         "url": "file:///home/aires/Development/nix-configuration/nix-secrets"
       },
@@ -265,16 +264,16 @@
     },
     "nixos-hardware": {
       "locked": {
-        "lastModified": 1716214200,
-        "narHash": "sha256-ivQlBlSxC1mrBepFc3CeqUqFcsoQelpgxseA7YYtyAw=",
+        "lastModified": 1716511749,
+        "narHash": "sha256-SIW5ra4BfUI8KfXS3j+UifZwRXY/0MRrUfy+CLRQVZ4=",
         "owner": "8bitbuddhist",
         "repo": "nixos-hardware",
-        "rev": "704f05a3c8f8beb1d08837f43670c44946faad66",
+        "rev": "85cc8776261d7ff350ba2520f6ca856917c474c1",
         "type": "github"
       },
       "original": {
         "owner": "8bitbuddhist",
-        "ref": "surface-pro-9-disable-psr",
+        "ref": "lenovo-16ARHA7-remove-speaker-fix",
         "repo": "nixos-hardware",
         "type": "github"
       }

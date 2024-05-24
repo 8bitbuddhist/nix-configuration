@@ -46,7 +46,7 @@ in
           "-Dserver.use-forward-headers=true"
           "-Xmx4G" # Increase Java heap size to 4GB
         ];
-      } // lib.optionalAttrs (cfg.home != null) { home = cfg.home; };
+      } // lib.optionalAttrs (cfg.home != "") { home = cfg.home; };
     };
 
     systemd.services = {

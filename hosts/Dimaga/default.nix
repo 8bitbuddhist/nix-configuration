@@ -8,7 +8,6 @@
     role = "workstation";
     apps = {
       development.enable = true;
-      kdeconnect.enable = true;
       media.enable = true;
       office.enable = true;
       writing.enable = true;
