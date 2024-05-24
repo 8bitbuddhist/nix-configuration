@@ -249,11 +249,11 @@
     "nix-secrets": {
       "flake": false,
       "locked": {
-        "lastModified": 1716565755,
-        "narHash": "sha256-J5TSspiAn+bA2LXSwVGKvzdEentj0w4qFqSwpHRbDsA=",
+        "lastModified": 1716585945,
+        "narHash": "sha256-OxYcOt2ZshJ+VYXSrYb7Wc36cvWd7YjwSFzaDWNqkMU=",
         "ref": "refs/heads/main",
-        "rev": "d926175d96d4eec4e564727a6b4fad6d79be4db5",
-        "revCount": 38,
+        "rev": "6c78f91590beb0f486a024b277d8e732f797d29c",
+        "revCount": 39,
         "type": "git",
         "url": "file:///home/aires/Development/nix-configuration/nix-secrets"
       },
@@ -264,16 +264,16 @@
     },
     "nixos-hardware": {
       "locked": {
-        "lastModified": 1716522390,
-        "narHash": "sha256-m7PeeSOk/Lov702wXTmImwrK/YZXb7ymYgkeoBLvsJg=",
+        "lastModified": 1716214200,
+        "narHash": "sha256-ivQlBlSxC1mrBepFc3CeqUqFcsoQelpgxseA7YYtyAw=",
         "owner": "8bitbuddhist",
         "repo": "nixos-hardware",
-        "rev": "98564f268e74658d3620bd8eac09d8a0cd211671",
+        "rev": "704f05a3c8f8beb1d08837f43670c44946faad66",
         "type": "github"
       },
       "original": {
         "owner": "8bitbuddhist",
-        "ref": "lenovo-16ARHA7-remove-speaker-fix",
+        "ref": "surface-pro-9-disable-psr",
         "repo": "nixos-hardware",
         "type": "github"
       }
