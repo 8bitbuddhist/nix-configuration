@@ -4,8 +4,8 @@
   description = "Aires' system Flake";
 
   inputs = {
-    # Track base packages against unstable
-    nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
+    # Track base packagese
+    nixpkgs.url = "github:NixOS/nixpkgs?ref=nixos-24.05";
 
     # Replace Nix with Lix: https://lix.systems/
     lix = {
@@ -67,7 +67,7 @@
       defaultModules = [
         {
           _module.args = {
-            inherit inputs;
+            inherit inputs self;
           };
         }
         ./modules/autoimport.nix

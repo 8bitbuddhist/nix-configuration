@@ -53,7 +53,7 @@ in
       };
       boinc.enable = true;
       cache = {
-        enable = true;
+        enable = false; # Disable for now
         secretKeyFile = "/storage/services/nix-cache/cache-priv-key.pem";
       };
       duplicacy-web = {
