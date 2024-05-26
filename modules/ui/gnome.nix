@@ -59,6 +59,7 @@ with lib;
         "org.gnome.Loupe" # Gnome's fancy new image viewer
         "org.gnome.Music"
         "org.gnome.seahorse.Application"
+        "org.gnome.Shotwell"
         "org.gnome.TextEditor"
         "org.gnome.World.Secrets"
         "org.gtk.Gtk3theme.Adwaita-dark"
