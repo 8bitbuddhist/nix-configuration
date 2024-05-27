@@ -35,7 +35,10 @@ in
   };
 
   config = lib.mkIf cfg.enable {
-    environment.systemPackages = [ forgejo-cli ];
+    environment.systemPackages = [
+      forgejo-cli
+      pkgs.podman-tui
+    ];
     services = {
       nginx.virtualHosts."${config.secrets.services.forgejo.url}" = {
         useACMEHost = config.secrets.networking.primaryDomain;
@@ -57,6 +60,35 @@ in
         };
         useWizard = true;
       } // lib.optionalAttrs (cfg.home != null) { stateDir = cfg.home; };
+
+      # Enable runner for CI actions
+      gitea-actions-runner = {
+        package = pkgs.forgejo-actions-runner;
+        instances.default = {
+          enable = true;
+          name = config.networking.hostName;
+          url = config.secrets.services.forgejo.url;
+          token = config.secrets.services.forgejo.runner-token;
+          labels = [
+            "debian-latest:docker://node:20-bullseye"
+            "ubuntu-24.04:docker://node:20-bullseye"
+          ];
+        };
+      };
+    };
+
+    # Enable Podman for running...uh, runners.
+    virtualisation = {
+      containers.enable = true;
+      podman = {
+        enable = true;
+
+        # Create a `docker` alias for podman, to use it as a drop-in replacement
+        dockerCompat = true;
+
+        # Required for containers under podman-compose to be able to talk to each other.
+        defaultNetwork.settings.dns_enabled = true;
+      };
     };
 
     systemd.services = {
