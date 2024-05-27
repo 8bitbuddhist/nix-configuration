@@ -3,10 +3,10 @@ jobs:
   format:
     runs-on: nix
     steps:
-      - run: nix fmt
+      - run: nix --experimental-features 'nix-command flakes' fmt
   build:
     runs-on: nix
     steps:
-      - run: nix flake update
-      - run: nh os build
-      - run: nh os build --hostname Khanda
+      - run: nix --experimental-features 'nix-command flakes' flake update
+      - run: nixos-rebuild --experimental-features 'nix-command flakes' build --flake .#Haven
+      - run: nixos-rebuild --experimental-features 'nix-command flakes' build --flake .#Khanda
