@@ -150,15 +150,16 @@
         ]
       },
       "locked": {
-        "lastModified": 1716736760,
-        "narHash": "sha256-h3RmnNknKYtVA+EvUSra6QAwfZjC2q1G8YA7W0gat8Y=",
+        "lastModified": 1716736833,
+        "narHash": "sha256-rNObca6dm7Qs524O4st8VJH6pZ/Xe1gxl+Rx6mcWYo0=",
         "owner": "nix-community",
         "repo": "home-manager",
-        "rev": "5d151429e1e79107acf6d06dcc5ace4e642ec239",
+        "rev": "a631666f5ec18271e86a5cde998cba68c33d9ac6",
         "type": "github"
       },
       "original": {
         "owner": "nix-community",
+        "ref": "release-24.05",
         "repo": "home-manager",
         "type": "github"
       }
@@ -249,11 +250,11 @@
     "nix-secrets": {
       "flake": false,
       "locked": {
-        "lastModified": 1716585945,
-        "narHash": "sha256-OxYcOt2ZshJ+VYXSrYb7Wc36cvWd7YjwSFzaDWNqkMU=",
+        "lastModified": 1716827240,
+        "narHash": "sha256-0LHXNvx7KEsn3j9w/4VtQiEWKrqJmmWn1k/169x/N04=",
         "ref": "refs/heads/main",
-        "rev": "6c78f91590beb0f486a024b277d8e732f797d29c",
-        "revCount": 39,
+        "rev": "f8a243d7e9db4689bcfc7726df75d5725daf4b60",
+        "revCount": 40,
         "type": "git",
         "url": "file:///home/aires/Development/nix-configuration/nix-secrets"
       },

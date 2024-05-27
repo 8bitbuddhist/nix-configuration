@@ -67,7 +67,7 @@ in
         instances.default = {
           enable = true;
           name = config.networking.hostName;
-          url = config.secrets.services.forgejo.url;
+          url = "https://${config.secrets.services.forgejo.url}";
           token = config.secrets.services.forgejo.runner-token;
           labels = [
             "debian-latest:docker://node:20-bullseye"
