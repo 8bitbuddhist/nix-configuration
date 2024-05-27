@@ -71,6 +71,9 @@ with lib;
 
           # Install packages specific to Gremlin
           packages = [ pkgs.awscli2 ];
+
+          # Create .face file
+          file.".face".source = ./face.png;
         };
 
         programs = {

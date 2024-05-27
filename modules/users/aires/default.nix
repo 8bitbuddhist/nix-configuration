@@ -69,6 +69,9 @@ with lib;
           sessionVariables = {
             KUBECONFIG = "/home/aires/.kube/config";
           };
+
+          # Create .face file
+          file.".face".source = ./face.png;
         };
 
         programs = {
