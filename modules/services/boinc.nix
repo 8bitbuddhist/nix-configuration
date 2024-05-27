@@ -21,6 +21,10 @@ in
       package = pkgs.boinc-headless;
       dataDir = "/var/lib/boinc";
       extraEnvPackages = [ pkgs.ocl-icd ];
+      allowRemoteGuiRpc = true;
     };
+
+    # Allow connections via BOINC Manager
+    networking.firewall.allowedTCPPorts = [ 31416 ];
   };
 }
