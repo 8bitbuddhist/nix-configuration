@@ -1,0 +1,12 @@
+on: [push]
+jobs:
+  format:
+    runs-on: nix
+    steps:
+      - run: nix fmt
+  build:
+    runs-on: nix
+    steps:
+      - run: nix flake update
+      - run: nh os build
+      - run: nh os build --hostname Khanda

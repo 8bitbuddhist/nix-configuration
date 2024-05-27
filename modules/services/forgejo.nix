@@ -70,7 +70,7 @@ in
           url = "https://${config.secrets.services.forgejo.url}";
           token = config.secrets.services.forgejo.runner-token;
           labels = [
-			"nix:docker://nixos/nix"  # Shoutout to Icewind 1991 for this syntax: https://icewind.nl/entry/gitea-actions-nix/
+            "nix:docker://nixos/nix" # Shoutout to Icewind 1991 for this syntax: https://icewind.nl/entry/gitea-actions-nix/
             "debian:docker://node:20-bullseye"
           ];
         };
