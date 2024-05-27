@@ -39,7 +39,11 @@
       flake = false;
     };
 
-    # TODO: Add Disko - https://github.com/nix-community/disko
+    # Disk management via Disko - https://github.com/nix-community/disko
+    disko = {
+      url = "github:nix-community/disko/v1.6.1";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs =
@@ -52,6 +56,7 @@
       nixos-hardware,
       lix-module,
       nix-secrets,
+      disko,
       ...
     }:
     let
@@ -76,6 +81,7 @@
         lanzaboote.nixosModules.lanzaboote
         nix-flatpak.nixosModules.nix-flatpak
         home-manager.nixosModules.home-manager
+        disko.nixosModules.disko
         {
           home-manager = {
             /*
