@@ -98,6 +98,12 @@ in
       };
     };
 
+    # Allow containers to make DNS queries (https://www.reddit.com/r/NixOS/comments/199f16j/why_dont_my_podman_containers_have_internet_access/)
+    networking.firewall.interfaces.podman4 = {
+      allowedTCPPorts = [ 53 ];
+      allowedUDPPorts = [ 53 ];
+    };
+
     systemd.services = {
       nginx.wants = [ config.systemd.services.forgejo.name ];
     } // lib.optionalAttrs (!cfg.autostart) { forgejo.wantedBy = lib.mkForce [ ]; };
