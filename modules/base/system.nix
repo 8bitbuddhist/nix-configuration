@@ -33,6 +33,7 @@
     dates = "daily";
     allowReboot = false;
     operation = "switch";
+    flags = [ "--commit-lock-file" ];
   };
 
   services = {
