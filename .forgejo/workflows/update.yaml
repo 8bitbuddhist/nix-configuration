@@ -9,6 +9,7 @@ jobs:
     runs-on: nix
     steps:
       - uses: actions/checkout@v4
+      - uses: actions/setup-node@v3
       - run: nix --experimental-features 'nix-command flakes' flake update
       - run: nixos-rebuild --experimental-features 'nix-command flakes' build --flake .#Haven
       - run: nixos-rebuild --experimental-features 'nix-command flakes' build --flake .#Khanda
