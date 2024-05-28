@@ -77,7 +77,8 @@ in
           settings = {
             # For an example of configuring in Nix: https://git.clan.lol/clan/clan-infra/src/branch/main/modules/web01/gitea/actions-runner.nix
             # For an example of the different options available: https://gitea.com/gitea/act_runner/src/branch/main/internal/pkg/config/config.example.yaml
-            container.validVolumes = "**";
+            container.options = "--v /nix:/nix";
+            container.validVolumes = [ "/nix" ];
           };
         };
       };
