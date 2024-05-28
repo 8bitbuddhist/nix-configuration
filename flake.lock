@@ -218,11 +218,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1716506851,
-        "narHash": "sha256-fzY708SyfHwLOFrg5ZU0fXW9mNdvRvqz64jg97vvpJM=",
+        "lastModified": 1716856858,
+        "narHash": "sha256-dfNGs2AW/V31nMVeEBSUJCMfT6bZAKJ5qsWgFHWhvUc=",
         "ref": "refs/heads/main",
-        "rev": "18fa4a89e208cb8e881f5f71c75bbd4c1c2fd37d",
-        "revCount": 83,
+        "rev": "38f31ee7c1a60adae58833789dd855c128b056c6",
+        "revCount": 85,
         "type": "git",
         "url": "https://git.lix.systems/lix-project/nixos-module"
       },
@@ -265,18 +265,18 @@
     },
     "nixos-hardware": {
       "locked": {
-        "lastModified": 1716588418,
-        "narHash": "sha256-3EpFUFlZjE+UkBlSXp2lC65ysgUmpAHl13kjh45+et0=",
+        "lastModified": 1716881121,
+        "narHash": "sha256-oTf3enbe/lbiNzsyZ8ria+422hx4e/FB3xQcY2LPnJw=",
         "ref": "master",
-        "rev": "80736f76ded618a54dce2db319247aeb902ce795",
-        "revCount": 1683,
+        "rev": "806e9d4a933dd1e75592e88894d4bd2f296f5bbf",
+        "revCount": 1694,
         "type": "git",
-        "url": "https://code.8bitbuddhism.com/aires/nixos-hardware"
+        "url": "https://github.com/NixOS/nixos-hardware"
       },
       "original": {
         "ref": "master",
         "type": "git",
-        "url": "https://code.8bitbuddhism.com/aires/nixos-hardware"
+        "url": "https://github.com/NixOS/nixos-hardware"
       }
     },
     "nixpkgs": {
@@ -313,11 +313,11 @@
     },
     "nixpkgs_2": {
       "locked": {
-        "lastModified": 1716542732,
-        "narHash": "sha256-0Y9fRr0CUqWT4KgBITmaGwlnNIGMYuydu2L8iLTfHU4=",
+        "lastModified": 1716793392,
+        "narHash": "sha256-ex3nO87EEQhshXd19QSVW5UIXL0pbPuew4q8TdEJQBY=",
         "owner": "NixOS",
         "repo": "nixpkgs",
-        "rev": "d12251ef6e8e6a46e05689eeccd595bdbd3c9e60",
+        "rev": "67a8b308bae9c26be660ccceff3e53a65e01afe1",
         "type": "github"
       },
       "original": {

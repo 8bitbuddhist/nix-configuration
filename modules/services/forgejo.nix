@@ -72,6 +72,7 @@ in
           labels = [
             "nix:docker://nixos/nix" # Shoutout to Icewind 1991 for this syntax: https://icewind.nl/entry/gitea-actions-nix/
             "debian:docker://node:20-bullseye"
+			"ubuntu-latest:docker://ubuntu:latest"
           ];
           settings = {
             # For an example of configuring in Nix: https://git.clan.lol/clan/clan-infra/src/branch/main/modules/web01/gitea/actions-runner.nix
