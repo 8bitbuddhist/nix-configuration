@@ -8,7 +8,7 @@ jobs:
   build:
     runs-on: nix
     steps:
-      - uses: actions/setup-node@v3
+      - run nix-env -iA nixos.nodejs_22
       - uses: actions/checkout@v4
       - run: nix --experimental-features 'nix-command flakes' flake update
       - run: nixos-rebuild --experimental-features 'nix-command flakes' build --flake .#Haven
