@@ -7,7 +7,7 @@ jobs:
 #      - run: nix --experimental-features 'nix-command flakes' fmt
   build:
     runs-on: nix
-    uses: https://github.com/actions/checkout@v4
+    uses: actions/checkout@v4
     steps:
       - run: nix --experimental-features 'nix-command flakes' flake update
       - run: nixos-rebuild --experimental-features 'nix-command flakes' build --flake .#Haven
