@@ -7,8 +7,8 @@ jobs:
 #      - run: nix --experimental-features 'nix-command flakes' fmt
   build:
     runs-on: nix
-    uses: actions/checkout@v4
     steps:
+      - uses: actions/checkout@v4
       - run: nix --experimental-features 'nix-command flakes' flake update
       - run: nixos-rebuild --experimental-features 'nix-command flakes' build --flake .#Haven
       - run: nixos-rebuild --experimental-features 'nix-command flakes' build --flake .#Khanda
