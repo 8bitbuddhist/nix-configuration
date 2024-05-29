@@ -25,8 +25,8 @@
     nix-flatpak.url = "github:gmodena/nix-flatpak/v0.4.1";
 
     # Hardware configurations
-    #nixos-hardware.url = "git+https://code.8bitbuddhism.com/aires/nixos-hardware?ref=master";
-    nixos-hardware.url = "git+https://github.com/NixOS/nixos-hardware?ref=master";
+    nixos-hardware.url = "git+https://code.8bitbuddhism.com/aires/nixos-hardware?ref=master";
+    #nixos-hardware.url = "git+https://github.com/NixOS/nixos-hardware?ref=master";
 
     # Home-manager
     home-manager = {
