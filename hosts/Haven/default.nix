@@ -50,6 +50,7 @@ in
         enable = true;
         home = "/storage/services/airsonic-advanced";
       };
+      autoUpgrade.pushUpdates = true;
       boinc.enable = true;
       cache = {
         enable = false; # Disable for now
@@ -120,7 +121,8 @@ in
       Type = "oneshot";
       User = config.users.users.aires.name;
     };
-    path = with pkgs; [	# Courtesy of https://discourse.nixos.org/t/how-to-use-other-packages-binary-in-systemd-service-configuration/14363
+    path = with pkgs; [
+      # Courtesy of https://discourse.nixos.org/t/how-to-use-other-packages-binary-in-systemd-service-configuration/14363
       coreutils
       gnutar
       xz.bin
@@ -131,7 +133,7 @@ in
     ];
     script = ''
       set -eu
-      cd ${config.users.users.aires.home}/Development/nix-configuration
+      cd ${config.secrets.nixConfigFolder}
       git pull --recurse-submodules
       nix flake update
       git add flake.lock

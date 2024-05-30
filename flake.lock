@@ -250,17 +250,17 @@
     "nix-secrets": {
       "flake": false,
       "locked": {
-        "lastModified": 1716929428,
-        "narHash": "sha256-MRMQqR0lXM8ZA92QACu0VjFIcWtxZ0nvEU94VFFuKTo=",
+        "lastModified": 1717092160,
+        "narHash": "sha256-dype0zRMyP94Uo8YC1vWQ6lkvXLYMep6+Xo7AW4K9cs=",
         "ref": "refs/heads/main",
-        "rev": "4db84b723bb2eb21a2c58de565ed89ddb34e6166",
-        "revCount": 41,
+        "rev": "42ddf14d36d9fab1eb070f51fdf1991d1a21dde9",
+        "revCount": 42,
         "type": "git",
-        "url": "file:///home/aires/Development/nix-configuration/nix-secrets"
+        "url": "file:./nix-secrets"
       },
       "original": {
         "type": "git",
-        "url": "file:///home/aires/Development/nix-configuration/nix-secrets"
+        "url": "file:./nix-secrets"
       }
     },
     "nixos-hardware": {

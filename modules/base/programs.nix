@@ -17,7 +17,7 @@
 
     nh = {
       enable = true;
-      flake = "${config.users.users.aires.home}/Development/nix-configuration";
+      flake = "${config.secrets.nixConfigFolder}";
 
       # Alternative garbage collection system to nix.gc.automatic
       clean = {

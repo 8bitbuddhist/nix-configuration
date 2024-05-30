@@ -36,7 +36,7 @@
 
     # "Secrets management"
     nix-secrets = {
-      url = "git+file:///home/aires/Development/nix-configuration/nix-secrets";
+      url = "git+file:./nix-secrets";
       flake = false;
     };
 

@@ -26,45 +26,6 @@
     };
   };
 
-  # Configure automatic updates. Replaces system.autoUpgrade.
-  systemd.services."nixos-update" = {
-    serviceConfig = {
-      Type = "oneshot";
-      User = "root";
-    };
-    path = with pkgs; [
-      coreutils
-      gnutar
-      xz.bin
-      gzip
-      git
-      config.nix.package.out
-      nh
-      openssh
-	  sudo
-    ];
-    script = ''
-            cd ${config.users.users.aires.home}/Development/nix-configuration
-			# Check if there are changes from Git
-			sudo -u aires git fetch
-			sudo -u aires git diff --exit-code main origin/main
-			if [ $? -eq 1 ]; then
-				sudo -u aires git pull --recurse-submodules
-				nh os switch
-			fi
-    '';
-  };
-  systemd.timers."nixos-update-timer" = {
-    wants = [ "network-online.target" ];
-    after = [ "network-online.target" ];
-    wantedBy = [ "timers.target" ];
-    timerConfig = {
-      OnCalendar = "daily";
-      Persistent = "true";
-      Unit = "nixos-update.service";
-    };
-  };
-
   services = {
     # Enable fwupd (firmware updater)
     fwupd.enable = true;
