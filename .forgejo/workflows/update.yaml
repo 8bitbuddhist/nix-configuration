@@ -1,15 +1,32 @@
 on: [push]
+
 jobs:
-#  format:
+  # Source: https://github.com/isabelroses/dotfiles/tree/main/.github/workflows
+  update-lockfile:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install Nix
+        uses: DeterminateSystems/nix-installer-action@main
+        with:
+          logger: pretty
+
+#      - name: Update Lockfile
+#        uses: DeterminateSystems/update-flake-lock@main
+#        id: update
+#        with:
+#          pr-title: "chore(deps): flake inputs"
+#          commit-msg: "chore(deps): flake inputs"
+#          token: ${{ secrets.GITHUB_TOKEN }}
+
+#  build:
 #    runs-on: nix
 #    steps:
+#      - run: nix-env -iA nixpkgs.nodejs_20
 #      - uses: actions/checkout@v4
-#      - run: nix --experimental-features 'nix-command flakes' fmt
-  build:
-    runs-on: nix
-    steps:
-      - run: nix-env -iA nixpkgs.nodejs_20
-      - uses: actions/checkout@v4
-      - run: nix --experimental-features 'nix-command flakes' flake update
-      - run: nixos-rebuild --experimental-features 'nix-command flakes' build --flake .#Haven
-      - run: nixos-rebuild --experimental-features 'nix-command flakes' build --flake .#Khanda
+#      - run: nix --experimental-features 'nix-command flakes' flake update
+#      - run: nixos-rebuild --experimental-features 'nix-command flakes' build --flake .#Haven
+#      - run: nixos-rebuild --experimental-features 'nix-command flakes' build --flake .#Khanda

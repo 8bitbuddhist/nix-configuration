@@ -26,15 +26,28 @@
     };
   };
 
-  # Configure automatic updates
-  system.autoUpgrade = {
-    enable = true;
-    flake = "git+https://${config.secrets.services.forgejo.url}/aires/nix-configuration";
-    dates = "daily";
-    randomizedDelaySec = "30m";
-    allowReboot = false;
-    operation = "switch";
-    persistent = true;
+  # Configure automatic updates. Replaces system.autoUpgrade.
+  systemd.services."nixos-update" = {
+    serviceConfig = {
+      Type = "oneshot";
+      User = "root";
+    };
+    script = ''
+      set -eu
+      cd ${config.users.users.aires.home}/Development/nix-configuration
+      sudo -u aires git pull --recurse-submodules
+	  nh os switch
+    '';
+  };
+  systemd.timers."nixos-update-timer" = {
+    wants = [ "network-online.target" ];
+    after = [ "network-online.target" ];
+    wantedBy = [ "timers.target" ];
+    timerConfig = {
+      OnCalendar = "daily";
+      Persistent = "true";
+      Unit = "nixos-update.service";
+    };
   };
 
   services = {

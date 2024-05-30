@@ -123,7 +123,7 @@ in
     script = ''
       set -eu
       cd ${config.users.users.aires.home}/Development/nix-configuration
-      git pull
+      git pull --recurse-submodules
       nix flake update
       git add flake.lock
       git commit -m "Update flake.lock"
