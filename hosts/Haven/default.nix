@@ -113,4 +113,32 @@ in
 
   # Allow Haven to be a build target for other architectures (mainly ARM64)
   boot.binfmt.emulatedSystems = [ "aarch64-linux" ];
+
+  # Automatically update Flake configuration for other hosts to use
+  systemd.services."nixos-update-flake" = {
+    serviceConfig = {
+      Type = "oneshot";
+      User = config.users.users.aires.name;
+    };
+    script = ''
+      set -eu
+      cd ${config.users.users.aires.home}/Development/nix-configuration
+      git pull
+      nix flake update
+      git add flake.lock
+      git commit -m "Update flake.lock"
+      git push
+    '';
+  };
+
+  systemd.timers."nixos-update-flake-timer" = {
+    wants = [ "network-online.target" ];
+    after = [ "network-online.target" ];
+    wantedBy = [ "timers.target" ];
+    timerConfig = {
+      OnCalendar = "daily";
+      Persistent = "true";
+      Unit = "nixos-update-flake.service";
+    };
+  };
 }

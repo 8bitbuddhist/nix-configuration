@@ -29,11 +29,12 @@
   # Configure automatic updates
   system.autoUpgrade = {
     enable = true;
-    flake = "${config.users.users.aires.home}/Development/nix-configuration";
+    flake = "git+https://${config.secrets.services.forgejo.url}/aires/nix-configuration";
     dates = "daily";
+    randomizedDelaySec = "30m";
     allowReboot = false;
     operation = "switch";
-    flags = [ "--commit-lock-file" ];
+    persistent = true;
   };
 
   services = {
