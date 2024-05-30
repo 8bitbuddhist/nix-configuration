@@ -41,15 +41,16 @@
       config.nix.package.out
       nh
       openssh
+	  sudo
     ];
     script = ''
             cd ${config.users.users.aires.home}/Development/nix-configuration
 			# Check if there are changes from Git
 			sudo -u aires git fetch
 			sudo -u aires git diff --exit-code main origin/main
-			if [ $? -eq 1]; then
+			if [ $? -eq 1 ]; then
 				sudo -u aires git pull --recurse-submodules
-				nh os search
+				nh os switch
 			fi
     '';
   };
