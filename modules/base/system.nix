@@ -43,10 +43,14 @@
       openssh
     ];
     script = ''
-            set -eu
             cd ${config.users.users.aires.home}/Development/nix-configuration
-            sudo -u aires git pull --recurse-submodules
-      	  nh os switch
+			# Check if there are changes from Git
+			sudo -u aires git fetch
+			sudo -u aires git diff --exit-code main origin/main
+			if [ $? -eq 1]; then
+				sudo -u aires git pull --recurse-submodules
+				nh os search
+			fi
     '';
   };
   systemd.timers."nixos-update-timer" = {

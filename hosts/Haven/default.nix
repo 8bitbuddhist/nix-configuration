@@ -120,7 +120,7 @@ in
       Type = "oneshot";
       User = config.users.users.aires.name;
     };
-    path = with pkgs; [
+    path = with pkgs; [	# Courtesy of https://discourse.nixos.org/t/how-to-use-other-packages-binary-in-systemd-service-configuration/14363
       coreutils
       gnutar
       xz.bin
@@ -135,8 +135,7 @@ in
       git pull --recurse-submodules
       nix flake update
       git add flake.lock
-      git commit -m "Update flake.lock"
-      git push
+      git diff --quiet && git diff --staged --quiet || git commit -am "Update flake.lock" && git push	# Courtesy of https://stackoverflow.com/a/40255467
     '';
   };
 
