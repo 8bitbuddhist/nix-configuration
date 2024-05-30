@@ -32,11 +32,21 @@
       Type = "oneshot";
       User = "root";
     };
+    path = with pkgs; [
+      coreutils
+      gnutar
+      xz.bin
+      gzip
+      git
+      config.nix.package.out
+      nh
+      openssh
+    ];
     script = ''
-      set -eu
-      cd ${config.users.users.aires.home}/Development/nix-configuration
-      sudo -u aires git pull --recurse-submodules
-	  nh os switch
+            set -eu
+            cd ${config.users.users.aires.home}/Development/nix-configuration
+            sudo -u aires git pull --recurse-submodules
+      	  nh os switch
     '';
   };
   systemd.timers."nixos-update-timer" = {

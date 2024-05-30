@@ -120,6 +120,15 @@ in
       Type = "oneshot";
       User = config.users.users.aires.name;
     };
+    path = with pkgs; [
+      coreutils
+      gnutar
+      xz.bin
+      gzip
+      git
+      config.nix.package.out
+      openssh
+    ];
     script = ''
       set -eu
       cd ${config.users.users.aires.home}/Development/nix-configuration
