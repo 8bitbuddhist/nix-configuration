@@ -10,7 +10,7 @@ let
   cfg = config.host.services.autoUpgrade;
 
   # List of packages to include in each service's $PATH
-  pathPks = with pkgs; [
+  pathPkgs = with pkgs; [
     # Courtesy of https://discourse.nixos.org/t/how-to-use-other-packages-binary-in-systemd-service-configuration/14363
     coreutils
     gnutar
@@ -47,7 +47,7 @@ in
         };
         path = pathPkgs;
         script = ''
-          cd ${config.secret.nixConfigFolder}
+          cd ${config.secrets.nixConfigFolder}
           # Check if there are changes from Git.
           # Since we're running this as root, we need to su into the user who owns the config folder.
           sudo -u aires git fetch
