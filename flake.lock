@@ -218,11 +218,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1717036776,
-        "narHash": "sha256-joKTxvywYlKspGGKOIXho6oRbggOPyayEqAyuZCavO0=",
+        "lastModified": 1716856858,
+        "narHash": "sha256-dfNGs2AW/V31nMVeEBSUJCMfT6bZAKJ5qsWgFHWhvUc=",
         "ref": "refs/heads/main",
-        "rev": "b4b38e6b5fe18da9464f291ae5fbf2ea9acb9ccb",
-        "revCount": 86,
+        "rev": "38f31ee7c1a60adae58833789dd855c128b056c6",
+        "revCount": 85,
         "type": "git",
         "url": "https://git.lix.systems/lix-project/nixos-module"
       },
@@ -250,17 +250,17 @@
     "nix-secrets": {
       "flake": false,
       "locked": {
-        "lastModified": 1716929428,
-        "narHash": "sha256-MRMQqR0lXM8ZA92QACu0VjFIcWtxZ0nvEU94VFFuKTo=",
-        "ref": "refs/heads/main",
-        "rev": "4db84b723bb2eb21a2c58de565ed89ddb34e6166",
-        "revCount": 41,
+        "lastModified": 1716827240,
+        "narHash": "sha256-0LHXNvx7KEsn3j9w/4VtQiEWKrqJmmWn1k/169x/N04=",
+        "ref": "f8a243d7e9db4689bcfc7726df75d5725daf4b60",
+        "rev": "f8a243d7e9db4689bcfc7726df75d5725daf4b60",
+        "revCount": 40,
         "type": "git",
-        "url": "ssh://forgejo@code.8bitbuddhism.com/aires/nix-secrets"
+        "url": "file:///home/aires/Development/nix-configuration/nix-secrets"
       },
       "original": {
         "type": "git",
-        "url": "ssh://forgejo@code.8bitbuddhism.com/aires/nix-secrets"
+        "url": "file:///home/aires/Development/nix-configuration/nix-secrets"
       }
     },
     "nixos-hardware": {

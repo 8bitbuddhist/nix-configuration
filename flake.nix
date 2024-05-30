@@ -36,7 +36,7 @@
 
     # "Secrets management"
     nix-secrets = {
-      url = "git+ssh://forgejo@code.8bitbuddhism.com/aires/nix-secrets";
+      url = "git+file:///home/aires/Development/nix-configuration/nix-secrets";
       flake = false;
     };
 
