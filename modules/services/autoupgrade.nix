@@ -85,9 +85,8 @@ in
           set -eu
           cd ${config.secrets.nixConfigFolder}
           git pull --recurse-submodules
-          nix flake update
-          git add flake.lock
-          git diff --quiet && git diff --staged --quiet || git commit -am "Update flake.lock" && git push	# Courtesy of https://stackoverflow.com/a/40255467
+          nix flake update --commit-lock-file
+          git push
         '';
       };
 
