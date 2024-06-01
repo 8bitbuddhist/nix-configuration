@@ -66,13 +66,6 @@
     };
   };
 
-  swapDevices = [
-    {
-      device = "/swap/swapfile";
-      size = 16384;
-    }
-  ];
-
   networking = {
     # Enables DHCP on each ethernet and wireless interface. In case of scripted networking
     # (the default) this is the recommended approach. When using systemd-networkd it's
@@ -86,4 +79,73 @@
   };
 
   nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
+
+  # Disk management
+  disko.enableConfig = false; # Disable while testing
+  disko.devices = {
+    disk = {
+      nvme0n1 = {
+        type = "disk";
+        device = "";
+        content = {
+          type = "gpt";
+          partitions = {
+            ESP = {
+              priority = 1;
+              name = "ESP";
+              label = "boot";
+              size = "1G";
+              type = "EF00";
+              content = {
+                type = "filesystem";
+                format = "vfat";
+                mountpoint = "/boot";
+              };
+            };
+            luks = {
+              size = "100%";
+              label = "nixos";
+              content = {
+                type = "luks";
+                name = "cryptroot";
+                settings = {
+                  allowDiscards = true;
+                  crypttabExtraOpts = ["tpm2-device=auto"];
+                };
+                content = {
+                  type = "btrfs";
+                  extraArgs = [ "-f" ]; # Override existing partition
+                  # Subvolumes must set a mountpoint in order to be mounted,
+                  # unless their parent is mounted
+                  subvolumes = {
+                    # Subvolume name is different from mountpoint
+                    "/root" = {
+                      mountOptions = [ "compress=zstd" "noatime" ];
+                      mountpoint = "/";
+                    };
+                    "/home" = {
+                      mountOptions = [ "compress=zstd" "noatime" ];
+                      mountpoint = "/home";
+                    };
+                    "/nix" = {
+                      mountOptions = [ "compress=zstd" "noatime" ];
+                      mountpoint = "/nix";
+                    };
+                    "/swap" = {
+                      mountpoint = "/.swap";
+                      swap.swapfile.size = "16G";
+                    };
+                    "/log" = {
+                      mountpoint = "/var/log";
+                      mountOptions = ["compress=zstd" "noatime"];
+                    };
+                  };
+                };
+              };
+            };
+          };
+        };
+      };
+    };
+  };
 }

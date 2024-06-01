@@ -43,11 +43,6 @@
         "surface_kbd"
         "pinctrl_tigerlake"
       ];
-
-      luks.devices."luks-bd1fe396-6740-4e7d-af2c-26ca9a3031f1" = {
-        device = "/dev/disk/by-uuid/bd1fe396-6740-4e7d-af2c-26ca9a3031f1";
-        crypttabExtraOpts = [ "tpm2-device=auto" ];
-      };
     };
 
     kernelModules = [
@@ -68,22 +63,6 @@
     extraModulePackages = [ ];
   };
 
-  fileSystems = {
-    "/" = {
-      device = "/dev/disk/by-uuid/b34afd29-94ff-421b-bb96-8497951abf58";
-      fsType = "btrfs";
-      options = [ "subvol=@,compress=zstd" ];
-    };
-
-    "/boot" = {
-      device = "/dev/disk/by-uuid/DD2A-9C83";
-      fsType = "vfat";
-    };
-  };
-
-  # TODO: Disable once DIsko is up and running
-  swapDevices = [ { device = "/dev/disk/by-uuid/8c2519d9-3e47-4aa1-908d-98b1aa8b909d"; } ];
-
   networking = {
     useDHCP = lib.mkDefault true;
     hostName = "Khanda";
@@ -103,7 +82,7 @@
   # boot.kernelPackages = lib.mkForce pkgs.linuxPackages_latest;
 
   # Disk management
-  disko.enableConfig = false; # Disable while testing
+  disko.enableConfig = true; # Disable while testing
   disko.devices = {
     disk = {
       nvme0n1 = {
@@ -154,7 +133,7 @@
                       mountpoint = "/nix";
                     };
                     "/swap" = {
-                      mountpoint = "/.swapvol";
+                      mountpoint = "/.swap";
                       swap.swapfile.size = "8G";
                     };
                     "/log" = {
