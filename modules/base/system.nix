@@ -26,6 +26,16 @@
     };
   };
 
+  # Configure automatic updates for all hosts
+  host.services.autoUpgrade = {
+    enable = true;
+    configDir = config.secrets.nixConfigFolder;
+    onCalendar = "daily";
+    persistent = true;
+    pushUpdates = false;
+    user = config.users.users.aires.name;
+  };
+
   services = {
     # Enable fwupd (firmware updater)
     fwupd.enable = true;

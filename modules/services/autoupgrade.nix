@@ -31,9 +31,27 @@ in
         type = lib.types.bool;
         description = "Enables automatic system updates.";
       };
+      configDir = lib.mkOption {
+        type = lib.types.str;
+        description = "Path where your NixOS configuration files are stored.";
+      };
+      onCalendar = lib.mkOption {
+        default = "daily";
+        type = lib.types.str;
+        description = "How frequently to run updates. See systemd.timer(5) and systemd.time(7) for configuration details.";
+      };
+      persistent = lib.mkOption {
+        default = true;
+        type = lib.types.bool;
+        description = "If true, the time when the service unit was last triggered is stored on disk. When the timer is activated, the service unit is triggered immediately if it would have been triggered at least once during the time when the timer was inactive. This is useful to catch up on missed runs of the service when the system was powered down.";
+      };
       pushUpdates = lib.mkEnableOption (
         lib.mdDoc "Updates the flake.lock file and pushes it back to the repo."
       );
+      user = lib.mkOption {
+        type = lib.types.str;
+        description = "The user who owns the configDir.";
+      };
     };
   };
 
@@ -47,28 +65,28 @@ in
         };
         path = pathPkgs;
         script = ''
-          cd ${config.secrets.nixConfigFolder}
+          cd ${cfg.configDir}
           # Check if there are changes from Git.
           echo "Pulling latest version..."
-          sudo -u aires git fetch
-          sudo -u aires git diff --quiet --exit-code main origin/main || true
+          sudo -u ${cfg.user} git fetch
+          sudo -u ${cfg.user} git diff --quiet --exit-code main origin/main || true
           # If we have changes (git diff returns 1), pull changes and run the update
           if [ $? -eq 1 ]; then
             echo "Updates found, running nixos-rebuild..."
-            sudo -u aires git pull --recurse-submodules
-            nh os switch
+            sudo -u ${cfg.user} git pull --recurse-submodules
+            nixos-rebuild switch --flake .
           else
             echo "No updates found. Exiting."
           fi
         '';
       };
-      systemd.timers."nixos-upgrade-timer" = {
+      systemd.timers."nixos-upgrade" = {
         wants = [ "network-online.target" ];
         after = [ "network-online.target" ];
         wantedBy = [ "timers.target" ];
         timerConfig = {
-          OnCalendar = "daily";
-          Persistent = "true";
+          OnCalendar = cfg.onCalendar;
+          Persistent = cfg.persistent;
           Unit = "nixos-upgrade.service";
         };
       };
@@ -78,13 +96,13 @@ in
       systemd.services."nixos-upgrade-flake" = {
         serviceConfig = {
           Type = "oneshot";
-          User = config.users.users.aires.name;
+          User = cfg.user;
         };
         path = pathPkgs;
         # Git diffing strategy courtesy of https://stackoverflow.com/a/40255467
         script = ''
           set -eu
-          cd ${config.secrets.nixConfigFolder}
+          cd ${cfg.configDir}
           # Make sure we're up-to-date
           echo "Pulling the latest version..."
           git pull --recurse-submodules
@@ -93,13 +111,13 @@ in
         '';
       };
 
-      systemd.timers."nixos-upgrade-flake-timer" = {
+      systemd.timers."nixos-upgrade-flake" = {
         wants = [ "network-online.target" ];
         after = [ "network-online.target" ];
         wantedBy = [ "timers.target" ];
         timerConfig = {
-          OnCalendar = "daily";
-          Persistent = "true";
+          OnCalendar = cfg.onCalendar;
+          Persistent = cfg.persistent;
           Unit = "nixos-upgrade-flake.service";
         };
       };
