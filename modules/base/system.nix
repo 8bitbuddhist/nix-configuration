@@ -26,15 +26,6 @@
     };
   };
 
-  # Configure automatic updates
-  system.autoUpgrade = {
-    enable = true;
-    flake = "${config.users.users.aires.home}/Development/nix-configuration";
-    dates = "daily";
-    allowReboot = false;
-    operation = "switch";
-  };
-
   services = {
     # Enable fwupd (firmware updater)
     fwupd.enable = true;

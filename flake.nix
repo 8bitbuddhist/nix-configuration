@@ -26,6 +26,7 @@
 
     # Hardware configurations
     nixos-hardware.url = "git+https://code.8bitbuddhism.com/aires/nixos-hardware?ref=master";
+    #nixos-hardware.url = "git+https://github.com/NixOS/nixos-hardware?ref=master";
 
     # Home-manager
     home-manager = {
@@ -35,7 +36,7 @@
 
     # "Secrets management"
     nix-secrets = {
-      url = "git+file:///home/aires/Development/nix-configuration/nix-secrets";
+      url = "git+file:./nix-secrets";
       flake = false;
     };
 
@@ -104,6 +105,7 @@
           system = "x86_64-linux";
           modules = defaultModules ++ [
             nixos-hardware.nixosModules.common-cpu-intel
+            nixos-hardware.nixosModules.common-gpu-intel
             ./hosts/Dimaga
           ];
         };
@@ -112,6 +114,7 @@
           system = "x86_64-linux";
           modules = defaultModules ++ [
             nixos-hardware.nixosModules.common-cpu-amd-pstate
+            nixos-hardware.nixosModules.common-gpu-amd
             ./hosts/Haven
           ];
         };

@@ -218,11 +218,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1716506851,
-        "narHash": "sha256-fzY708SyfHwLOFrg5ZU0fXW9mNdvRvqz64jg97vvpJM=",
+        "lastModified": 1717036776,
+        "narHash": "sha256-joKTxvywYlKspGGKOIXho6oRbggOPyayEqAyuZCavO0=",
         "ref": "refs/heads/main",
-        "rev": "18fa4a89e208cb8e881f5f71c75bbd4c1c2fd37d",
-        "revCount": 83,
+        "rev": "b4b38e6b5fe18da9464f291ae5fbf2ea9acb9ccb",
+        "revCount": 86,
         "type": "git",
         "url": "https://git.lix.systems/lix-project/nixos-module"
       },
@@ -250,26 +250,26 @@
     "nix-secrets": {
       "flake": false,
       "locked": {
-        "lastModified": 1716827240,
-        "narHash": "sha256-0LHXNvx7KEsn3j9w/4VtQiEWKrqJmmWn1k/169x/N04=",
-        "ref": "refs/heads/main",
-        "rev": "f8a243d7e9db4689bcfc7726df75d5725daf4b60",
-        "revCount": 40,
+        "lastModified": 1717092160,
+        "narHash": "sha256-dype0zRMyP94Uo8YC1vWQ6lkvXLYMep6+Xo7AW4K9cs=",
+        "ref": "42ddf14d36d9fab1eb070f51fdf1991d1a21dde9",
+        "rev": "42ddf14d36d9fab1eb070f51fdf1991d1a21dde9",
+        "revCount": 42,
         "type": "git",
-        "url": "file:///home/aires/Development/nix-configuration/nix-secrets"
+        "url": "file:./nix-secrets"
       },
       "original": {
         "type": "git",
-        "url": "file:///home/aires/Development/nix-configuration/nix-secrets"
+        "url": "file:./nix-secrets"
       }
     },
     "nixos-hardware": {
       "locked": {
-        "lastModified": 1716588418,
-        "narHash": "sha256-3EpFUFlZjE+UkBlSXp2lC65ysgUmpAHl13kjh45+et0=",
+        "lastModified": 1717000136,
+        "narHash": "sha256-MyFE1416Wsb9UxTNiHTGoOvtUl5JuCftj4EBfz9oPHU=",
         "ref": "master",
-        "rev": "80736f76ded618a54dce2db319247aeb902ce795",
-        "revCount": 1683,
+        "rev": "2575b7552f52b34dadb08f140326fbbd19056355",
+        "revCount": 1685,
         "type": "git",
         "url": "https://code.8bitbuddhism.com/aires/nixos-hardware"
       },
@@ -313,11 +313,11 @@
     },
     "nixpkgs_2": {
       "locked": {
-        "lastModified": 1716542732,
-        "narHash": "sha256-0Y9fRr0CUqWT4KgBITmaGwlnNIGMYuydu2L8iLTfHU4=",
+        "lastModified": 1717144377,
+        "narHash": "sha256-F/TKWETwB5RaR8owkPPi+SPJh83AQsm6KrQAlJ8v/uA=",
         "owner": "NixOS",
         "repo": "nixpkgs",
-        "rev": "d12251ef6e8e6a46e05689eeccd595bdbd3c9e60",
+        "rev": "805a384895c696f802a9bf5bf4720f37385df547",
         "type": "github"
       },
       "original": {

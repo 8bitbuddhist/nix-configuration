@@ -15,6 +15,9 @@ let
   mano-touchpad-bluetooth = pkgs.writeText "info" (
     builtins.readFile ./bluetooth/mano-touchpad-bluetooth-params
   );
+  vitrix-pdp-pro-bluetooth = pkgs.writeText "info" (
+    builtins.readFile ./bluetooth/vitrix-pdp-pro-params
+  );
 
   # Use gremlin user's monitor configuration for GDM (desktop monitor primary). See https://discourse.nixos.org/t/gdm-monitor-configuration/6356/4
   monitorsXmlContent = builtins.readFile ./monitors.xml;
@@ -75,6 +78,7 @@ in
     "L+ /var/lib/bluetooth/AC:50:DE:9F:AB:88/00:0E:DD:72:2F:0C/info - - - - ${shure-aonic-bluetooth}"
     "L+ /var/lib/bluetooth/AC:50:DE:9F:AB:88/F4:6A:D7:3A:16:75/info - - - - ${xbox-elite-bluetooth}"
     "L+ /var/lib/bluetooth/AC:50:DE:9F:AB:88/F8:5D:3C:7D:9A:00/info - - - - ${mano-touchpad-bluetooth}"
+    "L+ /var/lib/bluetooth/AC:50:DE:9F:AB:88/00:34:30:47:37:AB/info - - - - ${vitrix-pdp-pro-bluetooth}"
   ];
 
   # Configure the virtual machine created by nixos-rebuild build-vm
