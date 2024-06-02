@@ -21,7 +21,6 @@
     };
     users.aires = {
       enable = true;
-      autologin = true;
       services = {
         syncthing = {
           enable = true;

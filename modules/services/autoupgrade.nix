@@ -64,12 +64,13 @@ in
           User = "root";
         };
         path = pathPkgs;
+        # Git diffing strategy courtesy of https://stackoverflow.com/a/40255467
         script = ''
           cd ${cfg.configDir}
           # Check if there are changes from Git.
           echo "Pulling latest version..."
           sudo -u ${cfg.user} git fetch
-          sudo -u ${cfg.user} git diff --quiet --exit-code main origin/main || true
+          sudo -u ${cfg.user} git diff --quiet --exit-code || true
           # If we have changes (git diff returns 1), pull changes and run the update
           if [ $? -eq 1 ]; then
             echo "Updates found, running nixos-rebuild..."
@@ -99,7 +100,6 @@ in
           User = cfg.user;
         };
         path = pathPkgs;
-        # Git diffing strategy courtesy of https://stackoverflow.com/a/40255467
         script = ''
           set -eu
           cd ${cfg.configDir}
