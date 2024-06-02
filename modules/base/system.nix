@@ -31,8 +31,6 @@
     enable = true;
     configDir = config.secrets.nixConfigFolder;
     onCalendar = "daily";
-    persistent = true;
-    pushUpdates = false;
     user = config.users.users.aires.name;
   };
 
