@@ -9,11 +9,22 @@
 {
   imports = [ (modulesPath + "/installer/scan/not-detected.nix") ];
 
+  # Format and configure the disk using Disko
+  host.base.disko = {
+    enable = false;
+    primaryDisk = "nvme0n1";
+    enableTPM = true;
+    swapFile = {
+      enable = true;
+      size = "16G";
+    };
+  };
+
   boot = {
     initrd = {
       # Enable systemd for TPM auto-unlocking
       systemd.enable = true;
-      
+
       availableKernelModules = [
         "surface_aggregator"
         "surface_aggregator_registry"
@@ -81,75 +92,6 @@
     surface-control.enable = true;
   };
 
-  # NOTE: Use a default kernel to skip full kernel rebuilds
+  # Uncomment this to use the default kernel and skip rebuilding the kernel
   # boot.kernelPackages = lib.mkForce pkgs.linuxPackages_latest;
-
-  # Disk management
-  disko.enableConfig = true; # Disable while testing
-  disko.devices = {
-    disk = {
-      nvme0n1 = {
-        type = "disk";
-        device = "/dev/disk/by-id/nvme-MZ9L4256HCJQ-00BMV-SAMSUNG_S69VNE0X195093";
-        content = {
-          type = "gpt";
-          partitions = {
-            ESP = {
-              priority = 1;
-              name = "ESP";
-              label = "boot";
-              size = "1G";
-              type = "EF00";
-              content = {
-                type = "filesystem";
-                format = "vfat";
-                mountpoint = "/boot";
-              };
-            };
-            luks = {
-              size = "100%";
-              label = "nixos";
-              content = {
-                type = "luks";
-                name = "cryptroot";
-                settings = {
-                  allowDiscards = true;
-                  crypttabExtraOpts = ["tpm2-device=auto"];
-                };
-                content = {
-                  type = "btrfs";
-                  extraArgs = [ "-f" ]; # Override existing partition
-                  # Subvolumes must set a mountpoint in order to be mounted,
-                  # unless their parent is mounted
-                  subvolumes = {
-                    # Subvolume name is different from mountpoint
-                    "/root" = {
-                      mountOptions = [ "compress=zstd" "noatime" ];
-                      mountpoint = "/";
-                    };
-                    "/home" = {
-                      mountOptions = [ "compress=zstd" "noatime" ];
-                      mountpoint = "/home";
-                    };
-                    "/nix" = {
-                      mountOptions = [ "compress=zstd" "noatime" ];
-                      mountpoint = "/nix";
-                    };
-                    "/swap" = {
-                      mountpoint = "/.swap";
-                      swap.swapfile.size = "8G";
-                    };
-                    "/log" = {
-                      mountpoint = "/var/log";
-                      mountOptions = ["compress=zstd" "noatime"];
-                    };
-                  };
-                };
-              };
-            };
-          };
-        };
-      };
-    };
-  };
 }

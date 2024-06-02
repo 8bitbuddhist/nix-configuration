@@ -9,6 +9,17 @@
 {
   imports = [ (modulesPath + "/installer/scan/not-detected.nix") ];
 
+  # Format and configure the disk using Disko
+  host.base.disko = {
+    enable = false;
+    primaryDisk = "nvme0n1";
+    enableTPM = true;
+    swapFile = {
+      enable = true;
+      size = "16G";
+    };
+  };
+
   boot = {
     supportedFilesystems = [ "btrfs" ];
     kernelModules = [ "kvm-amd" ];
@@ -37,35 +48,6 @@
       '';
     };
   };
-
-  fileSystems = {
-    "/" = {
-      device = "/dev/disk/by-uuid/2c76c660-3573-4622-8771-f23fa7ee302a";
-      fsType = "btrfs";
-      options = [ "subvol=@,compress=zstd" ];
-    };
-    "/home" = {
-      device = "/dev/disk/by-uuid/2c76c660-3573-4622-8771-f23fa7ee302a";
-      fsType = "btrfs";
-      options = [ "subvol=@home,compress=zstd" ];
-    };
-    "/swap" = {
-      device = "/dev/disk/by-uuid/2c76c660-3573-4622-8771-f23fa7ee302a";
-      fsType = "btrfs";
-      options = [ "subvol=@swap" ];
-    };
-    "/boot" = {
-      device = "/dev/disk/by-uuid/0120-A755";
-      fsType = "vfat";
-    };
-  };
-
-  swapDevices = [
-    {
-      device = "/swap/swapfile";
-      size = 16384;
-    }
-  ];
 
   networking = {
     useDHCP = lib.mkDefault true;

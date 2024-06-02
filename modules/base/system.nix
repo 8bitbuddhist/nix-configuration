@@ -39,7 +39,7 @@
     fwupd.enable = true;
 
     # Autoscrub BTRFS partitions
-    btrfs.autoScrub = lib.mkIf (config.fileSystems."/".fsType == "btrfs") {
+    btrfs.autoScrub = {
       enable = true;
       interval = "weekly";
       fileSystems = [ "/" ];
