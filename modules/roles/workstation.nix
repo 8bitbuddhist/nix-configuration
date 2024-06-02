@@ -14,7 +14,10 @@ with lib;
 
   config = mkIf (role == "workstation") {
     host.ui = {
-      audio.enable = true;
+      audio = {
+        enable = true;
+        enableLowLatency = true;
+      };
       bluetooth.enable = true;
       gnome.enable = true;
       flatpak.enable = true;
