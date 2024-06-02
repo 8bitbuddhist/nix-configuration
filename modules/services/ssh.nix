@@ -8,7 +8,7 @@ in
     host.services.ssh = {
       enable = lib.mkEnableOption (lib.mdDoc "Enables SSH server.");
       ports = lib.mkOption {
-        default = [ ];
+        default = [ 22 ];
         type = lib.types.listOf lib.types.int;
         description = "Ports for SSH to listen on.";
       };
