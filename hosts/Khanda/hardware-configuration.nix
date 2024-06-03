@@ -13,7 +13,7 @@
     initrd = {
       # Enable systemd for TPM auto-unlocking
       systemd.enable = true;
-      
+
       availableKernelModules = [
         "surface_aggregator"
         "surface_aggregator_registry"

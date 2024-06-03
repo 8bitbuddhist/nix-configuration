@@ -66,6 +66,14 @@ in
 
   config = lib.mkMerge [
     (lib.mkIf cfg.enable {
+      # Assert that system.autoUpgrade is not also enabled
+      assertions = [
+        {
+          assertion = !config.system.autoUpgrade.enable;
+          message = "The system.autoUpgrade option conflicts with this module.";
+        }
+      ];
+
       # Pull and apply updates.
       systemd.services."nixos-upgrade" = {
         serviceConfig = {
