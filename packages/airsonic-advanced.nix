@@ -7,11 +7,11 @@
 
 stdenv.mkDerivation rec {
   pname = "airsonic-advanced";
-  version = "11.1.4-SNAPSHOT.20240518150716";
+  version = "11.1.4-SNAPSHOT.20240531071418";
 
   src = fetchurl {
     url = "https://github.com/kagemomiji/airsonic-advanced/releases/download/${version}/airsonic.war";
-    sha256 = "f4274fadd0acfe7f21d04e34ebb158238d8aaac06c0c76f6a4bf3d2d5bb41156";
+    sha256 = "1668a41ad75c084dd9f1d745dd3d5611c19eb286d11cf86255f15e156ffc7163";
   };
 
   buildCommand = ''
