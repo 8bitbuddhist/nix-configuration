@@ -45,7 +45,6 @@ with lib;
       # Install Flatpaks
       flatpak.packages = [
         "com.mattjakeman.ExtensionManager"
-        "dev.geopjr.Tuba"
         "org.bluesabre.MenuLibre"
         "org.gnome.baobab"
         "org.gnome.Calculator"
@@ -133,6 +132,12 @@ with lib;
       enable = true;
       platformTheme = "gnome";
       style = "adwaita-dark";
+    };
+
+    # Support for AppImage files
+    programs.appimage = {
+      enable = true;
+      binfmt = true;
     };
   };
 }

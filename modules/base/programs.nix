@@ -3,12 +3,6 @@
 {
   # Set up base apps
   programs = {
-    # Support for AppImage files
-    appimage = {
-      enable = true;
-      binfmt = true;
-    };
-
     direnv.enable = true;
 
     nano = {
