@@ -3,6 +3,12 @@
 {
   # Set up base apps
   programs = {
+    # Support for AppImage files
+    appimage = {
+      enable = true;
+      binfmt = true;
+    };
+
     direnv.enable = true;
 
     nano = {
@@ -26,5 +32,8 @@
         extraArgs = "--keep-since 7d --keep 10"; # Keep the last 10 entries
       };
     };
+
+    # Support for standard, dynamically-linked executables
+    nix-ld.enable = true;
   };
 }
