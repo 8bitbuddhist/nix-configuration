@@ -5,7 +5,7 @@
 
   inputs = {
     # Track base packagese
-    nixpkgs.url = "github:NixOS/nixpkgs?ref=nixos-24.05";
+    nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
 
     # Replace Nix with Lix: https://lix.systems/
     lix = {
@@ -30,7 +30,7 @@
 
     # Home-manager
     home-manager = {
-      url = "github:nix-community/home-manager?ref=release-24.05";
+      url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs"; # Use system packages list where available
     };
 
@@ -99,7 +99,6 @@
           system = "x86_64-linux";
           modules = defaultModules ++ [
             nixos-hardware.nixosModules.common-cpu-intel
-            nixos-hardware.nixosModules.common-gpu-intel
             ./hosts/Dimaga
           ];
         };
