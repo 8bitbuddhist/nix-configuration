@@ -21,14 +21,7 @@ with lib;
     (mkIf cfg.enable {
       host.ui.flatpak.enable = true;
 
-      services.flatpak.packages = [
-        "com.vscodium.codium"
-        "dev.k8slens.OpenLens"
-      ];
-
-      environment.systemPackages = with pkgs; [
-        statix # Nix linting tool
-      ];
+      services.flatpak.packages = [ "com.vscodium.codium" ];
     })
     (mkIf cfg.kubernetes.enable {
       environment.systemPackages = with pkgs; [
@@ -36,6 +29,8 @@ with lib;
         kubernetes-helm
         kubevirt # Virtctl command-line tool
       ];
+
+      services.flatpak.packages = [ "dev.k8slens.OpenLens" ];
     })
   ];
 }

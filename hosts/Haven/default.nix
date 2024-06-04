@@ -64,6 +64,10 @@ in
       forgejo = {
         enable = true;
         home = "/storage/services/forgejo";
+        actions = {
+          enable = true;
+          token = config.secrets.services.forgejo.runner-token;
+        };
       };
       msmtp.enable = true;
       nginx = {
@@ -85,6 +89,15 @@ in
               proxyPass = "http://${config.secrets.services.gremlin-lab.ip}";
               proxyWebsockets = true;
               extraConfig = "proxy_ssl_server_name on;";
+            };
+          };
+          "${config.secrets.services.forgejo.url}" = {
+            useACMEHost = config.secrets.networking.primaryDomain;
+            forceSSL = true;
+            locations."/" = {
+              proxyPass = "http://127.0.0.1:3000";
+              proxyWebsockets = true;
+              extraConfig = "proxy_ssl_server_name on;"; # required when the target is also TLS server with multiple hosts
             };
           };
         };
