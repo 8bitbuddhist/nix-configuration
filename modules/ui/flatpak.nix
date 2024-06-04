@@ -24,11 +24,8 @@ with lib;
       # Manage all Flatpak packages and remotes
       uninstallUnmanaged = true;
 
-      # Enable daily automatic updates
-      update.auto = {
-        enable = true;
-        onCalendar = "daily";
-      };
+      # Enable automatic updates alongside nixos-rebuild
+      update.onActivation = true;
 
       # Add remote(s)
       remotes = [
