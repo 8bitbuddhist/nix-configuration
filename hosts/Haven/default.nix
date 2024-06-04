@@ -127,41 +127,4 @@ in
 
   # Allow Haven to be a build target for other architectures (mainly ARM64)
   boot.binfmt.emulatedSystems = [ "aarch64-linux" ];
-
-  # Automatically update Flake configuration for other hosts to use
-  systemd.services."nixos-update-flake" = {
-    serviceConfig = {
-      Type = "oneshot";
-      User = config.users.users.aires.name;
-    };
-    path = with pkgs; [
-      # Courtesy of https://discourse.nixos.org/t/how-to-use-other-packages-binary-in-systemd-service-configuration/14363
-      coreutils
-      gnutar
-      xz.bin
-      gzip
-      git
-      config.nix.package.out
-      openssh
-    ];
-    script = ''
-      set -eu
-      cd ${config.secrets.nixConfigFolder}
-      git pull --recurse-submodules
-      nix flake update
-      git add flake.lock
-      git diff --quiet && git diff --staged --quiet || git commit -am "Update flake.lock" && git push	# Courtesy of https://stackoverflow.com/a/40255467
-    '';
-  };
-
-  systemd.timers."nixos-update-flake-timer" = {
-    wants = [ "network-online.target" ];
-    after = [ "network-online.target" ];
-    wantedBy = [ "timers.target" ];
-    timerConfig = {
-      OnCalendar = "daily";
-      Persistent = "true";
-      Unit = "nixos-update-flake.service";
-    };
-  };
 }
