@@ -29,10 +29,7 @@ with lib;
     ];
 
     # Enable Xbox controller driver (XPadNeo)
-    boot = {
-      extraModulePackages = with config.boot.kernelPackages; [ xpadneo ];
-      kernelModules = [ "hid_xpadneo" ];
-    };
+    hardware.xpadneo.enable = true;
 
     # Add script to restart xpadneo in case of issues
     environment.systemPackages = [ reset-controllers-script ];

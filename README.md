@@ -33,7 +33,13 @@ sudo nixos-rebuild switch --flake .#Shura
 
 ### Running updates
 
-Periodically run `nh` to update the system. Use the `--update` flag to update `flake.lock` as part of the process. Note that for subsequent builds, you can omit the hostname:
+All hosts are configured to run automatic daily updates (see `modules/base/system.nix`). You can disable this by adding `host.services.autoUpgrade = false;` to a hosts config.
+
+Automatic updates work by `git pull`ing the latest version of the Repo from Forgejo. This repo gets updated nightly by Haven, which updates the `flake.lock` file and pushes it back up to Forgejo. Only one host needs to do this, and you can enable this feature on a host using `host.services.autoUpgrade.pushUpdates = true;`.
+
+#### Manually updating
+
+Run `nh` to update the system. Use the `--update` flag to update `flake.lock` as part of the process. Note that for subsequent builds, you can omit the hostname:
 
 ```sh
 nh os boot --update
@@ -132,6 +138,7 @@ This Nix config features:
 
 - Flakes
 - Home Manager
+- Automatic daily updates
 - AMD, Intel, and Raspberry Pi (ARM64) hardware configurations
 - Workstation and server base system configurations
 - GNOME desktop environment with KDE integrations
