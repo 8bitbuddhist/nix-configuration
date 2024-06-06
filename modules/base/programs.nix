@@ -9,9 +9,11 @@
       enable = true;
       syntaxHighlight = true;
       nanorc = ''
-        set linenumbers
-        set tabsize 4
-        set softwrap
+                set linenumbers
+                set tabsize 4
+                set softwrap
+        		set autoindent
+        		set indicator
       '';
     };
 
