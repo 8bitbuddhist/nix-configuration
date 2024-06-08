@@ -92,7 +92,7 @@ with lib;
           atomix # puzzle game
         ]);
 
-      # Install additional Gnome packages
+      # Install additional packages
       systemPackages = with pkgs; [
         # Gnome tweak tools
         gnome.gnome-tweaks
@@ -107,6 +107,23 @@ with lib;
         papirus-icon-theme
         qogir-icon-theme
       ];
+
+      # Install GStreamer plugins
+      # References: 
+      #   https://wiki.nixos.org/wiki/GStreamer
+      #   https://github.com/NixOS/nixpkgs/issues/195936
+      sessionVariables.GST_PLUGIN_SYSTEM_PATH_1_0 = lib.makeSearchPathOutput "lib" "lib/gstreamer-1.0" (
+        with pkgs.gst_all_1;
+        [
+          gstreamer
+          gst-plugins-base
+          gst-plugins-good
+          gst-plugins-bad
+          gst-plugins-ugly
+          gst-libav
+          gst-vaapi
+        ]
+      );
     };
 
     # Manage fonts
