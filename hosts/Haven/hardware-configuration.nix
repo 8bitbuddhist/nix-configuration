@@ -42,12 +42,12 @@
     "/" = {
       device = "/dev/disk/by-uuid/2c76c660-3573-4622-8771-f23fa7ee302a";
       fsType = "btrfs";
-      options = [ "subvol=@,compress=zstd" ];
+      options = [ "subvol=@,compress=zstd,discard" ];
     };
     "/home" = {
       device = "/dev/disk/by-uuid/2c76c660-3573-4622-8771-f23fa7ee302a";
       fsType = "btrfs";
-      options = [ "subvol=@home,compress=zstd" ];
+      options = [ "subvol=@home,compress=zstd,discard" ];
     };
     "/swap" = {
       device = "/dev/disk/by-uuid/2c76c660-3573-4622-8771-f23fa7ee302a";

@@ -30,7 +30,7 @@
     "/" = {
       device = "/dev/disk/by-uuid/76d67291-5aed-4f2a-b71f-1c2871cefe24";
       fsType = "btrfs";
-      options = [ "subvol=@,compress=zstd" ];
+      options = [ "subvol=@,compress=zstd,discard" ];
     };
     "/boot" = {
       device = "/dev/disk/by-uuid/0C53-A645";

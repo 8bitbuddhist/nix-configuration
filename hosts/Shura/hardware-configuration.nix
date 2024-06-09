@@ -48,12 +48,12 @@
     "/" = {
       device = "/dev/disk/by-uuid/b801fbea-4cb5-4255-bea9-a2ce77d1a1b7";
       fsType = "btrfs";
-      options = [ "subvol=@,compress=zstd" ];
+      options = [ "subvol=@,compress=zstd,discard" ];
     };
     "/home" = {
       device = "/dev/disk/by-uuid/b801fbea-4cb5-4255-bea9-a2ce77d1a1b7";
       fsType = "btrfs";
-      options = [ "subvol=@home,compress=zstd" ];
+      options = [ "subvol=@home,compress=zstd,discard" ];
     };
     "/swap" = {
       device = "/dev/disk/by-uuid/b801fbea-4cb5-4255-bea9-a2ce77d1a1b7";
