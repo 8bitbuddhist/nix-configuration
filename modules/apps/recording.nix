@@ -12,13 +12,12 @@ with lib;
   config = mkIf cfg.enable {
     host.ui.flatpak.enable = true;
 
-    services.flatpak = {
-      packages = [
-        "com.obsproject.Studio"
-        "com.obsproject.Studio.Plugin.DroidCam"
-        "org.kde.kdenlive"
-      ];
-    };
+    services.flatpak.packages = [
+      "com.obsproject.Studio"
+      "com.obsproject.Studio.Plugin.DroidCam"
+      "org.kde.kdenlive"
+      "org.tenacityaudio.Tenacity"
+    ];
 
     # Add a virtual camera to use with Droidcam
     boot = {
