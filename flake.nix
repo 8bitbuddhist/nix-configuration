@@ -19,7 +19,7 @@
     };
 
     # SecureBoot support
-    lanzaboote.url = "github:nix-community/lanzaboote/v0.3.0";
+    lanzaboote.url = "github:nix-community/lanzaboote/v0.4.0";
 
     # Flatpak support
     nix-flatpak.url = "github:gmodena/nix-flatpak/v0.4.1";
