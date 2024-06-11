@@ -19,6 +19,9 @@ with lib;
       enable = true;
       newSession = true;
       clock24 = true;
+      extraConfig = ''
+        set -g terminal-overrides 'xterm*:smcup@:rmcup@'
+      '';
     };
   };
 }
