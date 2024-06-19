@@ -85,6 +85,7 @@ with lib;
             userEmail = config.secrets.users.aires.email;
             extraConfig = {
               push.autoSetupRemote = "true";
+              aliases.pull = "!git pull && git submodule foreach --recursive 'git pull origin main'";
             };
           };
 

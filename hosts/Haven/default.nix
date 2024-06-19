@@ -8,6 +8,8 @@
 let
   start-haven = pkgs.writeShellScriptBin "start-haven" (builtins.readFile ./start-haven.sh);
 
+  services-root = "/storage/services";
+
   subdomains = [
     config.secrets.services.airsonic.url
     config.secrets.services.cache.url
@@ -40,6 +42,18 @@ in
               ''}";
             };
           };
+          "${config.secrets.networking.blogDomain}" = {
+            dnsProvider = "namecheap";
+            webroot = null; # Required in order to prevent a failed assertion
+            credentialFiles = {
+              "NAMECHEAP_API_USER_FILE" = "${pkgs.writeText "namecheap-api-user" ''
+                ${config.secrets.networking.namecheap.api.user}
+              ''}";
+              "NAMECHEAP_API_KEY_FILE" = "${pkgs.writeText "namecheap-api-key" ''
+                ${config.secrets.networking.namecheap.api.key}
+              ''}";
+            };
+          };
         };
       };
       apcupsd = {
@@ -48,13 +62,13 @@ in
       };
       airsonic = {
         enable = true;
-        home = "/storage/services/airsonic-advanced";
+        home = "${services-root}/airsonic-advanced";
       };
       autoUpgrade.pushUpdates = true;
       boinc.enable = true;
       cache = {
         enable = false; # Disable for now
-        secretKeyFile = "/storage/services/nix-cache/cache-priv-key.pem";
+        secretKeyFile = "${services-root}/nix-cache/cache-priv-key.pem";
       };
       duplicacy-web = {
         enable = true;
@@ -63,7 +77,7 @@ in
       };
       forgejo = {
         enable = true;
-        home = "/storage/services/forgejo";
+        home = "${services-root}/forgejo";
         actions = {
           enable = true;
           token = config.secrets.services.forgejo.runner-token;
@@ -80,6 +94,13 @@ in
             locations."/" = {
               # Catchall vhost, will redirect users to Forgejo
               return = "301 https://${config.secrets.services.forgejo.url}";
+            };
+          };
+          "${config.secrets.networking.blogDomain}" = {
+            useACMEHost = config.secrets.networking.blogDomain;
+            forceSSL = true;
+            locations."/" = {
+              root = "${services-root}/nginx/sites/${config.secrets.networking.blogDomain}";
             };
           };
           "${config.secrets.services.gremlin-lab.url}" = {

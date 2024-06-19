@@ -13,7 +13,10 @@
       office.enable = true;
       recording.enable = true;
       social.enable = true;
-      writing.enable = true;
+      writing = {
+        enable = true;
+        ngrams.enable = false;
+      };
     };
     ui = {
       flatpak.enable = true;
@@ -37,8 +40,8 @@
   # Enable thermal control
   services.thermald.enable = true;
 
-  # Limit the number of cores Nix can use so at least one is always free
-  nix.settings.cores = 11;
+  # Limit the number of cores Nix can use
+  nix.settings.cores = 10;
 
   # Configure the virtual machine created by nixos-rebuild build-vm
   virtualisation.vmVariant.virtualisation = {

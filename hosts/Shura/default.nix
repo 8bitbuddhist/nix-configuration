@@ -38,7 +38,10 @@ in
       office.enable = true;
       recording.enable = true;
       social.enable = true;
-      writing.enable = true;
+      writing = {
+        enable = true;
+        ngrams.enable = true;
+      };
     };
     ui = {
       flatpak.enable = true;

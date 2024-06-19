@@ -10,6 +10,7 @@
     # Replace Nix with Lix: https://lix.systems/
     lix = {
       url = "git+https://git@git.lix.systems/lix-project/lix?ref=refs/tags/2.90-beta.1";
+      #url = "git+https://git@git.lix.systems/lix-project/lix?ref=release-2.90";
       flake = false;
     };
     lix-module = {
@@ -68,7 +69,7 @@
       defaultModules = [
         {
           _module.args = {
-            inherit inputs self;
+            inherit inputs;
           };
         }
         ./modules/autoimport.nix
