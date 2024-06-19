@@ -7,9 +7,6 @@ if [ "$(id -u)" != "0" ]; then
    exit 1
 fi
 
-# Immediately exit on any errors
-set -e
-
 # Unlock and mount storage directory if we haven't already
 if [ -e "/dev/mapper/storage" ]; then
 	echo "Storage partition already mounted."

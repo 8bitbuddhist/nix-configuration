@@ -63,7 +63,6 @@ in
     services = {
       forgejo = {
         enable = true;
-        lfs.enable = true;
         settings.server = {
           DOMAIN = cfg.domain;
           ROOT_URL = cfg.url;
