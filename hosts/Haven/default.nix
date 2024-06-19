@@ -99,9 +99,7 @@ in
           "${config.secrets.networking.blogDomain}" = {
             useACMEHost = config.secrets.networking.blogDomain;
             forceSSL = true;
-            locations."/" = {
-              root = "${services-root}/nginx/sites/${config.secrets.networking.blogDomain}";
-            };
+            root = "${services-root}/nginx/sites/${config.secrets.networking.blogDomain}";
           };
           "${config.secrets.services.gremlin-lab.url}" = {
             useACMEHost = config.secrets.networking.primaryDomain;
