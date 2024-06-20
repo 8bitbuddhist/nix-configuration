@@ -17,6 +17,7 @@ with lib;
       "com.obsproject.Studio.Plugin.DroidCam"
       "org.kde.kdenlive"
       "org.tenacityaudio.Tenacity"
+      "io.github.seadve.Kooha"
     ];
 
     # Add a virtual camera to use with Droidcam
