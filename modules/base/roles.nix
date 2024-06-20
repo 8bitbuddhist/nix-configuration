@@ -46,7 +46,11 @@ in
         consoleLogLevel = 1;
 
         # Add kernel parameters
-        kernelParams = [ "quiet" ];
+        kernelParams = [
+          "quiet"
+          "splash"
+        ];
+        initrd.verbose = false;
       };
     })
   ];
