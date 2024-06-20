@@ -12,6 +12,7 @@ in
   options = {
     host.apps.writing = {
       enable = lib.mkEnableOption (lib.mdDoc "Enables writing and editing tools");
+      # WARNING: Ngrams package requires an excessive amount of memory. Troubleshoot before re-enabling
       ngrams.enable = lib.mkEnableOption (
         lib.mdDoc "Enables ngrams for improved grammar detection (warning: results in an 8GB+ download)."
       );
