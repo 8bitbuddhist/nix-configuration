@@ -13,7 +13,7 @@ with lib;
     host.ui.flatpak.enable = true;
 
     services.flatpak.packages = [
-      "org.libreoffice.LibreOffice"
+      "org.onlyoffice.desktopeditors"
       "us.zoom.Zoom"
     ];
   };
