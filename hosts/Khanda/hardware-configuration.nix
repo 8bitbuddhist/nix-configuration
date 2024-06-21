@@ -53,6 +53,11 @@
       };
     };
 
+    kernel.sysctl = {
+      # Try to reduce swappiness - Khanda hates paging, even to NVMe storage
+      "vm.swappiness" = 20;
+    };
+
     kernelModules = [
       "kvm-intel"
       "tpm_crb"
