@@ -15,7 +15,7 @@
       social.enable = true;
       writing = {
         enable = true;
-        ngrams.enable = false;
+        languagetool.enable = false;
       };
     };
     ui = {
