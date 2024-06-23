@@ -40,7 +40,7 @@ in
       social.enable = true;
       writing = {
         enable = true;
-        ngrams.enable = false;
+        languagetool.enable = true;
       };
     };
     ui = {

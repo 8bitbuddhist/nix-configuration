@@ -181,39 +181,35 @@
       "locked": {
         "lastModified": 1718590005,
         "narHash": "sha256-fiWc1ZyMlTXXSjcmoEQ+NHhIgtcImPHszbOu5c515cU=",
-        "ref": "release-2.90",
         "rev": "98d0249d5c7f5dcc1d2436c4829f073fca668f80",
-        "revCount": 15785,
-        "type": "git",
-        "url": "https://git@git.lix.systems/lix-project/lix"
+        "type": "tarball",
+        "url": "https://git.lix.systems/api/v1/repos/lix-project/lix/archive/98d0249d5c7f5dcc1d2436c4829f073fca668f80.tar.gz"
       },
       "original": {
-        "ref": "release-2.90",
-        "type": "git",
-        "url": "https://git@git.lix.systems/lix-project/lix"
+        "type": "tarball",
+        "url": "https://git.lix.systems/lix-project/lix/archive/release-2.90.tar.gz"
       }
     },
     "lix-module": {
       "inputs": {
         "flake-utils": "flake-utils_2",
         "flakey-profile": "flakey-profile",
-        "lix": [
-          "lix"
-        ],
+        "lix": "lix",
         "nixpkgs": [
           "nixpkgs"
         ]
       },
       "locked": {
-        "lastModified": 1718778751,
-        "narHash": "sha256-DdcMvX9r29uHMlz7P1Shgs5xZw9WkZ4ObMGYzwROAiw=",
-        "ref": "refs/heads/main",
-        "rev": "909e593ae9f5fe338ab19b4ed9d52bb0ea09bad8",
-        "revCount": 90,
+        "lastModified": 1718778660,
+        "narHash": "sha256-1xP1r7tNTSJYYQr+6wwhkJk3P5REuN8WHARa7Re8T/0=",
+        "ref": "release-2.90",
+        "rev": "376ecb80385642329ce274abda2da0bc7b7906c9",
+        "revCount": 89,
         "type": "git",
         "url": "https://git.lix.systems/lix-project/nixos-module"
       },
       "original": {
+        "ref": "release-2.90",
         "type": "git",
         "url": "https://git.lix.systems/lix-project/nixos-module"
       }
@@ -252,11 +248,11 @@
     },
     "nixos-hardware": {
       "locked": {
-        "lastModified": 1719069430,
-        "narHash": "sha256-d9KzCJv3UG6nX9Aur5OSEf4Uj+ywuxojhiCiRKYVzXA=",
+        "lastModified": 1719145664,
+        "narHash": "sha256-+0bBlerLxsHUJcKPDWZM1wL3V9bzCFjz+VyRTG8fnUA=",
         "ref": "master",
-        "rev": "e8232c132a95ddc62df9d404120ad4ff53862910",
-        "revCount": 1741,
+        "rev": "c3e48cbd88414f583ff08804eb57b0da4c194f9e",
+        "revCount": 1750,
         "type": "git",
         "url": "https://github.com/NixOS/nixos-hardware"
       },
@@ -300,11 +296,11 @@
     },
     "nixpkgs_2": {
       "locked": {
-        "lastModified": 1718895438,
-        "narHash": "sha256-k3JqJrkdoYwE3fHE6xGDY676AYmyh4U2Zw+0Bwe5DLU=",
+        "lastModified": 1719075281,
+        "narHash": "sha256-CyyxvOwFf12I91PBWz43iGT1kjsf5oi6ax7CrvaMyAo=",
         "owner": "NixOS",
         "repo": "nixpkgs",
-        "rev": "d603719ec6e294f034936c0d0dc06f689d91b6c3",
+        "rev": "a71e967ef3694799d0c418c98332f7ff4cc5f6af",
         "type": "github"
       },
       "original": {
@@ -345,7 +341,6 @@
       "inputs": {
         "home-manager": "home-manager",
         "lanzaboote": "lanzaboote",
-        "lix": "lix",
         "lix-module": "lix-module",
         "nix-flatpak": "nix-flatpak",
         "nix-secrets": "nix-secrets",
