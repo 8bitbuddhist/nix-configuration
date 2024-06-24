@@ -36,7 +36,10 @@ in
 
     gpu.amd.enable = true;
 
-    packages = [ start-haven ];
+    packages = [
+      start-haven
+      pkgs.htop
+    ];
 
     # Keep old generations for one month.
     retentionPeriod = "monthly";
