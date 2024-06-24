@@ -12,7 +12,7 @@
 
   aux.system = {
     apps.tmux.enable = true;
-    bootloader.enable = false;  # Bootloader configured in hardware-configuration.nix
+    bootloader.enable = false; # Bootloader configured in hardware-configuration.nix
     packages = with pkgs; [
       libraspberrypi
       raspberrypifw

@@ -74,7 +74,19 @@ in
       user = config.users.users.aires.name;
     };
     ui = {
-      flatpak.enable = true;
+      flatpak = {
+        # Enable Flatpak support.
+        enable = true;
+
+        # Define Flatpak packages to install.
+        packages = [
+          "com.github.tchx84.Flatseal"
+          "com.github.wwmm.easyeffects"
+          "md.obsidian.Obsidian"
+          "net.waterfox.waterfox"
+          "org.keepassxc.KeePassXC"
+        ];
+      };
       desktops.gnome.enable = true;
     };
     users = {

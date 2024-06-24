@@ -42,6 +42,9 @@ in
         "quiet"
         "splash"
       ];
+
+      # Increase minimum log level. This removes ACPI errors from the boot screen.
+      consoleLogLevel = 1;
     };
 
     # Manage fonts
