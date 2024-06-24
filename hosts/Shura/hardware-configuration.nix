@@ -16,12 +16,6 @@
 
     # Hardware defaults detected by nixos-generate-configuration
     initrd = {
-      # SystemD in the initrd is required for TPM auto-unlocking.
-      # See https://discourse.nixos.org/t/full-disk-encryption-tpm2/29454/2
-      # If the LUKS volume is recently created, run this command to bind it to the TPM:
-      #	sudo systemd-cryptenroll --tpm2-device=auto --tpm2-pcrs=0+7 /dev/<device>
-      systemd.enable = true;
-
       availableKernelModules = [
         "nvme"
         "xhci_pci"

@@ -12,28 +12,30 @@
 
   aux.system = {
     apps.tmux.enable = true;
-    users.aires.enable = true;
-    boot.enable = false;
-    services.ssh = {
+    boot = {
       enable = true;
-      ports = [ config.secrets.hosts.haven.ssh.port ];
+      secureboot.enable = false;
     };
-  };
-
-  nix.distributedBuilds = true;
-
-  networking.hostName = "Pihole";
-  time.timeZone = "America/New_York";
-
-  environment.systemPackages = with pkgs; [
+    packages = with pkgs; [
     libraspberrypi
     raspberrypifw
     raspberrypi-eeprom
     linuxKernel.kernels.linux_rpi4
   ];
+    services.ssh = {
+      enable = true;
+      ports = [ config.secrets.hosts.haven.ssh.port ];
+    };
+    users.aires.enable = true;
+  };
+
+  nix.distributedBuilds = true;
+
+  time.timeZone = "America/New_York";
 
   # Connect to the network automagically
   networking = {
+    hostName = "Pihole";
     networkmanager.enable = lib.mkForce false;
     wireless.networks = {
       "${config.secrets.networking.networks.home.SSID}" = {

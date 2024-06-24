@@ -26,36 +26,52 @@ in
     # https://nixos.org/manual/nixpkgs/stable/#sec-allow-unfree
     allowUnfree = true;
 
+    apps = {
+      development.enable = true;
+      media.enable = true;
+      office.enable = true;
+      recording.enable = true;
+      social.enable = true;
+      writing = {
+        enable = true;
+        languagetool.enable = false;
+      };
+    };
+
     # Enable Secure Boot support.
-    # IMPORTANT: Read the README before enabling this option!
-    bootloader.secureboot.enable = true;
+    bootloader = {
+      enable = true;
+      secureboot.enable = true;
+      tpm2.enable = true;
+    };
 
     # Change the default text editor. Options are "emacs", "nano", or "vim".
     editor = "nano";
 
-    ui.flatpak = {
-      # Enable Flatpak support.
-      enable = true;
-
-      # Define Flatpak packages to install.
-      packages = [
-        "com.github.tchx84.Flatseal"
-        "com.github.wwmm.easyeffects"
-        "md.obsidian.Obsidian"
-        "net.waterfox.waterfox"
-        "org.keepassxc.KeePassXC"
-      ];
-    };
+    # Enable GPU support.
+    gpu.intel.enable = true;
 
     # Change how long old generations are kept for.
     retentionPeriod = "14d";
 
-    # Enable GPU support.
-    gpu.intel.enable = true;
-
-    ui.desktops.gnome.enable = true;
-
     services.autoUpgrade.enable = false;
+
+    ui = {
+      desktops.gnome.enable = true;
+      flatpak = {
+        # Enable Flatpak support.
+        enable = true;
+
+        # Define Flatpak packages to install.
+        packages = [
+          "com.github.tchx84.Flatseal"
+          "com.github.wwmm.easyeffects"
+          "md.obsidian.Obsidian"
+          "net.waterfox.waterfox"
+          "org.keepassxc.KeePassXC"
+        ];
+      };
+    };
 
     users.aires = {
       enable = true;

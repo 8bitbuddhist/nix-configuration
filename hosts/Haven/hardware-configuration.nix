@@ -12,7 +12,6 @@
   boot = {
     supportedFilesystems = [ "btrfs" ];
     kernelModules = [ "kvm-amd" ];
-    extraModulePackages = [ ];
 
     initrd = {
       supportedFilesystems = [ "btrfs" ];

@@ -44,6 +44,7 @@ in
     };
     gpu.amd.enable = true;
     packages = with pkgs; [ boinc ];
+    retentionPeriod = "7d";
     services.autoUpgrade = {
       enable = true;
       configDir = config.secrets.nixConfigFolder;
