@@ -12,7 +12,7 @@ in
 {
   options = {
     aux.system.services.virtualization = {
-      enable = lib.mkEnableOption (lib.mdDoc "Enables virtualization hosting tools on this aux.system.");
+      enable = lib.mkEnableOption (lib.mdDoc "Enables virtualization hosting tools on this host.");
       user = lib.mkOption {
         default = "";
         type = lib.types.str;
