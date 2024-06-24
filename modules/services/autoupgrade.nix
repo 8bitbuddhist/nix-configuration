@@ -26,11 +26,7 @@ in
 {
   options = {
     aux.system.services.autoUpgrade = {
-      enable = lib.mkOption {
-        default = true;
-        type = lib.types.bool;
-        description = "Enables automatic system updates.";
-      };
+      enable = lib.mkEnableOption (lib.mdDoc "Enables automatic system updates.");
       branches = lib.mkOption {
         type = lib.types.attrs;
         description = "Which local and remote branches to compare.";

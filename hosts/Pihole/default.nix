@@ -12,16 +12,13 @@
 
   aux.system = {
     apps.tmux.enable = true;
-    boot = {
-      enable = true;
-      secureboot.enable = false;
-    };
+    bootloader.enable = false;  # Bootloader configured in hardware-configuration.nix
     packages = with pkgs; [
-    libraspberrypi
-    raspberrypifw
-    raspberrypi-eeprom
-    linuxKernel.kernels.linux_rpi4
-  ];
+      libraspberrypi
+      raspberrypifw
+      raspberrypi-eeprom
+      linuxKernel.kernels.linux_rpi4
+    ];
     services.ssh = {
       enable = true;
       ports = [ config.secrets.hosts.haven.ssh.port ];

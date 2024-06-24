@@ -5,6 +5,9 @@
   ...
 }:
 let
+  # Do not change this value! This tracks when NixOS was installed on your system.
+  stateVersion = "24.05";
+
   # Copy bluetooth device configs
   shure-aonic-bluetooth = pkgs.writeText "info" (
     builtins.readFile ./bluetooth/shure-aonic-bluetooth-params
@@ -26,7 +29,7 @@ in
 {
   imports = [ ./hardware-configuration.nix ];
 
-  system.stateVersion = "24.05";
+  system.stateVersion = stateVersion;
 
   aux.system = {
     apps = {
@@ -42,9 +45,28 @@ in
         languagetool.enable = true;
       };
     };
+
+    # Configure the bootloader.
+    bootloader = {
+      enable = true;
+      secureboot.enable = true;
+      tpm2.enable = true;
+    };
+
+    # Change the default text editor. Options are "emacs", "nano", or "vim".
+    editor = "nano";
+
+    # Enable GPU support.
     gpu.amd.enable = true;
-    packages = with pkgs; [ boinc ];
+
+    packages = with pkgs; [
+      boinc # Boinc client
+    ];
+
+    # Keep old generations for one week.
     retentionPeriod = "7d";
+
+    # Run daily automatic updates.
     services.autoUpgrade = {
       enable = true;
       configDir = config.secrets.nixConfigFolder;
