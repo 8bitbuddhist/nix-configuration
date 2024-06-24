@@ -6,11 +6,11 @@
 }:
 
 let
-  cfg = config.host.services.boinc;
+  cfg = config.aux.system.services.boinc;
 in
 {
   options = {
-    host.services.boinc.enable = lib.mkEnableOption (
+    aux.system.services.boinc.enable = lib.mkEnableOption (
       lib.mdDoc "Enables BOINC distributed computing service."
     );
   };

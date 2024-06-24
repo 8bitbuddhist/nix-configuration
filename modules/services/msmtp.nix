@@ -2,19 +2,19 @@
 { config, lib, ... }:
 
 let
-  cfg = config.host.services.msmtp;
+  cfg = config.aux.system.services.msmtp;
 in
 with lib;
 {
   options = {
-    host.services.msmtp.enable = mkEnableOption (mdDoc "Enables mail server");
+    aux.system.services.msmtp.enable = mkEnableOption (mdDoc "Enables mail server");
   };
 
   config = mkIf cfg.enable {
     programs.msmtp = {
       enable = true;
       accounts.default = {
-        host = config.secrets.services.msmtp.host;
+        aux.system = config.secrets.services.msmtp.host;
         user = config.secrets.services.msmtp.user;
         password = config.secrets.services.msmtp.password;
         auth = true;

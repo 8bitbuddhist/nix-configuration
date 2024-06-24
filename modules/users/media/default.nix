@@ -7,13 +7,13 @@
 
 # Define user for managing media on Haven
 let
-  cfg = config.host.users.media;
+  cfg = config.aux.system.users.media;
 in
 with lib;
 {
 
   options = {
-    host.users.media = {
+    aux.system.users.media = {
       enable = mkEnableOption (mdDoc "Enables media user account");
     };
   };

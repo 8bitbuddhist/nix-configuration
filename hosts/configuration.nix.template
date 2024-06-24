@@ -13,7 +13,7 @@
 
   system.stateVersion = "24.05";
 
-  host = {
+  aux.system = {
     role = "workstation";
     apps = {
       # Define applications here

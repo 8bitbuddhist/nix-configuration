@@ -1,3 +1,4 @@
+# Enables the Gnome desktop environment.
 {
   pkgs,
   config,
@@ -5,41 +6,29 @@
   ...
 }:
 
-# UI and desktop-related options
 let
-  cfg = config.host.ui.gnome;
+  cfg = config.aux.system.ui.desktops.gnome;
 in
-with lib;
 {
 
   options = {
-    host.ui.gnome.enable = mkEnableOption (mdDoc "Enables Gnome");
+    aux.system.ui.desktops.gnome.enable = lib.mkEnableOption (
+      lib.mdDoc "Enables the Gnome Desktop Environment."
+    );
   };
 
-  config = mkIf cfg.enable {
-    host.ui = {
-      audio.enable = true;
-      flatpak.enable = true;
-    };
+  config = lib.mkIf cfg.enable {
+    aux.system.ui.desktops.enable = true;
 
+    # Enable Gnome
     services = {
-      # Configure the xserver
       xserver = {
-        # Enable the X11 windowing system.
-        enable = true;
-
-        # Configure keymap in X11
-        xkb = {
-          layout = "us";
-          variant = "";
-        };
+        # Remove default packages that came with the install
+        excludePackages = [ pkgs.xterm ];
 
         # Enable Gnome
         desktopManager.gnome.enable = true;
         displayManager.gdm.enable = true;
-
-        # Remove default packages that came with the install
-        excludePackages = [ pkgs.xterm ];
       };
 
       # Install Flatpaks
@@ -107,41 +96,6 @@ with lib;
         papirus-icon-theme
         qogir-icon-theme
       ];
-
-      # Install GStreamer plugins
-      # References: 
-      #   https://wiki.nixos.org/wiki/GStreamer
-      #   https://github.com/NixOS/nixpkgs/issues/195936
-      sessionVariables.GST_PLUGIN_SYSTEM_PATH_1_0 = lib.makeSearchPathOutput "lib" "lib/gstreamer-1.0" (
-        with pkgs.gst_all_1;
-        [
-          gstreamer
-          gst-plugins-base
-          gst-plugins-good
-          gst-plugins-bad
-          gst-plugins-ugly
-          gst-libav
-          gst-vaapi
-        ]
-      );
-    };
-
-    # Manage fonts
-    fonts = {
-      # Install extra fonts
-      packages = with pkgs; [
-        noto-fonts
-        noto-fonts-cjk
-        noto-fonts-emoji
-        liberation_ttf
-        fira-code
-        fira-code-symbols
-        fira
-        roboto-slab
-      ];
-
-      # Enable font dir for use with Flatpak. See https://nixos.wiki/wiki/Fonts#Flatpak_applications_can.27t_find_system_fonts
-      fontDir.enable = true;
     };
 
     # Gnome UI integration for KDE apps

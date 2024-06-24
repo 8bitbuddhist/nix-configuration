@@ -6,13 +6,13 @@
 }:
 
 let
-  cfg = config.host.services.duplicacy-web;
+  cfg = config.aux.system.services.duplicacy-web;
   duplicacy-web = pkgs.callPackage ../../packages/duplicacy-web.nix { inherit pkgs lib; };
 in
 with lib;
 rec {
   options = {
-    host.services.duplicacy-web = {
+    aux.system.services.duplicacy-web = {
       enable = mkEnableOption (mdDoc "Enables duplicacy-web");
       autostart = mkOption {
         default = true;

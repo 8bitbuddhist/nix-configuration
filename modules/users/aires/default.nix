@@ -7,12 +7,12 @@
 
 # Define 'aires'
 let
-  cfg = config.host.users.aires;
+  cfg = config.aux.system.users.aires;
 in
 with lib;
 {
   options = {
-    host.users.aires = {
+    aux.system.users.aires = {
       enable = mkEnableOption (mdDoc "Enables aires user account");
       autologin = mkEnableOption (mdDoc "Automatically logs aires in on boot");
 
@@ -63,7 +63,9 @@ with lib;
           homeDirectory = "/home/aires";
 
           # Install extra packages, specifically gnome extensions
-          packages = lib.mkIf config.host.ui.gnome.enable [ pkgs.gnomeExtensions.wallpaper-slideshow ];
+          packages = lib.mkIf config.aux.system.ui.desktops.gnome.enable [
+            pkgs.gnomeExtensions.wallpaper-slideshow
+          ];
 
           # Set environment variables
           sessionVariables = {

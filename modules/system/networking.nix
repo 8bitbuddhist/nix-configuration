@@ -1,3 +1,4 @@
+# Configure basic networking options.
 _: {
   networking = {
     # Enable networking via NetworkManager

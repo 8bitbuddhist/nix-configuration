@@ -1,16 +1,16 @@
 { config, lib, ... }:
 
 let
-  cfg = config.host.apps.dj;
+  cfg = config.aux.system.apps.dj;
 in
 with lib;
 {
   options = {
-    host.apps.dj.enable = mkEnableOption (mdDoc "Enables DJing tools (i.e. Mixxx)");
+    aux.system.apps.dj.enable = mkEnableOption (mdDoc "Enables DJing tools (i.e. Mixxx)");
   };
 
   config = mkIf cfg.enable {
-    host.ui.flatpak.enable = true;
+    aux.system.ui.flatpak.enable = true;
 
     services.flatpak.packages = [ "org.mixxx.Mixxx" ];
   };

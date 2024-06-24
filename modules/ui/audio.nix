@@ -1,3 +1,4 @@
+# Enables audio support.
 {
   pkgs,
   lib,
@@ -6,20 +7,19 @@
 }:
 
 let
-  cfg = config.host.ui.audio;
+  cfg = config.aux.system.ui.audio;
 in
-with lib;
 {
   options = {
-    host.ui.audio = {
-      enable = mkEnableOption (mdDoc "Enables audio");
-      enableLowLatency = mkEnableOption (
-        mdDoc "Enables low-latency audio (may cause crackling) per https://nixos.wiki/wiki/PipeWire#Low-latency_setup "
+    aux.system.ui.audio = {
+      enable = lib.mkEnableOption (lib.mdDoc "Enables audio.");
+      enableLowLatency = lib.mkEnableOption (
+        lib.mdDoc "Enables low-latency audio (may cause crackling) per https://nixos.wiki/wiki/PipeWire#Low-latency_setup."
       );
     };
   };
 
-  config = mkIf cfg.enable {
+  config = lib.mkIf cfg.enable {
     # Enable sound with pipewire.
     sound.enable = true;
     security.rtkit.enable = true;
@@ -36,7 +36,7 @@ with lib;
       jack.enable = true;
 
       # Reduce audio latency per https://nixos.wiki/wiki/PipeWire#Low-latency_setup
-      extraConfig.pipewire = mkIf cfg.enableLowLatency {
+      extraConfig.pipewire = lib.mkIf cfg.enableLowLatency {
         "92-low-latency.conf" = {
           "context.properties" = {
             "default.clock.rate" = 48000;
@@ -47,7 +47,5 @@ with lib;
         };
       };
     };
-
-    services.flatpak.packages = mkIf config.host.ui.flatpak.enable [ "com.github.wwmm.easyeffects" ];
   };
 }

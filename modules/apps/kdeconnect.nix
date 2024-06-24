@@ -6,12 +6,12 @@
 }:
 
 let
-  cfg = config.host.apps.kdeconnect;
+  cfg = config.aux.system.apps.kdeconnect;
 in
 with lib;
 {
   options = {
-    host.apps.kdeconnect.enable = mkEnableOption (mdDoc "Enables KDE Connect");
+    aux.system.apps.kdeconnect.enable = mkEnableOption (mdDoc "Enables KDE Connect");
   };
 
   config = mkIf cfg.enable {

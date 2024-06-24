@@ -4,35 +4,32 @@
   description = "Aires' system Flake";
 
   inputs = {
-    # Track base packagese
-    nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
+    # Import the desired Nix channel. Defaults to unstable, which uses a fully tested rolling release model.
+    #   You can find a list of channels at https://nixos.wiki/wiki/Nix_channels
+    #   To follow a different channel, replace `nixos-unstable` with the channel name, e.g. `nixos-24.05`.
+    nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
 
-    # Replace Nix with Lix: https://lix.systems/
-    lix = {
-      #url = "git+https://git@git.lix.systems/lix-project/lix?ref=refs/tags/2.90-beta.1";
-      url = "git+https://git@git.lix.systems/lix-project/lix?ref=release-2.90";
-      flake = false;
-    };
+    # Use Lix in place of Nix.
+    #   If you'd rather use regular Nix, remove `lix-module.nixosModules.default` from the `modules` section below.
+    #   To learn more about Lix, see https://lix.systems/
     lix-module = {
-      url = "git+https://git.lix.systems/lix-project/nixos-module";
-      inputs.lix.follows = "lix";
+      url = "git+https://git.lix.systems/lix-project/nixos-module?ref=release-2.90";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-
-    # SecureBoot support
-    lanzaboote.url = "github:nix-community/lanzaboote/v0.4.0";
 
     # Flatpak support
     nix-flatpak.url = "github:gmodena/nix-flatpak/v0.4.1";
 
-    # Hardware configurations
-    #nixos-hardware.url = "git+https://code.8bitbuddhism.com/aires/nixos-hardware?ref=master";
-    nixos-hardware.url = "git+https://github.com/NixOS/nixos-hardware?ref=master";
+    # SecureBoot support
+    lanzaboote.url = "github:nix-community/lanzaboote/v0.4.0";
 
-    # Home-manager
+    # NixOS hardware quirks
+    nixos-hardware.url = "github:NixOS/nixos-hardware/master";
+
+    # Home-manager support
     home-manager = {
       url = "github:nix-community/home-manager";
-      inputs.nixpkgs.follows = "nixpkgs"; # Use system packages list where available
+      inputs.nixpkgs.follows = "nixpkgs";
     };
 
     # "Secrets management"
@@ -47,12 +44,12 @@
   outputs =
     inputs@{
       self,
-      nixpkgs,
-      lanzaboote,
-      nix-flatpak,
       home-manager,
-      nixos-hardware,
+      lanzaboote,
       lix-module,
+      nix-flatpak,
+      nixos-hardware,
+      nixpkgs,
       nix-secrets,
       ...
     }:
@@ -63,15 +60,9 @@
           "x86_64-linux"
           "aarch64-linux"
         ] (system: function nixpkgs.legacyPackages.${system});
-      config.allowUnfree = true;
 
       # Define shared modules and imports
       defaultModules = [
-        {
-          _module.args = {
-            inherit inputs;
-          };
-        }
         ./modules/autoimport.nix
         (import nix-secrets)
         lix-module.nixosModules.default
@@ -79,6 +70,9 @@
         nix-flatpak.nixosModules.nix-flatpak
         home-manager.nixosModules.home-manager
         {
+          _module.args = {
+            inherit inputs;
+          };
           home-manager = {
             /*
               When running, Home Manager will use the global package cache.

@@ -6,12 +6,12 @@
 }:
 
 let
-  cfg = config.host.apps.development;
+  cfg = config.aux.system.apps.development;
 in
 with lib;
 {
   options = {
-    host.apps.development = {
+    aux.system.apps.development = {
       enable = mkEnableOption (mdDoc "Enables development tools");
       kubernetes.enable = mkEnableOption (mdDoc "Enables kubectl, virtctl, and similar tools.");
     };
@@ -19,7 +19,7 @@ with lib;
 
   config = mkMerge [
     (mkIf cfg.enable {
-      host.ui.flatpak.enable = true;
+      aux.system.ui.flatpak.enable = true;
 
       services.flatpak.packages = [ "com.vscodium.codium" ];
     })

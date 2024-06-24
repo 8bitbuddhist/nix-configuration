@@ -7,12 +7,12 @@
 }:
 
 let
-  cfg = config.host.services.virtualization;
+  cfg = config.aux.system.services.virtualization;
 in
 {
   options = {
-    host.services.virtualization = {
-      enable = lib.mkEnableOption (lib.mdDoc "Enables virtualization hosting tools on this host.");
+    aux.system.services.virtualization = {
+      enable = lib.mkEnableOption (lib.mdDoc "Enables virtualization hosting tools on this aux.system.");
       user = lib.mkOption {
         default = "";
         type = lib.types.str;

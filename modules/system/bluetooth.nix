@@ -1,3 +1,4 @@
+# Configures bluetooth.
 {
   lib,
   config,
@@ -6,18 +7,17 @@
 }:
 
 let
-  cfg = config.host.ui.bluetooth;
+  cfg = config.aux.system.bluetooth;
 in
-with lib;
 {
 
   options = {
-    host.ui.bluetooth = {
-      enable = mkEnableOption (mdDoc "Enables bluetooth");
+    aux.system.bluetooth = {
+      enable = lib.mkEnableOption (lib.mdDoc "Enables bluetooth");
     };
   };
 
-  config = mkIf cfg.enable {
+  config = lib.mkIf cfg.enable {
     # Set up Bluetooth
     hardware.bluetooth = {
       enable = true;

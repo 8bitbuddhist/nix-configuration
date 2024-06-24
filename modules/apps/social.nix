@@ -6,12 +6,12 @@
 }:
 
 let
-  cfg = config.host.apps.social;
+  cfg = config.aux.system.apps.social;
 in
 with lib;
 {
   options = {
-    host.apps.social.enable = mkEnableOption (mdDoc "Enables chat apps");
+    aux.system.apps.social.enable = mkEnableOption (mdDoc "Enables chat apps");
   };
 
   config = mkIf cfg.enable {
@@ -21,7 +21,7 @@ with lib;
       beeper
     ];
 
-    host.ui.flatpak.enable = true;
+    aux.system.ui.flatpak.enable = true;
     services.flatpak.packages = [ "com.discordapp.Discord" ];
   };
 }

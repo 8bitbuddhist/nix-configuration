@@ -5,12 +5,12 @@
   ...
 }:
 let
-  cfg = config.host.services.apcupsd;
+  cfg = config.aux.system.services.apcupsd;
 in
 with lib;
 {
   options = {
-    host.services.apcupsd = {
+    aux.system.services.apcupsd = {
       enable = mkEnableOption (mdDoc "Enables apcupsd");
       configText = lib.mkOption {
         type = lib.types.str;

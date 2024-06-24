@@ -5,7 +5,7 @@
   ...
 }:
 let
-  cfg = config.host.services.forgejo;
+  cfg = config.aux.system.services.forgejo;
   cli-cfg = config.services.forgejo;
 
   forgejo-cli = pkgs.writeScriptBin "forgejo-cli" ''
@@ -23,7 +23,7 @@ let
 in
 {
   options = {
-    host.services.forgejo = {
+    aux.system.services.forgejo = {
       autostart = lib.mkEnableOption (lib.mdDoc "Automatically starts Forgejo at boot.");
       enable = lib.mkEnableOption (lib.mdDoc "Enables Forgejo Git hosting service.");
       domain = lib.mkOption {

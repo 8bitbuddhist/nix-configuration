@@ -2,11 +2,11 @@
 { config, lib, ... }:
 
 let
-  cfg = config.host.services.myModule;
+  cfg = config.aux.system.services.myModule;
 in
 {
   options = {
-    host.services.myModule = {
+    aux.system.services.myModule = {
       enable = lib.mkEnableOption (lib.mdDoc "Enables this example module.");
       attributes = lib.mkOption {
         default = { };

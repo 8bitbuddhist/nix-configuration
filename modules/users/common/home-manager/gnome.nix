@@ -6,7 +6,7 @@
 }:
 {
   # Additional Gnome configurations via home-manager.
-  dconf.settings = lib.mkIf osConfig.host.ui.gnome.enable {
+  dconf.settings = lib.mkIf osConfig.aux.system.ui.desktops.gnome.enable {
     "org/gnome/mutter" = {
       edge-tiling = true;
       workspaces-only-on-primary = false;

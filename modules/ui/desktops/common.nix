@@ -1,0 +1,104 @@
+# Common desktop environment modules
+{
+  pkgs,
+  config,
+  lib,
+  ...
+}:
+
+let
+  cfg = config.aux.system.ui.desktops;
+in
+{
+  options = {
+    aux.system.ui.desktops = {
+      enable = lib.mkEnableOption (lib.mdDoc "Enables base desktop environment support.");
+      xkb = lib.mkOption {
+        description = "The keyboard layout to use by default. Defaults to us.";
+        type = lib.types.attrs;
+        default = {
+          layout = "us";
+          variant = "";
+        };
+      };
+    };
+  };
+
+  config = lib.mkIf cfg.enable {
+    aux.system = {
+      bluetooth.enable = true;
+      ui.audio.enable = true;
+    };
+
+    boot = {
+      # Enable Plymouth for graphical bootsplash.
+      plymouth = {
+        enable = true;
+        theme = "bgrt";
+      };
+
+      # Add kernel parameters
+      kernelParams = [
+        "quiet"
+        "splash"
+      ];
+    };
+
+    # Manage fonts
+    fonts = {
+      # Install extra fonts
+      packages = with pkgs; [
+        noto-fonts
+        noto-fonts-cjk
+        noto-fonts-emoji
+        liberation_ttf
+        fira-code
+        fira-code-symbols
+        fira
+        roboto-slab
+      ];
+
+      # Enable font dir for use with Flatpak. See https://nixos.wiki/wiki/Fonts#Flatpak_applications_can.27t_find_system_fonts
+      fontDir.enable = true;
+    };
+
+    services = {
+      # Configure the xserver
+      xserver = {
+        # Enable the X11 windowing system.
+        enable = true;
+
+        # Enable touchpad support (enabled by default in most desktop managers, buuuut just in case).
+        libinput.enable = true;
+
+        # Configure keymap in X11
+        xkb = config.aux.system.ui.desktops.xkb;
+      };
+    };
+
+    # Support for AppImage files
+    programs.appimage = {
+      enable = true;
+      binfmt = true;
+    };
+
+    # Install full GStreamer capabilities.
+    # References: 
+    #   https://wiki.nixos.org/wiki/GStreamer
+    #   https://github.com/NixOS/nixpkgs/issues/195936
+    environment = {
+      sessionVariables.GST_PLUGIN_SYSTEM_PATH_1_0 = lib.makeSearchPathOutput "lib" "lib/gstreamer-1.0" (
+        with pkgs.gst_all_1;
+        [
+          gstreamer
+          gst-plugins-base
+          gst-plugins-good
+          gst-plugins-bad
+          gst-plugins-ugly
+          gst-libav
+          gst-vaapi
+        ]
+      );
+    };
+  };
+}

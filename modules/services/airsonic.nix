@@ -5,11 +5,11 @@
   ...
 }:
 let
-  cfg = config.host.services.airsonic;
+  cfg = config.aux.system.services.airsonic;
 in
 {
   options = {
-    host.services.airsonic = {
+    aux.system.services.airsonic = {
       autostart = lib.mkEnableOption (lib.mdDoc "Automatically starts Airsonic at boot.");
       enable = lib.mkEnableOption (lib.mdDoc "Enables Airsonic Advanced media streaming service.");
       home = lib.mkOption {
@@ -21,7 +21,7 @@ in
   };
 
   config = lib.mkIf cfg.enable {
-    host.users.media.enable = true;
+    aux.system.users.media.enable = true;
     users.users.airsonic.extraGroups = [ "media" ];
 
     services = {

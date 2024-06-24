@@ -22,8 +22,8 @@ in
 
   system.stateVersion = "24.05";
 
-  host = {
-    role = "server";
+  aux.system = {
+    apps.tmux.enable = true;
     services = {
       acme = {
         enable = true;

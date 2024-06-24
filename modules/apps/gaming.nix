@@ -7,7 +7,7 @@
 
 # Gaming-related settings
 let
-  cfg = config.host.apps.gaming;
+  cfg = config.aux.system.apps.gaming;
   reset-controllers-script = pkgs.writeShellScriptBin "reset-controllers" ''
     #!/usr/bin/env bash
     sudo rmmod hid_xpadneo && sudo modprobe hid_xpadneo
@@ -17,11 +17,11 @@ in
 with lib;
 {
   options = {
-    host.apps.gaming.enable = mkEnableOption (mdDoc "Enables gaming features");
+    aux.system.apps.gaming.enable = mkEnableOption (mdDoc "Enables gaming features");
   };
 
   config = mkIf cfg.enable {
-    host.ui.flatpak.enable = true;
+    aux.system.ui.flatpak.enable = true;
     services.flatpak.packages = [
       "gg.minion.Minion"
       "com.valvesoftware.Steam"

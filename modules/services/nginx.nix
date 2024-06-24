@@ -1,11 +1,11 @@
 { config, lib, ... }:
 
 let
-  cfg = config.host.services.nginx;
+  cfg = config.aux.system.services.nginx;
 in
 {
   options = {
-    host.services.nginx = {
+    aux.system.services.nginx = {
       autostart = lib.mkEnableOption (lib.mdDoc "Whether to autostart Nginx at boot.");
       enable = lib.mkEnableOption (lib.mdDoc "Enable the Nginx web server.");
 

@@ -7,11 +7,11 @@
 }:
 
 let
-  cfg = config.host.services.cache;
+  cfg = config.aux.system.services.cache;
 in
 {
   options = {
-    host.services.cache = {
+    aux.system.services.cache = {
       enable = lib.mkEnableOption (lib.mdDoc "Enables binary cache hosting.");
       secretKeyFile = lib.mkOption {
         default = "/var/cache-priv-key.pem";

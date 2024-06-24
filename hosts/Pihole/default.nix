@@ -10,8 +10,8 @@
 
   system.stateVersion = "24.05";
 
-  host = {
-    role = "server";
+  aux.system = {
+    apps.tmux.enable = true;
     users.aires.enable = true;
     boot.enable = false;
     services.ssh = {

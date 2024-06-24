@@ -5,12 +5,12 @@
   ...
 }:
 let
-  cfg = config.host.services.k3s;
+  cfg = config.aux.system.services.k3s;
 in
 with lib;
 {
   options = {
-    host.services.k3s = {
+    aux.system.services.k3s = {
       enable = mkEnableOption (mdDoc "Enables K3s");
       role = mkOption {
         default = "server";

@@ -7,7 +7,7 @@
 }:
 
 let
-  cfg = config.host.services.autoUpgrade;
+  cfg = config.aux.system.services.autoUpgrade;
 
   # List of packages to include in each service's $PATH
   pathPkgs = with pkgs; [
@@ -25,7 +25,7 @@ let
 in
 {
   options = {
-    host.services.autoUpgrade = {
+    aux.system.services.autoUpgrade = {
       enable = lib.mkOption {
         default = true;
         type = lib.types.bool;

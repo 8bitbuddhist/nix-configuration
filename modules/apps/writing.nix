@@ -6,11 +6,11 @@
 }:
 
 let
-  cfg = config.host.apps.writing;
+  cfg = config.aux.system.apps.writing;
 in
 {
   options = {
-    host.apps.writing = {
+    aux.system.apps.writing = {
       enable = lib.mkEnableOption (lib.mdDoc "Enables writing and editing tools");
       languagetool = {
         enable = lib.mkEnableOption (lib.mdDoc "Enables local Language Tool server.");

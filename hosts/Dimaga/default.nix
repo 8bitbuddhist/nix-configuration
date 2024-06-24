@@ -4,7 +4,7 @@
 
   system.stateVersion = "24.05";
 
-  host = {
+  aux.system = {
     role = "workstation";
     apps = {
       development.enable = true;

@@ -1,27 +1,63 @@
-{ pkgs, lib, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
+
+let
+  # Do not change this value! This tracks when NixOS was installed on your system.
+  stateVersion = "24.05";
+in
 {
   imports = [ ./hardware-configuration.nix ];
 
-  system.stateVersion = "24.05";
-  system.autoUpgrade.enable = lib.mkForce false;
+  system.stateVersion = stateVersion;
 
-  host = {
-    role = "workstation";
-    apps = {
-      development.enable = true;
-      media.enable = true;
-      office.enable = true;
-      recording.enable = true;
-      social.enable = true;
-      writing = {
-        enable = true;
-        languagetool.enable = false;
-      };
+  ###*** Configure your system below this line. ***###
+  # Set your time zone.
+  #   To see all available timezones, run `timedatectl list-timezones`.
+  time.timeZone = "America/New_York";
+
+  # Configure the system.
+  aux.system = {
+    # Enable to allow unfree (e.g. closed source) packages.
+    # Some settings may override this (e.g. enabling Nvidia GPU support).
+    # https://nixos.org/manual/nixpkgs/stable/#sec-allow-unfree
+    allowUnfree = false;
+
+    # Enable Secure Boot support.
+    # IMPORTANT: Read the README before enabling this option!
+    bootloader.secureboot.enable = false;
+
+    # Change the default text editor. Options are "emacs", "nano", or "vim".
+    editor = "nano";
+
+    ui.flatpak = {
+      # Enable Flatpak support.
+      enable = true;
+
+      # Define Flatpak packages to install.
+      packages = [
+        "com.github.tchx84.Flatseal"
+        "com.github.wwmm.easyeffects"
+        "md.obsidian.Obsidian"
+        "net.waterfox.waterfox"
+        "org.keepassxc.KeePassXC"
+      ];
     };
-    ui = {
-      flatpak.enable = true;
-      gnome.enable = true;
-    };
+
+    # Additional system packages to install.
+    packages = [ ];
+
+    # Change how long old generations are kept for.
+    retentionPeriod = "30d";
+
+    # Enable GPU support.
+    gpu.intel.enable = true;
+
+    ui.desktops.gnome.enable = true;
+
     users.aires = {
       enable = true;
       services = {
@@ -36,9 +72,6 @@
 
   # Build remotely
   nix.distributedBuilds = true;
-
-  # Enable thermal control
-  services.thermald.enable = true;
 
   # Limit the number of cores Nix can use
   nix.settings.cores = 10;

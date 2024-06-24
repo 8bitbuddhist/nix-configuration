@@ -1,16 +1,16 @@
 { config, lib, ... }:
 
 let
-  cfg = config.host.apps.media;
+  cfg = config.aux.system.apps.media;
 in
 with lib;
 {
   options = {
-    host.apps.media.enable = mkEnableOption (mdDoc "Enables media playback and editing apps");
+    aux.system.apps.media.enable = mkEnableOption (mdDoc "Enables media playback and editing apps");
   };
 
   config = mkIf cfg.enable {
-    host.ui.flatpak.enable = true;
+    aux.system.ui.flatpak.enable = true;
 
     services.flatpak = {
       packages = [

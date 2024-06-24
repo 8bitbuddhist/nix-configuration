@@ -8,12 +8,20 @@
 
 # Flatpak support and options
 let
-  cfg = config.host.ui.flatpak;
+  cfg = config.aux.system.ui.flatpak;
 in
 with lib;
 {
   options = {
-    host.ui.flatpak.enable = mkEnableOption (mdDoc "Enables Flatpak");
+    aux.system.ui.flatpak = {
+      enable = mkEnableOption (mdDoc "Enables Flatpak support.");
+      packages = lib.mkOption {
+        description = "Flatpak packages to install.";
+        type = lib.types.listOf lib.types.str;
+        default = [ ];
+        example = lib.literalExpression "[ \"com.valvesoftware.Steam\" ]";
+      };
+    };
   };
 
   config = mkIf cfg.enable {
@@ -36,12 +44,7 @@ with lib;
       ];
 
       # Install base Flatpaks. For details, see https://github.com/gmodena/nix-flatpak
-      packages = [
-        "com.github.tchx84.Flatseal"
-        "md.obsidian.Obsidian"
-        "net.waterfox.waterfox"
-        "org.keepassxc.KeePassXC"
-      ];
+      packages = cfg.packages;
     };
 
     # Workaround for getting Flatpak apps to use system fonts, icons, and cursors
@@ -63,8 +66,8 @@ with lib;
         aggregatedIcons = pkgs.buildEnv {
           name = "system-icons";
           paths = with pkgs; [
-            #libsForQt5.breeze-qt5	# for plasma
-            gnome.gnome-themes-extra
+            (lib.mkIf config.aux.system.ui.desktops.gnome.enable gnome.gnome-themes-extra)
+            (lib.mkIf config.aux.system.ui.desktops.kde.enable kdePackages.breeze-icons)
             papirus-icon-theme
             qogir-icon-theme
           ];

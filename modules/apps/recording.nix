@@ -1,16 +1,16 @@
 { config, lib, ... }:
 
 let
-  cfg = config.host.apps.recording;
+  cfg = config.aux.system.apps.recording;
 in
 with lib;
 {
   options = {
-    host.apps.recording.enable = mkEnableOption (mdDoc "Enables video editing tools");
+    aux.system.apps.recording.enable = mkEnableOption (mdDoc "Enables video editing tools");
   };
 
   config = mkIf cfg.enable {
-    host.ui.flatpak.enable = true;
+    aux.system.ui.flatpak.enable = true;
 
     services.flatpak.packages = [
       "com.obsproject.Studio"

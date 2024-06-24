@@ -7,12 +7,12 @@
 
 # Define 'gremlin' user
 let
-  cfg = config.host.users.gremlin;
+  cfg = config.aux.system.users.gremlin;
 in
 with lib;
 {
   options = {
-    host.users.gremlin = {
+    aux.system.users.gremlin = {
       enable = mkEnableOption (mdDoc "Enables gremlin user account");
 
       services.syncthing = {

@@ -33,9 +33,9 @@ sudo nixos-rebuild switch --flake .#Shura
 
 ### Running updates
 
-All hosts are configured to run automatic daily updates (see `modules/base/system.nix`). You can disable this by adding `host.services.autoUpgrade = false;` to a hosts config.
+All hosts are configured to run automatic daily updates (see `modules/base/system.nix`). You can disable this by adding `aux.system.services.autoUpgrade = false;` to a hosts config.
 
-Automatic updates work by `git pull`ing the latest version of the Repo from Forgejo. This repo gets updated nightly by Haven, which updates the `flake.lock` file and pushes it back up to Forgejo. Only one host needs to do this, and you can enable this feature on a host using `host.services.autoUpgrade.pushUpdates = true;`.
+Automatic updates work by `git pull`ing the latest version of the Repo from Forgejo. This repo gets updated nightly by Haven, which updates the `flake.lock` file and pushes it back up to Forgejo. Only one host needs to do this, and you can enable this feature on a host using `aux.system.services.autoUpgrade.pushUpdates = true;`.
 
 #### Manually updating
 
@@ -129,7 +129,7 @@ This config uses two systems: Flakes, and Home-manager.
 
 - Flakes are the entrypoint, via `flake.nix`. This is where Flake inputs and Flake-specific options get defined.
 - Home-manager configs live in the `users/` folders.
-- Modules are stored in `modules`. All of these files are automatically imported (except home-manager modules); you simply enable the ones you want to use, and disable the ones you don't. For example, to install Flatpak, set `host.ui.flatpak.enable = true;`.
+- Modules are stored in `modules`. All of these files are automatically imported (except home-manager modules); you simply enable the ones you want to use, and disable the ones you don't. For example, to install Flatpak, set `aux.system.ui.flatpak.enable = true;`.
     - After adding a new module, make sure to `git add` it.
 
 ### Features

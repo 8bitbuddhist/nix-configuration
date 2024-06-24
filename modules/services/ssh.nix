@@ -1,11 +1,11 @@
 { config, lib, ... }:
 
 let
-  cfg = config.host.services.ssh;
+  cfg = config.aux.system.services.ssh;
 in
 {
   options = {
-    host.services.ssh = {
+    aux.system.services.ssh = {
       enable = lib.mkEnableOption (lib.mdDoc "Enables SSH server.");
       ports = lib.mkOption {
         default = [ 22 ];
