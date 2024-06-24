@@ -24,8 +24,23 @@ in
 
   aux.system = {
     apps.tmux.enable = true;
+    # Configure the bootloader.
+    bootloader = {
+      enable = true;
+      secureboot.enable = true;
+      tpm2.enable = true;
+    };
+
+    # Change the default text editor. Options are "emacs", "nano", or "vim".
+    editor = "nano";
+
     gpu.amd.enable = true;
+
     packages = [ start-haven ];
+
+    # Keep old generations for one month.
+    retentionPeriod = "monthly";
+
     services = {
       acme = {
         enable = true;
@@ -67,8 +82,8 @@ in
         home = "${services-root}/airsonic-advanced";
       };
       autoUpgrade = {
-        enable = false;
-        pushUpdates = true;
+        enable = false; # Don't update the system...
+        pushUpdates = true; # ...but do push updates remotely.
         configDir = config.secrets.nixConfigFolder;
         onCalendar = "daily";
         user = config.users.users.aires.name;
