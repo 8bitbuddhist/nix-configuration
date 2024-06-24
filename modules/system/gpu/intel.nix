@@ -19,7 +19,7 @@ in
 
     environment.variables.VDPAU_DRIVER = "va_gl";
 
-    hardware.opengl.extraPackages = with pkgs; [
+    hardware.graphics.extraPackages = with pkgs; [
       (
         if (lib.versionOlder (lib.versions.majorMinor lib.version) "23.11") then
           vaapiIntel
@@ -30,7 +30,7 @@ in
       intel-media-driver
     ];
 
-    hardware.opengl.extraPackages32 = with pkgs.driversi686Linux; [
+    hardware.graphics.extraPackages32 = with pkgs.driversi686Linux; [
       (
         if (lib.versionOlder (lib.versions.majorMinor lib.version) "23.11") then
           vaapiIntel

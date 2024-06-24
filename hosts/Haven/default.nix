@@ -24,6 +24,7 @@ in
 
   aux.system = {
     apps.tmux.enable = true;
+    packages = [ start-haven ];
     services = {
       acme = {
         enable = true;
@@ -64,7 +65,13 @@ in
         enable = true;
         home = "${services-root}/airsonic-advanced";
       };
-      autoUpgrade.pushUpdates = true;
+      autoUpgrade = {
+        enable = false;
+        pushUpdates = true;
+        configDir = config.secrets.nixConfigFolder;
+        onCalendar = "daily";
+        user = config.users.users.aires.name;
+      };
       boinc.enable = true;
       cache = {
         enable = false; # Disable for now
@@ -140,9 +147,6 @@ in
   };
 
   # TODO: VPN (Check out Wireguard)
-
-  # Add Haven's startup script
-  environment.systemPackages = [ start-haven ];
 
   # Allow Haven to be a build target for other architectures (mainly ARM64)
   boot.binfmt.emulatedSystems = [ "aarch64-linux" ];

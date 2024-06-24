@@ -20,10 +20,10 @@ in
       videoDrivers = [ "amdgpu" ];
     };
 
-    hardware.opengl = {
+    hardware.graphics = {
       extraPackages = [ pkgs.amdvlk ];
       # 32-bit application compatibility
-      driSupport32Bit = true;
+      enable32Bit = true;
       extraPackages32 = with pkgs; [ driversi686Linux.amdvlk ];
     };
   };

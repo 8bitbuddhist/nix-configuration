@@ -21,25 +21,16 @@ in
     # Set up the environment
     environment = {
       # Install base packages
-      systemPackages = with pkgs; [
-        bash
-        dconf # Needed to fix an issue with Home-manager. See https://github.com/nix-community/home-manager/issues/3113
-        direnv
-        git
-        home-manager
-        nano
-        p7zip
-        fastfetch
-        nh # Nix Helper: https://github.com/viperML/nh
-      ];
-    };
-
-    # Configure automatic updates for all hosts
-    aux.system.services.autoUpgrade = {
-      enable = true;
-      configDir = config.secrets.nixConfigFolder;
-      onCalendar = "daily";
-      user = config.users.users.aires.name;
+      systemPackages =
+        config.aux.system.packages
+        ++ (with pkgs; [
+          bash
+          dconf # Needed to fix an issue with Home-manager. See https://github.com/nix-community/home-manager/issues/3113
+          direnv
+          git
+          home-manager
+          p7zip
+        ]);
     };
 
     services = {

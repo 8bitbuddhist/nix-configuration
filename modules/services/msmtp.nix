@@ -14,7 +14,7 @@ with lib;
     programs.msmtp = {
       enable = true;
       accounts.default = {
-        aux.system = config.secrets.services.msmtp.host;
+        host = config.secrets.services.msmtp.host;
         user = config.secrets.services.msmtp.user;
         password = config.secrets.services.msmtp.password;
         auth = true;

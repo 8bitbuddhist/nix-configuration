@@ -29,7 +29,6 @@ in
   system.stateVersion = "24.05";
 
   aux.system = {
-    role = "workstation";
     apps = {
       development.enable = true;
       dj.enable = true;
@@ -40,12 +39,19 @@ in
       social.enable = true;
       writing = {
         enable = true;
-        ngrams.enable = false;
+        languagetool.enable = true;
       };
+    };
+    packages = with pkgs; [boinc];
+    services.autoUpgrade = {
+      enable = true;
+      configDir = config.secrets.nixConfigFolder;
+      onCalendar = "daily";
+      user = config.users.users.aires.name;
     };
     ui = {
       flatpak.enable = true;
-      gnome.enable = true;
+      desktops.gnome.enable = true;
     };
     users = {
       aires = {
@@ -64,9 +70,6 @@ in
       };
     };
   };
-
-  # Install additional packages
-  environment.systemPackages = [ pkgs.boinc ];
 
   # Enable virtual machine manager
   programs.virt-manager.enable = true;

@@ -31,6 +31,14 @@
     };
   };
 
+  aux.system.services.autoUpgrade = {
+    enable = true;
+    configDir = config.secrets.nixConfigFolder;
+    onCalendar = "daily";
+    user = config.users.users.aires.name;
+    push = false;
+  };
+
   # Configure the virtual machine created by nixos-rebuild build-vm
   virtualisation.vmVariant.virtualisation = {
     memorySize = 2048;

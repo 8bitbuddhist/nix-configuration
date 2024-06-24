@@ -68,12 +68,12 @@ in
         # Enable the X11 windowing system.
         enable = true;
 
-        # Enable touchpad support (enabled by default in most desktop managers, buuuut just in case).
-        libinput.enable = true;
-
         # Configure keymap in X11
         xkb = config.aux.system.ui.desktops.xkb;
       };
+
+      # Enable touchpad support (enabled by default in most desktop managers, buuuut just in case).
+      libinput.enable = true;
     };
 
     # Support for AppImage files

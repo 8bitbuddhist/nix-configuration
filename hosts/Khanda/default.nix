@@ -24,11 +24,11 @@ in
     # Enable to allow unfree (e.g. closed source) packages.
     # Some settings may override this (e.g. enabling Nvidia GPU support).
     # https://nixos.org/manual/nixpkgs/stable/#sec-allow-unfree
-    allowUnfree = false;
+    allowUnfree = true;
 
     # Enable Secure Boot support.
     # IMPORTANT: Read the README before enabling this option!
-    bootloader.secureboot.enable = false;
+    bootloader.secureboot.enable = true;
 
     # Change the default text editor. Options are "emacs", "nano", or "vim".
     editor = "nano";
@@ -47,16 +47,15 @@ in
       ];
     };
 
-    # Additional system packages to install.
-    packages = [ ];
-
     # Change how long old generations are kept for.
-    retentionPeriod = "30d";
+    retentionPeriod = "14d";
 
     # Enable GPU support.
     gpu.intel.enable = true;
 
     ui.desktops.gnome.enable = true;
+
+    services.autoUpgrade.enable = false;
 
     users.aires = {
       enable = true;
