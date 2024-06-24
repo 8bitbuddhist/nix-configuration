@@ -24,6 +24,7 @@ in
 
   aux.system = {
     apps.tmux.enable = true;
+    gpu.amd.enable = true;
     packages = [ start-haven ];
     services = {
       acme = {

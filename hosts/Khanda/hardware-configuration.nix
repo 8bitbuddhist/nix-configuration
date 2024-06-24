@@ -11,9 +11,6 @@
 
   boot = {
     initrd = {
-      # Enable systemd for TPM auto-unlocking
-      systemd.enable = true;
-
       availableKernelModules = [
         "surface_aggregator"
         "surface_aggregator_registry"
@@ -23,7 +20,6 @@
         "8250_dw"
         "intel_lpss"
         "intel_lpss_pci"
-        "tpm_crb"
         "xhci_pci"
         "thunderbolt"
         "nvme"
@@ -33,7 +29,6 @@
         "pinctrl_tigerlake"
       ];
       kernelModules = [
-        "tpm_crb"
         "surface_aggregator"
         "surface_aggregator_registry"
         "surface_aggregator_hub"
@@ -60,7 +55,6 @@
 
     kernelModules = [
       "kvm-intel"
-      "tpm_crb"
       "surface_aggregator"
       "surface_aggregator_registry"
       "surface_aggregator_hub"
@@ -73,7 +67,6 @@
       "surface_kbd"
       "pinctrl_tigerlake"
     ];
-    extraModulePackages = [ ];
   };
 
   fileSystems = {
@@ -113,5 +106,5 @@
   environment.systemPackages = with pkgs; [ libwacom-surface ];
 
   # NOTE: Use a default kernel to skip full kernel rebuilds
-  # boot.kernelPackages = lib.mkForce pkgs.linuxPackages_latest;
+  boot.kernelPackages = lib.mkForce pkgs.linuxPackages_latest;
 }

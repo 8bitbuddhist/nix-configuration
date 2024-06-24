@@ -42,7 +42,8 @@ in
         languagetool.enable = true;
       };
     };
-    packages = with pkgs; [boinc];
+    gpu.amd.enable = true;
+    packages = with pkgs; [ boinc ];
     services.autoUpgrade = {
       enable = true;
       configDir = config.secrets.nixConfigFolder;

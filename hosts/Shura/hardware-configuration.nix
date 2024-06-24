@@ -29,11 +29,6 @@
         "usb_storage"
         "sd_mod"
         "rtsx_pci_sdmmc"
-        "tpm_crb"
-      ];
-      kernelModules = [
-        "amdgpu"
-        "tpm_crb"
       ];
       luks.devices."luks-bcf67e34-339e-40b9-8ffd-bec8f7f55248" = {
         device = "/dev/disk/by-uuid/bcf67e34-339e-40b9-8ffd-bec8f7f55248";

@@ -45,6 +45,13 @@ in
 
       # Set up TPM if enabled. See https://nixos.wiki/wiki/TPM
       (lib.mkIf (cfg.tpm2.enable) {
+        boot.initrd = {
+          # Enable systemd for TPM auto-unlocking
+          systemd.enable = true;
+
+          availableKernelModules = [ "tpm_crb" ];
+          kernelModules = [ "tpm_crb" ];
+        };
         # After installing and rebooting, set it up via https://wiki.archlinux.org/title/Systemd-cryptenroll#Trusted_Platform_Module
         environment.systemPackages = with pkgs; [ tpm2-tss ];
         security.tpm2 = {
