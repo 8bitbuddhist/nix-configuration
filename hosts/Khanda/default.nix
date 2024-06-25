@@ -32,10 +32,7 @@ in
       office.enable = true;
       recording.enable = true;
       social.enable = true;
-      writing = {
-        enable = true;
-        languagetool.enable = false;
-      };
+      writing.enable = true;
     };
 
     # Enable Secure Boot support.
@@ -93,10 +90,4 @@ in
 
   # Limit the number of cores Nix can use
   nix.settings.cores = 10;
-
-  # Configure the virtual machine created by nixos-rebuild build-vm
-  virtualisation.vmVariant.virtualisation = {
-    memorySize = 2048;
-    cores = 2;
-  };
 }

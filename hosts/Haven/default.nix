@@ -16,6 +16,15 @@ let
     config.secrets.services.forgejo.url
     config.secrets.services.gremlin-lab.url
   ];
+
+  namecheapCredentials = {
+    "NAMECHEAP_API_USER_FILE" = "${pkgs.writeText "namecheap-api-user" ''
+      ${config.secrets.networking.namecheap.api.user}
+    ''}";
+    "NAMECHEAP_API_KEY_FILE" = "${pkgs.writeText "namecheap-api-key" ''
+      ${config.secrets.networking.namecheap.api.key}
+    ''}";
+  };
 in
 {
   imports = [ ./hardware-configuration.nix ];
@@ -53,26 +62,12 @@ in
             dnsProvider = "namecheap";
             extraDomainNames = subdomains;
             webroot = null; # Required in order to prevent a failed assertion
-            credentialFiles = {
-              "NAMECHEAP_API_USER_FILE" = "${pkgs.writeText "namecheap-api-user" ''
-                ${config.secrets.networking.namecheap.api.user}
-              ''}";
-              "NAMECHEAP_API_KEY_FILE" = "${pkgs.writeText "namecheap-api-key" ''
-                ${config.secrets.networking.namecheap.api.key}
-              ''}";
-            };
+            credentialFiles = namecheapCredentials;
           };
           "${config.secrets.networking.blogDomain}" = {
             dnsProvider = "namecheap";
             webroot = null; # Required in order to prevent a failed assertion
-            credentialFiles = {
-              "NAMECHEAP_API_USER_FILE" = "${pkgs.writeText "namecheap-api-user" ''
-                ${config.secrets.networking.namecheap.api.user}
-              ''}";
-              "NAMECHEAP_API_KEY_FILE" = "${pkgs.writeText "namecheap-api-key" ''
-                ${config.secrets.networking.namecheap.api.key}
-              ''}";
-            };
+            credentialFiles = namecheapCredentials;
           };
         };
       };
