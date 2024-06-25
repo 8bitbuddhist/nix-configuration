@@ -54,7 +54,10 @@ in
     # Change how long old generations are kept for.
     retentionPeriod = "14d";
 
-    services.autoUpgrade.enable = false;
+    services = {
+      autoUpgrade.enable = false;
+      virtualization.enable = true;
+    };
 
     ui = {
       desktops.gnome.enable = true;

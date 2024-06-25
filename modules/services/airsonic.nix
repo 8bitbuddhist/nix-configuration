@@ -17,6 +17,18 @@ in
         type = lib.types.str;
         description = "Where to store Airsonic's files";
       };
+      domain = lib.mkOption {
+        default = "";
+        type = lib.types.str;
+        description = "The root domain that Airsonic will be hosted on.";
+        example = "example.com";
+      };
+      url = lib.mkOption {
+        default = "";
+        type = lib.types.str;
+        description = "The complete URL where Airsonic is hosted.";
+        example = "https://forgejo.example.com";
+      };
     };
   };
 
@@ -25,8 +37,8 @@ in
     users.users.airsonic.extraGroups = [ "media" ];
 
     services = {
-      nginx.virtualHosts."${config.secrets.services.airsonic.url}" = {
-        useACMEHost = config.secrets.networking.primaryDomain;
+      nginx.virtualHosts."${cfg.url}" = {
+        useACMEHost = cfg.domain;
         forceSSL = true;
         locations."/" = {
           proxyPass = "http://127.0.0.1:4040";

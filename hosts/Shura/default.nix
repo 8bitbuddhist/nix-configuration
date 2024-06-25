@@ -66,12 +66,26 @@ in
     # Keep old generations for one week.
     retentionPeriod = "7d";
 
-    # Run daily automatic updates.
-    services.autoUpgrade = {
-      enable = true;
-      configDir = config.secrets.nixConfigFolder;
-      onCalendar = "daily";
-      user = config.users.users.aires.name;
+    services = {
+      # Run daily automatic updates.
+      autoUpgrade = {
+        enable = true;
+        configDir = config.secrets.nixConfigFolder;
+        onCalendar = "daily";
+        user = config.users.users.aires.name;
+      };
+      # Install virtual machine management tools
+      virtualization = {
+        enable = true;
+        host = {
+          user = "aires";
+          vmBuilds = {
+            enable = true;
+            cores = 4;
+            ram = 4096;
+          };
+        };
+      };
     };
     ui = {
       flatpak = {
@@ -107,9 +121,6 @@ in
     };
   };
 
-  # Enable virtual machine manager
-  programs.virt-manager.enable = true;
-
   # Move files into target system
   systemd.tmpfiles.rules = [
     # Use gremlin user's monitor config for GDM (defined above)
@@ -123,9 +134,4 @@ in
     "L+ /var/lib/bluetooth/AC:50:DE:9F:AB:88/00:34:30:47:37:AB/info - - - - ${vitrix-pdp-pro-bluetooth}"
   ];
 
-  # Configure the virtual machine created by nixos-rebuild build-vm
-  virtualisation.vmVariant.virtualisation = {
-    memorySize = 4096;
-    cores = 4;
-  };
 }

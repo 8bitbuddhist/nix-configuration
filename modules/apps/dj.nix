@@ -10,8 +10,9 @@ with lib;
   };
 
   config = mkIf cfg.enable {
-    aux.system.ui.flatpak.enable = true;
-
-    services.flatpak.packages = [ "org.mixxx.Mixxx" ];
+    aux.system.ui.flatpak = {
+      enable = true;
+      packages = [ "org.mixxx.Mixxx" ];
+    };
   };
 }

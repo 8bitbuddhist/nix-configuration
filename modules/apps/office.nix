@@ -10,11 +10,12 @@ with lib;
   };
 
   config = mkIf cfg.enable {
-    aux.system.ui.flatpak.enable = true;
-
-    services.flatpak.packages = [
-      "org.onlyoffice.desktopeditors"
-      "us.zoom.Zoom"
-    ];
+    aux.system.ui.flatpak = {
+      enable = true;
+      packages = [
+        "org.onlyoffice.desktopeditors"
+        "us.zoom.Zoom"
+      ];
+    };
   };
 }

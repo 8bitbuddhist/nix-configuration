@@ -71,6 +71,16 @@ in
         useWizard = true;
       } // lib.optionalAttrs (cfg.home != null) { stateDir = cfg.home; };
 
+      nginx.virtualHosts."${cfg.url}" = {
+        useACMEHost = cfg.domain;
+        forceSSL = true;
+        locations."/" = {
+          proxyPass = "http://127.0.0.1:3000";
+          proxyWebsockets = true;
+          extraConfig = "proxy_ssl_server_name on;"; # required when the target is also TLS server with multiple hosts
+        };
+      };
+
       # Enable runner for CI actions
       gitea-actions-runner = lib.mkIf cfg.actions.enable {
         package = pkgs.forgejo-actions-runner;

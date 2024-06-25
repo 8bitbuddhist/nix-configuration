@@ -15,13 +15,15 @@ with lib;
   };
 
   config = mkIf cfg.enable {
-    nixpkgs.config.allowUnfree = true;
-    environment.systemPackages = with pkgs; [
-      # Check Beeper Flatpak status here: https://github.com/daegalus/beeper-flatpak-wip/issues/1
-      beeper
-    ];
+    aux.system = {
+      allowUnfree = true;
+      ui.flatpak = {
+        enable = true;
+        packages = [ "com.discordapp.Discord" ];
+      };
+    };
 
-    aux.system.ui.flatpak.enable = true;
-    services.flatpak.packages = [ "com.discordapp.Discord" ];
+    # Check Beeper Flatpak status here: https://github.com/daegalus/beeper-flatpak-wip/issues/1
+    environment.systemPackages = [ pkgs.beeper ];
   };
 }

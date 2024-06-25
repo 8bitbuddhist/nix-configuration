@@ -83,6 +83,8 @@ in
       airsonic = {
         enable = true;
         home = "${services-root}/airsonic-advanced";
+        domain = config.secrets.networking.primaryDomain;
+        url = config.secrets.services.airsonic.url;
       };
       autoUpgrade = {
         enable = false; # Don't update the system...
@@ -104,6 +106,8 @@ in
       forgejo = {
         enable = true;
         home = "${services-root}/forgejo";
+        domain = config.secrets.networking.primaryDomain;
+        url = config.secrets.services.forgejo.url;
         actions = {
           enable = true;
           token = config.secrets.services.forgejo.runner-token;
@@ -136,15 +140,6 @@ in
               extraConfig = "proxy_ssl_server_name on;";
             };
           };
-          "${config.secrets.services.forgejo.url}" = {
-            useACMEHost = config.secrets.networking.primaryDomain;
-            forceSSL = true;
-            locations."/" = {
-              proxyPass = "http://127.0.0.1:3000";
-              proxyWebsockets = true;
-              extraConfig = "proxy_ssl_server_name on;"; # required when the target is also TLS server with multiple hosts
-            };
-          };
         };
       };
       ssh = {
@@ -152,8 +147,15 @@ in
         ports = [ config.secrets.hosts.haven.ssh.port ];
       };
       virtualization = {
-        enable = true;
-        user = "aires";
+        host = {
+          enable = true;
+          user = "aires";
+          vmBuilds = {
+            enable = true;
+            cores = 3;
+            ram = 4096;
+          };
+        };
       };
     };
     users.aires = {

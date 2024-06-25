@@ -77,6 +77,9 @@ in
 
       # Enable touchpad support (enabled by default in most desktop managers, buuuut just in case).
       libinput.enable = true;
+
+      # Enable printing support.
+      printing.enable = true;
     };
 
     # Support for AppImage files

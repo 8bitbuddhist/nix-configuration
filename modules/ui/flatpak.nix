@@ -21,6 +21,16 @@ with lib;
         default = [ ];
         example = lib.literalExpression "[ \"com.valvesoftware.Steam\" ]";
       };
+      remotes = lib.mkOption {
+        description = "The list of remote Flatpak repos to pull from. Includes Flathub by default.";
+        type = lib.types.listOf lib.types.attrs;
+        default = [
+          {
+            name = "flathub";
+            location = "https://dl.flathub.org/repo/flathub.flatpakrepo";
+          }
+        ];
+      };
     };
   };
 
@@ -36,12 +46,7 @@ with lib;
       update.onActivation = true;
 
       # Add remote(s)
-      remotes = [
-        {
-          name = "flathub";
-          location = "https://dl.flathub.org/repo/flathub.flatpakrepo";
-        }
-      ];
+      remotes = cfg.remotes;
 
       # Install base Flatpaks. For details, see https://github.com/gmodena/nix-flatpak
       packages = cfg.packages;

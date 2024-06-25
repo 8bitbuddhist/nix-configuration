@@ -21,17 +21,19 @@ with lib;
   };
 
   config = mkIf cfg.enable {
-    aux.system.ui.flatpak.enable = true;
-    services.flatpak.packages = [
-      "gg.minion.Minion"
-      "com.valvesoftware.Steam"
-      "org.firestormviewer.FirestormViewer"
-    ];
+    aux.system.ui.flatpak = {
+      enable = true;
+      packages = [
+        "gg.minion.Minion"
+        "com.valvesoftware.Steam"
+        "org.firestormviewer.FirestormViewer"
+      ];
+    };
 
     # Enable Xbox controller driver (XPadNeo)
     hardware.xpadneo.enable = true;
 
     # Add script to restart xpadneo in case of issues
-    environment.systemPackages = [ reset-controllers-script ];
+    aux.system.packages = [ reset-controllers-script ];
   };
 }

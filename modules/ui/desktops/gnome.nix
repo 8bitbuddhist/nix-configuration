@@ -52,8 +52,6 @@ in
         "org.gnome.World.Secrets"
         "org.gtk.Gtk3theme.Adwaita-dark"
       ];
-
-      printing.enable = true;
     };
 
     environment = {
@@ -103,12 +101,6 @@ in
       enable = true;
       platformTheme = "gnome";
       style = "adwaita-dark";
-    };
-
-    # Support for AppImage files
-    programs.appimage = {
-      enable = true;
-      binfmt = true;
     };
   };
 }

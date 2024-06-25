@@ -1,6 +1,6 @@
 # NixOS Configuration
 
-A full set of configuration files managed via NixOS. This project follows the general structure of https://github.com/tiredofit/nixos-config
+A full set of configuration files managed via NixOS. This project is an extension of the [Auxolotl system template](https://git.auxolotl.org/auxolotl/templates).
 
 > [!WARNING]
 > DO NOT DOWNLOAD AND RUN `nixos-rebuild` ON THIS REPOSITORY! These are my personal configuration files. I invite you to look through them, modify them, and take inspiration from them, but if you run `nixos-rebuild`, it _will completely overwrite your current system_!
@@ -33,7 +33,7 @@ sudo nixos-rebuild switch --flake .#Shura
 
 ### Running updates
 
-All hosts are configured to run automatic daily updates (see `modules/base/system.nix`). You can disable this by adding `aux.system.services.autoUpgrade = false;` to a hosts config.
+All hosts are configured to run automatic daily updates (see `modules/system/system.nix`). You can disable this by adding `aux.system.services.autoUpgrade = false;` to a hosts config.
 
 Automatic updates work by `git pull`ing the latest version of the Repo from Forgejo. This repo gets updated nightly by Haven, which updates the `flake.lock` file and pushes it back up to Forgejo. Only one host needs to do this, and you can enable this feature on a host using `aux.system.services.autoUpgrade.pushUpdates = true;`.
 
@@ -76,7 +76,7 @@ To enable root builds on a host, add this to its config:
 nix.distributedBuilds = true;
 ```
 
-For hosts where `nix.distributedBuilds` is true, this repo automatically gives the local root user SSH access to an unprivileged user on the build systems. This is configured in `nix-secrets`, but the build systems are defined in [`modules/base/nix.nix`](https://github.com/8bitbuddhist/nix-configuration/blob/b816d821636f9d30be905af80fe578c25ce74b92/modules/base/nix.nix#L41).
+For hosts where `nix.distributedBuilds` is true, this repo automatically gives the local root user SSH access to an unprivileged user on the build systems. This is configured in `nix-secrets`, but the build systems are defined in [`modules/system/nix.nix`](https://code.8bitbuddhism.com/aires/nix-configuration/src/commit/433821ef0c46f08855a041c3aa97143a954564f5/modules/system/nix.nix#L57).
 
 ##### Pushing a build to a remote system
 
@@ -125,12 +125,12 @@ To add a new host:
 
 ### Layout
 
-This config uses two systems: Flakes, and Home-manager.
+This config uses two main systems: Flakes, and Home-manager.
 
 - Flakes are the entrypoint, via `flake.nix`. This is where Flake inputs and Flake-specific options get defined.
 - Home-manager configs live in the `users/` folders.
 - Modules are stored in `modules`. All of these files are automatically imported (except home-manager modules); you simply enable the ones you want to use, and disable the ones you don't. For example, to install Flatpak, set `aux.system.ui.flatpak.enable = true;`.
-    - After adding a new module, make sure to `git add` it.
+    - After adding a new module, make sure to `git add` it before running `nixos-rebuild`.
 
 ### Features
 

@@ -10,9 +10,8 @@ with lib;
   };
 
   config = mkIf cfg.enable {
-    aux.system.ui.flatpak.enable = true;
-
-    services.flatpak = {
+    aux.system.ui.flatpak = {
+      enable = true;
       packages = [
         "com.calibre_ebook.calibre"
         "com.github.unrud.VideoDownloader"
