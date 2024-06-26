@@ -99,9 +99,13 @@ in
           "md.obsidian.Obsidian"
           "net.waterfox.waterfox"
           "org.keepassxc.KeePassXC"
+          "org.mozilla.firefox"
         ];
       };
-      desktops.gnome.enable = true;
+      desktops.gnome = {
+        enable = true;
+        tripleBuffering.enable = true;
+      };
     };
     users = {
       aires = {

@@ -12,9 +12,12 @@ in
 {
 
   options = {
-    aux.system.ui.desktops.gnome.enable = lib.mkEnableOption (
-      lib.mdDoc "Enables the Gnome Desktop Environment."
-    );
+    aux.system.ui.desktops.gnome = {
+      enable = lib.mkEnableOption (lib.mdDoc "Enables the Gnome Desktop Environment.");
+      tripleBuffering.enable = lib.mkEnableOption (
+        lib.mdDoc "(Experimental) Enables dynamic triple buffering"
+      );
+    };
   };
 
   config = lib.mkIf cfg.enable {
@@ -102,5 +105,25 @@ in
       platformTheme = "gnome";
       style = "adwaita-dark";
     };
+
+    nixpkgs.overlays = lib.mkIf cfg.tripleBuffering.enable [
+      # GNOME 46: triple-buffering-v4-46
+      # For details, see https://nixos.wiki/wiki/GNOME#Dynamic_triple_buffering
+      (final: prev: {
+        gnome = prev.gnome.overrideScope (
+          gnomeFinal: gnomePrev: {
+            mutter = gnomePrev.mutter.overrideAttrs (old: {
+              src = pkgs.fetchFromGitLab {
+                domain = "gitlab.gnome.org";
+                owner = "vanvugt";
+                repo = "mutter";
+                rev = "triple-buffering-v4-46";
+                hash = "sha256-fkPjB/5DPBX06t7yj0Rb3UEuu5b9mu3aS+jhH18+lpI=";
+              };
+            });
+          }
+        );
+      })
+    ];
   };
 }
