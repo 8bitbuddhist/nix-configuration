@@ -45,7 +45,7 @@ with lib;
       };
 
       # Install gremlin-specific flatpaks
-      services.flatpak.packages = lib.mkIf config.services.flatpak.enable [
+  	  aux.system.ui.flatpak.packages = [
         "com.google.Chrome"
         "com.slack.Slack"
       ];
@@ -80,15 +80,8 @@ with lib;
           # Let home Manager install and manage itself.
           home-manager.enable = true;
 
-          # Set up git
-          git = {
-            enable = true;
-            userName = config.secrets.users.aires.firstName;
-            userEmail = config.secrets.users.gremlin.email;
-            extraConfig = {
-              push.autoSetupRemote = "true";
-            };
-          };
+          # Set up git to match Aires' configuration
+          git = config.home-manager.users.aires.programs.git;
 
           # Set up SSH
           ssh = {
