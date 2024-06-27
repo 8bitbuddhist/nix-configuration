@@ -21,7 +21,7 @@
     nix-flatpak.url = "github:gmodena/nix-flatpak/v0.4.1";
 
     # SecureBoot support
-    lanzaboote.url = "github:nix-community/lanzaboote/v0.4.0";
+    lanzaboote.url = "github:nix-community/lanzaboote/v0.4.1";
 
     # NixOS hardware quirks
     nixos-hardware.url = "github:NixOS/nixos-hardware/master";
