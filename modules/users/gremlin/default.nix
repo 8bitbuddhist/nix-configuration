@@ -45,7 +45,7 @@ with lib;
       };
 
       # Install gremlin-specific flatpaks
-  	  aux.system.ui.flatpak.packages = [
+      aux.system.ui.flatpak.packages = [
         "com.google.Chrome"
         "com.slack.Slack"
       ];
