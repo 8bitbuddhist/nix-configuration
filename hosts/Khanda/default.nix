@@ -70,8 +70,8 @@ in
           "com.github.tchx84.Flatseal"
           "com.github.wwmm.easyeffects"
           "md.obsidian.Obsidian"
-          "net.waterfox.waterfox"
           "org.keepassxc.KeePassXC"
+          "org.mozilla.firefox"
         ];
       };
     };
