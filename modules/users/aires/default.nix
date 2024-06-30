@@ -139,30 +139,16 @@ with lib;
 
     # Enable Syncthing
     (mkIf cfg.services.syncthing.enable {
-      users.users.aires.packages = [
-        pkgs.syncthing
-        (mkIf cfg.services.syncthing.enableTray pkgs.syncthingtray)
+      imports = [
+        (import ../common/home-manager/syncthing.nix {
+          username = users.users.aires.name;
+          configDir = "${config.users.users.aires.home}/.config/syncthing";
+          port = 8080;
+          autostart = cfg.services.syncthing.autostart;
+          enableTray = cfg.services.syncthing.autostart;
+          inherit lib pkgs;
+        })
       ];
-
-      # Open port 8080
-      networking.firewall.allowedTCPPorts = [ 8080 ];
-
-      home-manager.users.aires = {
-        # Syncthing options
-        services.syncthing = {
-          enable = true;
-          extraOptions = [
-            "--gui-address=0.0.0.0:8080"
-            "--home=${config.users.users.aires.home}/.config/syncthing"
-            "--no-default-folder"
-          ];
-        };
-
-        # Override the default Syncthing settings so it doesn't start on boot
-        systemd.user.services."syncthing" = mkIf (!cfg.services.syncthing.autostart) {
-          Install = lib.mkForce { };
-        };
-      };
     })
   ]);
 }
