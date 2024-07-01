@@ -28,17 +28,17 @@ in
 
     apps = {
       development.enable = true;
-      media.enable = true;
-      office.enable = true;
-      recording.enable = true;
-      social.enable = true;
-      writing.enable = true;
+      #media.enable = true;
+      #office.enable = true;
+      #recording.enable = true;
+      #social.enable = true;
+      #writing.enable = true;
     };
 
     # Enable Secure Boot support.
     bootloader = {
       enable = true;
-      secureboot.enable = true;
+      #secureboot.enable = true;
       tpm2.enable = true;
     };
 
@@ -49,11 +49,11 @@ in
     gpu = {
       intel.enable = true;
       nvidia = {
-        enable = false;
+        enable = true;
         hybrid = {
-          enable = false;
-          busIDs.nvidia = "";
-          busIDs.intel = "";
+          enable = true;
+          busIDs.nvidia = "PCI:3:0:0";
+          busIDs.intel = "PCI:0:2:0";
         };
       };
     };
