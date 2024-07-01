@@ -1,0 +1,1 @@
+builtins.abort "Need to generate hardware-configuration.nix for Dimaga"
