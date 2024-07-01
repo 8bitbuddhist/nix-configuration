@@ -1,6 +1,6 @@
 { lib, config, ... }:
 let
-  cfg = config.disko;
+  cfg = config.aux.system.disko;
 
   standardMountOpts = [
     "compress=zstd"
@@ -9,20 +9,12 @@ let
 in
 {
   options = {
-    disko = {
+    aux.system.disko = {
       enable = lib.mkEnableOption (lib.mdDoc "Enables Disko for disk & partition management.");
-      primaryDisk = lib.mkOption {
-        type = lib.types.attrs;
-        description = "The disk to format using Disko.";
-        default = {
-          name = "nvme0n1";
-          id = "";
-        };
-      };
-      enableTPM = lib.mkOption {
-        type = lib.types.bool;
-        description = "Enables TPM2 support.";
-        default = true;
+      primaryDiskID = lib.mkOption {
+        type = lib.types.str;
+        description = "The ID of the disk to manage using Disko. If possible, use the World Wide Name (WWN), e.g `/dev/disk/by-id/nvme-eui.*`";
+        default = "";
       };
       swapFile = {
         enable = lib.mkEnableOption (lib.mdDoc "Enables the creation of swap files.");
@@ -36,8 +28,15 @@ in
   };
 
   config = lib.mkIf cfg.enable {
+    # Check for blank values
+      assertions = [
+        {
+          assertion = (cfg.primaryDiskID != "");
+          message = "aux.system.disko.primaryDiskID is not set. Please enter a valid disk ID.";
+        }
+      ];
     # Disk management
-    disko.enableConfig = false;
+    disko.enableConfig = true;
     disko.devices = {
       disk = {
         main = {
@@ -66,7 +65,7 @@ in
                   name = "cryptroot";
                   settings = {
                     allowDiscards = true;
-                    crypttabExtraOpts = lib.mkIf cfg.enableTPM [ "tpm2-device=auto" ];
+                    crypttabExtraOpts = lib.mkIf config.aux.system.bootloader.tpm2.enable [ "tpm2-device=auto" ];
                   };
                   content = {
                     type = "btrfs";
