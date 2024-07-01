@@ -29,19 +29,19 @@ in
 
   config = lib.mkIf cfg.enable {
     # Check for blank values
-      assertions = [
-        {
-          assertion = (cfg.primaryDiskID != "");
-          message = "aux.system.disko.primaryDiskID is not set. Please enter a valid disk ID.";
-        }
-      ];
+    assertions = [
+      {
+        assertion = (cfg.primaryDiskID != "");
+        message = "aux.system.disko.primaryDiskID is not set. Please enter a valid disk ID.";
+      }
+    ];
     # Disk management
     disko.enableConfig = true;
     disko.devices = {
       disk = {
         main = {
           type = "disk";
-          device = "/dev/disk/by-id/${cfg.primaryDisk.id}";
+          device = "/dev/disk/by-id/${cfg.primaryDiskID}";
           content = {
             type = "gpt";
             partitions = {

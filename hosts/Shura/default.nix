@@ -53,16 +53,6 @@ in
       tpm2.enable = true;
     };
 
-    # Partition disks using Disko
-    disko = {
-      enable = false;
-      primaryDiskID = "nvme-eui.ace42e0025b66c912ee4ac0000000001";
-      swapFile = { 
-        enable = true;
-        size = "16G";
-      };
-    };
-
     # Change the default text editor. Options are "emacs", "nano", or "vim".
     editor = "nano";
 
