@@ -55,77 +55,81 @@ in
     };
   };
 
-  config = lib.mkIf cfg.enable {
-    environment.systemPackages = [
-      forgejo-cli
-      pkgs.podman-tui
-    ];
-    services = {
-      forgejo = {
-        enable = true;
-        settings.server = {
-          DOMAIN = cfg.domain;
-          ROOT_URL = cfg.url;
-          HTTP_PORT = 3000;
-        };
-        useWizard = true;
-      } // lib.optionalAttrs (cfg.home != null) { stateDir = cfg.home; };
-
-      nginx.virtualHosts."${cfg.url}" = {
-        useACMEHost = cfg.domain;
-        forceSSL = true;
-        locations."/" = {
-          proxyPass = "http://127.0.0.1:3000";
-          proxyWebsockets = true;
-          extraConfig = "proxy_ssl_server_name on;"; # required when the target is also TLS server with multiple hosts
-        };
-      };
-
-      # Enable runner for CI actions
-      gitea-actions-runner = lib.mkIf cfg.actions.enable {
-        package = pkgs.forgejo-actions-runner;
-        instances.default = {
+  config = lib.mkMerge [
+    (lib.mkIf cfg.enable {
+      environment.systemPackages = [
+        forgejo-cli
+        pkgs.podman-tui
+      ];
+      services = {
+        forgejo = {
           enable = true;
-          name = config.networking.hostName;
-          url = cfg.url;
-          token = cfg.actions.token;
-          labels = [
-            "nix:docker://nixos/nix" # Shoutout to Icewind 1991 for this syntax: https://icewind.nl/entry/gitea-actions-nix/
-            "debian:docker://node:20-bullseye"
-            "ubuntu-latest:docker://ubuntu:latest"
-          ];
-          settings = {
-            # For an example of configuring in Nix: https://git.clan.lol/clan/clan-infra/src/branch/main/modules/web01/gitea/actions-runner.nix
-            # For an example of the different options available: https://gitea.com/gitea/act_runner/src/branch/main/internal/pkg/config/config.example.yaml
-            container.options = "-v /nix:/nix";
-            container.validVolumes = [ "/nix" ];
+          settings.server = {
+            DOMAIN = cfg.domain;
+            ROOT_URL = cfg.url;
+            HTTP_PORT = 3000;
+          };
+          useWizard = true;
+        } // lib.optionalAttrs (cfg.home != null) { stateDir = cfg.home; };
+
+        nginx.virtualHosts."${cfg.url}" = {
+          useACMEHost = cfg.domain;
+          forceSSL = true;
+          locations."/" = {
+            proxyPass = "http://127.0.0.1:3000";
+            proxyWebsockets = true;
+            extraConfig = "proxy_ssl_server_name on;"; # required when the target is also TLS server with multiple hosts
+          };
+        };
+
+        # Enable runner for CI actions
+        gitea-actions-runner = lib.mkIf cfg.actions.enable {
+          package = pkgs.forgejo-actions-runner;
+          instances.default = {
+            enable = true;
+            name = config.networking.hostName;
+            url = cfg.url;
+            token = cfg.actions.token;
+            labels = [
+              "nix:docker://nixos/nix" # Shoutout to Icewind 1991 for this syntax: https://icewind.nl/entry/gitea-actions-nix/
+              "debian:docker://node:20-bullseye"
+              "ubuntu-latest:docker://ubuntu:latest"
+            ];
+            settings = {
+              # For an example of configuring in Nix: https://git.clan.lol/clan/clan-infra/src/branch/main/modules/web01/gitea/actions-runner.nix
+              # For an example of the different options available: https://gitea.com/gitea/act_runner/src/branch/main/internal/pkg/config/config.example.yaml
+              container.options = "-v /nix:/nix";
+              container.validVolumes = [ "/nix" ];
+            };
           };
         };
       };
-    };
 
-    systemd.services = {
-      nginx.wants = [ config.systemd.services.forgejo.name ];
-    } // lib.optionalAttrs (!cfg.autostart) { forgejo.wantedBy = lib.mkForce [ ]; };
+      systemd.services.nginx.wants = [ config.systemd.services.forgejo.name ];
 
-    # Enable Podman for running...uh, runners.
-    virtualisation = lib.mkIf cfg.actions.enable {
-      containers.enable = true;
-      podman = {
-        enable = true;
+      # Enable Podman for running...uh, runners.
+      virtualisation = lib.mkIf cfg.actions.enable {
+        containers.enable = true;
+        podman = {
+          enable = true;
 
-        # Create a `docker` alias for podman, to use it as a drop-in replacement
-        dockerCompat = true;
+          # Create a `docker` alias for podman, to use it as a drop-in replacement
+          dockerCompat = true;
 
-        # Required for containers under podman-compose to be able to talk to each other.
-        defaultNetwork.settings.dns_enabled = true;
+          # Required for containers under podman-compose to be able to talk to each other.
+          defaultNetwork.settings.dns_enabled = true;
+        };
       };
-    };
 
-    # Allow containers to make DNS queries (https://www.reddit.com/r/NixOS/comments/199f16j/why_dont_my_podman_containers_have_internet_access/)
-    networking.firewall.interfaces.podman4 = lib.mkIf cfg.actions.enable {
-      allowedTCPPorts = [ 53 ];
-      allowedUDPPorts = [ 53 ];
-    };
-  };
+      # Allow containers to make DNS queries (https://www.reddit.com/r/NixOS/comments/199f16j/why_dont_my_podman_containers_have_internet_access/)
+      networking.firewall.interfaces.podman4 = lib.mkIf cfg.actions.enable {
+        allowedTCPPorts = [ 53 ];
+        allowedUDPPorts = [ 53 ];
+      };
+    })
+    (lib.mkIf (!cfg.autostart) {
+      # Disable autostart if needed
+      systemd.services.forgejo.wantedBy = lib.mkForce [ ];
+    })
+  ];
 }

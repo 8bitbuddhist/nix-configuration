@@ -28,31 +28,39 @@ rec {
     };
   };
 
-  config = mkIf cfg.enable {
-    nixpkgs.config.allowUnfree = true;
-    environment.systemPackages = [ duplicacy-web ];
+  config = lib.mkMerge [
+    (lib.mkIf cfg.enable {
+      nixpkgs.config.allowUnfree = true;
+      environment.systemPackages = [ duplicacy-web ];
 
-    networking.firewall.allowedTCPPorts = [ 3875 ];
+      networking.firewall.allowedTCPPorts = [ 3875 ];
 
-    # Install systemd service.
-    systemd.services."duplicacy-web" = {
-      enable = true;
-      wants = [ "network-online.target" ];
-      after = [
-        "syslog.target"
-        "network-online.target"
-      ];
-      description = "Start the Duplicacy backup service and web UI";
-      serviceConfig = {
-        Type = "simple";
-        ExecStart = ''${duplicacy-web}/duplicacy-web'';
-        Restart = "on-failure";
-        RestartSrc = 10;
-        KillMode = "process";
+      # Install systemd service.
+      systemd.services."duplicacy-web" = {
+        enable = true;
+        wants = [ "network-online.target" ];
+        after = [
+          "syslog.target"
+          "network-online.target"
+        ];
+        description = "Start the Duplicacy backup service and web UI";
+        serviceConfig = {
+          Type = "simple";
+          ExecStart = ''${duplicacy-web}/duplicacy-web'';
+          Restart = "on-failure";
+          RestartSrc = 10;
+          KillMode = "process";
+        };
+        environment = {
+          HOME = cfg.environment;
+        };
       };
-      environment = {
-        HOME = cfg.environment;
-      };
-    } // optionalAttrs cfg.autostart { wantedBy = [ "multi-user.target" ]; }; # Start at boot if autostart is enabled.
-  };
+    })
+
+    (lib.mkIf (!cfg.autostart) {
+      # Disable autostart if needed
+      systemd.services.duplicacy-web.wantedBy = lib.mkForce [ ];
+    })
+  ];
+
 }

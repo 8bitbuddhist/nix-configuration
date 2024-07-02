@@ -17,28 +17,31 @@ in
     };
   };
 
-  config = lib.mkIf cfg.enable {
-    services.nginx = {
-      enable = true;
+  config = lib.mkMerge [
+    (lib.mkIf cfg.enable {
+      services.nginx = {
+        enable = true;
 
-      # Use recommended settings per https://nixos.wiki/wiki/Nginx#Hardened_setup_with_TLS_and_HSTS_preloading
-      recommendedGzipSettings = true;
-      recommendedOptimisation = true;
-      recommendedTlsSettings = true;
+        # Use recommended settings per https://nixos.wiki/wiki/Nginx#Hardened_setup_with_TLS_and_HSTS_preloading
+        recommendedGzipSettings = true;
+        recommendedOptimisation = true;
+        recommendedTlsSettings = true;
 
-      virtualHosts = cfg.virtualHosts;
-    };
+        virtualHosts = cfg.virtualHosts;
+      };
 
-    # Open ports
-    networking.firewall = {
-      enable = true;
-      allowedTCPPorts = [
-        80
-        443
-      ];
-    };
-
-    # Disable autostart if needed
-    systemd.services.nginx.wantedBy = lib.mkIf (!cfg.autostart) [ ];
-  };
+      # Open ports
+      networking.firewall = {
+        enable = true;
+        allowedTCPPorts = [
+          80
+          443
+        ];
+      };
+    })
+    (lib.mkIf (!cfg.autostart) {
+      # Disable autostart if needed
+      systemd.services.nginx.wantedBy = lib.mkForce [ ];
+    })
+  ];
 }
