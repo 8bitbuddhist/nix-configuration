@@ -113,6 +113,7 @@ in
       };
       airsonic = {
         enable = true;
+        autostart = false;
         home = "${services-root}/airsonic-advanced";
         domain = config.secrets.networking.primaryDomain;
         url = config.secrets.services.airsonic.url;
@@ -136,6 +137,7 @@ in
       };
       forgejo = {
         enable = true;
+        autostart = false;
         home = "${services-root}/forgejo";
         domain = config.secrets.networking.primaryDomain;
         url = config.secrets.services.forgejo.url;
