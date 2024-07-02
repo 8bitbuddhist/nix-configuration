@@ -30,7 +30,7 @@ mount -o subvol=@ $root_drive /mnt
 mkdir -p /mnt/{boot,home,var/log,nix,swap}
 mount $boot_drive /mnt/boot
 mount -o subvol=@home $root_drive /mnt/home
-mount -o subvol=@log $root_drive /var/log
+mount -o subvol=@log $root_drive /mnt/var/log
 mount -o subvol=@nix $root_drive /mnt/nix
 mount -o subvol=@swap $root_drive /mnt/swap
 

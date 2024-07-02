@@ -21,26 +21,6 @@
         "type": "github"
       }
     },
-    "disko": {
-      "inputs": {
-        "nixpkgs": [
-          "nixpkgs"
-        ]
-      },
-      "locked": {
-        "lastModified": 1719864345,
-        "narHash": "sha256-e4Pw+30vFAxuvkSTaTypd9zYemB/QlWcH186dsGT+Ms=",
-        "owner": "nix-community",
-        "repo": "disko",
-        "rev": "544a80a69d6e2da04e4df7ec8210a858de8c7533",
-        "type": "github"
-      },
-      "original": {
-        "owner": "nix-community",
-        "repo": "disko",
-        "type": "github"
-      }
-    },
     "flake-compat": {
       "flake": false,
       "locked": {
@@ -158,11 +138,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1719827439,
-        "narHash": "sha256-tneHOIv1lEavZ0vQ+rgz67LPNCgOZVByYki3OkSshFU=",
+        "lastModified": 1719992360,
+        "narHash": "sha256-SRq0ZRkqagqpMGVf4z9q9CIWRbPYjO7FTqSJyWh7nes=",
         "owner": "nix-community",
         "repo": "home-manager",
-        "rev": "59ce796b2563e19821361abbe2067c3bb4143a7d",
+        "rev": "36e2f9da91ce8b63a549a47688ae60d47c50de4b",
         "type": "github"
       },
       "original": {
@@ -359,7 +339,6 @@
     },
     "root": {
       "inputs": {
-        "disko": "disko",
         "home-manager": "home-manager",
         "lanzaboote": "lanzaboote",
         "lix-module": "lix-module",
