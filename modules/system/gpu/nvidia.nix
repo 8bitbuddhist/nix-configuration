@@ -70,7 +70,7 @@ in
           enableOffloadCmd = true; # Provides `nvidia-offload` command.
         };
 
-        sync.enable = cfg.hybrid.sync ;
+        sync.enable = cfg.hybrid.sync;
 
         nvidiaBusId = cfg.hybrid.busIDs.nvidia;
         intelBusId = cfg.hybrid.busIDs.intel;
