@@ -7,12 +7,7 @@
 }:
 
 let
-  luksPartition = "/dev/disk/by-uuid/dfb4fc8f-e82b-43a1-91c1-a77acb6337cb";
-  luksDevice = "9fdc521b-a037-4070-af47-f54da03675e4";
-  standardMountOpts = [
-    "compress=zstd"
-    "noatime"
-  ];
+  luksUUID = "9fdc521b-a037-4070-af47-f54da03675e4";
 in
 {
   imports = [ (modulesPath + "/installer/scan/not-detected.nix") ];
@@ -26,8 +21,8 @@ in
         "sd_mod"
         "sdhci_pci"
       ];
-      luks.devices."luks-${luksDevice}" = {
-        device = "/dev/disk/by-uuid/${luksDevice}";
+      luks.devices."luks-${luksUUID}" = {
+        device = "/dev/disk/by-uuid/${luksUUID}";
         crypttabExtraOpts = [ "tpm2-device=auto" ]; # Enable TPM auto-unlocking
       };
     };
@@ -35,39 +30,18 @@ in
     extraModulePackages = [ ];
   };
 
-  fileSystems = {
-    "/" = {
-      device = luksPartition;
-      fsType = "btrfs";
-      options = [ "subvol=@" ] ++ standardMountOpts;
+  # Configure the main filesystem.
+  aux.system.filesystem.btrfs = {
+    enable = true;
+    devices = {
+      boot = "/dev/disk/by-uuid/FC20-D155";
+      btrfs = "/dev/disk/by-uuid/${luksUUID}";
     };
-    "/home" = {
-      device = luksPartition;
-      fsType = "btrfs";
-      options = [ "subvol=@home" ] ++ standardMountOpts;
-    };
-    "/nix" = {
-      device = luksPartition;
-      fsType = "btrfs";
-      options = [ "subvol=@nix" ] ++ standardMountOpts;
-    };
-    "/swap" = {
-      device = luksPartition;
-      fsType = "btrfs";
-      options = [ "subvol=@swap" ];
-    };
-    "/boot" = {
-      device = "/dev/disk/by-uuid/FC20-D155";
-      fsType = "vfat";
+    swapFile = {
+      enable = true;
+      size = 16384;
     };
   };
-
-  swapDevices = [
-    {
-      device = "/swap/swapfile";
-      size = 16384;
-    }
-  ];
 
   # Enables DHCP on each ethernet and wireless interface. In case of scripted networking
   # (the default) this is the recommended approach. When using systemd-networkd it's

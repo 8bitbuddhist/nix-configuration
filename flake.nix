@@ -37,18 +37,11 @@
       url = "git+file:./nix-secrets";
       flake = false;
     };
-
-    # Disko support https://github.com/nix-community/disko
-    disko = {
-      url = "github:nix-community/disko";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
   };
 
   outputs =
     inputs@{
       self,
-      disko,
       home-manager,
       lanzaboote,
       lix-module,
@@ -70,7 +63,6 @@
       defaultModules = [
         ./modules/autoimport.nix
         (import nix-secrets)
-        disko.nixosModules.disko
         lix-module.nixosModules.default
         lanzaboote.nixosModules.lanzaboote
         nix-flatpak.nixosModules.nix-flatpak
