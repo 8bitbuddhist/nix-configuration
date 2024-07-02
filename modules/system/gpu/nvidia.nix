@@ -45,11 +45,11 @@ in
   config = lib.mkIf cfg.enable {
     assertions = [
       {
-        assertion = (cfg.busIDs.nvidia == "");
+        assertion = (cfg.hybrid.busIDs.nvidia != "");
         message = "You need to define a bus ID for your Nvidia GPU. To learn how to find the bus ID, see https://nixos.wiki/wiki/Nvidia#Configuring_Optimus_PRIME:_Bus_ID_Values_.28Mandatory.29.";
       }
       {
-        assertion = (cfg.busIDs.intel == "" && cfg.busIDs.amd == "");
+        assertion = (cfg.hybrid.busIDs.intel != "" || cfg.hybrid.busIDs.amd != "");
         message = "You need to define a bus ID for your non-Nvidia GPU. To learn how to find your bus ID, see https://nixos.wiki/wiki/Nvidia#Configuring_Optimus_PRIME:_Bus_ID_Values_.28Mandatory.29.";
       }
     ];
