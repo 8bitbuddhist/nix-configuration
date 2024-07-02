@@ -131,7 +131,7 @@ with lib;
 
         # Override the default Syncthing settings so it doesn't start on boot
         systemd.user.services."syncthing" = mkIf (!cfg.services.syncthing.autostart) {
-          Install = lib.mkForce { };
+          wantedBy = lib.mkForce { };
         };
       };
     })

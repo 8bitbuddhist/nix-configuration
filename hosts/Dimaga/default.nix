@@ -41,6 +41,14 @@ in
   #   To see all available timezones, run `timedatectl list-timezones`.
   time.timeZone = "America/New_York";
 
+  # Disable suspend
+  systemd.targets = {
+    sleep.enable = false;
+    suspend.enable = false;
+    hibernate.enable = false;
+    hybrid-sleep.enable = false;
+  };
+
   # Configure the system.
   aux.system = {
     # Enable to allow unfree (e.g. closed source) packages.
