@@ -57,11 +57,11 @@ in
     aux.system.allowUnfree = true;
 
     services.xserver.videoDrivers = lib.mkDefault [ "nvidia" ];
-    hardware.opengl.extraPackages = with pkgs; [ vaapiVdpau ];
+    hardware.graphics.extraPackages = with pkgs; [ vaapiVdpau ];
 
     hardware.nvidia = {
       modesetting.enable = true;
-      nvidiaSettings = lib.mkIf (config.aux.system.ui.desktops.enable) true;
+      nvidiaSettings = config.aux.system.ui.desktops.enable;
       package = config.boot.kernelPackages.nvidiaPackages.stable;
       prime = lib.mkIf cfg.hybrid.enable {
 
@@ -70,11 +70,11 @@ in
           enableOffloadCmd = true; # Provides `nvidia-offload` command.
         };
 
-        sync.enable = lib.mkIf cfg.hybrid.sync true;
+        sync.enable = cfg.hybrid.sync ;
 
         nvidiaBusId = cfg.hybrid.busIDs.nvidia;
-        intelBusId = lib.mkIf (cfg.hybrid.busIDs.intel != "") cfg.hybrid.busIDs.intel;
-        amdgpuBusId = lib.mkIf (cfg.hybrid.busIDs.amd != "") cfg.hybrid.busIDs.amd;
+        intelBusId = cfg.hybrid.busIDs.intel;
+        amdgpuBusId = cfg.hybrid.busIDs.amd;
       };
     };
   };
