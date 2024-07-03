@@ -6,6 +6,10 @@
   modulesPath,
   ...
 }:
+let
+  luksUUID = "bcf67e34-339e-40b9-8ffd-bec8f7f55248"; # The UUID of the locked LUKS partition.
+  rootUUID = "b801fbea-4cb5-4255-bea9-a2ce77d1a1b7"; # The UUID of the unlocked filesystem partition.
+in
 {
   imports = [ (modulesPath + "/installer/scan/not-detected.nix") ];
 
@@ -24,8 +28,8 @@
         "sd_mod"
         "rtsx_pci_sdmmc"
       ];
-      luks.devices."luks-bcf67e34-339e-40b9-8ffd-bec8f7f55248" = {
-        device = "/dev/disk/by-uuid/bcf67e34-339e-40b9-8ffd-bec8f7f55248";
+      luks.devices."luks-${luksUUID}" = {
+        device = "/dev/disk/by-uuid/${luksUUID}";
         crypttabExtraOpts = [ "tpm2-device=auto" ]; # Enable TPM auto-unlocking
       };
     };
@@ -33,25 +37,16 @@
     kernelModules = [ "kvm-amd" ];
   };
 
-  fileSystems = {
-    "/" = {
-      device = "/dev/disk/by-uuid/b801fbea-4cb5-4255-bea9-a2ce77d1a1b7";
-      fsType = "btrfs";
-      options = [ "subvol=@,compress=zstd,discard" ];
+  # Configure the main filesystem.
+  aux.system.filesystem.btrfs = {
+    enable = true;
+    devices = {
+      boot = "/dev/disk/by-uuid/FC20-D155";
+      btrfs = "/dev/disk/by-uuid/${rootUUID}";
     };
-    "/home" = {
-      device = "/dev/disk/by-uuid/b801fbea-4cb5-4255-bea9-a2ce77d1a1b7";
-      fsType = "btrfs";
-      options = [ "subvol=@home,compress=zstd,discard" ];
-    };
-    "/swap" = {
-      device = "/dev/disk/by-uuid/b801fbea-4cb5-4255-bea9-a2ce77d1a1b7";
-      fsType = "btrfs";
-      options = [ "subvol=@swap" ];
-    };
-    "/boot" = {
-      device = "/dev/disk/by-uuid/AFCB-D880";
-      fsType = "vfat";
+    swapFile = {
+      enable = true;
+      size = 16384;
     };
   };
 

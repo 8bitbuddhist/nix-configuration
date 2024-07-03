@@ -7,7 +7,8 @@
 }:
 
 let
-  luksUUID = "9fdc521b-a037-4070-af47-f54da03675e4";
+  luksUUID = "9fdc521b-a037-4070-af47-f54da03675e4"; # The UUID of the locked LUKS partition.
+  rootUUID = "dfb4fc8f-e82b-43a1-91c1-a77acb6337cb"; # The UUID of the unlocked filesystem partition.
 in
 {
   imports = [ (modulesPath + "/installer/scan/not-detected.nix") ];
@@ -35,7 +36,7 @@ in
     enable = true;
     devices = {
       boot = "/dev/disk/by-uuid/FC20-D155";
-      btrfs = "/dev/disk/by-uuid/${luksUUID}";
+      btrfs = "/dev/disk/by-uuid/${rootUUID}";
     };
     swapFile = {
       enable = true;
