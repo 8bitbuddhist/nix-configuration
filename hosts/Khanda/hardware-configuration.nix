@@ -108,6 +108,6 @@ in
   # Install/configure additional drivers, particularly for touch
   environment.systemPackages = with pkgs; [ libwacom-surface ];
 
-  # NOTE: Use a default kernel to skip full kernel rebuilds
-  boot.kernelPackages = lib.mkForce pkgs.linuxPackages_latest;
+  # NOTE: Uncomment to use a default kernel and skip full kernel rebuilds
+  # boot.kernelPackages = lib.mkForce pkgs.linuxPackages_latest;
 }
