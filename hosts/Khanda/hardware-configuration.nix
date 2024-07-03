@@ -6,6 +6,11 @@
   modulesPath,
   ...
 }:
+let
+  bootUUID = "B2D7-96C3"; # The UUID of the boot partition.
+  luksUUID = "f5ff391a-f2ef-4ac3-9ce8-9f5ed950b212"; # The UUID of the locked LUKS partition.
+  rootUUID = "fed155a3-04ae-47c0-996d-0398faaa6a17"; # The UUID of the unlocked filesystem partition.
+in
 {
   imports = [ (modulesPath + "/installer/scan/not-detected.nix") ];
 
@@ -42,9 +47,9 @@
         "pinctrl_tigerlake"
       ];
 
-      luks.devices."luks-bd1fe396-6740-4e7d-af2c-26ca9a3031f1" = {
-        device = "/dev/disk/by-uuid/bd1fe396-6740-4e7d-af2c-26ca9a3031f1";
-        crypttabExtraOpts = [ "tpm2-device=auto" ];
+      luks.devices."luks-${luksUUID}" = {
+        device = "/dev/disk/by-uuid/${luksUUID}";
+        crypttabExtraOpts = [ "tpm2-device=auto" ]; # Enable TPM auto-unlocking
       };
     };
 
@@ -69,20 +74,18 @@
     ];
   };
 
-  fileSystems = {
-    "/" = {
-      device = "/dev/disk/by-uuid/b34afd29-94ff-421b-bb96-8497951abf58";
-      fsType = "btrfs";
-      options = [ "subvol=@,compress=zstd,nodiscard" ];
+  # Configure the main filesystem.
+  aux.system.filesystem.btrfs = {
+    enable = true;
+    devices = {
+      boot = "/dev/disk/by-uuid/${bootUUID}";
+      btrfs = "/dev/disk/by-uuid/${rootUUID}";
     };
-
-    "/boot" = {
-      device = "/dev/disk/by-uuid/DD2A-9C83";
-      fsType = "vfat";
+    swapFile = {
+      enable = true;
+      size = 16384;
     };
   };
-
-  swapDevices = [ { device = "/dev/disk/by-uuid/8c2519d9-3e47-4aa1-908d-98b1aa8b909d"; } ];
 
   networking = {
     useDHCP = lib.mkDefault true;
@@ -106,5 +109,5 @@
   environment.systemPackages = with pkgs; [ libwacom-surface ];
 
   # NOTE: Use a default kernel to skip full kernel rebuilds
-  # boot.kernelPackages = lib.mkForce pkgs.linuxPackages_latest;
+  boot.kernelPackages = lib.mkForce pkgs.linuxPackages_latest;
 }
