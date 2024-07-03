@@ -2,11 +2,7 @@
 let
   cfg = config.aux.system.filesystem.btrfs;
 
-  standardMountOpts = [
-    "compress=zstd"
-    "discard=async"
-    "noatime"
-  ];
+  standardMountOpts = [ "compress=zstd" ];
 in
 {
   options = {
@@ -23,6 +19,16 @@ in
           description = "The ID of your BTRFS partition. Use /dev/disk/by-uuid for best results.";
           default = "";
         };
+      };
+      subvolumes = lib.mkOption {
+        type = lib.types.listOf lib.types.str;
+        description = "Which subvolumes to mount. Leave as the default to create all standard subvolumes.";
+        default = [
+          "/"
+          "/home"
+          "/nix"
+          "/var/log"
+        ];
       };
       swapFile = {
         enable = lib.mkEnableOption (lib.mdDoc "Enables the creation of a swap file.");
@@ -50,36 +56,52 @@ in
     ];
     fileSystems =
       {
-        "/" = {
+        "/" = lib.mkIf (builtins.elem "/" cfg.subvolumes) {
           device = cfg.devices.btrfs;
           fsType = "btrfs";
-          options = [ "subvol=@" ] ++ standardMountOpts;
+          options = [
+            "subvol=@"
+            "compress=zstd"
+          ];
         };
         "/boot" = {
           device = cfg.devices.boot;
           fsType = "vfat";
         };
-        "/home" = {
+        "/home" = lib.mkIf (builtins.elem "/home" cfg.subvolumes) {
           device = cfg.devices.btrfs;
           fsType = "btrfs";
-          options = [ "subvol=@home" ] ++ standardMountOpts;
+          options = [
+            "subvol=@home"
+            "compress=zstd"
+          ];
         };
-        "/var/log" = {
+        "/var/log" = lib.mkIf (builtins.elem "/var/log" cfg.subvolumes) {
           device = cfg.devices.btrfs;
           fsType = "btrfs";
-          options = [ "subvol=@log" ] ++ standardMountOpts;
+          options = [
+            "subvol=@log"
+            "compress=zstd"
+          ];
         };
-        "/nix" = {
+        "/nix" = lib.mkIf (builtins.elem "/nix" cfg.subvolumes) {
           device = cfg.devices.btrfs;
           fsType = "btrfs";
-          options = [ "subvol=@nix" ] ++ standardMountOpts;
+          options = [
+            "subvol=@nix"
+            "compress=zstd"
+            "noatime"
+          ];
         };
       }
       // lib.optionalAttrs cfg.swapFile.enable {
         "/swap" = {
           device = cfg.devices.btrfs;
           fsType = "btrfs";
-          options = [ "subvol=@swap" ];
+          options = [
+            "subvol=@swap"
+            "noatime"
+          ];
         };
       };
 
