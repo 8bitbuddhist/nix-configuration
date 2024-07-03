@@ -7,6 +7,7 @@
 }:
 
 let
+  bootUUID = "FC20-D155"; # The UUID of the boot partition.
   luksUUID = "9fdc521b-a037-4070-af47-f54da03675e4"; # The UUID of the locked LUKS partition.
   rootUUID = "dfb4fc8f-e82b-43a1-91c1-a77acb6337cb"; # The UUID of the unlocked filesystem partition.
 in
@@ -35,7 +36,7 @@ in
   aux.system.filesystem.btrfs = {
     enable = true;
     devices = {
-      boot = "/dev/disk/by-uuid/FC20-D155";
+      boot = "/dev/disk/by-uuid/${bootUUID}";
       btrfs = "/dev/disk/by-uuid/${rootUUID}";
     };
     swapFile = {

@@ -7,6 +7,7 @@
   ...
 }:
 let
+  bootUUID = "AFCB-D880"; # The UUID of the boot partition.
   luksUUID = "bcf67e34-339e-40b9-8ffd-bec8f7f55248"; # The UUID of the locked LUKS partition.
   rootUUID = "b801fbea-4cb5-4255-bea9-a2ce77d1a1b7"; # The UUID of the unlocked filesystem partition.
 in
@@ -41,7 +42,7 @@ in
   aux.system.filesystem.btrfs = {
     enable = true;
     devices = {
-      boot = "/dev/disk/by-uuid/FC20-D155";
+      boot = "/dev/disk/by-uuid/${bootUUID}";
       btrfs = "/dev/disk/by-uuid/${rootUUID}";
     };
     swapFile = {
@@ -49,13 +50,6 @@ in
       size = 16384;
     };
   };
-
-  swapDevices = [
-    {
-      device = "/swap/swapfile";
-      size = 16384;
-    }
-  ];
 
   networking = {
     # Enables DHCP on each ethernet and wireless interface. In case of scripted networking
