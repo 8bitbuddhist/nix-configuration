@@ -37,7 +37,16 @@ mount -o subvol=@swap $root_drive /mnt/swap
 # Create swapfile
 btrfs filesystem mkswapfile --size $(free -h --si | grep Mem: | awk '{print $2}') --uuid clear /mnt/swap/swapfile
 
-nixos-install --verbose --root /mnt --flake $flakeDir $( (( ask_root_password == false )) && echo "--no-root-password" )
+echo "Disks partitioned and mounted to /mnt."
+
+# Generate hardware-configuration.nix
+nixos-generate-config --no-filesystems --dir /home/nixos
+echo "Configuration files generated and saved to /home/nixos."
+
+echo "Setup complete!"
+echo "To install, set up your system's configuration files under ./hosts/yourHost and add it to flake.nix."
+echo "Then, run the following command:"
+echo "nixos-install --verbose --root /mnt --flake $flakeDir.#yourHost $( (( ask_root_password == false )) && echo "--no-root-password" )"
 
 exit 0
 
