@@ -14,7 +14,7 @@ in
     aux.system.ui.audio = {
       enable = lib.mkEnableOption (lib.mdDoc "Enables audio.");
       enableLowLatency = lib.mkEnableOption (
-        lib.mdDoc "Enables low-latency audio (may cause crackling) per https://nixos.wiki/wiki/PipeWire#Low-latency_setup."
+        lib.mdDoc "Enables low-latency audio (may cause crackling) per https://wiki.nixos.org/wiki/PipeWire#Low-latency_setup."
       );
     };
   };
@@ -35,7 +35,7 @@ in
       pulse.enable = true;
       jack.enable = true;
 
-      # Reduce audio latency per https://nixos.wiki/wiki/PipeWire#Low-latency_setup
+      # Reduce audio latency per https://wiki.nixos.org/wiki/PipeWire#Low-latency_setup
       extraConfig.pipewire = lib.mkIf cfg.enableLowLatency {
         "92-low-latency.conf" = {
           "context.properties" = {

@@ -107,7 +107,7 @@ in
 
     nixpkgs.overlays = lib.mkIf cfg.tripleBuffering.enable [
       # GNOME 46: triple-buffering-v4-46
-      # For details, see https://nixos.wiki/wiki/GNOME#Dynamic_triple_buffering
+      # For details, see https://wiki.nixos.org/wiki/GNOME#Dynamic_triple_buffering
       (final: prev: {
         gnome = prev.gnome.overrideScope (
           gnomeFinal: gnomePrev: {

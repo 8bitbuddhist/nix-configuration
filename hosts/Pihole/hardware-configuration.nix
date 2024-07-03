@@ -1,5 +1,5 @@
 # Raspberry Pi 4B
-# See https://nixos.wiki/wiki/NixOS_on_ARM/Raspberry_Pi_4
+# See https://wiki.nixos.org/wiki/NixOS_on_ARM/Raspberry_Pi_4
 {
   config,
   lib,

@@ -1,4 +1,4 @@
-# See https://nixos.wiki/wiki/Msmtp
+# See https://wiki.nixos.org/wiki/Msmtp
 { config, lib, ... }:
 
 let

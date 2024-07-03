@@ -46,11 +46,11 @@ in
     assertions = [
       {
         assertion = (cfg.hybrid.busIDs.nvidia != "");
-        message = "You need to define a bus ID for your Nvidia GPU. To learn how to find the bus ID, see https://nixos.wiki/wiki/Nvidia#Configuring_Optimus_PRIME:_Bus_ID_Values_.28Mandatory.29.";
+        message = "You need to define a bus ID for your Nvidia GPU. To learn how to find the bus ID, see https://wiki.nixos.org/wiki/Nvidia#Configuring_Optimus_PRIME:_Bus_ID_Values_.28Mandatory.29.";
       }
       {
         assertion = (cfg.hybrid.busIDs.intel != "" || cfg.hybrid.busIDs.amd != "");
-        message = "You need to define a bus ID for your non-Nvidia GPU. To learn how to find your bus ID, see https://nixos.wiki/wiki/Nvidia#Configuring_Optimus_PRIME:_Bus_ID_Values_.28Mandatory.29.";
+        message = "You need to define a bus ID for your non-Nvidia GPU. To learn how to find your bus ID, see https://wiki.nixos.org/wiki/Nvidia#Configuring_Optimus_PRIME:_Bus_ID_Values_.28Mandatory.29.";
       }
     ];
 
