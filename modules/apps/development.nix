@@ -19,9 +19,12 @@ with lib;
 
   config = mkMerge [
     (mkIf cfg.enable {
-      aux.system.ui.flatpak = {
-        enable = true;
-        packages = [ "com.vscodium.codium" ];
+      aux.system = {
+        packages = with pkgs; [ nixd ];
+        ui.flatpak = {
+          enable = true;
+          packages = [ "com.vscodium.codium" ];
+        };
       };
     })
     (mkIf cfg.kubernetes.enable {

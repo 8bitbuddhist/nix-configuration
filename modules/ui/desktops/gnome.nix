@@ -91,6 +91,7 @@ in
         gnomeExtensions.appindicator
         gnomeExtensions.dash-to-panel
         gnomeExtensions.forge
+        gnomeExtensions.random-wallpaper
         # Themeing
         gnome.gnome-themes-extra
         papirus-icon-theme
