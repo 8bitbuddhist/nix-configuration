@@ -1,0 +1,67 @@
+# Template for setting a new host's hardware configuration
+{
+  config,
+  lib,
+  pkgs,
+  modulesPath,
+  ...
+}:
+let
+  hostName = "myHost";
+  platform = "x86_64-linux";
+  bootUUID = "ABCD-1234"; # The UUID of the boot partition.
+  luksUUID = "1408f9cf-68b8-4063-b919-48edde3329a5"; # The UUID of the encrypted LUKS partition.
+  rootUUID = "3eab3498-9597-454a-a790-43f4c99a87cd"; # The UUID of the unlocked filesystem partition.
+in
+{
+  imports = [ (modulesPath + "/installer/scan/not-detected.nix") ];
+
+  # Configure the kernel.
+  boot = {
+    # Run `nixos-generate-config --no-filesystems` to generate a baseline hardware configuration.
+    initrd = {
+      availableKernelModules = [
+        "nvme"
+        "xhci_pci"
+        "usbhid"
+        "usb_storage"
+        "sd_mod"
+      ];
+    };
+
+    kernelModules = [ ];
+  };
+
+  # Configure the main filesystem.
+  aux.system.filesystem = {
+    btrfs = {
+      enable = true;
+      devices = {
+        boot = "/dev/disk/by-uuid/${bootUUID}";
+        btrfs = "/dev/disk/by-uuid/${rootUUID}";
+      };
+      swapFile = {
+        enable = true;
+        size = 16384; # By default, this creates a 16GB swap file. Change this to whatever you'd like.
+      };
+    };
+    luks = {
+      enable = true;
+      uuid = luksUUID;
+    };
+  };
+
+  networking = {
+    # Enables DHCP on each ethernet and wireless interface. In case of scripted networking
+    # (the default) this is the recommended approach. When using systemd-networkd it's
+    # still possible to use this option, but it's recommended to use it in conjunction
+    # with explicit per-interface declarations with `networking.interfaces.<interface>.useDHCP`.
+    useDHCP = lib.mkDefault true;
+    # networking.interfaces.wlp4s0.useDHCP = lib.mkDefault true;
+
+    # Set the hostname.
+    hostName = hostName;
+  };
+
+  nixpkgs.hostPlatform = lib.mkDefault platform;
+}

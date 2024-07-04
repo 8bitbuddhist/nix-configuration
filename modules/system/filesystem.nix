@@ -48,12 +48,16 @@ in
     assertions = [
       {
         assertion = cfg.btrfs.devices.btrfs != "";
-        message = "Please specify a BTRFS partition to use as a filesystem.";
+        message = "Please specify the BTRFS partition UUID to use as the filesystem.";
       }
       {
         assertion = cfg.btrfs.devices.boot != "";
-        message = "Please specify a boot partition to use as a filesystem.";
+        message = "Please specify the boot partition UUID.";
       }
+      (lib.mkIf cfg.luks.enable {
+        assertion = cfg.luks.uuid != "";
+        message = "Please enter a valid UUID for the encrypted LUKS volume.";
+      })
     ];
     boot.initrd.luks.devices = lib.mkIf cfg.luks.enable {
       "luks-${cfg.luks.uuid}" = {

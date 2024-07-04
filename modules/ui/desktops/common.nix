@@ -88,12 +88,14 @@ in
       binfmt = true;
     };
 
-    # Install full GStreamer capabilities.
-    # References: 
-    #   https://wiki.nixos.org/wiki/GStreamer
-    #   https://github.com/NixOS/nixpkgs/issues/195936
-    environment = {
-      sessionVariables.GST_PLUGIN_SYSTEM_PATH_1_0 = lib.makeSearchPathOutput "lib" "lib/gstreamer-1.0" (
+    environment.sessionVariables = {
+      # Tell Electron apps that they can use Wayland
+      NIXOS_OZONE_WL = "1";
+      # Install full GStreamer capabilities.
+      # References: 
+      #   https://wiki.nixos.org/wiki/GStreamer
+      #   https://github.com/NixOS/nixpkgs/issues/195936
+      GST_PLUGIN_SYSTEM_PATH_1_0 = lib.makeSearchPathOutput "lib" "lib/gstreamer-1.0" (
         with pkgs.gst_all_1;
         [
           gstreamer
