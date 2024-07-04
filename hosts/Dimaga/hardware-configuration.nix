@@ -15,33 +15,42 @@ in
   imports = [ (modulesPath + "/installer/scan/not-detected.nix") ];
 
   boot = {
-    initrd = {
-      availableKernelModules = [
-        "xhci_pci"
-        "nvme"
-        "usb_storage"
-        "sd_mod"
-        "sdhci_pci"
-      ];
-      luks.devices."luks-${luksUUID}" = {
-        device = "/dev/disk/by-uuid/${luksUUID}";
-        crypttabExtraOpts = [ "tpm2-device=auto" ]; # Enable TPM auto-unlocking
-      };
-    };
+    initrd.availableKernelModules = [
+      "xhci_pci"
+      "nvme"
+      "usb_storage"
+      "sd_mod"
+      "sdhci_pci"
+    ];
     kernelModules = [ "kvm-intel" ];
     extraModulePackages = [ ];
+
+    # Enable mdadm for Sapana (RAID 5 primary storage).
+    swraid = {
+      enable = true;
+      mdadmConf = ''
+        ARRAY /dev/md/Sapana metadata=1.2 UUID=51076daf:efdb34dd:bce48342:3b549fcb
+        MAILADDR ${config.secrets.users.aires.email}
+      '';
+    };
   };
 
   # Configure the main filesystem.
-  aux.system.filesystem.btrfs = {
-    enable = true;
-    devices = {
-      boot = "/dev/disk/by-uuid/${bootUUID}";
-      btrfs = "/dev/disk/by-uuid/${rootUUID}";
-    };
-    swapFile = {
+  aux.system.filesystem = {
+    btrfs = {
       enable = true;
-      size = 16384;
+      devices = {
+        boot = "/dev/disk/by-uuid/${bootUUID}";
+        btrfs = "/dev/disk/by-uuid/${rootUUID}";
+      };
+      swapFile = {
+        enable = true;
+        size = 16384;
+      };
+    };
+    luks = {
+      enable = true;
+      uuid = luksUUID;
     };
   };
 

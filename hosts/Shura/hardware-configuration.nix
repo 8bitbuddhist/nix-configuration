@@ -29,25 +29,27 @@ in
         "sd_mod"
         "rtsx_pci_sdmmc"
       ];
-      luks.devices."luks-${luksUUID}" = {
-        device = "/dev/disk/by-uuid/${luksUUID}";
-        crypttabExtraOpts = [ "tpm2-device=auto" ]; # Enable TPM auto-unlocking
-      };
     };
 
     kernelModules = [ "kvm-amd" ];
   };
 
   # Configure the main filesystem.
-  aux.system.filesystem.btrfs = {
-    enable = true;
-    devices = {
-      boot = "/dev/disk/by-uuid/${bootUUID}";
-      btrfs = "/dev/disk/by-uuid/${rootUUID}";
-    };
-    swapFile = {
+  aux.system.filesystem = {
+    btrfs = {
       enable = true;
-      size = 16384;
+      devices = {
+        boot = "/dev/disk/by-uuid/${bootUUID}";
+        btrfs = "/dev/disk/by-uuid/${rootUUID}";
+      };
+      swapFile = {
+        enable = true;
+        size = 16384;
+      };
+    };
+    luks = {
+      enable = true;
+      uuid = luksUUID;
     };
   };
 
