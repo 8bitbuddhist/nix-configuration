@@ -2,74 +2,59 @@
 let
   cfg = config.aux.system.filesystem;
 
-  standardMountOpts = [ "compress=zstd" ];
+  # LUKS partition will decrypt to /dev/mapper/nixos-root
+  decryptPart = "nixos-root";
+  decryptPath = "/dev/mapper/${decryptPart}";
 in
 {
   options = {
     aux.system.filesystem = {
-      btrfs = {
-        enable = lib.mkEnableOption (lib.mdDoc "Enables standard BTRFS subvolumes and parameters.");
-        devices = {
-          boot = lib.mkOption {
-            type = lib.types.str;
-            description = "The ID of your boot partition. Use /dev/disk/by-uuid for best results.";
-            default = "";
-          };
-          btrfs = lib.mkOption {
-            type = lib.types.str;
-            description = "The ID of your BTRFS partition. Use /dev/disk/by-uuid for best results.";
-            default = "";
-          };
+      enable = lib.mkEnableOption (lib.mdDoc "Enables standard BTRFS subvolumes and parameters.");
+      partitions = {
+        boot = lib.mkOption {
+          type = lib.types.str;
+          description = "The ID of your boot partition. Use /dev/disk/by-uuid for best results.";
+          default = "";
         };
-        swapFile = {
-          enable = lib.mkEnableOption (lib.mdDoc "Enables the creation of a swap file.");
-          size = lib.mkOption {
-            type = lib.types.int;
-            description = "The size of the swap file to create in MB (defaults to 8192, or ~8 gigabytes).";
-            default = 8192;
-          };
+        luks = lib.mkOption {
+          type = lib.types.str;
+          description = "The ID of your LUKS partition. Use /dev/disk/by-uuid for best results.";
+          default = "";
         };
       };
-      luks = {
-        enable = lib.mkEnableOption (
-          lib.mkDoc "Enables an encrypted LUKS container for the BTRFS partition."
-        );
-        uuid = lib.mkOption {
-          type = lib.types.str;
-          description = "The UUID of the encrypted LUKS volume.";
+      swapFile = {
+        enable = lib.mkEnableOption (lib.mdDoc "Enables the creation of a swap file.");
+        size = lib.mkOption {
+          type = lib.types.int;
+          description = "The size of the swap file to create in MB (defaults to 8192, or ~8 gigabytes).";
+          default = 8192;
         };
       };
     };
   };
 
-  config = lib.mkIf cfg.btrfs.enable {
+  config = lib.mkIf cfg.enable {
 
     # Check for blank parameters
     assertions = [
       {
-        assertion = cfg.btrfs.devices.btrfs != "";
-        message = "Please specify the BTRFS partition UUID to use as the filesystem.";
+        assertion = cfg.partitions.luks != "";
+        message = "Please specify a LUKS partition to use as the root filesystem.";
       }
       {
-        assertion = cfg.btrfs.devices.boot != "";
-        message = "Please specify the boot partition UUID.";
+        assertion = cfg.partitions.boot != "";
+        message = "Please specify your boot partition.";
       }
-      (lib.mkIf cfg.luks.enable {
-        assertion = cfg.luks.uuid != "";
-        message = "Please enter a valid UUID for the encrypted LUKS volume.";
-      })
     ];
-    boot.initrd.luks.devices = lib.mkIf cfg.luks.enable {
-      "luks-${cfg.luks.uuid}" = {
-        device = "/dev/disk/by-uuid/${cfg.luks.uuid}";
-        # Enable TPM auto-unlocking if configured
-        crypttabExtraOpts = lib.mkIf config.aux.system.bootloader.tpm2.enable [ "tpm2-device=auto" ];
-      };
+    boot.initrd.luks.devices.${decryptPart} = {
+      device = cfg.partitions.luks;
+      # Enable TPM auto-unlocking if configured
+      crypttabExtraOpts = lib.mkIf config.aux.system.bootloader.tpm2.enable [ "tpm2-device=auto" ];
     };
     fileSystems =
       {
         "/" = {
-          device = cfg.btrfs.devices.btrfs;
+          device = decryptPath;
           fsType = "btrfs";
           options = [
             "subvol=@"
@@ -77,11 +62,11 @@ in
           ];
         };
         "/boot" = {
-          device = cfg.btrfs.devices.boot;
+          device = cfg.partitions.boot;
           fsType = "vfat";
         };
         "/home" = {
-          device = cfg.btrfs.devices.btrfs;
+          device = decryptPath;
           fsType = "btrfs";
           options = [
             "subvol=@home"
@@ -89,7 +74,7 @@ in
           ];
         };
         "/var/log" = {
-          device = cfg.btrfs.devices.btrfs;
+          device = decryptPath;
           fsType = "btrfs";
           options = [
             "subvol=@log"
@@ -97,7 +82,7 @@ in
           ];
         };
         "/nix" = {
-          device = cfg.btrfs.devices.btrfs;
+          device = decryptPath;
           fsType = "btrfs";
           options = [
             "subvol=@nix"
@@ -106,9 +91,9 @@ in
           ];
         };
       }
-      // lib.optionalAttrs cfg.btrfs.swapFile.enable {
+      // lib.optionalAttrs cfg.swapFile.enable {
         "/swap" = {
-          device = cfg.btrfs.devices.btrfs;
+          device = decryptPath;
           fsType = "btrfs";
           options = [
             "subvol=@swap"
@@ -117,10 +102,10 @@ in
         };
       };
 
-    swapDevices = lib.mkIf cfg.btrfs.swapFile.enable [
+    swapDevices = lib.mkIf cfg.swapFile.enable [
       {
         device = "/swap/swapfile";
-        size = cfg.btrfs.swapFile.size;
+        size = cfg.swapFile.size;
       }
     ];
   };

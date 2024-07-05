@@ -9,7 +9,6 @@
 let
   bootUUID = "B2D7-96C3"; # The UUID of the boot partition.
   luksUUID = "f5ff391a-f2ef-4ac3-9ce8-9f5ed950b212"; # The UUID of the locked LUKS partition.
-  rootUUID = "fed155a3-04ae-47c0-996d-0398faaa6a17"; # The UUID of the unlocked filesystem partition.
 in
 {
   imports = [ (modulesPath + "/installer/scan/not-detected.nix") ];
@@ -71,20 +70,14 @@ in
 
   # Configure the main filesystem.
   aux.system.filesystem = {
-    btrfs = {
-      enable = true;
-      devices = {
-        boot = "/dev/disk/by-uuid/${bootUUID}";
-        btrfs = "/dev/disk/by-uuid/${rootUUID}";
-      };
-      swapFile = {
-        enable = true;
-        size = 16384;
-      };
+    enable = true;
+    partitions = {
+      boot = "/dev/disk/by-uuid/${bootUUID}";
+      luks = "/dev/disk/by-uuid/${luksUUID}";
     };
-    luks = {
+    swapFile = {
       enable = true;
-      uuid = luksUUID;
+      size = 16384;
     };
   };
 

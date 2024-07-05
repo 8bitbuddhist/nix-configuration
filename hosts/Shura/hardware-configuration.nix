@@ -9,7 +9,6 @@
 let
   bootUUID = "AFCB-D880"; # The UUID of the boot partition.
   luksUUID = "bcf67e34-339e-40b9-8ffd-bec8f7f55248"; # The UUID of the locked LUKS partition.
-  rootUUID = "b801fbea-4cb5-4255-bea9-a2ce77d1a1b7"; # The UUID of the unlocked filesystem partition.
 in
 {
   imports = [ (modulesPath + "/installer/scan/not-detected.nix") ];
@@ -36,20 +35,14 @@ in
 
   # Configure the main filesystem.
   aux.system.filesystem = {
-    btrfs = {
-      enable = true;
-      devices = {
-        boot = "/dev/disk/by-uuid/${bootUUID}";
-        btrfs = "/dev/disk/by-uuid/${rootUUID}";
-      };
-      swapFile = {
-        enable = true;
-        size = 16384;
-      };
+    enable = true;
+    partitions = {
+      boot = "/dev/disk/by-uuid/${bootUUID}";
+      luks = "/dev/disk/by-uuid/${luksUUID}";
     };
-    luks = {
+    swapFile = {
       enable = true;
-      uuid = luksUUID;
+      size = 16384;
     };
   };
 
