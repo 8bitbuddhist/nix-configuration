@@ -71,7 +71,7 @@ with lib;
         aggregatedIcons = pkgs.buildEnv {
           name = "system-icons";
           paths = with pkgs; [
-            (lib.mkIf config.aux.system.ui.desktops.gnome.enable gnome.gnome-themes-extra)
+            (lib.mkIf config.aux.system.ui.desktops.gnome.enable gnome-themes-extra)
             (lib.mkIf config.aux.system.ui.desktops.kde.enable kdePackages.breeze-icons)
             papirus-icon-theme
             qogir-icon-theme
