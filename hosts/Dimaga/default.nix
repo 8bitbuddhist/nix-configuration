@@ -8,6 +8,7 @@
 let
   # Do not change this value! This tracks when NixOS was installed on your system.
   stateVersion = "24.11";
+  hostName = "Dimaga";
 
   start-services = pkgs.writeShellScriptBin "start-services" (
     builtins.readFile ../Haven/start-haven.sh
@@ -35,6 +36,7 @@ in
   imports = [ ./hardware-configuration.nix ];
 
   system.stateVersion = stateVersion;
+  networking.hostName = hostName;
 
   ###*** Configure your system below this line. ***###
   # Set your time zone.

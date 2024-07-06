@@ -1,6 +1,10 @@
 # Configure basic networking options.
-_: {
+{ lib, ... }:
+{
   networking = {
+    # Default to DHCP. Set to false to use static IPs.
+    useDHCP = lib.mkDefault true;
+
     # Enable networking via NetworkManager
     networkmanager.enable = true;
 

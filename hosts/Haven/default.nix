@@ -6,6 +6,9 @@
   ...
 }:
 let
+  stateVersion = "24.05";
+  hostName = "Haven";
+
   start-haven = pkgs.writeShellScriptBin "start-haven" (builtins.readFile ./start-haven.sh);
 
   services-root = "/storage/services";
@@ -29,7 +32,8 @@ in
 {
   imports = [ ./hardware-configuration.nix ];
 
-  system.stateVersion = "24.05";
+  system.stateVersion = stateVersion;
+  networking.hostName = hostName;
 
   aux.system = {
     apps.tmux.enable = true;

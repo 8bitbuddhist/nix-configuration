@@ -7,6 +7,7 @@
 let
   # Do not change this value! This tracks when NixOS was installed on your system.
   stateVersion = "24.05";
+  hostName = "Shura";
 
   # Copy bluetooth device configs
   shure-aonic-bluetooth = pkgs.writeText "info" (
@@ -30,6 +31,7 @@ in
   imports = [ ./hardware-configuration.nix ];
 
   system.stateVersion = stateVersion;
+  networking.hostName = hostName;
 
   aux.system = {
     apps = {

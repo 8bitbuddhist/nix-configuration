@@ -6,13 +6,22 @@
   config,
   ...
 }:
+let
+  # Do not change this value! This tracks when NixOS was installed on your system.
+  stateVersion = "24.11";
+
+  # The hostname for this system.
+  hostName = "myHost";
+in
 {
   # Generate hardware-configuration.nix by running this command on the host:
   #   $ nixos-generate-config
   imports = [ ./hardware-configuration.nix ];
 
-  system.stateVersion = "24.05";
+  system.stateVersion = stateVersion;
+  networking.hostName = hostName;
 
+  # Configure the system here.
   aux.system = {
     role = "workstation";
     apps = {

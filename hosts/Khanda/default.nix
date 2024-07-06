@@ -2,17 +2,20 @@
   config,
   lib,
   pkgs,
+  system,
   ...
 }:
 
 let
   # Do not change this value! This tracks when NixOS was installed on your system.
   stateVersion = "24.05";
+  hostName = "Khanda";
 in
 {
   imports = [ ./hardware-configuration.nix ];
 
   system.stateVersion = stateVersion;
+  networking.hostName = hostName;
 
   ###*** Configure your system below this line. ***###
   # Set your time zone.

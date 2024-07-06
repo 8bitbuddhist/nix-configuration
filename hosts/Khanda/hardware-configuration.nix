@@ -81,12 +81,6 @@ in
     };
   };
 
-  networking = {
-    useDHCP = lib.mkDefault true;
-    hostName = "Khanda";
-  };
-
-  nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
   hardware = {
     cpu.intel.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;
     # Enable camera driver

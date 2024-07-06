@@ -65,11 +65,4 @@
       size = 16384;
     }
   ];
-
-  networking = {
-    useDHCP = lib.mkDefault true;
-    hostName = "Haven";
-  };
-
-  nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
 }

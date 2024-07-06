@@ -5,10 +5,15 @@
   nix-secrets,
   ...
 }:
+let
+  stateVersion = "24.05";
+  hostName = "Pihole";
+in
 {
   imports = [ ./hardware-configuration.nix ];
 
-  system.stateVersion = "24.05";
+  system.stateVersion = stateVersion;
+  networking.hostName = hostName;
 
   aux.system = {
     apps.tmux.enable = true;
@@ -32,7 +37,6 @@
 
   # Connect to the network automagically
   networking = {
-    hostName = "Pihole";
     networkmanager.enable = lib.mkForce false;
     wireless.networks = {
       "${config.secrets.networking.networks.home.SSID}" = {
