@@ -81,6 +81,11 @@ in
     };
   };
 
+  # Change I/O scheduler to BFQ to try and reduce stuttering under load.
+  services.udev.extraRules = ''
+    ACTION=="add|change", KERNEL=="nvme0*", ATTR{queue/rotational}=="0", ATTR{queue/scheduler}="bfq"
+  '';
+
   hardware = {
     cpu.intel.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;
     # Enable camera driver
