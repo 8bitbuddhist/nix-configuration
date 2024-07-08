@@ -61,11 +61,6 @@ in
     apps = {
       development.enable = true;
       tmux.enable = true;
-      #media.enable = true;
-      #office.enable = true;
-      #recording.enable = true;
-      #social.enable = true;
-      #writing.enable = true;
     };
 
     # Enable Secure Boot support.
@@ -196,27 +191,9 @@ in
           vmBuilds = {
             enable = true;
             cores = 3;
-            ram = 4096;
+            ram = 3072;
           };
         };
-      };
-    };
-
-    ui = {
-      desktops.gnome = {
-        enable = true;
-        tripleBuffering.enable = true;
-      };
-      flatpak = {
-        # Enable Flatpak support.
-        enable = true;
-
-        # Define Flatpak packages to install.
-        packages = [
-          "com.github.tchx84.Flatseal"
-          "org.keepassxc.KeePassXC"
-          "org.mozilla.firefox"
-        ];
       };
     };
 
