@@ -33,6 +33,9 @@ in
   system.stateVersion = stateVersion;
   networking.hostName = hostName;
 
+  # FIXME: disabling fingerprints due to fprintd-tod build error
+  services.fprintd.enable = lib.mkForce false;
+
   aux.system = {
     apps = {
       development.enable = true;
