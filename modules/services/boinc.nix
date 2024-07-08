@@ -20,7 +20,9 @@ in
       enable = true;
       package = pkgs.boinc-headless;
       dataDir = "/var/lib/boinc";
-      extraEnvPackages = [ pkgs.ocl-icd ];
+      extraEnvPackages = [
+        pkgs.ocl-icd
+      ] ++ lib.optionals config.aux.system.gpu.nvidia.enable [ pkgs.linuxPackages.nvidia_x11 ];
       allowRemoteGuiRpc = true;
     };
 
