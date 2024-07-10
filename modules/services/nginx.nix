@@ -21,7 +21,7 @@ in
     services.nginx = {
       enable = true;
 
-      # Use recommended settings per https://nixos.wiki/wiki/Nginx#Hardened_setup_with_TLS_and_HSTS_preloading
+      # Use recommended settings per https://wiki.nixos.org/wiki/Nginx#Hardened_setup_with_TLS_and_HSTS_preloading
       recommendedGzipSettings = true;
       recommendedOptimisation = true;
       recommendedTlsSettings = true;

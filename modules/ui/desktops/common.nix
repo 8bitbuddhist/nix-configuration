@@ -61,7 +61,7 @@ in
         roboto-slab
       ];
 
-      # Enable font dir for use with Flatpak. See https://nixos.wiki/wiki/Fonts#Flatpak_applications_can.27t_find_system_fonts
+      # Enable font dir for use with Flatpak. See https://wiki.nixos.org/wiki/Fonts#Flatpak_applications_can.27t_find_system_fonts
       fontDir.enable = true;
     };
 

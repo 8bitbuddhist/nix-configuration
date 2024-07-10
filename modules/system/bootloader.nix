@@ -43,7 +43,7 @@ in
         };
       })
 
-      # Set up TPM if enabled. See https://nixos.wiki/wiki/TPM
+      # Set up TPM if enabled. See https://wiki.nixos.org/wiki/TPM
       (lib.mkIf (cfg.tpm2.enable) {
         boot.initrd = {
           # Enable systemd for TPM auto-unlocking
