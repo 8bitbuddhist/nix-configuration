@@ -52,11 +52,11 @@ in
       registry = lib.mapAttrs (_: value: { flake = value; }) inputs;
       nixPath = lib.mapAttrsToList (key: value: "${key}=${value.to.path}") config.nix.registry;
 
-      # Configure remote build machines (mainly Haven)
+      # Configure remote build machines
       # To enable remote builds for a specific host, add `nix.distributedBuilds = true;` to its config
       buildMachines = [
         {
-          hostName = "haven";
+          hostName = "dimaga";
           systems = [
             "x86_64-linux"
             "aarch64-linux"
