@@ -26,7 +26,7 @@ in
     ];
     services.ssh = {
       enable = true;
-      ports = [ config.secrets.hosts.haven.ssh.port ];
+      ports = [ config.secrets.hosts.dimaga.ssh.port ];
     };
     users.aires.enable = true;
   };

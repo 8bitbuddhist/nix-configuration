@@ -10,9 +10,7 @@ let
   stateVersion = "24.11";
   hostName = "Dimaga";
 
-  start-services = pkgs.writeShellScriptBin "start-services" (
-    builtins.readFile ../Haven/start-haven.sh
-  );
+  start-services = pkgs.writeShellScriptBin "start-services" (builtins.readFile ./start-services.sh);
 
   services-root = "/storage/services";
 
@@ -111,7 +109,7 @@ in
       };
       apcupsd = {
         enable = true;
-        configText = builtins.readFile ../Haven/etc/apcupsd.conf;
+        configText = builtins.readFile ./etc/apcupsd.conf;
       };
       airsonic = {
         enable = true;
@@ -179,7 +177,7 @@ in
       };
       ssh = {
         enable = true;
-        ports = [ config.secrets.hosts.haven.ssh.port ];
+        ports = [ config.secrets.hosts.dimaga.ssh.port ];
       };
       virtualization = {
         host = {

@@ -96,15 +96,6 @@
           ];
         };
 
-        Haven = nixpkgs.lib.nixosSystem {
-          system = "x86_64-linux";
-          modules = defaultModules ++ [
-            nixos-hardware.nixosModules.common-cpu-amd-pstate
-            nixos-hardware.nixosModules.common-gpu-amd
-            ./hosts/Haven
-          ];
-        };
-
         Khanda = nixpkgs.lib.nixosSystem {
           system = "x86_64-linux";
           modules = defaultModules ++ [

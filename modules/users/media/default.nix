@@ -5,7 +5,7 @@
   ...
 }:
 
-# Define user for managing media on Haven
+# Define user for managing media files
 let
   cfg = config.aux.system.users.media;
 in
