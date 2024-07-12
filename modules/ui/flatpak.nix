@@ -51,42 +51,5 @@ with lib;
       # Install base Flatpaks. For details, see https://github.com/gmodena/nix-flatpak
       packages = cfg.packages;
     };
-
-    # Workaround for getting Flatpak apps to use system fonts, icons, and cursors
-    # For details (and source), see https://github.com/NixOS/nixpkgs/issues/119433#issuecomment-1767513263
-    # NOTE: If fonts in Flatpaks appear incorrect (like squares), run this command to regenerate the font cache:
-    #  flatpak list --columns=application | xargs -I %s -- flatpak run --command=fc-cache %s -f -v
-    system.fsPackages = [ pkgs.bindfs ];
-    fileSystems =
-      let
-        mkRoSymBind = path: {
-          device = path;
-          fsType = "fuse.bindfs";
-          options = [
-            "ro"
-            "resolve-symlinks"
-            "x-gvfs-hide"
-          ];
-        };
-        aggregatedIcons = pkgs.buildEnv {
-          name = "system-icons";
-          paths = with pkgs; [
-            (lib.mkIf config.aux.system.ui.desktops.gnome.enable gnome-themes-extra)
-            (lib.mkIf config.aux.system.ui.desktops.kde.enable kdePackages.breeze-icons)
-            papirus-icon-theme
-            qogir-icon-theme
-          ];
-          pathsToLink = [ "/share/icons" ];
-        };
-        aggregatedFonts = pkgs.buildEnv {
-          name = "system-fonts";
-          paths = config.fonts.packages;
-          pathsToLink = [ "/share/fonts" ];
-        };
-      in
-      {
-        "/usr/share/icons" = mkRoSymBind "${aggregatedIcons}/share/icons";
-        "/usr/local/share/fonts" = mkRoSymBind "${aggregatedFonts}/share/fonts";
-      };
   };
 }

@@ -14,6 +14,7 @@ with lib;
       enable = true;
       packages = [
         "com.calibre_ebook.calibre"
+        "com.github.iwalton3.jellyfin-media-player"
         "com.github.unrud.VideoDownloader"
         "io.freetubeapp.FreeTube"
         "io.github.celluloid_player.Celluloid"
