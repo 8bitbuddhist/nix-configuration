@@ -43,7 +43,16 @@ in
         locations."/" = {
           proxyPass = "http://127.0.0.1:4040";
           proxyWebsockets = true;
-          extraConfig = "proxy_ssl_server_name on;";
+          extraConfig = ''
+             # Taken from https://airsonic.github.io/docs/proxy/nginx/
+                      	proxy_set_header X-Real-IP         $remote_addr;
+            	        proxy_set_header X-Forwarded-For   $proxy_add_x_forwarded_for;
+                	    proxy_set_header X-Forwarded-Proto https;
+            	        proxy_set_header X-Forwarded-Host  $http_host;
+            	        proxy_set_header Host              $http_host;
+            	        proxy_max_temp_file_size           0;
+                      	proxy_ssl_server_name on;
+          '';
         };
       };
 
