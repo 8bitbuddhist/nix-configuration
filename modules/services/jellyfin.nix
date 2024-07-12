@@ -34,7 +34,6 @@ in
 
   config = lib.mkIf cfg.enable {
     aux.system.users.media.enable = true;
-    users.users.jellyfin.extraGroups = [ "media" ];
 
     services = {
       nginx.virtualHosts."${cfg.url}" = {
@@ -83,6 +82,7 @@ in
       jellyfin = {
         enable = true;
         dataDir = lib.mkIf (cfg.home != "") cfg.home;
+        group = "media";
       };
     };
 
