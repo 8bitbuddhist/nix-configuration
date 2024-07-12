@@ -19,6 +19,7 @@ let
     config.secrets.services.cache.url
     config.secrets.services.forgejo.url
     config.secrets.services.gremlin-lab.url
+    config.secrets.services.jellyfin.url
   ];
 
   namecheapCredentials = {
@@ -117,6 +118,13 @@ in
         home = "${services-root}/airsonic-advanced";
         domain = config.secrets.networking.primaryDomain;
         url = config.secrets.services.airsonic.url;
+      };
+      jellyfin = {
+        enable = true;
+        autostart = false;
+        home = "${services-root}/jellyfin";
+        domain = config.secrets.networking.primaryDomain;
+        url = config.secrets.services.jellyfin.url;
       };
       autoUpgrade = {
         enable = false; # Don't update the system...
