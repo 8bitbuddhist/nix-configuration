@@ -86,6 +86,12 @@ in
       };
     };
 
+    # Install packages for plugins
+    environment.systemPackages = with pkgs; [
+      id3v2
+      yt-dlp
+    ];
+
     systemd.services.nginx.wants = [ config.systemd.services.jellyfin.name ];
     # Disable autostart if configured
     systemd.services.jellyfin = lib.mkIf (!cfg.autostart) { wantedBy = lib.mkForce [ ]; };
