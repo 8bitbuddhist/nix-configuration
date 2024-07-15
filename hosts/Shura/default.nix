@@ -105,6 +105,8 @@ in
           "org.keepassxc.KeePassXC"
           "org.mozilla.firefox"
         ];
+
+        useBindFS = true;
       };
       desktops.gnome = {
         enable = true;
