@@ -1,0 +1,23 @@
+From 6d4ddc706c414a9c4370cc9b3a823afc5c4ff2dc Mon Sep 17 00:00:00 2001
+From: Blake Smith <blakesmith0@gmail.com>
+Date: Mon, 8 Jan 2024 20:41:32 -0600
+Subject: [PATCH] Support resume on audio
+
+---
+ MediaBrowser.Controller/Entities/Audio/Audio.cs | 3 +++
+ 1 file changed, 3 insertions(+)
+
+diff --git a/MediaBrowser.Controller/Entities/Audio/Audio.cs b/MediaBrowser.Controller/Entities/Audio/Audio.cs
+index 243d2f04f2f..2b363ae2083 100644
+--- a/MediaBrowser.Controller/Entities/Audio/Audio.cs
++++ b/MediaBrowser.Controller/Entities/Audio/Audio.cs
+@@ -37,6 +37,9 @@ public Audio()
+         [JsonIgnore]
+         public IReadOnlyList<string> AlbumArtists { get; set; }
+ 
++        [JsonIgnore]
++        public override bool SupportsPositionTicksResume => true;
++
+         [JsonIgnore]
+         public override bool SupportsPlayedStatus => true;
+ 

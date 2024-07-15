@@ -6,6 +6,10 @@
 }:
 let
   cfg = config.aux.system.services.jellyfin;
+
+  jellyfin-audio-save = pkgs.jellyfin.overrideAttrs (
+    finalAttrs: prevAttrs: { patches = [ ./jellyfin/jellyfin-audio-save-position.patch ]; }
+  );
 in
 {
   options = {
@@ -83,6 +87,7 @@ in
         enable = true;
         dataDir = lib.mkIf (cfg.home != "") cfg.home;
         group = "media";
+        package = jellyfin-audio-save;
       };
     };
 
