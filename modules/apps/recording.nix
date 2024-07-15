@@ -1,4 +1,9 @@
-{ config, lib, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 
 let
   cfg = config.aux.system.apps.recording;
@@ -14,11 +19,12 @@ with lib;
 
     services.flatpak.packages = [
       "com.obsproject.Studio"
-      "com.obsproject.Studio.Plugin.DroidCam"
       "org.kde.kdenlive"
       "org.tenacityaudio.Tenacity"
       "io.github.seadve.Kooha"
     ];
+
+    environment.systemPackages = with pkgs; [ droidcam ];
 
     # Add a virtual camera to use with Droidcam
     boot = {
