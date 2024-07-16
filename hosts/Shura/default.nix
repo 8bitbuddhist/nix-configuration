@@ -34,6 +34,7 @@ in
   networking.hostName = hostName;
 
   # FIXME: disabling fingerprints due to fprintd-tod build error
+  # Fix queued and coming: https://github.com/NixOS/nixpkgs/pull/327289
   services.fprintd.enable = lib.mkForce false;
 
   aux.system = {
@@ -66,6 +67,7 @@ in
 
     packages = with pkgs; [
       boinc # Boinc client
+      keepassxc # Use native instead of Flatpak due to weird performance issues
     ];
 
     # Keep old generations for one week.
@@ -102,7 +104,6 @@ in
           "com.github.tchx84.Flatseal"
           "com.github.wwmm.easyeffects"
           "md.obsidian.Obsidian"
-          "org.keepassxc.KeePassXC"
           "org.mozilla.firefox"
         ];
 
