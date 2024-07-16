@@ -36,5 +36,7 @@
         set indicator
       '';
     };
+
+    services.fail2ban.enable = true;
   };
 }
