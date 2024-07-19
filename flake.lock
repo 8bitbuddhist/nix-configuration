@@ -248,15 +248,16 @@
     },
     "nixos-hardware": {
       "locked": {
-        "lastModified": 1721221863,
-        "narHash": "sha256-kWPoGIiAG6gYBukAQRTeG9U5eFmdSqQeeAiv/nydzfE=",
-        "owner": "8bitbuddhist",
+        "lastModified": 1721331912,
+        "narHash": "sha256-h2yaU+QEU4pHxMySHPIsRV2T/pihDHnrXBca8BY6xgc=",
+        "owner": "NixOS",
         "repo": "nixos-hardware",
-        "rev": "13dee7858df0a2fb963b25157229b24188fc94e6",
+        "rev": "bb90787ea034c8b9035dfcfc9b4dc23898d414be",
         "type": "github"
       },
       "original": {
-        "owner": "8bitbuddhist",
+        "owner": "NixOS",
+        "ref": "master",
         "repo": "nixos-hardware",
         "type": "github"
       }
