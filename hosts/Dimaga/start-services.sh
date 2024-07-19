@@ -19,9 +19,9 @@ fi
 
 echo "Starting services..."
 systemctl restart duplicacy-web.service
-systemctl restart airsonic.service forgejo.service
+systemctl restart airsonic.service forgejo.service jellyfin.service
 systemctl --machine aires@.host --user start syncthing.service
 systemctl restart nginx.service
-echo "Services started. Haven is ready to go!"
+echo "Services started. $(hostname) is ready to go!"
 
 exit 0
