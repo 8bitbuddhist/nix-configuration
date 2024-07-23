@@ -58,8 +58,8 @@ in
       };
     };
 
-    # Reduce logout stop timer duration
-    systemd.extraConfig = ''
+    # Limit logout stop timer duration to 30 seconds
+    systemd.user.extraConfig = ''
       DefaultTimeoutStopSec=30s
     '';
 
