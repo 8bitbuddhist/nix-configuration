@@ -36,6 +36,7 @@ in
 
       # Install Flatpaks
       flatpak.packages = [
+        "com.github.finefindus.eyedropper"
         "com.mattjakeman.ExtensionManager"
         "org.bluesabre.MenuLibre"
         "org.gnome.baobab"
