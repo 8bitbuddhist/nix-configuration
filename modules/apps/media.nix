@@ -18,6 +18,7 @@ with lib;
         "de.haeckerfelix.Shortwave"
         "io.freetubeapp.FreeTube"
         "io.github.celluloid_player.Celluloid"
+        "io.github.dweymouth.supersonic"
         "org.kde.krita"
         "org.kde.KStyle.Adwaita//5.15-23.08" # Retrieved from https://docs.flatpak.org/en/latest/desktop-integration.html
         "org.kde.KStyle.Adwaita//6.6"

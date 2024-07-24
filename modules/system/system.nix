@@ -29,6 +29,7 @@ in
           direnv
           git
           home-manager
+          lm_sensors
           p7zip
         ]);
     };
