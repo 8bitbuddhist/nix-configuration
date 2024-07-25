@@ -50,6 +50,9 @@ in
     hybrid-sleep.enable = false;
   };
 
+  # Enable support for building ARM64 packages
+  boot.binfmt.emulatedSystems = [ "aarch64-linux" ];
+
   # Build Nix packages for other hosts.
   # Runs every Saturday at 4 AM
   systemd.services."build-hosts" = {
