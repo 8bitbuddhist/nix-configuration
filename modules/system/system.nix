@@ -10,29 +10,40 @@ let
 in
 {
   options = {
-    aux.system.packages = lib.mkOption {
-      description = "Additional system packages to install. This is just a wrapper for environment.systemPackages.";
-      type = lib.types.listOf lib.types.package;
-      default = [ ];
-      example = lib.literalExpression "[ pkgs.firefox pkgs.thunderbird ]";
+    aux.system = {
+      packages = lib.mkOption {
+        description = "Additional system packages to install. This is just a wrapper for environment.systemPackages.";
+        type = lib.types.listOf lib.types.package;
+        default = [ ];
+        example = lib.literalExpression "[ pkgs.firefox pkgs.thunderbird ]";
+      };
+
+      corePackages = lib.mkOption {
+        description = "Minimum set of packages to install.";
+        type = lib.types.listOf lib.types.package;
+        default = with pkgs; [
+          # Courtesy of https://discourse.nixos.org/t/how-to-use-other-packages-binary-in-systemd-service-configuration/14363
+          bash
+          coreutils
+          dconf
+          direnv
+          git
+          gnutar
+          gzip
+          home-manager
+          lm_sensors
+          config.nix.package.out
+          nh
+          config.programs.ssh.package
+          sudo
+          xz.bin
+        ];
+      };
     };
   };
   config = {
-    # Set up the environment
-    environment = {
-      # Install base packages
-      systemPackages =
-        config.aux.system.packages
-        ++ (with pkgs; [
-          bash
-          dconf # Needed to fix an issue with Home-manager. See https://github.com/nix-community/home-manager/issues/3113
-          direnv
-          git
-          home-manager
-          lm_sensors
-          p7zip
-        ]);
-    };
+    # Install base packages
+    environment.systemPackages = cfg.corePackages ++ cfg.packages;
 
     services = {
       # Enable fwupd (firmware updater)

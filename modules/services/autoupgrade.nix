@@ -8,20 +8,6 @@
 
 let
   cfg = config.aux.system.services.autoUpgrade;
-
-  # List of packages to include in each service's $PATH
-  pathPkgs = with pkgs; [
-    # Courtesy of https://discourse.nixos.org/t/how-to-use-other-packages-binary-in-systemd-service-configuration/14363
-    coreutils
-    git
-    gnutar
-    gzip
-    config.nix.package.out
-    nh
-    config.programs.ssh.package
-    sudo
-    xz.bin
-  ];
 in
 {
   options = {
@@ -76,7 +62,7 @@ in
           Type = "oneshot";
           User = "root";
         };
-        path = pathPkgs;
+        path = config.aux.system.corePackages;
         # Git diffing strategy courtesy of https://stackoverflow.com/a/40255467
         script = ''
           cd ${cfg.configDir}
@@ -112,7 +98,7 @@ in
           Type = "oneshot";
           User = cfg.user;
         };
-        path = pathPkgs;
+        path = config.aux.system.corePackages;
         script = ''
           set -eu
           cd ${cfg.configDir}
