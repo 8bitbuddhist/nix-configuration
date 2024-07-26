@@ -7,7 +7,7 @@
     # Import the desired Nix channel. Defaults to unstable, which uses a fully tested rolling release model.
     #   You can find a list of channels at https://wiki.nixos.org/wiki/Nix_channels
     #   To follow a different channel, replace `nixos-unstable` with the channel name, e.g. `nixos-24.05`.
-    nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
+    nixpkgs.url = "github:nixos/nixpkgs/nixos-24.05";
 
     # Use Lix in place of Nix.
     #   If you'd rather use regular Nix, remove `lix-module.nixosModules.default` from the `modules` section below.

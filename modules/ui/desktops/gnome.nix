@@ -66,26 +66,25 @@ in
           gnomeExtensions.extension-list
           gedit # text editor
         ])
-        ++ (with pkgs; [
-          cheese # webcam tool
-          gnome.gnome-music
+        ++ (with pkgs.gnome; [
+          gnome-music
           gnome-calendar
           epiphany # web browser
           geary # email reader
           evince # document viewer
-          gnome.gnome-characters
-          gnome.gnome-software
+          gnome-characters
+          gnome-software
           totem # video player
-          gnome.tali # poker game
-          gnome.iagno # go game
-          gnome.hitori # sudoku game
-          gnome.atomix # puzzle game
+          tali # poker game
+          iagno # go game
+          hitori # sudoku game
+          atomix # puzzle game
         ]);
 
       # Install additional packages
       systemPackages = with pkgs; [
         # Gnome tweak tools
-        gnome-tweaks
+        gnome.gnome-tweaks
         # Gnome extensions
         gnomeExtensions.alphabetical-app-grid
         gnomeExtensions.another-window-session-manager
@@ -94,7 +93,7 @@ in
         gnomeExtensions.forge
         gnomeExtensions.random-wallpaper
         # Themeing
-        gnome-themes-extra
+        gnome.gnome-themes-extra
         papirus-icon-theme
         qogir-icon-theme
       ];
