@@ -65,7 +65,7 @@ in
     ui = {
       desktops.gnome = {
         enable = true;
-        tripleBuffering.enable = true;
+        tripleBuffering.enable = false; # FIXME: Weird build error
       };
       flatpak = {
         # Enable Flatpak support.

@@ -17,10 +17,10 @@ in
     boot.initrd.kernelModules = [ "amdgpu" ];
     services.xserver.videoDrivers = [ "amdgpu" ];
 
-    hardware.graphics = {
+    hardware.opengl = {
       extraPackages = [ pkgs.amdvlk ];
       # 32-bit application compatibility
-      enable32Bit = true;
+      driSupport32Bit = true;
       extraPackages32 = with pkgs; [ driversi686Linux.amdvlk ];
     };
   };

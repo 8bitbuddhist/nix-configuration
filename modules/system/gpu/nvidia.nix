@@ -57,7 +57,7 @@ in
     aux.system.allowUnfree = true;
 
     services.xserver.videoDrivers = lib.mkDefault [ "nvidia" ];
-    hardware.graphics.extraPackages = with pkgs; [ vaapiVdpau ];
+    hardware.opengl.extraPackages = with pkgs; [ vaapiVdpau ];
 
     hardware.nvidia = {
       modesetting.enable = true;
