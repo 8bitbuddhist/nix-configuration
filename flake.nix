@@ -99,8 +99,6 @@
         Khanda = nixpkgs.lib.nixosSystem {
           system = "x86_64-linux";
           modules = defaultModules ++ [
-            # FIXME: Downgrade linux-firmware to fix regression with iwlwifi
-            (import ./overlays/linux-firmware_20240610.nix)
             nixos-hardware.nixosModules.microsoft-surface-pro-9
             ./hosts/Khanda
           ];
