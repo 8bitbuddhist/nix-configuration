@@ -100,5 +100,5 @@ in
   nix.distributedBuilds = true;
 
   # Limit the number of cores Nix can use
-  nix.settings.cores = 10;
+  nix.settings.cores = 8;
 }
