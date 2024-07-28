@@ -1,22 +1,27 @@
-{ pkgs, lib }:
+{
+  pkgs,
+  lib,
+  fetchzip,
+}:
 
 pkgs.stdenv.mkDerivation rec {
   pname = "languagetool-ngrams";
   version = "20150817";
   language = "en";
 
-  src = builtins.fetchurl {
+  src = fetchzip {
     url = "https://languagetool.org/download/ngram-data/ngrams-${language}-${version}.zip";
     sha256 = "10e548731d9f58189fc36a553f7f685703be30da0d9bb42d1f7b5bf5f8bb232c";
   };
 
   doCheck = false;
 
-  dontUnpack = true;
-
   installPhase = ''
-    install -D $src $out/ngrams
-    chmod a+x $out/ngrams
+    runHook preInstall
+
+    mv -- * $out/
+
+    runHook postInstall
   '';
 
   meta = with lib; {
