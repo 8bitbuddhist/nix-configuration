@@ -87,11 +87,12 @@ in
         gnome.gnome-tweaks
         # Gnome extensions
         gnomeExtensions.alphabetical-app-grid
-        gnomeExtensions.another-window-session-manager
         gnomeExtensions.appindicator
         gnomeExtensions.dash-to-panel
         gnomeExtensions.forge
-        gnomeExtensions.random-wallpaper
+        # FIXME: These two extensions are incompatible with the repo's gnome version
+        #gnomeExtensions.another-window-session-manager
+        #gnomeExtensions.random-wallpaper
         # Themeing
         gnome.gnome-themes-extra
         papirus-icon-theme
