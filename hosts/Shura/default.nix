@@ -13,9 +13,6 @@ let
   shure-aonic-bluetooth = pkgs.writeText "info" (
     builtins.readFile ./bluetooth/shure-aonic-bluetooth-params
   );
-  xbox-elite-bluetooth = pkgs.writeText "info" (
-    builtins.readFile ./bluetooth/xbox-elite-controller-bluetooth-params
-  );
   mano-touchpad-bluetooth = pkgs.writeText "info" (
     builtins.readFile ./bluetooth/mano-touchpad-bluetooth-params
   );
@@ -42,10 +39,7 @@ in
       office.enable = true;
       recording.enable = true;
       social.enable = true;
-      writing = {
-        enable = true;
-        languagetool.enable = true;
-      };
+      writing.enable = true;
     };
 
     # Configure the bootloader.
@@ -136,7 +130,6 @@ in
     # Install Bluetooth device profiles
     "d /var/lib/bluetooth/AC:50:DE:9F:AB:88/ 0700 root root" # First, make sure the directory exists
     "L+ /var/lib/bluetooth/AC:50:DE:9F:AB:88/00:0E:DD:72:2F:0C/info - - - - ${shure-aonic-bluetooth}"
-    "L+ /var/lib/bluetooth/AC:50:DE:9F:AB:88/F4:6A:D7:3A:16:75/info - - - - ${xbox-elite-bluetooth}"
     "L+ /var/lib/bluetooth/AC:50:DE:9F:AB:88/F8:5D:3C:7D:9A:00/info - - - - ${mano-touchpad-bluetooth}"
     "L+ /var/lib/bluetooth/AC:50:DE:9F:AB:88/00:34:30:47:37:AB/info - - - - ${vitrix-pdp-pro-bluetooth}"
   ];

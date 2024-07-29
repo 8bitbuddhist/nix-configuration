@@ -35,10 +35,7 @@ in
       office.enable = true;
       recording.enable = true;
       social.enable = true;
-      writing = {
-        enable = true;
-        languagetool.enable = true;
-      };
+      writing.enable = true;
     };
 
     # Enable Secure Boot support.
@@ -65,7 +62,7 @@ in
     ui = {
       desktops.gnome = {
         enable = true;
-        tripleBuffering.enable = false; # FIXME: Weird build error
+        tripleBuffering.enable = true; # FIXME: Weird build error
       };
       flatpak = {
         # Enable Flatpak support.
