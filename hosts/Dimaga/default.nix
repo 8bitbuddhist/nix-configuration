@@ -181,13 +181,6 @@ in
           token = config.secrets.services.forgejo.runner-token;
         };
       };
-      languagetool = {
-        enable = true;
-        ngrams.enable = true;
-        domain = config.secrets.networking.primaryDomain;
-        password = config.secrets.services.languagetool.password;
-        url = config.secrets.services.languagetool.url;
-      };
       msmtp.enable = true;
       nginx = {
         enable = true;
