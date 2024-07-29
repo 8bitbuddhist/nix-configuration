@@ -14,9 +14,9 @@ in
   options = {
     aux.system.allowUnfree = lib.mkEnableOption (lib.mdDoc "Allow unfree packages to install.");
     aux.system.retentionPeriod = lib.mkOption {
-      description = "How long to retain NixOS generations. Defaults to 30 days (30d).";
+      description = "How long to retain NixOS generations. Defaults to one month.";
       type = lib.types.str;
-      default = "30d";
+      default = "monthly";
     };
   };
   config = {
@@ -46,7 +46,18 @@ in
       };
 
       # Enable periodic nix store optimization
-      optimise.automatic = true;
+      optimise = {
+        automatic = true;
+        dates = [ "daily" ];
+      };
+      # Enable garbage collection
+      gc = {
+        automatic = true;
+        dates = "weekly";
+        options = "--delete-older-than ${cfg.retentionPeriod}";
+        persistent = true;
+        randomizedDelaySec = "1hour";
+      };
 
       # Configure NixOS to use the same software channel as Flakes
       registry = lib.mapAttrs (_: value: { flake = value; }) inputs;

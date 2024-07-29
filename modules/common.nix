@@ -19,13 +19,6 @@
       nh = {
         enable = true;
         flake = "${config.secrets.nixConfigFolder}";
-
-        # Alternative garbage collection system to nix.gc.automatic
-        clean = {
-          enable = true;
-          dates = "weekly"; # Runs at 12:00 AM on Mondays
-          extraArgs = "--keep-since 14d --keep 10"; # By default, keep the last 10 entries (or two weeks) of generations
-        };
       };
       # Do some additional Nano configuration
       nano.nanorc = ''
