@@ -24,7 +24,7 @@
     lanzaboote.url = "github:nix-community/lanzaboote/v0.4.1";
 
     # NixOS hardware quirks
-    nixos-hardware.url = "github:NixOS/nixos-hardware/master";
+    nixos-hardware.url = "github:8bitbuddhist/nixos-hardware/master";
 
     # Home-manager support
     home-manager = {
