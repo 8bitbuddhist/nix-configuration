@@ -35,5 +35,8 @@ with lib;
 
     # Add script to restart xpadneo in case of issues
     aux.system.packages = [ reset-controllers-script ];
+
+    # Enable GameMode
+    programs.gamemode.enable = true;
   };
 }
