@@ -153,8 +153,8 @@ in
         url = config.secrets.services.jellyfin.url;
       };
       autoUpgrade = {
-        enable = false; # Don't update the system...
-        pushUpdates = true; # ...but do push updates remotely.
+        enable = true;
+        pushUpdates = true;
         configDir = config.secrets.nixConfigFolder;
         onCalendar = "daily";
         user = config.users.users.aires.name;
