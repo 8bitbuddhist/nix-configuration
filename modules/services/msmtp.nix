@@ -4,13 +4,12 @@
 let
   cfg = config.aux.system.services.msmtp;
 in
-with lib;
 {
   options = {
-    aux.system.services.msmtp.enable = mkEnableOption (mdDoc "Enables mail server");
+    aux.system.services.msmtp.enable = lib.mkEnableOption "Enables mail server";
   };
 
-  config = mkIf cfg.enable {
+  config = lib.mkIf cfg.enable {
     programs.msmtp = {
       enable = true;
       accounts.default = {

@@ -9,20 +9,19 @@ let
   cfg = config.aux.system.services.duplicacy-web;
   duplicacy-web = pkgs.callPackage ../../packages/duplicacy-web.nix { inherit pkgs lib; };
 in
-with lib;
-rec {
+{
   options = {
     aux.system.services.duplicacy-web = {
-      enable = mkEnableOption (mdDoc "Enables duplicacy-web");
-      autostart = mkOption {
+      enable = lib.mkEnableOption "Enables duplicacy-web";
+      autostart = lib.mkOption {
         default = true;
-        type = types.bool;
+        type = lib.types.bool;
         description = "Whether to auto-start duplicacy-web on boot";
       };
 
-      environment = mkOption {
+      environment = lib.mkOption {
         default = "";
-        type = types.str;
+        type = lib.types.str;
         description = "Environment where duplicacy-web stores its config files";
       };
     };

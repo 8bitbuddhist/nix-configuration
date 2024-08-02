@@ -1,9 +1,4 @@
-{
-  config,
-  pkgs,
-  lib,
-  ...
-}:
+{ config, pkgs, ... }:
 let
   # Do not change this value! This tracks when NixOS was installed on your system.
   stateVersion = "24.05";
@@ -29,6 +24,12 @@ in
 
   system.stateVersion = stateVersion;
   networking.hostName = hostName;
+
+  # TESTING: Try out different GTK renderers: gl (old), ngl (new), or vulkan (new and unstable)
+  # See https://blog.gtk.org/2024/01/28/new-renderers-for-gtk/
+  environment.sessionVariables = {
+    "GSK_RENDERER" = "gl";
+  };
 
   aux.system = {
     apps = {

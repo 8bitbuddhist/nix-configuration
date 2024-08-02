@@ -14,13 +14,12 @@ let
     sudo systemctl restart bluetooth.service
   '';
 in
-with lib;
 {
   options = {
-    aux.system.apps.gaming.enable = mkEnableOption (mdDoc "Enables gaming features");
+    aux.system.apps.gaming.enable = lib.mkEnableOption "Enables gaming features";
   };
 
-  config = mkIf cfg.enable {
+  config = lib.mkIf cfg.enable {
     aux.system.ui.flatpak = {
       enable = true;
       packages = [

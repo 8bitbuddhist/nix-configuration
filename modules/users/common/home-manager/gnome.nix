@@ -1,9 +1,4 @@
-{
-  lib,
-  pkgs,
-  osConfig,
-  ...
-}:
+{ lib, osConfig, ... }:
 {
   # Additional Gnome configurations via home-manager.
   dconf.settings = lib.mkIf osConfig.aux.system.ui.desktops.gnome.enable {

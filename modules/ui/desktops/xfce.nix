@@ -1,10 +1,5 @@
 # Enables the XFCE desktop environment.
-{
-  pkgs,
-  config,
-  lib,
-  ...
-}:
+{ config, lib, ... }:
 let
   cfg = config.aux.system.ui.desktops.xfce;
 in

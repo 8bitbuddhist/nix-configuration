@@ -1,11 +1,5 @@
 # Minisforum UM340
-{
-  config,
-  lib,
-  pkgs,
-  modulesPath,
-  ...
-}:
+{ config, modulesPath, ... }:
 {
   imports = [ (modulesPath + "/installer/scan/not-detected.nix") ];
 

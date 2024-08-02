@@ -8,13 +8,12 @@
 let
   cfg = config.aux.system.apps.social;
 in
-with lib;
 {
   options = {
-    aux.system.apps.social.enable = mkEnableOption (mdDoc "Enables chat apps");
+    aux.system.apps.social.enable = lib.mkEnableOption "Enables chat apps";
   };
 
-  config = mkIf cfg.enable {
+  config = lib.mkIf cfg.enable {
     aux.system = {
       allowUnfree = true;
       ui.flatpak = {

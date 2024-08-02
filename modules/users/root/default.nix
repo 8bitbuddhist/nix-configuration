@@ -1,9 +1,4 @@
-{
-  config,
-  home-manager,
-  lib,
-  ...
-}:
+{ config, lib, ... }:
 {
   # Give root user access to run remote builds
   home-manager.users.root = {

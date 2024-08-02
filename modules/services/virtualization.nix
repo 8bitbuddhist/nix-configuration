@@ -39,7 +39,7 @@ in
   };
 
   config = lib.mkMerge [
-    ({ programs.virt-manager.enable = cfg.enable; })
+    { programs.virt-manager.enable = cfg.enable; }
     (lib.mkIf (cfg.host.enable || cfg.host.vmBuilds.enable) {
       virtualisation = {
         libvirtd = {

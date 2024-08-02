@@ -1,5 +1,4 @@
 {
-  nix-flatpak,
   pkgs,
   config,
   lib,

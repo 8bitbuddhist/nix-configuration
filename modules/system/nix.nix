@@ -1,6 +1,5 @@
 # Core Nix configuration
 {
-  pkgs,
   config,
   lib,
   inputs,

@@ -1,20 +1,14 @@
-{
-  pkgs,
-  config,
-  lib,
-  ...
-}:
+{ config, lib, ... }:
 
 let
   cfg = config.aux.system.apps.tmux;
 in
-with lib;
 {
   options = {
-    aux.system.apps.tmux.enable = mkEnableOption (mdDoc "Enables tmux - terminal multiplexer");
+    aux.system.apps.tmux.enable = lib.mkEnableOption "Enables tmux - terminal multiplexer";
   };
 
-  config = mkIf cfg.enable {
+  config = lib.mkIf cfg.enable {
     programs.tmux = {
       enable = true;
       newSession = true;

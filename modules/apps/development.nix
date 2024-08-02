@@ -8,17 +8,16 @@
 let
   cfg = config.aux.system.apps.development;
 in
-with lib;
 {
   options = {
     aux.system.apps.development = {
-      enable = mkEnableOption (mdDoc "Enables development tools");
-      kubernetes.enable = mkEnableOption (mdDoc "Enables kubectl, virtctl, and similar tools.");
+      enable = lib.mkEnableOption "Enables development tools";
+      kubernetes.enable = lib.mkEnableOption "Enables kubectl, virtctl, and similar tools.";
     };
   };
 
-  config = mkMerge [
-    (mkIf cfg.enable {
+  config = lib.mkMerge [
+    (lib.mkIf cfg.enable {
       aux.system = {
         packages = with pkgs; [ nixd ];
         ui.flatpak = {
@@ -27,7 +26,7 @@ with lib;
         };
       };
     })
-    (mkIf cfg.kubernetes.enable {
+    (lib.mkIf cfg.kubernetes.enable {
       environment.systemPackages = with pkgs; [
         kubectl
         kubernetes-helm

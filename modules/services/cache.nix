@@ -1,10 +1,5 @@
 # Serves a binary cache for Nix packages
-{
-  config,
-  lib,
-  self,
-  ...
-}:
+{ config, lib, ... }:
 
 let
   cfg = config.aux.system.services.cache;

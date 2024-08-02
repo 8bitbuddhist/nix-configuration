@@ -1,10 +1,4 @@
-{
-  pkgs,
-  home-manager,
-  lib,
-  config,
-  ...
-}:
+{ pkgs, config, ... }:
 let
   stateVersion = "24.05";
   hostName = "Haven";

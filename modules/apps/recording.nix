@@ -8,13 +8,12 @@
 let
   cfg = config.aux.system.apps.recording;
 in
-with lib;
 {
   options = {
-    aux.system.apps.recording.enable = mkEnableOption (mdDoc "Enables video editing tools");
+    aux.system.apps.recording.enable = lib.mkEnableOption "Enables video editing tools";
   };
 
-  config = mkIf cfg.enable {
+  config = lib.mkIf cfg.enable {
     aux.system.ui.flatpak.enable = true;
 
     services.flatpak.packages = [

@@ -1,10 +1,5 @@
 # Enables the Budgie desktop environment.
-{
-  pkgs,
-  config,
-  lib,
-  ...
-}:
+{ config, lib, ... }:
 let
   cfg = config.aux.system.ui.desktops.budgie;
 in

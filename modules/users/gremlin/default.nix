@@ -9,26 +9,25 @@
 let
   cfg = config.aux.system.users.gremlin;
 in
-with lib;
 {
   options = {
     aux.system.users.gremlin = {
-      enable = mkEnableOption (mdDoc "Enables gremlin user account");
+      enable = lib.mkEnableOption "Enables gremlin user account";
 
       services.syncthing = {
-        enable = mkEnableOption (mdDoc "Enables Syncthing");
-        enableTray = mkEnableOption (mdDoc "Enables the Syncthing Tray application");
-        autostart = mkOption {
+        enable = lib.mkEnableOption "Enables Syncthing";
+        enableTray = lib.mkEnableOption "Enables the Syncthing Tray application";
+        autostart = lib.mkOption {
           default = true;
-          type = types.bool;
+          type = lib.types.bool;
           description = "Whether to auto-start Syncthing on boot";
         };
       };
     };
   };
 
-  config = mkMerge [
-    (mkIf cfg.enable {
+  config = lib.mkMerge [
+    (lib.mkIf cfg.enable {
       # Add Gremlin account	
       users.users.gremlin = {
         isNormalUser = true;
@@ -110,11 +109,11 @@ with lib;
     })
 
     # Enable Syncthing
-    (mkIf cfg.services.syncthing.enable {
+    (lib.mkIf cfg.services.syncthing.enable {
       users.users.gremlin = {
         packages = [
           pkgs.syncthing
-          (mkIf cfg.services.syncthing.enableTray pkgs.syncthingtray)
+          (lib.mkIf cfg.services.syncthing.enableTray pkgs.syncthingtray)
         ];
       };
 
@@ -130,7 +129,7 @@ with lib;
         };
 
         # Override the default Syncthing settings so it doesn't start on boot
-        systemd.user.services."syncthing" = mkIf (!cfg.services.syncthing.autostart) {
+        systemd.user.services."syncthing" = lib.mkIf (!cfg.services.syncthing.autostart) {
           wantedBy = lib.mkForce { };
         };
       };

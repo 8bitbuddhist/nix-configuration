@@ -3,13 +3,12 @@
 let
   cfg = config.aux.system.apps.media;
 in
-with lib;
 {
   options = {
-    aux.system.apps.media.enable = mkEnableOption (mdDoc "Enables media playback and editing apps");
+    aux.system.apps.media.enable = lib.mkEnableOption "Enables media playback and editing apps";
   };
 
-  config = mkIf cfg.enable {
+  config = lib.mkIf cfg.enable {
     aux.system.ui.flatpak = {
       enable = true;
       packages = [

@@ -1,17 +1,11 @@
-{
-  pkgs,
-  config,
-  lib,
-  ...
-}:
+{ config, lib, ... }:
 let
   cfg = config.aux.system.services.apcupsd;
 in
-with lib;
 {
   options = {
     aux.system.services.apcupsd = {
-      enable = mkEnableOption (mdDoc "Enables apcupsd");
+      enable = lib.mkEnableOption "Enables apcupsd";
       configText = lib.mkOption {
         type = lib.types.str;
         description = "The configuration to pass to apcupsd.";
@@ -19,7 +13,7 @@ with lib;
     };
   };
 
-  config = mkIf cfg.enable {
+  config = lib.mkIf cfg.enable {
     services.apcupsd = {
       enable = true;
       configText = cfg.configText;

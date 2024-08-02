@@ -1,10 +1,5 @@
 # Run automatic updates. Replaces system.autoUpgrade.
-{
-  config,
-  lib,
-  pkgs,
-  ...
-}:
+{ config, lib, ... }:
 
 let
   cfg = config.aux.system.services.autoUpgrade;

@@ -18,10 +18,10 @@ pkgs.stdenv.mkDerivation rec {
     chmod a+x $out/duplicacy-web
   '';
 
-  meta = with lib; {
+  meta = {
     homepage = "https://duplicacy.com";
     description = "A new generation cloud backup tool";
-    platforms = platforms.linux;
-    license = licenses.unfreeRedistributable;
+    platforms = lib.platforms.linux;
+    license = lib.licenses.unfreeRedistributable;
   };
 }

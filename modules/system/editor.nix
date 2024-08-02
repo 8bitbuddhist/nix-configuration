@@ -1,11 +1,5 @@
 # Basic system-wide text editor configuration.
-{
-  pkgs,
-  config,
-  lib,
-  inputs,
-  ...
-}:
+{ config, lib, ... }:
 
 let
   cfg = config.aux.system.editor;

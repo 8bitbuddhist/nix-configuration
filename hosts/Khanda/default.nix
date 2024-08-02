@@ -1,10 +1,4 @@
-{
-  config,
-  lib,
-  pkgs,
-  system,
-  ...
-}:
+{ ... }:
 
 let
   # Do not change this value! This tracks when NixOS was installed on your system.

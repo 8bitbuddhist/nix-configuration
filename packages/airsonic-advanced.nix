@@ -23,11 +23,11 @@ stdenv.mkDerivation rec {
     airsonic-starts = nixosTests.airsonic;
   };
 
-  meta = with lib; {
+  meta = {
     description = "Free, web-based media streamer providing ubiquitous access to your music.";
     homepage = "https://github.com/kagemomiji/airsonic-advanced/";
-    sourceProvenance = with sourceTypes; [ binaryBytecode ];
+    sourceProvenance = [ lib.sourceTypes.binaryBytecode ];
     license = lib.licenses.gpl3;
-    platforms = platforms.all;
+    platforms = lib.platforms.all;
   };
 }
