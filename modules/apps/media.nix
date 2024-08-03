@@ -12,12 +12,13 @@ in
     aux.system.ui.flatpak = {
       enable = true;
       packages = [
+        "app.drey.EarTag"
         "com.calibre_ebook.calibre"
         "com.github.unrud.VideoDownloader"
         "de.haeckerfelix.Shortwave"
         "io.freetubeapp.FreeTube"
-        "io.github.celluloid_player.Celluloid"
         "io.github.dweymouth.supersonic"
+        "org.gnome.Showtime"
         "org.kde.krita"
         "org.kde.KStyle.Adwaita//5.15-23.08" # Retrieved from https://docs.flatpak.org/en/latest/desktop-integration.html
         "org.kde.KStyle.Adwaita//6.6"
