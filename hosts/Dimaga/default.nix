@@ -14,6 +14,7 @@ let
     config.secrets.services.forgejo.url
     config.secrets.services.gremlin-lab.url
     config.secrets.services.jellyfin.url
+    config.secrets.services.netdata.url
   ];
 
   namecheapCredentials = {
@@ -176,6 +177,11 @@ in
         };
       };
       msmtp.enable = true;
+      netdata = {
+        enable = true;
+        domain = config.secrets.networking.primaryDomain;
+        url = config.secrets.services.netdata.url;
+      };
       nginx = {
         enable = true;
         autostart = false;
