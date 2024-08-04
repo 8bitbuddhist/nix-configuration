@@ -48,14 +48,11 @@ in
         };
         locations."/" = {
           proxyPass = "http://127.0.0.1:19999";
-          proxyWebsockets = true;
           extraConfig = ''
             # Taken from https://learn.netdata.cloud/docs/netdata-agent/configuration/running-the-netdata-agent-behind-a-reverse-proxy/nginx
             proxy_set_header X-Forwarded-Host $host;
             proxy_set_header X-Forwarded-Server $host;
             proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-            proxy_pass http://backend;
-            proxy_http_version 1.1;
             proxy_pass_request_headers on;
             proxy_set_header Connection "keep-alive";
             proxy_store off;

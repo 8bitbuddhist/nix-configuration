@@ -181,6 +181,10 @@ in
         enable = true;
         domain = config.secrets.networking.primaryDomain;
         url = config.secrets.services.netdata.url;
+        auth = {
+          user = config.users.users.aires.name;
+          password = config.secrets.services.netdata.password;
+        };
       };
       nginx = {
         enable = true;
