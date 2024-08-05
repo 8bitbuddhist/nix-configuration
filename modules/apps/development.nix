@@ -19,7 +19,10 @@ in
   config = lib.mkMerge [
     (lib.mkIf cfg.enable {
       aux.system = {
-        packages = with pkgs; [ nixd ];
+        packages = with pkgs; [
+          nixd
+          nix-prefetch-hash
+        ];
         ui.flatpak = {
           enable = true;
           packages = [ "com.vscodium.codium" ];

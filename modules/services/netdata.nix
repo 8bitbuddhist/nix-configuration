@@ -1,5 +1,6 @@
 {
   pkgs,
+  pkgs-unstable,
   config,
   lib,
   ...
@@ -39,6 +40,7 @@ in
   };
 
   config = lib.mkIf cfg.enable {
+
     services = {
       nginx.virtualHosts."${cfg.url}" = {
         useACMEHost = cfg.domain;
@@ -62,6 +64,7 @@ in
 
       netdata = {
         enable = true;
+        package = pkgs-unstable.netdataCloud;
         enableAnalyticsReporting = false;
         configDir = {
           # Enable nvidia-smi: https://nixos.wiki/wiki/Netdata#nvidia-smi
@@ -72,5 +75,6 @@ in
       };
     };
     systemd.services.nginx.wants = [ config.systemd.services.netdata.name ];
+
   };
 }
