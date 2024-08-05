@@ -21,7 +21,7 @@ in
       aux.system = {
         packages = with pkgs; [
           nixd
-          nix-prefetch-hash
+          nix-prefetch-scripts
         ];
         ui.flatpak = {
           enable = true;
