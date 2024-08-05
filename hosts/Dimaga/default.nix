@@ -110,7 +110,7 @@ in
     ];
 
     # Change how long old generations are kept for.
-    retentionPeriod = "monthly";
+    retentionPeriod = "30d";
 
     services = {
       acme = {

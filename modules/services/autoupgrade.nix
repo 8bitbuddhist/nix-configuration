@@ -99,9 +99,9 @@ in
           cd ${cfg.configDir}
           # Make sure we're up-to-date
           echo "Pulling the latest version..."
-          git pull --recurse-submodules
-          nix flake update --commit-lock-file
-          git push
+          sudo -u ${cfg.user} git pull --recurse-submodules
+          sudo -u ${cfg.user} nix flake update --commit-lock-file
+          sudo -u ${cfg.user} git push
         '';
       };
 
