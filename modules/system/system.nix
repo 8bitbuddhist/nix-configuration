@@ -46,6 +46,9 @@ in
     environment.systemPackages = cfg.corePackages ++ cfg.packages;
 
     services = {
+      # Automatically set the timezone
+      automatic-timezoned.enable = true;
+
       # Enable fwupd (firmware updater)
       fwupd.enable = true;
 
@@ -68,6 +71,14 @@ in
         autodetect = true;
         notifications.wall.enable = true;
       };
+    };
+
+    # Enable visual updates
+    system.activationScripts.diff = {
+      supportsDryActivation = true;
+      text = ''
+        ${pkgs.nvd}/bin/nvd --nix-bin-dir=${pkgs.nix}/bin diff /run/current-system "$systemConfig"
+      '';
     };
 
     # Limit logout stop timer duration to 30 seconds
