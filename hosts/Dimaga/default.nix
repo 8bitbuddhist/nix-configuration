@@ -49,7 +49,7 @@ in
   boot.binfmt.emulatedSystems = [ "aarch64-linux" ];
 
   # Build Nix packages for other hosts.
-  # Runs every Saturday at 4 AM
+  # Runs every day at 4 AM
   systemd.services."build-hosts" = {
     serviceConfig = {
       Type = "oneshot";
@@ -66,7 +66,7 @@ in
     after = [ "network-online.target" ];
     wantedBy = [ "timers.target" ];
     timerConfig = {
-      OnCalendar = "Sat 04:00";
+      OnCalendar = "04:00";
       Persistent = true;
       Unit = "build-hosts.service";
     };
