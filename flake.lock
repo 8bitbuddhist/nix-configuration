@@ -249,16 +249,32 @@
     },
     "nixos-hardware": {
       "locked": {
-        "lastModified": 1723308742,
-        "narHash": "sha256-N66aj35PTGqlk4Aa0hrEIpVU/jPOGSTQGwyZU8Po80A=",
-        "owner": "8bitbuddhist",
+        "lastModified": 1723310128,
+        "narHash": "sha256-IiH8jG6PpR4h9TxSGMYh+2/gQiJW9MwehFvheSb5rPc=",
+        "owner": "NixOS",
         "repo": "nixos-hardware",
-        "rev": "39e1c8e006faafb0336efe597d98451d01e105f3",
+        "rev": "c54cf53e022b0b3c1d3b8207aa0f9b194c24f0cf",
         "type": "github"
       },
       "original": {
-        "owner": "8bitbuddhist",
+        "owner": "NixOS",
         "ref": "master",
+        "repo": "nixos-hardware",
+        "type": "github"
+      }
+    },
+    "nixos-hardware-surface": {
+      "locked": {
+        "lastModified": 1722332872,
+        "narHash": "sha256-2xLM4sc5QBfi0U/AANJAW21Bj4ZX479MHPMPkB+eKBU=",
+        "owner": "NixOS",
+        "repo": "nixos-hardware",
+        "rev": "14c333162ba53c02853add87a0000cbd7aa230c2",
+        "type": "github"
+      },
+      "original": {
+        "owner": "NixOS",
+        "ref": "14c333162ba53c02853add87a0000cbd7aa230c2",
         "repo": "nixos-hardware",
         "type": "github"
       }
@@ -362,6 +378,7 @@
         "nix-flatpak": "nix-flatpak",
         "nix-secrets": "nix-secrets",
         "nixos-hardware": "nixos-hardware",
+        "nixos-hardware-surface": "nixos-hardware-surface",
         "nixpkgs": "nixpkgs_2",
         "nixpkgs-unstable": "nixpkgs-unstable"
       }
