@@ -14,6 +14,11 @@ in
   imports = [ (modulesPath + "/installer/scan/not-detected.nix") ];
 
   boot = {
+    # Enable antenna aggregation
+    extraModprobeConfig = ''
+      options iwlwifi 11n_disable=8
+    '';
+
     initrd = {
       availableKernelModules = [
         "surface_aggregator"
