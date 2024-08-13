@@ -58,7 +58,7 @@ in
     path = config.aux.system.corePackages;
     script = ''
       cd ${config.secrets.nixConfigFolder}
-      nh os build --hostname Khanda
+      nh os build . --hostname Khanda
     '';
   };
   systemd.timers."build-hosts" = {
