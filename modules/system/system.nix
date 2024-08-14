@@ -48,6 +48,7 @@ in
     services = {
       # Automatically set the timezone
       automatic-timezoned.enable = true;
+      geoclue2.enableDemoAgent = lib.mkForce true;
 
       # Enable fwupd (firmware updater)
       fwupd.enable = true;
