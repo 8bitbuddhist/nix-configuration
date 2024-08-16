@@ -90,9 +90,6 @@ in
         gnomeExtensions.appindicator
         gnomeExtensions.dash-to-panel
         gnomeExtensions.forge
-        # FIXME: These two extensions are incompatible with the repo's gnome version
-        #gnomeExtensions.another-window-session-manager
-        #gnomeExtensions.random-wallpaper
         # Themeing
         gnome.gnome-themes-extra
         papirus-icon-theme
