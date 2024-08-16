@@ -10,8 +10,6 @@ let
   services-root = "/storage/services";
 
   subdomains = [
-    config.secrets.services.airsonic.url
-    config.secrets.services.cockpit.url
     config.secrets.services.forgejo.url
     config.secrets.services.gremlin-lab.url
     config.secrets.services.jellyfin.url
@@ -135,25 +133,6 @@ in
         enable = true;
         configText = builtins.readFile ./etc/apcupsd.conf;
       };
-      airsonic = {
-        enable = true;
-        autostart = false;
-        home = "${services-root}/airsonic-advanced";
-        domain = config.secrets.networking.primaryDomain;
-        url = config.secrets.services.airsonic.url;
-      };
-      cockpit = {
-        enable = true;
-        domain = config.secrets.networking.primaryDomain;
-        url = config.secrets.services.cockpit.url;
-      };
-      jellyfin = {
-        enable = true;
-        autostart = false;
-        home = "${services-root}/jellyfin";
-        domain = config.secrets.networking.primaryDomain;
-        url = config.secrets.services.jellyfin.url;
-      };
       autoUpgrade = {
         enable = false; # Don't update the system...
         pushUpdates = true; # ...but do push updates remotely.
@@ -162,10 +141,6 @@ in
         user = config.users.users.aires.name;
       };
       boinc.enable = true;
-      cache = {
-        enable = false; # Disable for now
-        secretKeyFile = "${services-root}/nix-cache/cache-priv-key.pem";
-      };
       duplicacy-web = {
         enable = true;
         autostart = false;
@@ -181,6 +156,13 @@ in
           enable = true;
           token = config.secrets.services.forgejo.runner-token;
         };
+      };
+      jellyfin = {
+        enable = true;
+        autostart = false;
+        home = "${services-root}/jellyfin";
+        domain = config.secrets.networking.primaryDomain;
+        url = config.secrets.services.jellyfin.url;
       };
       msmtp.enable = true;
       netdata = {
@@ -224,15 +206,13 @@ in
         enable = true;
         ports = [ config.secrets.hosts.dimaga.ssh.port ];
       };
-      virtualization = {
-        host = {
+      virtualization.host = {
+        enable = true;
+        user = "aires";
+        vmBuilds = {
           enable = true;
-          user = "aires";
-          vmBuilds = {
-            enable = true;
-            cores = 3;
-            ram = 3072;
-          };
+          cores = 3;
+          ram = 3072;
         };
       };
     };
