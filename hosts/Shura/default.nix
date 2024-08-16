@@ -25,12 +25,6 @@ in
   system.stateVersion = stateVersion;
   networking.hostName = hostName;
 
-  # TESTING: Try out different GTK renderers: gl (old), ngl (new), or vulkan (new and unstable)
-  # See https://blog.gtk.org/2024/01/28/new-renderers-for-gtk/
-  environment.sessionVariables = {
-    "GSK_RENDERER" = "gl";
-  };
-
   aux.system = {
     apps = {
       development.enable = true;
@@ -61,8 +55,8 @@ in
       keepassxc # Use native instead of Flatpak due to weird performance issues
     ];
 
-    # Keep old generations for one week.
-    retentionPeriod = "7d";
+    # Keep old generations for two weeks.
+    retentionPeriod = "14d";
 
     services = {
       # Run daily automatic updates.
