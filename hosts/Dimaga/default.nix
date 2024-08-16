@@ -11,6 +11,7 @@ let
 
   subdomains = [
     config.secrets.services.airsonic.url
+    config.secrets.services.cockpit.url
     config.secrets.services.forgejo.url
     config.secrets.services.gremlin-lab.url
     config.secrets.services.jellyfin.url
@@ -140,6 +141,11 @@ in
         home = "${services-root}/airsonic-advanced";
         domain = config.secrets.networking.primaryDomain;
         url = config.secrets.services.airsonic.url;
+      };
+      cockpit = {
+        enable = true;
+        domain = config.secrets.networking.primaryDomain;
+        url = config.secrets.services.cockpit.url;
       };
       jellyfin = {
         enable = true;
