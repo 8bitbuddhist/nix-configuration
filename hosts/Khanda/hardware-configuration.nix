@@ -71,6 +71,8 @@ in
       "surface_kbd"
       "pinctrl_tigerlake"
     ];
+
+    kernelParams = [ "pci=hpiosize=0" ]; # Prevent ACPI interrupt storm. See https://github.com/linux-surface/linux-surface/wiki/Surface-Pro-9#acpi-interrupt-storm
   };
 
   # Configure the main filesystem.
@@ -95,12 +97,10 @@ in
     cpu.intel.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;
     # Enable camera driver
     # NOTE: Currently results in a build failure. For updates, see https://github.com/NixOS/nixpkgs/issues/303067
-    /*
-      ipu6 = {
-        enable = true;
-        platform = "ipu6ep";
-      };
-    */
+    ipu6 = {
+      enable = true;
+      platform = "ipu6ep";
+    };
   };
 
   # Install/configure additional drivers, particularly for touch
