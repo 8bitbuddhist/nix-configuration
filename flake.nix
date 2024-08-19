@@ -14,7 +14,7 @@
     #   If you'd rather use regular Nix, remove `lix-module.nixosModules.default` from the `modules` section below.
     #   To learn more about Lix, see https://lix.systems/
     lix-module = {
-      url = "git+https://git.lix.systems/lix-project/nixos-module?ref=release-2.90";
+      url = "git+https://git.lix.systems/lix-project/nixos-module?ref=release-2.91";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
