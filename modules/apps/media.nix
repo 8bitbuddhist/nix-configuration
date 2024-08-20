@@ -15,7 +15,7 @@ in
         "app.drey.EarTag"
         "com.calibre_ebook.calibre"
         "com.github.unrud.VideoDownloader"
-        "de.haeckerfelix.Shortwave"
+        "org.feichtmeier.Musicpod"
         "io.freetubeapp.FreeTube"
         "io.github.dweymouth.supersonic"
         "org.kde.krita"
