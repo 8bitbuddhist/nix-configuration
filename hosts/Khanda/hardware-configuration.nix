@@ -96,12 +96,17 @@ in
   hardware = {
     cpu.intel.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;
     # Enable camera driver
-    # NOTE: Currently results in a build failure. For updates, see https://github.com/NixOS/nixpkgs/issues/303067
+    # NOTE: Results in a kernel panic on 6.10 kernels. See https://github.com/linux-surface/linux-surface/issues/1516
+    # ALSO: This causes a build failure on NixOS anyway. ee https://github.com/NixOS/nixpkgs/issues/303067
     ipu6 = {
-      enable = true;
+      enable = false;
       platform = "ipu6ep";
     };
   };
+  boot.blacklistedKernelModules = [
+    "intel-ipu6"
+    "intel-ipu6-isys"
+  ];
 
   # Install/configure additional drivers, particularly for touch
   environment.systemPackages = with pkgs; [ libwacom-surface ];

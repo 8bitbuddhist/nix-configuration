@@ -26,8 +26,6 @@
 
     # NixOS hardware quirks
     nixos-hardware.url = "github:NixOS/nixos-hardware/master";
-    # FIXME: Khanda fails to boot when using kernel 6.10+. This is a workaround.
-    nixos-hardware-surface.url = "github:NixOS/nixos-hardware?ref=14c333162ba53c02853add87a0000cbd7aa230c2";
 
     # Home-manager support
     home-manager = {
@@ -49,7 +47,6 @@
       lix-module,
       nix-flatpak,
       nixos-hardware,
-      nixos-hardware-surface,
       nixpkgs,
       nixpkgs-unstable,
       nix-secrets,
@@ -112,7 +109,7 @@
         Khanda = nixpkgs.lib.nixosSystem {
           system = "x86_64-linux";
           modules = defaultModules ++ [
-            nixos-hardware-surface.nixosModules.microsoft-surface-pro-9
+            nixos-hardware.nixosModules.microsoft-surface-pro-9
             ./hosts/Khanda
           ];
         };
