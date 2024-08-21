@@ -43,6 +43,11 @@ in
     hibernate.enable = false;
     hybrid-sleep.enable = false;
   };
+  services.logind = {
+    lidSwitch = "lock";
+    lidSwitchDocked = "lock";
+  };
+  services.upower.ignoreLid = true;
 
   # Enable support for building ARM64 packages
   boot.binfmt.emulatedSystems = [ "aarch64-linux" ];
