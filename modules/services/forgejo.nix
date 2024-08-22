@@ -87,7 +87,7 @@ in
         instances.default = {
           enable = true;
           name = config.networking.hostName;
-          url = cfg.url;
+          url = "https://${cfg.url}";
           token = cfg.actions.token;
           labels = [
             "nix:docker://nixos/nix" # Shoutout to Icewind 1991 for this syntax: https://icewind.nl/entry/gitea-actions-nix/

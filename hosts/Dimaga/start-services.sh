@@ -18,8 +18,7 @@ else
 fi
 
 echo "Starting services..."
-systemctl restart duplicacy-web.service
-systemctl restart airsonic.service forgejo.service jellyfin.service
+systemctl restart duplicacy-web.service forgejo.service jellyfin.service
 systemctl --machine aires@.host --user start syncthing.service
 systemctl restart nginx.service
 echo "Services started. $(hostname) is ready to go!"

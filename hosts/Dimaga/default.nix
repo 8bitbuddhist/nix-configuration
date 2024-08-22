@@ -222,6 +222,9 @@ in
       };
     };
 
+    # Install Gnome
+    ui.desktops.gnome.enable = true;
+
     users.aires = {
       enable = true;
       services = {
