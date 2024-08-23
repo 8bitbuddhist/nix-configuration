@@ -66,6 +66,12 @@ in
         onCalendar = "daily";
         user = config.users.users.aires.name;
       };
+      netdata = {
+        enable = true;
+        type = "child";
+        url = config.secrets.services.netdata.url;
+        auth.apiKey = config.secrets.services.netdata.apiKey;
+      };
       # Install virtual machine management tools
       virtualization = {
         enable = true;

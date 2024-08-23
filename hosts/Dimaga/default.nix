@@ -173,10 +173,12 @@ in
       netdata = {
         enable = true;
         domain = config.secrets.networking.primaryDomain;
+        type = "parent";
         url = config.secrets.services.netdata.url;
         auth = {
           user = config.users.users.aires.name;
           password = config.secrets.services.netdata.password;
+          apiKey = config.secrets.services.netdata.apiKey;
         };
       };
       nginx = {
