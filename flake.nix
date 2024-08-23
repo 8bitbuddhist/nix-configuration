@@ -87,19 +87,11 @@
     in
     {
       formatter = forAllSystems (pkgs: pkgs.nixfmt-rfc-style);
+
       nixosConfigurations = {
 
         Dimaga = nixpkgs.lib.nixosSystem {
           system = "x86_64-linux";
-
-          # Add unstable repo
-          specialArgs = {
-            pkgs-unstable = import nixpkgs-unstable {
-              system = "x86_64-linux";
-              config.allowUnfree = true;
-            };
-          };
-
           modules = defaultModules ++ [
             nixos-hardware.nixosModules.common-cpu-intel
             ./hosts/Dimaga

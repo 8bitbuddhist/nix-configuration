@@ -1,5 +1,10 @@
 # Modules common to all systems
-{ pkgs, config, ... }:
+{
+  pkgs,
+  config,
+  inputs,
+  ...
+}:
 
 {
   config = {
@@ -13,6 +18,16 @@
         nh # Nix Helper: https://github.com/viperML/nh
       ];
     };
+
+    # Allow packages from the unstable repo by using 'pkgs.unstable'
+    nixpkgs.overlays = [
+      (final: _prev: {
+        unstable = import inputs.nixpkgs-unstable {
+          system = final.system;
+          config.allowUnfree = true;
+        };
+      })
+    ];
 
     programs = {
       # Enable NH, an alternative nixos-rebuild frontend.
