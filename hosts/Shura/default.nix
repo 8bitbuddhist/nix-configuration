@@ -67,7 +67,8 @@ in
         user = config.users.users.aires.name;
       };
       netdata = {
-        enable = true;
+        # FIXME: getting an error "remote node response is not understood, is it Netdata?". Disabling for now
+        enable = false;
         type = "child";
         url = config.secrets.services.netdata.url;
         auth.apiKey = config.secrets.services.netdata.apiKey;

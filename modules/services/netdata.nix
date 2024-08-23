@@ -120,7 +120,7 @@ in
           "stream.conf" = pkgs.writeText "stream.conf" ''
             [stream]
               enabled = yes
-              destination = ${cfg.url}:SSL
+              destination = ${cfg.url}:443:SSL
               api key = ${cfg.auth.apiKey}
             [${cfg.auth.apiKey}]
               enabled = yes 
