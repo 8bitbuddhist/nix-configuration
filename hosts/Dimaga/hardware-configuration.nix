@@ -52,4 +52,21 @@ in
   };
 
   hardware.cpu.intel.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;
+
+  # Detect keyboard as "internal" so we can automatically disable the touchpad while typing
+  # If this doesn't work, try changing "MatchName" to "AT Raw Set 2 keyboard"
+  environment.etc."libinput/keyboard-touchpard.quirks" = {
+    mode = "0600";
+    text = ''
+      [Microsoft Surface Type Cover Touchpad]
+      MatchUdevType=touchpad
+      MatchName=*Microsoft Surface Type Cover Touchpad
+      AttrKeyboardIntegration=internal
+
+      [Microsoft Surface Type Cover Keyboard]
+      MatchUdevType=keyboard
+      MatchName=*Microsoft Surface Type Cover Keyboard
+      AttrKeyboardIntegration=internal
+    '';
+  };
 }
