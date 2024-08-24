@@ -91,8 +91,6 @@ in
     # https://nixos.org/manual/nixpkgs/stable/#sec-allow-unfree
     allowUnfree = true;
 
-    apps.tmux.enable = true;
-
     # Enable Secure Boot support.
     bootloader = {
       enable = true;

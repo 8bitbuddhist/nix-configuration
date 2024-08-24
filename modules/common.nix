@@ -16,6 +16,7 @@
       packages = with pkgs; [
         fastfetch # Show a neat system statistics screen when opening a terminal
         nh # Nix Helper: https://github.com/viperML/nh
+        zellij # Terminal multiplexer
       ];
     };
 
