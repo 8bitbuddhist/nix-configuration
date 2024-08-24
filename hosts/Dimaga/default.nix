@@ -1,4 +1,9 @@
-{ config, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 
 let
   # Do not change this value! This tracks when NixOS was installed on your system.
@@ -43,9 +48,12 @@ in
     hibernate.enable = false;
     hybrid-sleep.enable = false;
   };
-  services.logind = {
-    lidSwitch = "lock";
-    lidSwitchDocked = "lock";
+  services = {
+    xserver.displayManager.gdm.autoSuspend = lib.mkIf config.aux.system.ui.desktops.gnome.enable false;
+    logind = {
+      lidSwitch = "lock";
+      lidSwitchDocked = "lock";
+    };
   };
   services.upower.ignoreLid = true;
 
