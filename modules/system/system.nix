@@ -53,16 +53,6 @@ in
       # Enable fwupd (firmware updater)
       fwupd.enable = true;
 
-      # Enable trim on supported drives
-      fstrim.enable = true;
-
-      # Autoscrub BTRFS partitions
-      btrfs.autoScrub = lib.mkIf (config.fileSystems."/".fsType == "btrfs") {
-        enable = true;
-        interval = "weekly";
-        fileSystems = [ "/" ];
-      };
-
       # Allow systemd user services to keep running after the user has logged out
       logind.killUserProcesses = false;
 

@@ -22,6 +22,11 @@ in
           default = "";
         };
       };
+      discard = lib.mkOption {
+        type = lib.types.bool;
+        description = "Whether to enable TRIM for SSD and NVMe drives. Defaults to true.";
+        default = true;
+      };
       swapFile = {
         enable = lib.mkEnableOption (lib.mdDoc "Enables the creation of a swap file.");
         size = lib.mkOption {
@@ -59,7 +64,7 @@ in
           options = [
             "subvol=@"
             "compress=zstd"
-          ];
+          ] ++ lib.optionals cfg.discard [ "discard=async" ];
         };
         "/boot" = {
           device = cfg.partitions.boot;
@@ -71,7 +76,7 @@ in
           options = [
             "subvol=@home"
             "compress=zstd"
-          ];
+          ] ++ lib.optionals cfg.discard [ "discard=async" ];
         };
         "/var/log" = {
           device = decryptPath;
@@ -79,7 +84,7 @@ in
           options = [
             "subvol=@log"
             "compress=zstd"
-          ];
+          ] ++ lib.optionals cfg.discard [ "discard=async" ];
         };
         "/nix" = {
           device = decryptPath;
@@ -88,7 +93,7 @@ in
             "subvol=@nix"
             "compress=zstd"
             "noatime"
-          ];
+          ] ++ lib.optionals cfg.discard [ "discard=async" ];
         };
       }
       // lib.optionalAttrs cfg.swapFile.enable {
@@ -98,7 +103,7 @@ in
           options = [
             "subvol=@swap"
             "noatime"
-          ];
+          ] ++ lib.optionals cfg.discard [ "discard=async" ];
         };
       };
 
