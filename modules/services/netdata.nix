@@ -53,14 +53,7 @@ in
   };
 
   config = lib.mkMerge [
-    (lib.mkIf cfg.enable {
-      services.netdata = {
-        enable = true;
-        package = pkgs.unstable.netdataCloud;
-        enableAnalyticsReporting = false;
-      };
-    })
-    (lib.mkIf (cfg.type == "parent") {
+    (lib.mkIf (cfg.enable && cfg.type == "parent") {
       services = {
         nginx.virtualHosts."${cfg.url}" = {
           useACMEHost = cfg.domain;
@@ -83,6 +76,9 @@ in
         };
 
         netdata = {
+          enable = true;
+          package = pkgs.unstable.netdataCloud;
+          enableAnalyticsReporting = false;
           configDir = {
             # Enable nvidia-smi: https://nixos.wiki/wiki/Netdata#nvidia-smi
             "python.d.conf" = pkgs.writeText "python.d.conf" ''
@@ -103,8 +99,11 @@ in
       systemd.services.nginx.wants = [ config.systemd.services.netdata.name ];
     })
 
-    (lib.mkIf (cfg.type == "child") {
+    (lib.mkIf (cfg.enable && cfg.type == "child") {
       services.netdata = {
+        enable = true;
+        package = pkgs.unstable.netdataCloud;
+        enableAnalyticsReporting = false;
         # Disable web UI
         config = {
           global = {
