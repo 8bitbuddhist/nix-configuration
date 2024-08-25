@@ -87,7 +87,11 @@ in
               userEmail = config.secrets.users.aires.email;
               extraConfig = {
                 push.autoSetupRemote = "true";
-                aliases.pull = "!git pull && git submodule foreach --recursive 'git pull origin main'";
+                alias = {
+                  add = "add *";
+                  pull = "!git pull && git submodule foreach --recursive 'git pull origin main'";
+                  unstage = "reset HEAD --";
+                };
               };
             };
 
@@ -103,6 +107,7 @@ in
                 theme = "gentoo";
               };
               shellAliases = {
+                z = "zellij";
                 update = "upgrade";
                 upgrade = "nh os boot --update --ask";
               };
