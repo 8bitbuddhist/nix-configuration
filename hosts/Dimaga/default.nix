@@ -152,6 +152,13 @@ in
         user = config.users.users.aires.name;
       };
       boinc.enable = true;
+      deluge = {
+        enable = true;
+        autostart = false;
+        home = "${services-root}/deluge";
+        domain = config.secrets.networking.primaryDomain;
+        url = config.secrets.services.deluge.url;
+      };
       duplicacy-web = {
         enable = true;
         autostart = false;
