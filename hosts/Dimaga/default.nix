@@ -15,6 +15,7 @@ let
   services-root = "/storage/services";
 
   subdomains = [
+    config.secrets.services.deluge.url
     config.secrets.services.forgejo.url
     config.secrets.services.gremlin-lab.url
     config.secrets.services.jellyfin.url
