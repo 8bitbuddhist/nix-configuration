@@ -51,6 +51,25 @@ in
     };
   };
 
+  # Automatically scrub the RAID array weekly
+  systemd.services."raid-scrub" = {
+    description = "Periodically scrub RAID volumes for errors.";
+    serviceConfig = {
+      Type = "oneshot";
+      User = "root";
+    };
+    script = "echo check > /sys/block/md127/md/sync_action";
+  };
+  systemd.timers."raid-scrub" = {
+    description = "Periodically scrub RAID volumes for errors.";
+    wantedBy = [ "timers.target" ];
+    timerConfig = {
+      OnCalendar = "weekly";
+      Persistent = true;
+      Unit = "raid-scrub.service";
+    };
+  };
+
   hardware.cpu.intel.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;
 
   # Detect keyboard as "internal" so we can automatically disable the touchpad while typing
