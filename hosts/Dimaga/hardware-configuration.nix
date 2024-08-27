@@ -51,7 +51,7 @@ in
     };
   };
 
-  # Automatically scrub the RAID array weekly
+  # Automatically scrub the RAID array monthly
   systemd.services."raid-scrub" = {
     description = "Periodically scrub RAID volumes for errors.";
     serviceConfig = {
@@ -64,7 +64,7 @@ in
     description = "Periodically scrub RAID volumes for errors.";
     wantedBy = [ "timers.target" ];
     timerConfig = {
-      OnCalendar = "weekly";
+      OnCalendar = "monthly";
       Persistent = true;
       Unit = "raid-scrub.service";
     };
