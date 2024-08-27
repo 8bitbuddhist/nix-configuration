@@ -42,25 +42,6 @@ in
   #   To see all available timezones, run `timedatectl list-timezones`.
   time.timeZone = "America/New_York";
 
-  # Disable suspend
-  systemd.targets = {
-    sleep.enable = false;
-    suspend.enable = false;
-    hibernate.enable = false;
-    hybrid-sleep.enable = false;
-  };
-  services = {
-    xserver.displayManager.gdm.autoSuspend = lib.mkIf config.aux.system.ui.desktops.gnome.enable false;
-    logind = {
-      lidSwitch = "lock";
-      lidSwitchDocked = "lock";
-    };
-  };
-  services.upower.ignoreLid = true;
-
-  # Enable support for building ARM64 packages
-  boot.binfmt.emulatedSystems = [ "aarch64-linux" ];
-
   # Build Nix packages for other hosts.
   # Runs every day at 4 AM
   systemd.services."build-hosts" = {

@@ -89,7 +89,4 @@ in
 
   # Build remotely
   nix.distributedBuilds = true;
-
-  # Limit the number of cores Nix can use
-  nix.settings.cores = 8;
 }
