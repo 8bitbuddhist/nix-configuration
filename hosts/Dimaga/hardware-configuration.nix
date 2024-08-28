@@ -36,6 +36,9 @@ in
         MAILADDR ${config.secrets.users.aires.email}
       '';
     };
+
+    # Enable support for building ARM64 packages
+    binfmt.emulatedSystems = [ "aarch64-linux" ];
   };
 
   # Configure the main filesystem.
@@ -70,6 +73,23 @@ in
     };
   };
 
+  # Disable suspend
+  systemd.targets = {
+    sleep.enable = false;
+    suspend.enable = false;
+    hibernate.enable = false;
+    hybrid-sleep.enable = false;
+  };
+  services = {
+    xserver.displayManager.gdm.autoSuspend = lib.mkIf config.aux.system.ui.desktops.gnome.enable false;
+    logind = {
+      lidSwitch = "lock";
+      lidSwitchDocked = "lock";
+    };
+  };
+  services.upower.ignoreLid = true;
+
+  # Enable CPU microde updates
   hardware.cpu.intel.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;
 
   # Detect keyboard as "internal" so we can automatically disable the touchpad while typing

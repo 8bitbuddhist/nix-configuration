@@ -14,6 +14,9 @@ in
   imports = [ (modulesPath + "/installer/scan/not-detected.nix") ];
 
   boot = {
+    # NOTE: Uncomment to use a default kernel and skip full kernel rebuilds
+    #kernelPackages = lib.mkForce pkgs.linuxPackages_latest;
+
     # Enable antenna aggregation
     extraModprobeConfig = ''
       options iwlwifi 11n_disable=8
@@ -108,9 +111,9 @@ in
     "intel-ipu6-isys"
   ];
 
+  # Limit the number of cores Nix can use
+  nix.settings.cores = 8;
+
   # Install/configure additional drivers, particularly for touch
   environment.systemPackages = with pkgs; [ libwacom-surface ];
-
-  # NOTE: Uncomment to use a default kernel and skip full kernel rebuilds
-  # boot.kernelPackages = lib.mkForce pkgs.linuxPackages_latest;
 }
