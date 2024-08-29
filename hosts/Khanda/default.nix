@@ -45,6 +45,9 @@ in
     # Enable GPU support.
     gpu.intel.enable = true;
 
+    # Enable support for primary RAID array (just in case)
+    raid.sapana.enable = true;
+
     # Change how long old generations are kept for.
     retentionPeriod = "14d";
 

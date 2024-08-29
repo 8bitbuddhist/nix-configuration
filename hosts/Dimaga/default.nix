@@ -96,10 +96,10 @@ in
       };
     };
 
-    packages = [
-      start-services
-      pkgs.htop
-    ];
+    packages = [ start-services ];
+
+    # Enable support for primary RAID array
+    raid.sapana.enable = true;
 
     # Change how long old generations are kept for.
     retentionPeriod = "30d";

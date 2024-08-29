@@ -55,6 +55,9 @@ in
       keepassxc # Use native instead of Flatpak due to weird performance issues
     ];
 
+    # Enable support for primary RAID array (just in case)
+    raid.sapana.enable = true;
+
     # Keep old generations for two weeks.
     retentionPeriod = "14d";
 
