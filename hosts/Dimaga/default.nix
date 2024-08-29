@@ -138,19 +138,16 @@ in
         enable = true;
         home = "${services-root}/deluge";
         domain = config.secrets.networking.primaryDomain;
-        requires = [ "storage.mount" ];
         url = config.secrets.services.deluge.url;
       };
       duplicacy-web = {
         enable = true;
-        requires = [ "storage.mount" ];
-        environment = "/storage/backups/settings/Haven";
+        home = "/storage/backups/settings/Haven";
       };
       forgejo = {
         enable = true;
         home = "${services-root}/forgejo";
         domain = config.secrets.networking.primaryDomain;
-        requires = [ "storage.mount" ];
         url = config.secrets.services.forgejo.url;
         actions = {
           enable = true;
@@ -161,7 +158,6 @@ in
         enable = true;
         home = "${services-root}/jellyfin";
         domain = config.secrets.networking.primaryDomain;
-        requires = [ "storage.mount" ];
         url = config.secrets.services.jellyfin.url;
       };
       msmtp.enable = true;

@@ -28,12 +28,6 @@ in
         description = "The complete URL where Airsonic is hosted.";
         example = "https://forgejo.example.com";
       };
-      requires = lib.mkOption {
-        default = [ ];
-        type = lib.types.listOf lib.types.str;
-        description = "If this service depends on other systemd units (e.g. a *.mount unit), enter their name(s) here.";
-        example = [ "storage.mount" ];
-      };
     };
   };
 
@@ -75,8 +69,9 @@ in
       } // lib.optionalAttrs (cfg.home != "") { home = cfg.home; };
     };
 
-    systemd.services.nginx.wants = [ config.systemd.services.airsonic.name ];
-    # Don't start this service until after these services
-    systemd.services.airsonic = lib.mkIf (cfg.requires != [ ]) { requires = cfg.requires; };
+    systemd.services = {
+      airsonic = lib.mkIf (cfg.home != "") { unitConfig.RequiresMountsFor = cfg.home; };
+      nginx.wants = [ config.systemd.services.airsonic.name ];
+    };
   };
 }

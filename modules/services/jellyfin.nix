@@ -26,12 +26,6 @@ in
         description = "The root domain that Jellyfin will be hosted on.";
         example = "example.com";
       };
-      requires = lib.mkOption {
-        default = [ ];
-        type = lib.types.listOf lib.types.str;
-        description = "If this service depends on other systemd units (e.g. a *.mount unit), enter their name(s) here.";
-        example = [ "storage.mount" ];
-      };
       url = lib.mkOption {
         default = "";
         type = lib.types.str;
@@ -102,8 +96,9 @@ in
       yt-dlp
     ];
 
-    systemd.services.nginx.wants = [ config.systemd.services.jellyfin.name ];
-    # Don't start this service until after these services
-    systemd.services.jellyfin = lib.mkIf (cfg.requires != [ ]) { requires = cfg.requires; };
+    systemd.services = {
+      jellyfin = lib.mkIf (cfg.home != "") { unitConfig.RequiresMountsFor = cfg.home; };
+      nginx.wants = [ config.systemd.services.jellyfin.name ];
+    };
   };
 }

@@ -37,12 +37,6 @@ in
         description = "Where to store Forgejo's files";
         example = "/home/forgejo";
       };
-      requires = lib.mkOption {
-        default = [ ];
-        type = lib.types.listOf lib.types.str;
-        description = "If this service depends on other systemd units (e.g. a *.mount unit), enter their name(s) here.";
-        example = [ "storage.mount" ];
-      };
       url = lib.mkOption {
         default = "";
         type = lib.types.str;
@@ -109,8 +103,6 @@ in
       };
     };
 
-    systemd.services.nginx.wants = [ config.systemd.services.forgejo.name ];
-
     # Enable Podman for running...uh, runners.
     virtualisation = lib.mkIf cfg.actions.enable {
       containers.enable = true;
@@ -130,7 +122,10 @@ in
       allowedTCPPorts = [ 53 ];
       allowedUDPPorts = [ 53 ];
     };
-    # Don't start this service until after these services
-    systemd.services.forgejo = lib.mkIf (cfg.requires != [ ]) { requires = cfg.requires; };
+
+    systemd.services = {
+      forgejo = lib.mkIf (cfg.home != "") { unitConfig.RequiresMountsFor = cfg.home; };
+      nginx.wants = [ config.systemd.services.forgejo.name ];
+    };
   };
 }
