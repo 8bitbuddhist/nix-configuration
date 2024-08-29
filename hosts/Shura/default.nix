@@ -25,6 +25,8 @@ in
   system.stateVersion = stateVersion;
   networking.hostName = hostName;
 
+  custom-fonts.Freight-Pro.enable = true;
+
   aux.system = {
     apps = {
       development.enable = true;
