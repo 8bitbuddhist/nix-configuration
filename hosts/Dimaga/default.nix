@@ -136,21 +136,21 @@ in
       boinc.enable = true;
       deluge = {
         enable = true;
-        autostart = false;
         home = "${services-root}/deluge";
         domain = config.secrets.networking.primaryDomain;
+        requires = [ "storage.mount" ];
         url = config.secrets.services.deluge.url;
       };
       duplicacy-web = {
         enable = true;
-        autostart = false;
+        requires = [ "storage.mount" ];
         environment = "/storage/backups/settings/Haven";
       };
       forgejo = {
         enable = true;
-        autostart = false;
         home = "${services-root}/forgejo";
         domain = config.secrets.networking.primaryDomain;
+        requires = [ "storage.mount" ];
         url = config.secrets.services.forgejo.url;
         actions = {
           enable = true;
@@ -159,9 +159,9 @@ in
       };
       jellyfin = {
         enable = true;
-        autostart = false;
         home = "${services-root}/jellyfin";
         domain = config.secrets.networking.primaryDomain;
+        requires = [ "storage.mount" ];
         url = config.secrets.services.jellyfin.url;
       };
       msmtp.enable = true;

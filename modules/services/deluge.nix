@@ -7,7 +7,6 @@ in
 {
   options = {
     aux.system.services.deluge = {
-      autostart = lib.mkEnableOption "Automatically starts Deluge at boot.";
       enable = lib.mkEnableOption "Enables Deluge.";
       home = lib.mkOption {
         default = "";
@@ -25,6 +24,12 @@ in
         type = lib.types.str;
         description = "The complete URL where Deluge is hosted.";
         example = "https://deluge.example.com";
+      };
+      requires = lib.mkOption {
+        default = [ ];
+        type = lib.types.listOf lib.types.str;
+        description = "If this service depends on other systemd units (e.g. a *.mount unit), enter their name(s) here.";
+        example = [ "storage.mount" ];
       };
     };
 
@@ -52,5 +57,8 @@ in
         };
       };
     };
+
+    # Don't start this service until after these services
+    systemd.services.deluge = lib.mkIf (cfg.requires != [ ]) { requires = cfg.requires; };
   };
 }

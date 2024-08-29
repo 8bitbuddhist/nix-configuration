@@ -10,7 +10,6 @@ in
 {
   options = {
     aux.system.services.airsonic = {
-      autostart = lib.mkEnableOption (lib.mdDoc "Automatically starts Airsonic at boot.");
       enable = lib.mkEnableOption (lib.mdDoc "Enables Airsonic Advanced media streaming service.");
       home = lib.mkOption {
         default = "";
@@ -28,6 +27,12 @@ in
         type = lib.types.str;
         description = "The complete URL where Airsonic is hosted.";
         example = "https://forgejo.example.com";
+      };
+      requires = lib.mkOption {
+        default = [ ];
+        type = lib.types.listOf lib.types.str;
+        description = "If this service depends on other systemd units (e.g. a *.mount unit), enter their name(s) here.";
+        example = [ "storage.mount" ];
       };
     };
   };
@@ -71,7 +76,7 @@ in
     };
 
     systemd.services.nginx.wants = [ config.systemd.services.airsonic.name ];
-    # Disable autostart if configured
-    systemd.services.airsonic = lib.mkIf (!cfg.autostart) { wantedBy = lib.mkForce [ ]; };
+    # Don't start this service until after these services
+    systemd.services.airsonic = lib.mkIf (cfg.requires != [ ]) { requires = cfg.requires; };
   };
 }

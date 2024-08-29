@@ -14,7 +14,6 @@ in
 {
   options = {
     aux.system.services.jellyfin = {
-      autostart = lib.mkEnableOption (lib.mdDoc "Automatically starts Jellyfin at boot.");
       enable = lib.mkEnableOption (lib.mdDoc "Enables the Jellyfin media streaming service.");
       home = lib.mkOption {
         default = "";
@@ -26,6 +25,12 @@ in
         type = lib.types.str;
         description = "The root domain that Jellyfin will be hosted on.";
         example = "example.com";
+      };
+      requires = lib.mkOption {
+        default = [ ];
+        type = lib.types.listOf lib.types.str;
+        description = "If this service depends on other systemd units (e.g. a *.mount unit), enter their name(s) here.";
+        example = [ "storage.mount" ];
       };
       url = lib.mkOption {
         default = "";
@@ -98,7 +103,7 @@ in
     ];
 
     systemd.services.nginx.wants = [ config.systemd.services.jellyfin.name ];
-    # Disable autostart if configured
-    systemd.services.jellyfin = lib.mkIf (!cfg.autostart) { wantedBy = lib.mkForce [ ]; };
+    # Don't start this service until after these services
+    systemd.services.jellyfin = lib.mkIf (cfg.requires != [ ]) { requires = cfg.requires; };
   };
 }

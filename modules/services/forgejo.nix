@@ -24,7 +24,6 @@ in
 {
   options = {
     aux.system.services.forgejo = {
-      autostart = lib.mkEnableOption (lib.mdDoc "Automatically starts Forgejo at boot.");
       enable = lib.mkEnableOption (lib.mdDoc "Enables Forgejo Git hosting service.");
       domain = lib.mkOption {
         default = "";
@@ -37,6 +36,12 @@ in
         type = lib.types.str;
         description = "Where to store Forgejo's files";
         example = "/home/forgejo";
+      };
+      requires = lib.mkOption {
+        default = [ ];
+        type = lib.types.listOf lib.types.str;
+        description = "If this service depends on other systemd units (e.g. a *.mount unit), enter their name(s) here.";
+        example = [ "storage.mount" ];
       };
       url = lib.mkOption {
         default = "";
@@ -125,7 +130,7 @@ in
       allowedTCPPorts = [ 53 ];
       allowedUDPPorts = [ 53 ];
     };
-    # Disable autostart if configured
-    systemd.services.forgejo = lib.mkIf (!cfg.autostart) { wantedBy = lib.mkForce [ ]; };
+    # Don't start this service until after these services
+    systemd.services.forgejo = lib.mkIf (cfg.requires != [ ]) { requires = cfg.requires; };
   };
 }

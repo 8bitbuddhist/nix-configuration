@@ -13,16 +13,16 @@ in
   options = {
     aux.system.services.duplicacy-web = {
       enable = lib.mkEnableOption "Enables duplicacy-web";
-      autostart = lib.mkOption {
-        default = true;
-        type = lib.types.bool;
-        description = "Whether to auto-start duplicacy-web on boot";
-      };
-
       environment = lib.mkOption {
         default = "";
         type = lib.types.str;
         description = "Environment where duplicacy-web stores its config files";
+      };
+      requires = lib.mkOption {
+        default = [ ];
+        type = lib.types.listOf lib.types.str;
+        description = "If this service depends on other systemd units (e.g. a *.mount unit), enter their name(s) here.";
+        example = [ "storage.mount" ];
       };
     };
   };
@@ -52,6 +52,6 @@ in
       environment = {
         HOME = cfg.environment;
       };
-    } // lib.optionalAttrs (!cfg.autostart) { wantedBy = lib.mkForce [ ]; };
+    } // lib.optionalAttrs (cfg.requires != [ ]) { requires = cfg.requires; };
   };
 }
