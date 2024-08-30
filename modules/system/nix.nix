@@ -59,8 +59,8 @@ in
       };
 
       # Configure NixOS to use the same software channel as Flakes
-      registry = lib.mapAttrs (_: value: { flake = value; }) inputs;
-      nixPath = lib.mapAttrsToList (key: value: "${key}=${value.to.path}") config.nix.registry;
+      registry.nixpkgs.flake = inputs.nixpkgs;
+      nixPath = [ "nixpkgs=${inputs.nixpkgs}" ];
 
       # Configure remote build machines
       # To enable remote builds for a specific host, add `nix.distributedBuilds = true;` to its config
