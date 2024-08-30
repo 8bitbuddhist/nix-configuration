@@ -48,7 +48,6 @@
       nix-flatpak,
       nixos-hardware,
       nixpkgs,
-      nixpkgs-unstable,
       nix-secrets,
       ...
     }:
