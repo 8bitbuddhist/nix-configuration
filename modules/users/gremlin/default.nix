@@ -69,7 +69,10 @@ in
           };
 
           # Install packages specific to Gremlin
-          packages = [ pkgs.awscli2 ];
+          packages = [
+            pkgs.awscli2
+            pkgs.unstable.figma-linux
+          ];
 
           # Create .face file
           file.".face".source = ./face.png;
