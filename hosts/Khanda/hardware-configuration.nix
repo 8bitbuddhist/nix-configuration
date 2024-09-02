@@ -75,7 +75,10 @@ in
       "pinctrl_tigerlake"
     ];
 
-    kernelParams = [ "pci=hpiosize=0" ]; # Prevent ACPI interrupt storm. See https://github.com/linux-surface/linux-surface/wiki/Surface-Pro-9#acpi-interrupt-storm
+    kernelParams = [
+      "pci=hpiosize=0"  # Prevent ACPI interrupt storm. See https://github.com/linux-surface/linux-surface/wiki/Surface-Pro-9#acpi-interrupt-storm
+      "iommu=off" # Disable IOMMU, a possible cause of system stuttering
+      ];
   };
 
   # Configure the main filesystem.
