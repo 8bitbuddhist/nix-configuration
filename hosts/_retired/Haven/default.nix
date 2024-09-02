@@ -56,13 +56,13 @@ in
         enable = true;
         defaultEmail = config.secrets.users.aires.email;
         certs = {
-          "${config.secrets.networking.primaryDomain}" = {
+          "${config.secrets.networking.domains.primary}" = {
             dnsProvider = "namecheap";
             extraDomainNames = subdomains;
             webroot = null; # Required in order to prevent a failed assertion
             credentialFiles = namecheapCredentials;
           };
-          "${config.secrets.networking.blogDomain}" = {
+          "${config.secrets.networking.domains.blog}" = {
             dnsProvider = "namecheap";
             webroot = null; # Required in order to prevent a failed assertion
             credentialFiles = namecheapCredentials;
@@ -76,7 +76,7 @@ in
       airsonic = {
         enable = true;
         home = "${services-root}/airsonic-advanced";
-        domain = config.secrets.networking.primaryDomain;
+        domain = config.secrets.networking.domains.primary;
         url = config.secrets.services.airsonic.url;
       };
       autoUpgrade = {
@@ -99,7 +99,7 @@ in
       forgejo = {
         enable = true;
         home = "${services-root}/forgejo";
-        domain = config.secrets.networking.primaryDomain;
+        domain = config.secrets.networking.domains.primary;
         url = config.secrets.services.forgejo.url;
         actions = {
           enable = true;
@@ -111,7 +111,7 @@ in
         enable = true;
         autostart = false;
         virtualHosts = {
-          "${config.secrets.networking.primaryDomain}" = {
+          "${config.secrets.networking.domains.primary}" = {
             default = true;
             enableACME = true; # Enable Let's Encrypt
             locations."/" = {
@@ -119,13 +119,13 @@ in
               return = "301 https://${config.secrets.services.forgejo.url}";
             };
           };
-          "${config.secrets.networking.blogDomain}" = {
-            useACMEHost = config.secrets.networking.blogDomain;
+          "${config.secrets.networking.domains.blog}" = {
+            useACMEHost = config.secrets.networking.domains.blog;
             forceSSL = true;
-            root = "${services-root}/nginx/sites/${config.secrets.networking.blogDomain}";
+            root = "${services-root}/nginx/sites/${config.secrets.networking.domains.blog}";
           };
           "${config.secrets.services.gremlin-lab.url}" = {
-            useACMEHost = config.secrets.networking.primaryDomain;
+            useACMEHost = config.secrets.networking.domains.primary;
             forceSSL = true;
             locations."/" = {
               proxyPass = "http://${config.secrets.services.gremlin-lab.ip}";

@@ -10,18 +10,12 @@ let
   stateVersion = "24.11";
   hostName = "Dimaga";
 
+  # Where to store service files
+  services-root = "/storage/services";
+  # Script to start services
   start-services = pkgs.writeShellScriptBin "start-services" (builtins.readFile ./start-services.sh);
 
-  services-root = "/storage/services";
-
-  subdomains = [
-    config.secrets.services.deluge.url
-    config.secrets.services.forgejo.url
-    config.secrets.services.gremlin-lab.url
-    config.secrets.services.jellyfin.url
-    config.secrets.services.netdata.url
-  ];
-
+  # Credentials for interacting with the Namecheap API
   namecheapCredentials = {
     "NAMECHEAP_API_USER_FILE" = "${pkgs.writeText "namecheap-api-user" ''
       ${config.secrets.networking.namecheap.api.user}
@@ -30,6 +24,15 @@ let
       ${config.secrets.networking.namecheap.api.key}
     ''}";
   };
+
+  # List of subdomains to add to the TLS certificate
+  subdomains = [
+    config.secrets.services.deluge.url
+    config.secrets.services.forgejo.url
+    config.secrets.services.gremlin-lab.url
+    config.secrets.services.jellyfin.url
+    config.secrets.services.netdata.url
+  ];
 in
 {
   imports = [ ./hardware-configuration.nix ];
@@ -44,25 +47,27 @@ in
 
   # Build Nix packages for other hosts.
   # Runs every day at 4 AM
-  systemd.services."build-hosts" = {
-    serviceConfig = {
-      Type = "oneshot";
-      User = "root";
+  systemd = {
+    services."build-hosts" = {
+      serviceConfig = {
+        Type = "oneshot";
+        User = "root";
+      };
+      path = config.aux.system.corePackages;
+      script = ''
+        cd ${config.secrets.nixConfigFolder}
+        nh os build . --hostname Khanda
+      '';
     };
-    path = config.aux.system.corePackages;
-    script = ''
-      cd ${config.secrets.nixConfigFolder}
-      nh os build . --hostname Khanda
-    '';
-  };
-  systemd.timers."build-hosts" = {
-    wants = [ "network-online.target" ];
-    after = [ "network-online.target" ];
-    wantedBy = [ "timers.target" ];
-    timerConfig = {
-      OnCalendar = "04:00";
-      Persistent = true;
-      Unit = "build-hosts.service";
+    timers."build-hosts" = {
+      wants = [ "network-online.target" ];
+      after = [ "network-online.target" ];
+      wantedBy = [ "timers.target" ];
+      timerConfig = {
+        OnCalendar = "04:00";
+        Persistent = true;
+        Unit = "build-hosts.service";
+      };
     };
   };
 
@@ -109,13 +114,13 @@ in
         enable = true;
         defaultEmail = config.secrets.users.aires.email;
         certs = {
-          "${config.secrets.networking.primaryDomain}" = {
+          "${config.secrets.networking.domains.primary}" = {
             dnsProvider = "namecheap";
             extraDomainNames = subdomains;
             webroot = null; # Required in order to prevent a failed assertion
             credentialFiles = namecheapCredentials;
           };
-          "${config.secrets.networking.blogDomain}" = {
+          "${config.secrets.networking.domains.blog}" = {
             dnsProvider = "namecheap";
             webroot = null; # Required in order to prevent a failed assertion
             credentialFiles = namecheapCredentials;
@@ -137,7 +142,7 @@ in
       deluge = {
         enable = true;
         home = "${services-root}/deluge";
-        domain = config.secrets.networking.primaryDomain;
+        domain = config.secrets.networking.domains.primary;
         url = config.secrets.services.deluge.url;
       };
       duplicacy-web = {
@@ -147,7 +152,7 @@ in
       forgejo = {
         enable = true;
         home = "${services-root}/forgejo";
-        domain = config.secrets.networking.primaryDomain;
+        domain = config.secrets.networking.domains.primary;
         url = config.secrets.services.forgejo.url;
         actions = {
           enable = true;
@@ -157,13 +162,13 @@ in
       jellyfin = {
         enable = true;
         home = "${services-root}/jellyfin";
-        domain = config.secrets.networking.primaryDomain;
+        domain = config.secrets.networking.domains.primary;
         url = config.secrets.services.jellyfin.url;
       };
       msmtp.enable = true;
       netdata = {
         enable = true;
-        domain = config.secrets.networking.primaryDomain;
+        domain = config.secrets.networking.domains.primary;
         type = "parent";
         url = config.secrets.services.netdata.url;
         auth = {
@@ -176,7 +181,7 @@ in
         enable = true;
         autostart = false;
         virtualHosts = {
-          "${config.secrets.networking.primaryDomain}" = {
+          "${config.secrets.networking.domains.primary}" = {
             default = true;
             enableACME = true; # Enable Let's Encrypt
             locations."/" = {
@@ -184,13 +189,13 @@ in
               return = "301 https://${config.secrets.services.forgejo.url}";
             };
           };
-          "${config.secrets.networking.blogDomain}" = {
-            useACMEHost = config.secrets.networking.blogDomain;
+          "${config.secrets.networking.domains.blog}" = {
+            useACMEHost = config.secrets.networking.domains.blog;
             forceSSL = true;
-            root = "${services-root}/nginx/sites/${config.secrets.networking.blogDomain}";
+            root = "${services-root}/nginx/sites/${config.secrets.networking.domains.blog}";
           };
           "${config.secrets.services.gremlin-lab.url}" = {
-            useACMEHost = config.secrets.networking.primaryDomain;
+            useACMEHost = config.secrets.networking.domains.primary;
             forceSSL = true;
             locations."/" = {
               proxyPass = "http://${config.secrets.services.gremlin-lab.ip}";

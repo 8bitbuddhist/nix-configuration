@@ -21,7 +21,7 @@ in
         tls = true;
         tls_starttls = true;
         port = 587;
-        from = "${config.networking.hostName}@${config.secrets.networking.primaryDomain}";
+        from = "${config.networking.hostName}@${config.secrets.networking.domains.primary}";
       };
     };
 
