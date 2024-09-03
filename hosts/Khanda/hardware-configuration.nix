@@ -76,9 +76,9 @@ in
     ];
 
     kernelParams = [
-      "pci=hpiosize=0"  # Prevent ACPI interrupt storm. See https://github.com/linux-surface/linux-surface/wiki/Surface-Pro-9#acpi-interrupt-storm
-      "iommu=off" # Disable IOMMU, a possible cause of system stuttering
-      ];
+      "pci=hpiosize=0" # Prevent ACPI interrupt storm. See https://github.com/linux-surface/linux-surface/wiki/Surface-Pro-9#acpi-interrupt-storm
+      "nvme_core.default_ps_max_latency_us=0" # Disable NVME powersaving to prevent system stuttering. See https://forums.linuxmint.com/viewtopic.php?t=392387
+    ];
   };
 
   # Configure the main filesystem.
