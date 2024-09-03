@@ -84,7 +84,6 @@ in
         syncthing = {
           enable = true;
           autostart = true;
-          enableTray = true;
         };
       };
     };

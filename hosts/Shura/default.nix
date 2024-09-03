@@ -114,17 +114,11 @@ in
     users = {
       aires = {
         enable = true;
-        services.syncthing = {
-          enable = true;
-          enableTray = false; # Recent versions of STT don't recognize Gnome's tray. Uninstalling for now.
-        };
+        services.syncthing.enable = true;
       };
       gremlin = {
         enable = true;
-        services.syncthing = {
-          enable = true;
-          enableTray = false;
-        };
+        services.syncthing.enable = true;
       };
     };
   };
