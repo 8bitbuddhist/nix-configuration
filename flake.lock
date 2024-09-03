@@ -234,10 +234,11 @@
     "nix-secrets": {
       "flake": false,
       "locked": {
-        "dirtyRev": "26588368303142902ef91c67ad679da6be5bbeee-dirty",
-        "dirtyShortRev": "2658836-dirty",
-        "lastModified": 1725028484,
+        "lastModified": 1725289601,
         "narHash": "sha256-GJerArXURZD3VfNScxpa73QKajylnfpeG0U6Z6/XxA8=",
+        "ref": "refs/heads/main",
+        "rev": "a321a1ba2e23b59a6d39a33258a82021feaa853f",
+        "revCount": 64,
         "type": "git",
         "url": "file:./nix-secrets"
       },
@@ -248,11 +249,11 @@
     },
     "nixos-hardware": {
       "locked": {
-        "lastModified": 1724878143,
-        "narHash": "sha256-UjpKo92iZ25M05kgSOw/Ti6VZwpgdlOa73zHj8OcaDk=",
+        "lastModified": 1725388496,
+        "narHash": "sha256-X7ClCNPP0dVmE8x5FN9Pt/UDCDHPR/cCZit4aEWo9gg=",
         "owner": "NixOS",
         "repo": "nixos-hardware",
-        "rev": "95c3dfe6ef2e96ddc1ccdd7194e3cda02ca9a8ef",
+        "rev": "f7e31ff8efd7d450c3a9c6379963f333f32889a8",
         "type": "github"
       },
       "original": {
