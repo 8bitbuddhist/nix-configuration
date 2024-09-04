@@ -1,19 +1,20 @@
-{ pkgs, config, ... }:
+{
+  config,
+  pkgs,
+  ...
+}:
+
 let
-  stateVersion = "24.05";
-  hostName = "Haven";
+  # Do not change this value! This tracks when NixOS was installed on your system.
+  stateVersion = "24.11";
+  hostName = "Hevana";
 
-  start-haven = pkgs.writeShellScriptBin "start-haven" (builtins.readFile ./start-haven.sh);
-
+  # Where to store service files
   services-root = "/storage/services";
+  # Script to start services
+  start-services = pkgs.writeShellScriptBin "start-services" (builtins.readFile ./start-services.sh);
 
-  subdomains = [
-    config.secrets.services.airsonic.url
-    config.secrets.services.cache.url
-    config.secrets.services.forgejo.url
-    config.secrets.services.gremlin-lab.url
-  ];
-
+  # Credentials for interacting with the Namecheap API
   namecheapCredentials = {
     "NAMECHEAP_API_USER_FILE" = "${pkgs.writeText "namecheap-api-user" ''
       ${config.secrets.networking.namecheap.api.user}
@@ -22,6 +23,15 @@ let
       ${config.secrets.networking.namecheap.api.key}
     ''}";
   };
+
+  # List of subdomains to add to the TLS certificate
+  subdomains = [
+    config.secrets.services.deluge.url
+    config.secrets.services.forgejo.url
+    config.secrets.services.gremlin-lab.url
+    config.secrets.services.jellyfin.url
+    config.secrets.services.netdata.url
+  ];
 in
 {
   imports = [ ./hardware-configuration.nix ];
@@ -29,9 +39,45 @@ in
   system.stateVersion = stateVersion;
   networking.hostName = hostName;
 
+  ###*** Configure your system below this line. ***###
+  # Set your time zone.
+  #   To see all available timezones, run `timedatectl list-timezones`.
+  time.timeZone = "America/New_York";
+
+  # Build Nix packages for other hosts.
+  # Runs every day at 4 AM
+  systemd = {
+    services."build-hosts" = {
+      serviceConfig = {
+        Type = "oneshot";
+        User = "root";
+      };
+      path = config.aux.system.corePackages;
+      script = ''
+        cd ${config.secrets.nixConfigFolder}
+        nh os build . --hostname Khanda
+      '';
+    };
+    timers."build-hosts" = {
+      wants = [ "network-online.target" ];
+      after = [ "network-online.target" ];
+      wantedBy = [ "timers.target" ];
+      timerConfig = {
+        OnCalendar = "04:00";
+        Persistent = true;
+        Unit = "build-hosts.service";
+      };
+    };
+  };
+
+  # Configure the system.
   aux.system = {
-    apps.tmux.enable = true;
-    # Configure the bootloader.
+    # Enable to allow unfree (e.g. closed source) packages.
+    # Some settings may override this (e.g. enabling Nvidia GPU support).
+    # https://nixos.org/manual/nixpkgs/stable/#sec-allow-unfree
+    allowUnfree = true;
+
+    # Enable Secure Boot support.
     bootloader = {
       enable = true;
       secureboot.enable = true;
@@ -41,15 +87,16 @@ in
     # Change the default text editor. Options are "emacs", "nano", or "vim".
     editor = "nano";
 
+    # Enable GPU support.
     gpu.amd.enable = true;
 
-    packages = [
-      start-haven
-      pkgs.htop
-    ];
+    packages = [ start-services ];
 
-    # Keep old generations for one month.
-    retentionPeriod = "monthly";
+    # Enable support for primary RAID array
+    raid.sapana.enable = true;
+
+    # Change how long old generations are kept for.
+    retentionPeriod = "30d";
 
     services = {
       acme = {
@@ -73,12 +120,6 @@ in
         enable = true;
         configText = builtins.readFile ./etc/apcupsd.conf;
       };
-      airsonic = {
-        enable = true;
-        home = "${services-root}/airsonic-advanced";
-        domain = config.secrets.networking.domains.primary;
-        url = config.secrets.services.airsonic.url;
-      };
       autoUpgrade = {
         enable = false; # Don't update the system...
         pushUpdates = true; # ...but do push updates remotely.
@@ -87,14 +128,15 @@ in
         user = config.users.users.aires.name;
       };
       boinc.enable = true;
-      cache = {
-        enable = false; # Disable for now
-        secretKeyFile = "${services-root}/nix-cache/cache-priv-key.pem";
+      deluge = {
+        enable = true;
+        home = "${services-root}/deluge";
+        domain = config.secrets.networking.domains.primary;
+        url = config.secrets.services.deluge.url;
       };
       duplicacy-web = {
         enable = true;
-        autostart = false;
-        environment = "/storage/backups/settings/Haven";
+        home = "/storage/backups/settings/Haven";
       };
       forgejo = {
         enable = true;
@@ -106,7 +148,24 @@ in
           token = config.secrets.services.forgejo.runner-token;
         };
       };
+      jellyfin = {
+        enable = true;
+        home = "${services-root}/jellyfin";
+        domain = config.secrets.networking.domains.primary;
+        url = config.secrets.services.jellyfin.url;
+      };
       msmtp.enable = true;
+      netdata = {
+        enable = true;
+        domain = config.secrets.networking.domains.primary;
+        type = "parent";
+        url = config.secrets.services.netdata.url;
+        auth = {
+          user = config.users.users.aires.name;
+          password = config.secrets.services.netdata.password;
+          apiKey = config.secrets.services.netdata.apiKey;
+        };
+      };
       nginx = {
         enable = true;
         autostart = false;
@@ -137,29 +196,27 @@ in
       };
       ssh = {
         enable = true;
-        ports = [ config.secrets.hosts.haven.ssh.port ];
+        ports = [ config.secrets.hosts.dimaga.ssh.port ];
       };
-      virtualization = {
-        host = {
+      virtualization.host = {
+        enable = true;
+        user = "aires";
+        vmBuilds = {
           enable = true;
-          user = "aires";
-          vmBuilds = {
-            enable = true;
-            cores = 3;
-            ram = 4096;
-          };
+          cores = 3;
+          ram = 4096;
         };
       };
     };
+
     users.aires = {
       enable = true;
-      services.syncthing = {
-        enable = true;
-        autostart = false;
+      services = {
+        syncthing = {
+          enable = true;
+          autostart = false;
+        };
       };
     };
   };
-
-  # Allow Haven to be a build target for other architectures (mainly ARM64)
-  boot.binfmt.emulatedSystems = [ "aarch64-linux" ];
 }
