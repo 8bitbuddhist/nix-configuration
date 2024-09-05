@@ -15,9 +15,7 @@ in
         "app.drey.EarTag"
         "com.calibre_ebook.calibre"
         "com.github.unrud.VideoDownloader"
-        "org.feichtmeier.Musicpod"
         "io.freetubeapp.FreeTube"
-        "io.github.dweymouth.supersonic"
         "org.kde.krita"
         "org.kde.KStyle.Adwaita//5.15-23.08" # Retrieved from https://docs.flatpak.org/en/latest/desktop-integration.html
         "org.kde.KStyle.Adwaita//6.6"
