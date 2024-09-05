@@ -3,6 +3,11 @@
 
 set -e
 
+if [ "$(id -u)" != "0" ]; then
+   echo "This script must be run as root" 1>&2
+   exit 1
+fi
+
 # Configuration parameters
 ask_root_password=false	# Whether to prompt for a root user password
 boot_partition="" # The drive to install the bootloader to
@@ -19,34 +24,36 @@ function usage() {
 	exit 2
 }
 
+# Argument processing logic shamelessly stolen from https://stackoverflow.com/questions/192249/how-do-i-parse-command-line-arguments-in-bash
+POSITIONAL_ARGS=()
 while [[ $# -gt 0 ]]; do
   case "$1" in
-      --ask-root-password|-a)
-			ask_root_password=true
-			shift
-			;;
-	  --boot|-b)
-		   boot_partition=$1
-			shift
-			;;
-		--luks|-l)
-			luks_partition=1
-			shift
-			;;
-		--help|-h)
-			usage
-			shift
-			;;
-		*)
-			break
-			;;
+	--ask-root-password|-a)
+		ask_root_password=true
+		shift
+		;;
+	--boot|-b)
+		boot_partition="$2"
+		shift
+		shift
+		;;
+	--luks|-l)
+		luks_partition="$2"
+		shift
+		shift
+		;;
+	--help|-h)
+		usage
+		shift
+		;;
+	*)
+		POSITIONAL_ARGS+=("$1") # save positional arg
+      	shift # past argument
+		;;
 	esac
 done
 
-if [ "$(id -u)" != "0" ]; then
-   echo "This script must be run as root" 1>&2
-   exit 1
-fi
+set -- "${POSITIONAL_ARGS[@]}" # restore positional parameters
 
 cryptsetup --label=nixos-crypt --type=luks2 luksFormat $luks_partition
 cryptsetup luksOpen $luks_partition nixos-crypt
