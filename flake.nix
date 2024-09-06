@@ -34,8 +34,8 @@
     };
 
     # "Secrets management"
-    nix-secrets = {
-      url = "git+file:./nix-secrets";
+    secrets = {
+      url = "git+file:./secrets";
       flake = false;
     };
   };
@@ -48,7 +48,7 @@
       nix-flatpak,
       nixos-hardware,
       nixpkgs,
-      nix-secrets,
+      secrets,
       ...
     }:
     let
@@ -62,7 +62,7 @@
       # Define shared modules and imports
       defaultModules = [
         ./modules/autoimport.nix
-        (import nix-secrets)
+        (import secrets)
         lix-module.nixosModules.default
         lanzaboote.nixosModules.lanzaboote
         nix-flatpak.nixosModules.nix-flatpak

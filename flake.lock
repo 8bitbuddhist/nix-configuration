@@ -231,22 +231,6 @@
         "type": "github"
       }
     },
-    "nix-secrets": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1725289601,
-        "narHash": "sha256-GJerArXURZD3VfNScxpa73QKajylnfpeG0U6Z6/XxA8=",
-        "ref": "refs/heads/main",
-        "rev": "a321a1ba2e23b59a6d39a33258a82021feaa853f",
-        "revCount": 64,
-        "type": "git",
-        "url": "file:./nix-secrets"
-      },
-      "original": {
-        "type": "git",
-        "url": "file:./nix-secrets"
-      }
-    },
     "nixos-hardware": {
       "locked": {
         "lastModified": 1725477728,
@@ -360,10 +344,10 @@
         "lanzaboote": "lanzaboote",
         "lix-module": "lix-module",
         "nix-flatpak": "nix-flatpak",
-        "nix-secrets": "nix-secrets",
         "nixos-hardware": "nixos-hardware",
         "nixpkgs": "nixpkgs_2",
-        "nixpkgs-unstable": "nixpkgs-unstable"
+        "nixpkgs-unstable": "nixpkgs-unstable",
+        "secrets": "secrets"
       }
     },
     "rust-overlay": {
@@ -389,6 +373,22 @@
         "owner": "oxalica",
         "repo": "rust-overlay",
         "type": "github"
+      }
+    },
+    "secrets": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1725577261,
+        "narHash": "sha256-ibdKbdjhBvtjxACnfZDTWwwRsaqlTBg9pQCB60pZI9g=",
+        "ref": "refs/heads/main",
+        "rev": "f63bc68d28da4035eed84d4156615566ca5eae85",
+        "revCount": 65,
+        "type": "git",
+        "url": "file:./secrets"
+      },
+      "original": {
+        "type": "git",
+        "url": "file:./secrets"
       }
     },
     "systems": {
