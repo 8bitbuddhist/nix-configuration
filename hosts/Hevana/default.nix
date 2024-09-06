@@ -144,6 +144,12 @@ in
           token = config.secrets.services.forgejo.runner-token;
         };
       };
+      home-assistant = {
+        enable = false;
+        home = "${services-root}/home-assistant";
+        domain = config.secrets.networking.domains.primary;
+        url = config.secrets.services.home-assistant.url;
+      };
       jellyfin = {
         enable = true;
         home = "${services-root}/jellyfin";
@@ -174,7 +180,7 @@ in
               return = "301 https://${config.secrets.services.forgejo.url}";
             };
           };
-          "${config.secrets.networking.domains.blog}" = {
+          "]${config.secrets.networking.domains.blog}" = {
             useACMEHost = config.secrets.networking.domains.blog;
             forceSSL = true;
             root = "${services-root}/nginx/sites/${config.secrets.networking.domains.blog}";
