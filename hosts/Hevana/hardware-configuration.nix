@@ -1,8 +1,8 @@
 # Minisforum UM340
 { modulesPath, ... }:
 let
-  bootUUID = "0120-A755"; # The UUID of the boot partition.
-  luksUUID = "2c76c660-3573-4622-8771-f23fa7ee302a"; # The UUID of the locked LUKS partition.
+  bootUUID = "D2E7-FE8F"; # The UUID of the boot partition.
+  luksUUID = "7b9c756c-ba9d-43fc-b935-7c77a70f5f1b"; # The UUID of the locked LUKS partition.
 in
 {
   imports = [ (modulesPath + "/installer/scan/not-detected.nix") ];
