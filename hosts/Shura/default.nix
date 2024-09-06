@@ -58,7 +58,7 @@ in
     ];
 
     # Enable support for primary RAID array (just in case)
-    raid.sapana.enable = true;
+    raid.storage.enable = true;
 
     # Keep old generations for two weeks.
     retentionPeriod = "14d";
