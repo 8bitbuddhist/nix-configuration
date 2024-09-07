@@ -1,4 +1,9 @@
-{ config, lib, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 
 let
   cfg = config.aux.system.services.home-assistant;
@@ -32,13 +37,14 @@ in
   config = lib.mkIf cfg.enable {
     services = {
       home-assistant = {
+        enable = true;
         # opt-out from declarative configuration management
-        config = null;
         lovelaceConfig = null;
         # configure the path to your config directory
         configDir = cfg.home;
         # specify list of components required by your configuration
         extraComponents = [
+          "default_config"
           "esphome"
           "eufy"
           "govee_light_local"
@@ -46,12 +52,18 @@ in
           "radio_browser"
           "tplink"
         ];
+        extraPackages = python3Packages: with python3Packages; [ numpy ];
+        config.http = {
+          server_host = "::1";
+          trusted_proxies = [ "::1" ];
+          use_x_forwarded_for = true;
+        };
       };
       nginx.virtualHosts."${cfg.url}" = {
         useACMEHost = cfg.domain;
         forceSSL = true;
         locations."/" = {
-          proxyPass = "http://127.0.0.1:8123";
+          proxyPass = "http://[::1]:8123";
           proxyWebsockets = true;
           extraConfig = ''
             # Security / XSS Mitigation Headers

@@ -21,12 +21,13 @@ let
   };
 
   # List of subdomains to add to the TLS certificate
-  subdomains = [
-    config.secrets.services.deluge.url
-    config.secrets.services.forgejo.url
-    config.secrets.services.gremlin-lab.url
-    config.secrets.services.jellyfin.url
-    config.secrets.services.netdata.url
+  subdomains = with config.secrets.services; [
+    deluge.url
+    forgejo.url
+    gremlin-lab.url
+    home-assistant.url
+    jellyfin.url
+    netdata.url
   ];
 in
 {
