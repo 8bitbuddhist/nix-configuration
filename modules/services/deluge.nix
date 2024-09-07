@@ -9,7 +9,7 @@ in
     aux.system.services.deluge = {
       enable = lib.mkEnableOption "Enables Deluge.";
       home = lib.mkOption {
-        default = "";
+        default = "/var/lib/deluge";
         type = lib.types.str;
         description = "Where to store Deluge's files";
       };
@@ -52,6 +52,9 @@ in
       };
     };
 
-    systemd.services.deluge = lib.mkIf (cfg.home != "") { unitConfig.RequiresMountsFor = cfg.home; };
+    systemd.services = {
+      deluge.unitConfig.RequiresMountsFor = cfg.home;
+      nginx.wants = [ config.systemd.services.deluge.name ];
+    };
   };
 }

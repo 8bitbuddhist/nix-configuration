@@ -16,7 +16,7 @@ in
     aux.system.services.jellyfin = {
       enable = lib.mkEnableOption (lib.mdDoc "Enables the Jellyfin media streaming service.");
       home = lib.mkOption {
-        default = "";
+        default = "/var/lib/jellyfin";
         type = lib.types.str;
         description = "Where to store Jellyfin's files";
       };
@@ -97,7 +97,7 @@ in
     ];
 
     systemd.services = {
-      jellyfin = lib.mkIf (cfg.home != "") { unitConfig.RequiresMountsFor = cfg.home; };
+      jellyfin.unitConfig.RequiresMountsFor = cfg.home;
       nginx.wants = [ config.systemd.services.jellyfin.name ];
     };
   };

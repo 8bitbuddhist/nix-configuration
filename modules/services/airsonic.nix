@@ -12,7 +12,7 @@ in
     aux.system.services.airsonic = {
       enable = lib.mkEnableOption (lib.mdDoc "Enables Airsonic Advanced media streaming service.");
       home = lib.mkOption {
-        default = "";
+        default = "/var/lib/airsonic";
         type = lib.types.str;
         description = "Where to store Airsonic's files";
       };
@@ -70,7 +70,7 @@ in
     };
 
     systemd.services = {
-      airsonic = lib.mkIf (cfg.home != "") { unitConfig.RequiresMountsFor = cfg.home; };
+      airsonic.unitConfig.RequiresMountsFor = cfg.home;
       nginx.wants = [ config.systemd.services.airsonic.name ];
     };
   };

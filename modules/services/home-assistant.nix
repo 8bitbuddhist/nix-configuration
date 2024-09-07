@@ -32,41 +32,46 @@ in
   config = lib.mkIf cfg.enable {
     services = {
       home-assistant = {
-      # opt-out from declarative configuration management
-      config = null;
-      lovelaceConfig = null;
-      # configure the path to your config directory
-      configDir = cfg.home;
-      # specify list of components required by your configuration
-      extraComponents = [
-        "esphome"
-        "eufy"
-        "govee_light_local"
-        "met"
-        "radio_browser"
-        "tplink"
-      ];
-    };
-    nginx.virtualHosts."${cfg.url}" = {
-      useACMEHost = cfg.domain;
-      forceSSL = true;
-      locations."/" = {
-        proxyPass = "http://127.0.0.1:8123";
-        proxyWebsockets = true;
-        extraConfig = ''
-          # Security / XSS Mitigation Headers
-          add_header X-Frame-Options "SAMEORIGIN";
-          add_header X-Content-Type-Options "nosniff";
+        # opt-out from declarative configuration management
+        config = null;
+        lovelaceConfig = null;
+        # configure the path to your config directory
+        configDir = cfg.home;
+        # specify list of components required by your configuration
+        extraComponents = [
+          "esphome"
+          "eufy"
+          "govee_light_local"
+          "met"
+          "radio_browser"
+          "tplink"
+        ];
+      };
+      nginx.virtualHosts."${cfg.url}" = {
+        useACMEHost = cfg.domain;
+        forceSSL = true;
+        locations."/" = {
+          proxyPass = "http://127.0.0.1:8123";
+          proxyWebsockets = true;
+          extraConfig = ''
+            # Security / XSS Mitigation Headers
+            add_header X-Frame-Options "SAMEORIGIN";
+            add_header X-Content-Type-Options "nosniff";
 
-          proxy_ssl_server_name on;
-          proxy_set_header Host $host;
-          proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-          proxy_set_header X-Real-IP $remote_addr;
+            proxy_ssl_server_name on;
+            proxy_set_header Host $host;
+            proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+            proxy_set_header X-Real-IP $remote_addr;
 
-          proxy_buffering off;
-        '';
+            proxy_buffering off;
+          '';
+        };
       };
     };
+
+    systemd.services = {
+      home-assistant.unitConfig.RequiresMountsFor = cfg.home;
+      nginx.wants = [ config.systemd.services.home-assistant.name ];
     };
   };
 }
