@@ -38,4 +38,12 @@ in
   config = lib.mkIf cfg.enable {
     # Add changes applied by this module here.
   };
+
+  systemd.services = {
+    # Forces systemd to wait for the module's configuration directory to be available before starting the service.
+    myModule.unitConfig.RequiresMountsFor = cfg.home;
+
+    # Tells Nginx to wait for the service to be available before coming online.
+    nginx.wants = [ config.systemd.services.myModule.name ];
+  };
 }

@@ -70,7 +70,7 @@ in
     };
 
     systemd.services = {
-      airsonic = lib.mkIf (cfg.home != "") { unitConfig.RequiresMountsFor = cfg.home; };
+      airsonic.unitConfig.RequiresMountsFor = cfg.home;
       nginx.wants = [ config.systemd.services.airsonic.name ];
     };
   };

@@ -52,6 +52,9 @@ in
       };
     };
 
-    systemd.services.deluge = lib.mkIf (cfg.home != "") { unitConfig.RequiresMountsFor = cfg.home; };
+    systemd.services = {
+      deluge.unitConfig.RequiresMountsFor = cfg.home;
+      nginx.wants = [ config.systemd.services.deluge.name ];
+    };
   };
 }

@@ -58,6 +58,7 @@ in
           User = "root";
         };
         path = config.aux.system.corePackages;
+        unitConfig.RequiresMountsFor = cfg.configDir;
         # Git diffing strategy courtesy of https://stackoverflow.com/a/40255467
         script = ''
           cd ${cfg.configDir}
@@ -94,6 +95,7 @@ in
           User = cfg.user;
         };
         path = config.aux.system.corePackages;
+        unitConfig.RequiresMountsFor = cfg.configDir;
         script = ''
           set -eu
           cd ${cfg.configDir}

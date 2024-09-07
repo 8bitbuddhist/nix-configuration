@@ -124,7 +124,7 @@ in
     };
 
     systemd.services = {
-      forgejo = lib.mkIf (cfg.home != "") { unitConfig.RequiresMountsFor = cfg.home; };
+      forgejo.unitConfig.RequiresMountsFor = cfg.home;
       nginx.wants = [ config.systemd.services.forgejo.name ];
     };
   };

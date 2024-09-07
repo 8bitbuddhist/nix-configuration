@@ -97,7 +97,7 @@ in
     ];
 
     systemd.services = {
-      jellyfin = lib.mkIf (cfg.home != "") { unitConfig.RequiresMountsFor = cfg.home; };
+      jellyfin.unitConfig.RequiresMountsFor = cfg.home;
       nginx.wants = [ config.systemd.services.jellyfin.name ];
     };
   };

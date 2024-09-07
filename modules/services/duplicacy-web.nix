@@ -46,6 +46,7 @@ in
       environment = {
         HOME = cfg.home;
       };
-    } // lib.optionalAttrs (cfg.home != "") { unitConfig.RequiresMountsFor = cfg.home; };
+      unitConfig.RequiresMountsFor = cfg.home;
+    };
   };
 }

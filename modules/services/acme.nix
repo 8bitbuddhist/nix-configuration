@@ -9,13 +9,11 @@ in
       enable = lib.mkEnableOption (
         lib.mdDoc "Enable the ACME client (for Let's Encrypt TLS certificates)."
       );
-
       certs = lib.mkOption {
         default = { };
         type = lib.types.attrs;
         description = "Cert configurations for ACME.";
       };
-
       defaultEmail = lib.mkOption {
         default = "";
         type = lib.types.str;
