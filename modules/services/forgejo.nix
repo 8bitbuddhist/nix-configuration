@@ -26,7 +26,7 @@ in
     aux.system.services.forgejo = {
       enable = lib.mkEnableOption (lib.mdDoc "Enables Forgejo Git hosting service.");
       domain = lib.mkOption {
-        default = "";
+        default = "/var/lib/forgejo";
         type = lib.types.str;
         description = "The root domain that Forgejo will be hosted on.";
         example = "example.com";

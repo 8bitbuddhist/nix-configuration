@@ -16,7 +16,7 @@ in
     aux.system.services.jellyfin = {
       enable = lib.mkEnableOption (lib.mdDoc "Enables the Jellyfin media streaming service.");
       home = lib.mkOption {
-        default = "";
+        default = "/var/lib/jellyfin";
         type = lib.types.str;
         description = "Where to store Jellyfin's files";
       };

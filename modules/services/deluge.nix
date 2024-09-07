@@ -9,7 +9,7 @@ in
     aux.system.services.deluge = {
       enable = lib.mkEnableOption "Enables Deluge.";
       home = lib.mkOption {
-        default = "";
+        default = "/var/lib/deluge";
         type = lib.types.str;
         description = "Where to store Deluge's files";
       };

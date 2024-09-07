@@ -14,7 +14,7 @@ in
     aux.system.services.duplicacy-web = {
       enable = lib.mkEnableOption "Enables duplicacy-web";
       home = lib.mkOption {
-        default = "";
+        default = "/var/lib/duplicacy-web";
         type = lib.types.str;
         description = "Environment where duplicacy-web stores its config files";
       };
