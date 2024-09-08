@@ -6,8 +6,8 @@ in
 {
   options = {
     aux.system.services.nginx = {
-      autostart = lib.mkEnableOption (lib.mdDoc "Whether to autostart Nginx at boot.");
-      enable = lib.mkEnableOption (lib.mdDoc "Enable the Nginx web server.");
+      autostart = lib.mkEnableOption "Whether to autostart Nginx at boot.";
+      enable = lib.mkEnableOption "Enable the Nginx web server.";
 
       virtualHosts = lib.mkOption {
         default = { };

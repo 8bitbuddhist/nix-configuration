@@ -5,9 +5,7 @@ let
 in
 {
   options = {
-    aux.system.ui.desktops.hyprland.enable = lib.mkEnableOption (
-      lib.mdDoc "Enables the Hyprland desktop environment."
-    );
+    aux.system.ui.desktops.hyprland.enable = lib.mkEnableOption "Enables the Hyprland desktop environment.";
   };
 
   config = lib.mkIf cfg.enable {

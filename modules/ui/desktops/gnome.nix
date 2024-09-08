@@ -13,10 +13,8 @@ in
 
   options = {
     aux.system.ui.desktops.gnome = {
-      enable = lib.mkEnableOption (lib.mdDoc "Enables the Gnome Desktop Environment.");
-      tripleBuffering.enable = lib.mkEnableOption (
-        lib.mdDoc "(Experimental) Enables dynamic triple buffering"
-      );
+      enable = lib.mkEnableOption "Enables the Gnome Desktop Environment.";
+      tripleBuffering.enable = lib.mkEnableOption "(Experimental) Enables dynamic triple buffering";
     };
   };
 
@@ -89,7 +87,7 @@ in
         gnomeExtensions.alphabetical-app-grid
         gnomeExtensions.appindicator
         gnomeExtensions.dash-to-panel
-        gnomeExtensions.forge
+        gnomeExtensions.random-wallpaper
         # Themeing
         gnome.gnome-themes-extra
         papirus-icon-theme

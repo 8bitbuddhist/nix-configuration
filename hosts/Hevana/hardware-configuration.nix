@@ -41,23 +41,4 @@ in
       size = 16384;
     };
   };
-
-  # Automatically scrub the RAID array monthly
-  systemd.services."raid-scrub" = {
-    description = "Periodically scrub RAID volumes for errors.";
-    serviceConfig = {
-      Type = "oneshot";
-      User = "root";
-    };
-    script = "echo check > /sys/block/md127/md/sync_action";
-  };
-  systemd.timers."raid-scrub" = {
-    description = "Periodically scrub RAID volumes for errors.";
-    wantedBy = [ "timers.target" ];
-    timerConfig = {
-      OnCalendar = "monthly";
-      Persistent = true;
-      Unit = "raid-scrub.service";
-    };
-  };
 }

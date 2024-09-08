@@ -7,7 +7,7 @@ in
 {
   options = {
     aux.system.services.myModule = {
-      enable = lib.mkEnableOption (lib.mdDoc "Enables this example module.");
+      enable = lib.mkEnableOption "Enables this example module.";
       attributes = lib.mkOption {
         default = { };
         type = lib.types.attrs;

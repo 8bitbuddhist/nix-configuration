@@ -13,16 +13,18 @@ in
   };
 
   config = lib.mkIf cfg.enable {
-    users.groups."media" = {
-      gid = 1001;
-    };
+    users = {
+      users.media = {
+        isNormalUser = false;
+        isSystemUser = true;
+        description = "Media manager";
+        uid = 1001;
+        group = "media";
+      };
 
-    users.users.media = {
-      isNormalUser = false;
-      isSystemUser = true;
-      description = "Media manager";
-      uid = 1001;
-      group = "media";
+      groups."media" = {
+        gid = 1001;
+      };
     };
   };
 }

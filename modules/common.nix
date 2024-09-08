@@ -8,19 +8,12 @@
 
 {
   config = {
-    # Install ZSH for all users
-    programs.zsh.enable = true;
-    users.defaultUserShell = pkgs.zsh;
-
-    aux.system = {
-      packages = with pkgs; [
-        fastfetch # Show a neat system statistics screen when opening a terminal
-        htop
-        mdadm # RAID management
-        nh # Nix Helper: https://github.com/viperML/nh
-        zellij # Terminal multiplexer
-      ];
-    };
+    # Install base packages
+    aux.system.packages = with pkgs; [
+      fastfetch # Show a neat system statistics screen when opening a terminal
+      htop # System monitor
+      zellij # Terminal multiplexer
+    ];
 
     # Allow packages from the unstable repo by using 'pkgs.unstable'
     nixpkgs.overlays = [
@@ -33,14 +26,17 @@
     ];
 
     programs = {
+      # Install ZSH for all users
+      zsh.enable = true;
+
       # Enable NH, an alternative nixos-rebuild frontend.
+      # https://github.com/viperML/nh
       nh = {
         enable = true;
         flake = "${config.secrets.nixConfigFolder}";
       };
-      # Do some additional Nano configuration
+      # Configure nano
       nano.nanorc = ''
-        set linenumbers
         set tabsize 4
         set softwrap
         set autoindent
@@ -48,6 +44,7 @@
       '';
     };
 
-    services.fail2ban.enable = true;
+    # Set ZSH as the default shell
+    users.defaultUserShell = pkgs.zsh;
   };
 }

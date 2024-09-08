@@ -12,4 +12,8 @@
     nftables.enable = true;
     firewall.enable = true;
   };
+
+  # Enable fail2ban by default
+  # https://github.com/fail2ban/fail2ban
+  services.fail2ban.enable = true;
 }

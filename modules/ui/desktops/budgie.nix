@@ -5,9 +5,7 @@ let
 in
 {
   options = {
-    aux.system.ui.desktops.budgie.enable = lib.mkEnableOption (
-      lib.mdDoc "Enables the Budgie desktop environment."
-    );
+    aux.system.ui.desktops.budgie.enable = lib.mkEnableOption "Enables the Budgie desktop environment.";
   };
 
   config = lib.mkIf cfg.enable {

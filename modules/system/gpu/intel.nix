@@ -10,7 +10,7 @@ let
 in
 {
   options = {
-    aux.system.gpu.intel.enable = lib.mkEnableOption (lib.mdDoc "Enables Intel GPU support.");
+    aux.system.gpu.intel.enable = lib.mkEnableOption "Enables Intel GPU support.";
   };
 
   config = lib.mkIf cfg.enable {
@@ -19,26 +19,28 @@ in
 
     environment.variables.VDPAU_DRIVER = "va_gl";
 
-    hardware.opengl.extraPackages = with pkgs; [
-      (
-        if (lib.versionOlder (lib.versions.majorMinor lib.version) "23.11") then
-          vaapiIntel
-        else
-          intel-vaapi-driver
-      )
-      libvdpau-va-gl
-      intel-media-driver
-    ];
+    hardware.opengl = {
+      extraPackages = with pkgs; [
+        (
+          if (lib.versionOlder (lib.versions.majorMinor lib.version) "23.11") then
+            vaapiIntel
+          else
+            intel-vaapi-driver
+        )
+        libvdpau-va-gl
+        intel-media-driver
+      ];
 
-    hardware.opengl.extraPackages32 = with pkgs.driversi686Linux; [
-      (
-        if (lib.versionOlder (lib.versions.majorMinor lib.version) "23.11") then
-          vaapiIntel
-        else
-          intel-vaapi-driver
-      )
-      libvdpau-va-gl
-      intel-media-driver
-    ];
+      extraPackages32 = with pkgs.driversi686Linux; [
+        (
+          if (lib.versionOlder (lib.versions.majorMinor lib.version) "23.11") then
+            vaapiIntel
+          else
+            intel-vaapi-driver
+        )
+        libvdpau-va-gl
+        intel-media-driver
+      ];
+    };
   };
 }

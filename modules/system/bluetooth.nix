@@ -13,7 +13,7 @@ in
 
   options = {
     aux.system.bluetooth = {
-      enable = lib.mkEnableOption (lib.mdDoc "Enables bluetooth");
+      enable = lib.mkEnableOption "Enables bluetooth.";
     };
   };
 

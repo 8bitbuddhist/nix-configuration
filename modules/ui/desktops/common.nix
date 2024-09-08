@@ -12,7 +12,7 @@ in
 {
   options = {
     aux.system.ui.desktops = {
-      enable = lib.mkEnableOption (lib.mdDoc "Enables base desktop environment support.");
+      enable = lib.mkEnableOption "Enables base desktop environment support.";
       xkb = lib.mkOption {
         description = "The keyboard layout to use by default. Defaults to us.";
         type = lib.types.attrs;

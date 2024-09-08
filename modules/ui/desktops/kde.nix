@@ -12,8 +12,8 @@ in
 {
   options = {
     aux.system.ui.desktops.kde = {
-      enable = lib.mkEnableOption (lib.mdDoc "Enables the KDE Desktop Environment.");
-      useX11 = lib.mkEnableOption (lib.mdDoc "Uses X11 instead of Wayland.");
+      enable = lib.mkEnableOption "Enables the KDE Desktop Environment.";
+      useX11 = lib.mkEnableOption "Uses X11 instead of Wayland.";
     };
   };
 

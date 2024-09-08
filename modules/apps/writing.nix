@@ -10,7 +10,7 @@ let
 in
 {
   options = {
-    aux.system.apps.writing.enable = lib.mkEnableOption (lib.mdDoc "Enables writing and editing tools");
+    aux.system.apps.writing.enable = lib.mkEnableOption "Enables writing and editing tools";
   };
 
   config = lib.mkIf cfg.enable {

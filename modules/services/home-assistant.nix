@@ -11,7 +11,7 @@ in
 {
   options = {
     aux.system.services.home-assistant = {
-      enable = lib.mkEnableOption (lib.mdDoc "Enables Home Assistant.");
+      enable = lib.mkEnableOption "Enables Home Assistant.";
       domain = lib.mkOption {
         default = "";
         type = lib.types.str;

@@ -6,9 +6,7 @@ in
 {
   options = {
     aux.system.services.acme = {
-      enable = lib.mkEnableOption (
-        lib.mdDoc "Enable the ACME client (for Let's Encrypt TLS certificates)."
-      );
+      enable = lib.mkEnableOption "Enable the ACME client (for Let's Encrypt TLS certificates).";
       certs = lib.mkOption {
         default = { };
         type = lib.types.attrs;

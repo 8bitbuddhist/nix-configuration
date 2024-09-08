@@ -5,9 +5,7 @@ let
 in
 {
   options = {
-    aux.system.ui.desktops.xfce.enable = lib.mkEnableOption (
-      lib.mdDoc "Enables the XFCE desktop environment."
-    );
+    aux.system.ui.desktops.xfce.enable = lib.mkEnableOption "Enables the XFCE desktop environment.";
   };
 
   config = lib.mkIf cfg.enable {

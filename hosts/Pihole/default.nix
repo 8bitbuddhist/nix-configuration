@@ -12,7 +12,17 @@ in
   imports = [ ./hardware-configuration.nix ];
 
   system.stateVersion = stateVersion;
-  networking.hostName = hostName;
+  networking = {
+    hostName = hostName;
+
+    # Connect to the network automagically
+    networkmanager.enable = lib.mkForce false;
+    wireless.networks = {
+      "${config.secrets.networking.networks.home.SSID}" = {
+        psk = "${config.secrets.networking.networks.home.password}";
+      };
+    };
+  };
 
   aux.system = {
     bootloader.enable = false; # Bootloader configured in hardware-configuration.nix
@@ -30,16 +40,4 @@ in
   };
 
   nix.distributedBuilds = true;
-
-  time.timeZone = "America/New_York";
-
-  # Connect to the network automagically
-  networking = {
-    networkmanager.enable = lib.mkForce false;
-    wireless.networks = {
-      "${config.secrets.networking.networks.home.SSID}" = {
-        psk = "${config.secrets.networking.networks.home.password}";
-      };
-    };
-  };
 }

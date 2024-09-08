@@ -12,16 +12,16 @@ in
 {
   options = {
     aux.system.services.virtualization = {
-      enable = lib.mkEnableOption (lib.mdDoc "Enables virtualization tools on this host.");
+      enable = lib.mkEnableOption "Enables virtualization tools on this host.";
       host = {
-        enable = lib.mkEnableOption (lib.mdDoc "Enables virtual machine hosting.");
+        enable = lib.mkEnableOption "Enables virtual machine hosting.";
         user = lib.mkOption {
           default = "";
           type = lib.types.str;
           description = "The default user to add as a KVM admin.";
         };
         vmBuilds = {
-          enable = lib.mkEnableOption (lib.mdDoc "Enables builds via `nixos-rebuild build-vm` on this host.");
+          enable = lib.mkEnableOption "Enables builds via `nixos-rebuild build-vm` on this host.";
           cores = lib.mkOption {
             type = lib.types.int;
             description = "How many cores to assign to `nixos-rebuild build-vm` builds. Defaults to 2.";

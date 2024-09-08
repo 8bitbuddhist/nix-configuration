@@ -46,7 +46,7 @@ in
     environment.systemPackages = cfg.corePackages ++ cfg.packages;
 
     services = {
-      # Automatically set the timezone
+      # Automatically set the timezone based on location
       automatic-timezoned.enable = true;
       geoclue2.enableDemoAgent = lib.mkForce true;
 

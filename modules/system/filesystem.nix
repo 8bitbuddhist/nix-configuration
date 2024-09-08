@@ -9,7 +9,7 @@ in
 {
   options = {
     aux.system.filesystem = {
-      enable = lib.mkEnableOption (lib.mdDoc "Enables standard BTRFS subvolumes and parameters.");
+      enable = lib.mkEnableOption "Enables standard BTRFS subvolumes and parameters.";
       partitions = {
         boot = lib.mkOption {
           type = lib.types.str;
@@ -28,7 +28,7 @@ in
         default = true;
       };
       swapFile = {
-        enable = lib.mkEnableOption (lib.mdDoc "Enables the creation of a swap file.");
+        enable = lib.mkEnableOption "Enables the creation of a swap file.";
         size = lib.mkOption {
           type = lib.types.int;
           description = "The size of the swap file to create in MB (defaults to 8192, or ~8 gigabytes).";

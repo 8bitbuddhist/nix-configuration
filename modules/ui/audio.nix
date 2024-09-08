@@ -12,10 +12,8 @@ in
 {
   options = {
     aux.system.ui.audio = {
-      enable = lib.mkEnableOption (lib.mdDoc "Enables audio.");
-      enableLowLatency = lib.mkEnableOption (
-        lib.mdDoc "Enables low-latency audio (may cause crackling) per https://wiki.nixos.org/wiki/PipeWire#Low-latency_setup."
-      );
+      enable = lib.mkEnableOption "Enables audio.";
+      enableLowLatency = lib.mkEnableOption "Enables low-latency audio (may cause crackling) per https://wiki.nixos.org/wiki/PipeWire#Low-latency_setup.";
     };
   };
 
@@ -29,10 +27,12 @@ in
 
     services.pipewire = {
       enable = true;
-      alsa.enable = true;
-      alsa.support32Bit = true;
       pulse.enable = true;
       jack.enable = true;
+      alsa = {
+        enable = true;
+        support32Bit = true;
+      };
 
       # Reduce audio latency per https://wiki.nixos.org/wiki/PipeWire#Low-latency_setup
       extraConfig.pipewire = lib.mkIf cfg.enableLowLatency {

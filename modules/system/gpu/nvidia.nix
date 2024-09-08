@@ -11,12 +11,10 @@ in
 {
   options = {
     aux.system.gpu.nvidia = {
-      enable = lib.mkEnableOption (lib.mdDoc "Enables Nvidia GPU support.");
+      enable = lib.mkEnableOption "Enables Nvidia GPU support.";
       hybrid = {
-        enable = lib.mkEnableOption (lib.mdDoc "Enables hybrid GPU support.");
-        sync = lib.mkEnableOption (
-          lib.mdDoc "Enables sync mode for faster performance at the cost of higher battery usage."
-        );
+        enable = lib.mkEnableOption "Enables hybrid GPU support.";
+        sync = lib.mkEnableOption "Enables sync mode for faster performance at the cost of higher battery usage.";
         busIDs = {
           nvidia = lib.mkOption {
             description = "The bus ID for your Nvidia GPU.";
@@ -57,24 +55,25 @@ in
     aux.system.allowUnfree = true;
 
     services.xserver.videoDrivers = lib.mkDefault [ "nvidia" ];
-    hardware.opengl.extraPackages = with pkgs; [ vaapiVdpau ];
+    hardware = {
+      opengl.extraPackages = with pkgs; [ vaapiVdpau ];
+      nvidia = {
+        modesetting.enable = true;
+        nvidiaSettings = config.aux.system.ui.desktops.enable;
+        package = config.boot.kernelPackages.nvidiaPackages.stable;
+        prime = lib.mkIf cfg.hybrid.enable {
 
-    hardware.nvidia = {
-      modesetting.enable = true;
-      nvidiaSettings = config.aux.system.ui.desktops.enable;
-      package = config.boot.kernelPackages.nvidiaPackages.stable;
-      prime = lib.mkIf cfg.hybrid.enable {
+          offload = lib.mkIf (!cfg.hybrid.sync) {
+            enable = true;
+            enableOffloadCmd = true; # Provides `nvidia-offload` command.
+          };
 
-        offload = lib.mkIf (!cfg.hybrid.sync) {
-          enable = true;
-          enableOffloadCmd = true; # Provides `nvidia-offload` command.
+          sync.enable = cfg.hybrid.sync;
+
+          nvidiaBusId = cfg.hybrid.busIDs.nvidia;
+          intelBusId = cfg.hybrid.busIDs.intel;
+          amdgpuBusId = cfg.hybrid.busIDs.amd;
         };
-
-        sync.enable = cfg.hybrid.sync;
-
-        nvidiaBusId = cfg.hybrid.busIDs.nvidia;
-        intelBusId = cfg.hybrid.busIDs.intel;
-        amdgpuBusId = cfg.hybrid.busIDs.amd;
       };
     };
   };

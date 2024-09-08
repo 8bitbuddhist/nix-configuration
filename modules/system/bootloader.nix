@@ -21,8 +21,8 @@ in
         default = true;
       };
 
-      secureboot.enable = lib.mkEnableOption (lib.mdDoc "Enables Secureboot support.");
-      tpm2.enable = lib.mkEnableOption (lib.mdDoc "Enables TPM2 support.");
+      secureboot.enable = lib.mkEnableOption "Enables Secureboot support (please read the README before enabling!).";
+      tpm2.enable = lib.mkEnableOption "Enables TPM2 support.";
     };
   };
 
@@ -34,8 +34,10 @@ in
           bootspec.enable = true;
 
           # Use Lanzaboote in place of systemd-boot.
-          loader.systemd-boot.enable = false;
-          loader.efi.canTouchEfiVariables = true;
+          loader = {
+            systemd-boot.enable = false;
+            efi.canTouchEfiVariables = true;
+          };
           lanzaboote = {
             enable = true;
             pkiBundle = "/etc/secureboot";
@@ -46,9 +48,8 @@ in
       # Set up TPM if enabled. See https://wiki.nixos.org/wiki/TPM
       (lib.mkIf (cfg.tpm2.enable) {
         boot.initrd = {
-          # Enable systemd for TPM auto-unlocking
+          # Enable modules and support for TPM auto-unlocking
           systemd.enable = true;
-
           availableKernelModules = [ "tpm_crb" ];
           kernelModules = [ "tpm_crb" ];
         };

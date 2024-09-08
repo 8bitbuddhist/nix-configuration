@@ -12,10 +12,6 @@ in
   networking.hostName = hostName;
 
   ###*** Configure your system below this line. ***###
-  # Set your time zone.
-  #   To see all available timezones, run `timedatectl list-timezones`.
-  time.timeZone = "America/New_York";
-
   # Configure the system.
   aux.system = {
     # Enable to allow unfree (e.g. closed source) packages.

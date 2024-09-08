@@ -62,16 +62,6 @@ in
             username = "aires";
             homeDirectory = "/home/aires";
 
-            # Install extra packages, specifically gnome extensions
-            packages = lib.mkIf config.aux.system.ui.desktops.gnome.enable [
-              pkgs.gnomeExtensions.wallpaper-slideshow
-            ];
-
-            # Set environment variables
-            sessionVariables = {
-              KUBECONFIG = "/home/aires/.kube/config";
-            };
-
             # Create .face file
             file.".face".source = ./face.png;
           };
@@ -114,19 +104,6 @@ in
               loginExtra = "fastfetch";
             };
           };
-
-          # Gnome settings specific to aires on Shura
-          /*
-            dconf.settings = lib.mkIf (config.networking.hostName == "Shura") {
-              "org/gnome/desktop/interface" = {
-                # Increase font scaling;
-                text-scaling-factor = 1.3;
-
-                # Dark mode
-                color-scheme = "prefer-dark";
-              };
-            };
-          */
         };
       }
 

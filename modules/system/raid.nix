@@ -19,6 +19,27 @@ in
         ARRAY /dev/md/Sapana metadata=1.2 UUID=51076daf:efdb34dd:bce48342:3b549fcb
         MAILADDR ${config.secrets.users.aires.email}
       '';
+
+      # Automatically scrub the array monthly
+      systemd = {
+        services."raid-scrub" = {
+          description = "Periodically scrub RAID volumes for errors.";
+          serviceConfig = {
+            Type = "oneshot";
+            User = "root";
+          };
+          script = "echo check > /sys/block/md127/md/sync_action";
+        };
+        timers."raid-scrub" = {
+          description = "Periodically scrub RAID volumes for errors.";
+          wantedBy = [ "timers.target" ];
+          timerConfig = {
+            OnCalendar = "monthly";
+            Persistent = true;
+            Unit = "raid-scrub.service";
+          };
+        };
+      };
     })
   ];
 }

@@ -29,9 +29,7 @@ in
           }
         ];
       };
-      useBindFS = lib.mkEnableOption {
-        description = "Whether to use a BindFS mount to support custom themes and cursors. May cause performance issues.";
-      };
+      useBindFS = lib.mkEnableOption "Whether to use a BindFS mount to support custom themes and cursors. May cause performance issues.";
     };
   };
 

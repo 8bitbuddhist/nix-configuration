@@ -10,9 +10,7 @@ let
 in
 {
   options = {
-    aux.system.services.boinc.enable = lib.mkEnableOption (
-      lib.mdDoc "Enables BOINC distributed computing service."
-    );
+    aux.system.services.boinc.enable = lib.mkEnableOption "Enables BOINC distributed computing service.";
   };
 
   config = lib.mkIf cfg.enable {

@@ -24,7 +24,7 @@ in
 {
   options = {
     aux.system.services.forgejo = {
-      enable = lib.mkEnableOption (lib.mdDoc "Enables Forgejo Git hosting service.");
+      enable = lib.mkEnableOption "Enables Forgejo Git hosting service.";
       domain = lib.mkOption {
         default = "/var/lib/forgejo";
         type = lib.types.str;
@@ -44,7 +44,7 @@ in
         example = "https://forgejo.example.com";
       };
       actions = {
-        enable = lib.mkEnableOption (lib.mdDoc "Enables a local Forgejo Actions runner.");
+        enable = lib.mkEnableOption "Enables a local Forgejo Actions runner.";
         token = lib.mkOption {
           default = "";
           type = lib.types.str;

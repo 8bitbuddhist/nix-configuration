@@ -37,10 +37,6 @@ in
   networking.hostName = hostName;
 
   ###*** Configure your system below this line. ***###
-  # Set your time zone.
-  #   To see all available timezones, run `timedatectl list-timezones`.
-  time.timeZone = "America/New_York";
-
   # Build Nix packages for other hosts.
   # Runs every day at 4 AM
   systemd = {
@@ -87,6 +83,7 @@ in
     # Enable GPU support.
     gpu.amd.enable = true;
 
+    # Install script to get the system up and running after boot.
     packages = [ start-services ];
 
     # Enable support for primary RAID array

@@ -10,7 +10,7 @@ in
 {
   options = {
     aux.system.services.airsonic = {
-      enable = lib.mkEnableOption (lib.mdDoc "Enables Airsonic Advanced media streaming service.");
+      enable = lib.mkEnableOption "Enables Airsonic Advanced media streaming service.";
       home = lib.mkOption {
         default = "/var/lib/airsonic";
         type = lib.types.str;

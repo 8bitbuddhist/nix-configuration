@@ -6,7 +6,7 @@ in
 {
   options = {
     aux.system.services.ssh = {
-      enable = lib.mkEnableOption (lib.mdDoc "Enables SSH server.");
+      enable = lib.mkEnableOption "Enables SSH server.";
       ports = lib.mkOption {
         default = [ 22 ];
         type = lib.types.listOf lib.types.int;
