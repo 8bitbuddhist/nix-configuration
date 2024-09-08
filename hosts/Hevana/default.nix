@@ -35,6 +35,10 @@ in
   networking.hostName = hostName;
 
   ###*** Configure your system below this line. ***###
+  # Set your time zone.
+  #   To see all available timezones, run `timedatectl list-timezones`.
+  time.timeZone = "America/New_York";
+
   # Build Nix packages for other hosts.
   # Runs every day at 4 AM
   systemd = {

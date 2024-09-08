@@ -27,10 +27,7 @@ in
       fileSystems."/storage" = {
         device = "/dev/mapper/storage";
         # Keep booting even if the array fails to unlock
-        options = [
-          "nofail"
-          "x-systemd.device-timeout=5s"
-        ];
+        options = [ "nofail" ];
       };
 
       # Automatically scrub the array monthly
