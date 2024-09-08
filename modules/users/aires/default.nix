@@ -140,7 +140,7 @@ in
             ];
           };
 
-          systemd.user.services."syncthing".unitConfig.requiresMountsFor = cfg.services.syncthing.home;
+          systemd.user.services."syncthing".Unit.RequiresMountsFor = cfg.services.syncthing.home;
         };
       })
     ]
