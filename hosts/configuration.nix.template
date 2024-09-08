@@ -34,7 +34,7 @@ in
       enable = true;
       services.syncthing = {
         enable = true;
-        autostart = true;
+        home = "/home/aires/.config/syncthing";
       };
     };
   };

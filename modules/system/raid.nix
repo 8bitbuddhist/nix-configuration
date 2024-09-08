@@ -20,6 +20,19 @@ in
         MAILADDR ${config.secrets.users.aires.email}
       '';
 
+      # Auto-unlock RAID array with a key file
+      environment.etc."crypttab".text = ''
+        storage /dev/md/Sapana ${config.secrets.devices.storage.keyFile.path} nofail,keyfile-timeout=5s
+      '';
+      fileSystems."/storage" = {
+        device = "/dev/mapper/storage";
+        # Keep booting even if the array fails to unlock
+        options = [
+          "nofail"
+          "x-systemd.device-timeout=5s"
+        ];
+      };
+
       # Automatically scrub the array monthly
       systemd = {
         services."raid-scrub" = {

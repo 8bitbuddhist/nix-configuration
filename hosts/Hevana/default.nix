@@ -7,8 +7,6 @@ let
 
   # Where to store service files
   services-root = "/storage/services";
-  # Script to start services
-  start-services = pkgs.writeShellScriptBin "start-services" (builtins.readFile ./start-services.sh);
 
   # Credentials for interacting with the Namecheap API
   namecheapCredentials = {
@@ -82,9 +80,6 @@ in
 
     # Enable GPU support.
     gpu.amd.enable = true;
-
-    # Install script to get the system up and running after boot.
-    packages = [ start-services ];
 
     # Enable support for primary RAID array
     raid.storage.enable = true;
@@ -168,7 +163,6 @@ in
       };
       nginx = {
         enable = true;
-        autostart = false;
         virtualHosts = {
           "${config.secrets.networking.domains.primary}" = {
             default = true;
@@ -214,7 +208,7 @@ in
       services = {
         syncthing = {
           enable = true;
-          autostart = false;
+          home = "${services-root}/syncthing/aires";
         };
       };
     };

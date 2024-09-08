@@ -17,10 +17,10 @@ in
       services.syncthing = {
         enable = lib.mkEnableOption "Enables Syncthing";
         enableTray = lib.mkEnableOption "Enables the Syncthing Tray application";
-        autostart = lib.mkOption {
-          default = true;
-          type = lib.types.bool;
-          description = "Whether to auto-start Syncthing on boot";
+        home = lib.mkOption {
+          default = "${config.users.users.gremlin.home}/.config/syncthing";
+          type = lib.types.str;
+          description = "Where to store Syncthing's configuration files";
         };
       };
     };
@@ -126,15 +126,12 @@ in
           enable = true;
           extraOptions = [
             "--gui-address=0.0.0.0:8081"
-            "--home=${config.users.users.gremlin.home}/.config/syncthing"
+            "--home=${cfg.services.syncthing.home}"
             "--no-default-folder"
           ];
         };
 
-        # Override the default Syncthing settings so it doesn't start on boot
-        systemd.user.services."syncthing" = lib.mkIf (!cfg.services.syncthing.autostart) {
-          wantedBy = lib.mkForce { };
-        };
+        systemd.user.services."syncthing".unitConfig.requiresMountsFor = cfg.services.syncthing.home;
       };
     })
   ];

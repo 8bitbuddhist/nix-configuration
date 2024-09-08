@@ -170,7 +170,6 @@ in
       };
       nginx = {
         enable = true;
-        autostart = false;
         virtualHosts = {
           "${config.secrets.networking.domains.primary}" = {
             default = true;
@@ -219,7 +218,7 @@ in
       services = {
         syncthing = {
           enable = true;
-          autostart = false;
+          home = "${services-root}/syncthing/aires";
         };
       };
     };

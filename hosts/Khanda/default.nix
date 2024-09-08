@@ -76,12 +76,7 @@ in
 
     users.aires = {
       enable = true;
-      services = {
-        syncthing = {
-          enable = true;
-          autostart = true;
-        };
-      };
+      services.syncthing.enable = true;
     };
   };
 

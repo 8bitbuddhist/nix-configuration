@@ -6,7 +6,6 @@ in
 {
   options = {
     aux.system.services.nginx = {
-      autostart = lib.mkEnableOption "Whether to autostart Nginx at boot.";
       enable = lib.mkEnableOption "Enable the Nginx web server.";
 
       virtualHosts = lib.mkOption {
@@ -37,8 +36,5 @@ in
         443
       ];
     };
-
-    # Disable autostart if configured
-    systemd.services.nginx = lib.mkIf (!cfg.autostart) { wantedBy = lib.mkForce [ ]; };
   };
 }
