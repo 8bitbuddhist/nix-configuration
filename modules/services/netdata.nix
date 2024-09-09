@@ -50,14 +50,7 @@ in
     (lib.mkIf (cfg.enable && cfg.type == "parent") {
       services = {
         nginx.virtualHosts."${cfg.url}" = {
-          useACMEHost =
-            let
-              parsedURL = (lib.strings.splitString "." cfg.url);
-            in
-            builtins.concatStringsSep "." [
-              (builtins.elemAt parsedURL 1)
-              (builtins.elemAt parsedURL 2)
-            ];
+          useACMEHost = pkgs.util.getDomainFromURL cfg.url;
           forceSSL = true;
           basicAuth = {
             "${cfg.auth.user}" = cfg.auth.password;

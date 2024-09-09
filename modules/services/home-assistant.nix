@@ -1,4 +1,9 @@
-{ config, lib, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 
 let
   cfg = config.aux.system.services.home-assistant;
@@ -49,14 +54,7 @@ in
         };
       };
       nginx.virtualHosts."${cfg.url}" = {
-        useACMEHost =
-          let
-            parsedURL = (lib.strings.splitString "." cfg.url);
-          in
-          builtins.concatStringsSep "." [
-            (builtins.elemAt parsedURL 1)
-            (builtins.elemAt parsedURL 2)
-          ];
+        useACMEHost = pkgs.util.getDomainFromURL cfg.url;
         forceSSL = true;
         locations."/" = {
           proxyPass = "http://[::1]:8123";
