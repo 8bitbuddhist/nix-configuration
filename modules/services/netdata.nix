@@ -28,12 +28,6 @@ in
           description = "API key for streaming data from a child to a parent.";
         };
       };
-      domain = lib.mkOption {
-        default = "";
-        type = lib.types.str;
-        description = "The root domain that Netdata will be hosted on.";
-        example = "example.com";
-      };
       type = lib.mkOption {
         default = "parent";
         type = lib.types.enum [
@@ -56,7 +50,14 @@ in
     (lib.mkIf (cfg.enable && cfg.type == "parent") {
       services = {
         nginx.virtualHosts."${cfg.url}" = {
-          useACMEHost = cfg.domain;
+          useACMEHost =
+            let
+              parsedURL = (lib.strings.splitString "." cfg.url);
+            in
+            builtins.concatStringsSep "." [
+              (builtins.elemAt parsedURL 1)
+              (builtins.elemAt parsedURL 2)
+            ];
           forceSSL = true;
           basicAuth = {
             "${cfg.auth.user}" = cfg.auth.password;

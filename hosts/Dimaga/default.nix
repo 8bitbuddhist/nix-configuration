@@ -137,7 +137,6 @@ in
       deluge = {
         enable = true;
         home = "${services-root}/deluge";
-        domain = config.secrets.networking.domains.primary;
         url = config.secrets.services.deluge.url;
       };
       duplicacy-web = {
@@ -147,7 +146,6 @@ in
       forgejo = {
         enable = true;
         home = "${services-root}/forgejo";
-        domain = config.secrets.networking.domains.primary;
         url = config.secrets.services.forgejo.url;
         actions = {
           enable = true;
@@ -157,13 +155,11 @@ in
       jellyfin = {
         enable = true;
         home = "${services-root}/jellyfin";
-        domain = config.secrets.networking.domains.primary;
         url = config.secrets.services.jellyfin.url;
       };
       msmtp.enable = true;
       netdata = {
         enable = true;
-        domain = config.secrets.networking.domains.primary;
         type = "parent";
         url = config.secrets.services.netdata.url;
         auth = {

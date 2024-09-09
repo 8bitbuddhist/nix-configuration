@@ -25,12 +25,6 @@ in
   options = {
     aux.system.services.forgejo = {
       enable = lib.mkEnableOption "Enables Forgejo Git hosting service.";
-      domain = lib.mkOption {
-        default = "/var/lib/forgejo";
-        type = lib.types.str;
-        description = "The root domain that Forgejo will be hosted on.";
-        example = "example.com";
-      };
       home = lib.mkOption {
         default = "";
         type = lib.types.str;
@@ -63,7 +57,14 @@ in
       forgejo = {
         enable = true;
         settings.server = {
-          DOMAIN = cfg.domain;
+          DOMAIN =
+            let
+              parsedURL = (lib.strings.splitString "." cfg.url);
+            in
+            builtins.concatStringsSep "." [
+              (builtins.elemAt parsedURL 1)
+              (builtins.elemAt parsedURL 2)
+            ];
           ROOT_URL = cfg.url;
           HTTP_PORT = 3000;
         };
@@ -71,7 +72,14 @@ in
       } // lib.optionalAttrs (cfg.home != null) { stateDir = cfg.home; };
 
       nginx.virtualHosts."${cfg.url}" = {
-        useACMEHost = cfg.domain;
+        useACMEHost =
+          let
+            parsedURL = (lib.strings.splitString "." cfg.url);
+          in
+          builtins.concatStringsSep "." [
+            (builtins.elemAt parsedURL 1)
+            (builtins.elemAt parsedURL 2)
+          ];
         forceSSL = true;
         locations."/" = {
           proxyPass = "http://127.0.0.1:3000";

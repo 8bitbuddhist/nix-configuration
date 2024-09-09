@@ -1,9 +1,4 @@
-{
-  config,
-  lib,
-  pkgs,
-  ...
-}:
+{ config, lib, ... }:
 
 let
   cfg = config.aux.system.services.home-assistant;
@@ -12,12 +7,6 @@ in
   options = {
     aux.system.services.home-assistant = {
       enable = lib.mkEnableOption "Enables Home Assistant.";
-      domain = lib.mkOption {
-        default = "";
-        type = lib.types.str;
-        description = "The root domain that Home Assistant will be hosted on.";
-        example = "example.com";
-      };
       home = lib.mkOption {
         default = "/etc/home-assistant";
         type = lib.types.str;
@@ -60,7 +49,14 @@ in
         };
       };
       nginx.virtualHosts."${cfg.url}" = {
-        useACMEHost = cfg.domain;
+        useACMEHost =
+          let
+            parsedURL = (lib.strings.splitString "." cfg.url);
+          in
+          builtins.concatStringsSep "." [
+            (builtins.elemAt parsedURL 1)
+            (builtins.elemAt parsedURL 2)
+          ];
         forceSSL = true;
         locations."/" = {
           proxyPass = "http://[::1]:8123";
