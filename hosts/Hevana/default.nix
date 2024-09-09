@@ -114,8 +114,8 @@ in
         configText = builtins.readFile ./etc/apcupsd.conf;
       };
       autoUpgrade = {
-        enable = false; # Don't update the system...
-        pushUpdates = true; # ...but do push updates remotely.
+        enable = true;
+        pushUpdates = true; # Update automatically and push updates back up to Forgejo
         configDir = config.secrets.nixConfigFolder;
         onCalendar = "daily";
         user = config.users.users.aires.name;

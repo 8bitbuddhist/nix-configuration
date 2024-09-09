@@ -2,7 +2,6 @@
   pkgs,
   config,
   lib,
-  self,
   ...
 }:
 let
@@ -79,7 +78,7 @@ in
 
       jellyfin = {
         enable = true;
-        dataDir = lib.mkIf (cfg.home != "") cfg.home;
+        dataDir = cfg.home;
         group = "media";
         package = jellyfin-audio-save;
       };
