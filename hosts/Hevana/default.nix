@@ -191,6 +191,11 @@ in
         enable = true;
         ports = [ config.secrets.hosts.dimaga.ssh.port ];
       };
+      transmission = {
+        enable = false;
+        home = "${services-root}/transmission";
+        url = config.secrets.services.transmission.url;
+      };
       virtualization.host = {
         enable = true;
         user = "aires";
