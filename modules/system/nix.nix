@@ -46,11 +46,8 @@ in
           [ aires.name ] ++ lib.optionals (config.aux.system.users.gremlin.enable) [ gremlin.name ];
       };
 
-      # Enable periodic nix store optimization
-      optimise = {
-        automatic = true;
-        dates = [ "daily" ];
-      };
+      # Optimize the Nix store on each build
+      settings.auto-optimise-store = true;
       # Enable garbage collection
       gc = {
         automatic = true;
