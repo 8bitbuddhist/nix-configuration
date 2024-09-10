@@ -105,7 +105,7 @@ in
     # NOTE: Results in a kernel panic on 6.10 kernels. See https://github.com/linux-surface/linux-surface/issues/1516
     # ALSO: This causes a build failure on NixOS anyway. ee https://github.com/NixOS/nixpkgs/issues/303067
     ipu6 = {
-      enable = false;
+      enable = true;
       platform = "ipu6ep";
     };
   };

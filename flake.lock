@@ -378,11 +378,10 @@
     "secrets": {
       "flake": false,
       "locked": {
+        "dirtyRev": "9821d2162d2e2ee58ff65e12c986ef3a8f105058-dirty",
+        "dirtyShortRev": "9821d21-dirty",
         "lastModified": 1725996724,
-        "narHash": "sha256-/qG2amIN/cMpkCXAM1/ThYeJgEt4Ik+gv/YOkyVa0kg=",
-        "ref": "refs/heads/main",
-        "rev": "9821d2162d2e2ee58ff65e12c986ef3a8f105058",
-        "revCount": 71,
+        "narHash": "sha256-xL7dP5DVkG56pbY9wSJ8v9gpCjtA7UfXC6MwttF8teE=",
         "type": "git",
         "url": "file:./secrets"
       },

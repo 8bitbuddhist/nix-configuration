@@ -26,6 +26,7 @@ let
     home-assistant.url
     jellyfin.url
     netdata.url
+    transmission.url
   ];
 in
 {
@@ -192,9 +193,13 @@ in
         ports = [ config.secrets.hosts.dimaga.ssh.port ];
       };
       transmission = {
-        enable = false;
+        enable = true;
         home = "${services-root}/transmission";
         url = config.secrets.services.transmission.url;
+        auth = {
+          user = config.users.users.aires.name;
+          password = config.secrets.services.transmission.password;
+        };
       };
       virtualization.host = {
         enable = true;

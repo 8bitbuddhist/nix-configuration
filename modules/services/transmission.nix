@@ -17,6 +17,18 @@ in
         type = lib.types.str;
         description = "Where to store Transmission's files";
       };
+      auth = {
+        user = lib.mkOption {
+          default = "transmission";
+          type = lib.types.str;
+          description = "Username for basic auth.";
+        };
+        password = lib.mkOption {
+          default = "transmission";
+          type = lib.types.str;
+          description = "Password for basic auth.";
+        };
+      };
       url = lib.mkOption {
         default = "";
         type = lib.types.str;
@@ -32,6 +44,9 @@ in
       nginx.virtualHosts."${cfg.url}" = {
         useACMEHost = pkgs.util.getDomainFromURL cfg.url;
         forceSSL = true;
+        basicAuth = {
+          "${cfg.auth.user}" = cfg.auth.password;
+        };
         locations."/" = {
           proxyPass = "http://127.0.0.1:9091";
           extraConfig = ''
@@ -48,6 +63,7 @@ in
       transmission = {
         enable = true;
         home = cfg.home;
+        downloadDirPermissions = "770"; # Required. See https://github.com/NixOS/nixpkgs/issues/183429#issuecomment-1648371683
       };
     };
 
