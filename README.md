@@ -9,7 +9,7 @@ A full set of configuration files managed via NixOS. This project is an **unoffi
 
 ### Note on secrets management
 
-Secrets are stored in a separate repo called `nix-secrets`, which is included here as a flake input. This is a poor man's secret management solution, but y'know what, it works. These "secrets" will be readable to users on the system with access to the `/nix/store/`, but for single-user systems, it's fine.
+Secrets are stored in a separate repo called `secrets`, which is included here as a flake input. This is a poor man's secret management solution, but y'know what, it works. These "secrets" will be readable to users on the system with access to the `/nix/store/`, but for single-user systems, it's fine.
 
 Initialize the submodule with:
 
@@ -19,7 +19,7 @@ git submodule update --init --recursive
 
 ### First-time installation
 
-When installing on a brand new system, use `bin/format-drives.sh` to format the main drive with an unencrypted boot partition and a LUKS-encrypted BTRFS partition. This also creates a `hardware-configuration.nix` file.
+When installing on a brand new system, partition the main drive into two partitions: a `/boot` partition, and a LUKS partition. Then, run `bin/format-drives.sh --root [root partition] --luks [luks partition]`. This also creates a `hardware-configuration.nix` file.
 
 ```sh
 ./bin/format-drives.sh --boot /dev/nvme0n1p1 --luks /dev/nvme0n1p2 
@@ -29,14 +29,11 @@ Next, set up the host's config under in the `hosts` folder by copying `configura
 
 Then, add the host to `flake.nix` under the `nixosConfigurations` section.
 
-Finally, run `nixos-rebuild`, replacing `host` with the name of the host:
+Finally, run the NixOS installer, replacing `host` with your actual hostname:
 
 ```sh
-nix flake update
-sudo nixos-rebuild boot --flake .#host
+nixos-install --verbose --root /mnt --flake .#host --no-root-password
 ``` 
-
-`nix flake update` updates the `flake.lock` file, which pins repositories to specific versions. Nix will then pull down any derivations it needs to meet the version.
 
 > [!TIP]
 > This config installs a [Nix wrapper called nh](https://github.com/viperML/nh). Basic install/upgrade commands can be run using `nh`, but more advanced stuff should use `nixos-rebuild`.
@@ -49,17 +46,17 @@ Automatic updates work by `git pull`ing the latest version of the repo from Forg
 
 #### Manually updating
 
-Run `nh` to update the system. Use the `--update` flag to update `flake.lock` as part of the process. After the first build, you can omit the hostname:
+Run `nh` to update the system. Use the `--update` flag to update `flake.lock` as part of the process. After the first build, you can omit the hostname and path to your flake.nix file:
 
 ```sh
-nh os boot --update
+nh os switch --update
 ```
 
 This is the equivalent of running:
 
 ```sh 
 nix flake update
-sudo nixos-rebuild boot --flake .
+sudo nixos-rebuild switch --flake .
 ```
 
 There are a few different actions for handling the update:
@@ -87,6 +84,12 @@ nix.distributedBuilds = true;
 ```
 
 For hosts where `nix.distributedBuilds` is true, this repo automatically gives the local root user SSH access to an unprivileged user on the build systems. This is configured in `nix-secrets`, but the build systems are defined in [`modules/system/nix.nix`](https://code.8bitbuddhism.com/aires/nix-configuration/src/commit/433821ef0c46f08855a041c3aa97143a954564f5/modules/system/nix.nix#L57).
+
+If you want to ensure a build happens on a remote system, you can use:
+
+```sh
+nixos-rebuild build --flake . --build-host [remote hostname]
+```
 
 ##### Pushing a build to a remote system
 

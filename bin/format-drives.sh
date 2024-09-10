@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 # Script to setup a drive for a brand new NixOS installation.
+# IMPORTANT: Before running this script, you'll need to create a LUKS partition using:
+#	cryptsetup --label=nixos-crypt --type=luks2 luksFormat [partition]
 
 set -e
 
@@ -55,7 +57,6 @@ done
 
 set -- "${POSITIONAL_ARGS[@]}" # restore positional parameters
 
-cryptsetup --label=nixos-crypt --type=luks2 luksFormat $luks_partition
 cryptsetup luksOpen $luks_partition nixos-crypt
 mkfs.btrfs -L nixos $root_partition
 mount /dev/mapper/nixos-crypt /mnt
