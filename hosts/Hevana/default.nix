@@ -120,11 +120,6 @@ in
         user = config.users.users.aires.name;
       };
       boinc.enable = true;
-      deluge = {
-        enable = true;
-        home = "${services-root}/deluge";
-        url = config.secrets.services.deluge.url;
-      };
       duplicacy-web = {
         enable = true;
         home = "/storage/backups/settings/Haven";
@@ -194,15 +189,6 @@ in
       ssh = {
         enable = true;
         ports = [ config.secrets.hosts.dimaga.ssh.port ];
-      };
-      transmission = {
-        enable = false;
-        home = "${services-root}/transmission";
-        url = config.secrets.services.transmission.url;
-        auth = {
-          user = config.users.users.aires.name;
-          password = config.secrets.services.transmission.password;
-        };
       };
       virtualization.host = {
         enable = true;
