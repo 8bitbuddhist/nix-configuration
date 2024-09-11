@@ -20,13 +20,11 @@ let
 
   # List of subdomains to add to the TLS certificate
   subdomains = with config.secrets.services; [
-    deluge.url
     forgejo.url
     gremlin-lab.url
-    home-assistant.url
     jellyfin.url
     netdata.url
-    transmission.url
+    qbittorrent.url
   ];
 in
 {
@@ -187,6 +185,11 @@ in
             };
           };
         };
+      };
+      qbittorrent = {
+        enable = true;
+        home = "${services-root}/qbittorrent";
+        url = config.secrets.services.qbittorrent.url;
       };
       ssh = {
         enable = true;
