@@ -196,7 +196,7 @@ in
         ports = [ config.secrets.hosts.dimaga.ssh.port ];
       };
       transmission = {
-        enable = true;
+        enable = false;
         home = "${services-root}/transmission";
         url = config.secrets.services.transmission.url;
         auth = {

@@ -9,7 +9,7 @@ let
   cfg = config.aux.system.services.qbittorrent;
   UID = 850;
   GID = 850;
-  package = pkgs.qbittorrent;
+  package = pkgs.qbittorrent-nox;
   port = 8080;
 in
 {
@@ -52,7 +52,7 @@ in
             proxy_set_header   X-Real-IP $remote_addr;
             proxy_set_header   X-Forwarded-Host $host;
             proxy_set_header   X-Forwarded-Server $host;
-            proxy_set_header   X-Forwarded-For $proxy_add_x_forwnoxarded_for;
+            proxy_set_header   X-Forwarded-For $proxy_add_x_forwarded_for;
           '';
         };
       };
@@ -62,7 +62,7 @@ in
       # based on the plex.nix service module and
       # https://github.com/qbittorrent/qBittorrent/blob/master/dist/unix/systemd/qbittorrent-nox%40.service.in
       description = "qBittorrent service";
-      documentation = [ "man:qbittorrent(1)" ];
+      documentation = [ "man:qbittorrent-nox(1)" ];
       after = [ "network.target" ];
       wantedBy = [ "multi-user.target" ];
       unitConfig.RequiresMountsFor = cfg.home;
