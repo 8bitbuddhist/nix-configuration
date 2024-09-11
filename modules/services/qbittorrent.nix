@@ -10,7 +10,7 @@ let
   UID = 850;
   GID = 850;
   package = pkgs.qbittorrent-nox;
-  port = 8080;
+  port = "8090";
 in
 {
   options = {
@@ -47,7 +47,7 @@ in
         useACMEHost = pkgs.util.getDomainFromURL cfg.url;
         forceSSL = true;
         locations."/" = {
-          proxyPass = "http://127.0.0.1:8080";
+          proxyPass = "http://127.0.0.1:${port}";
           extraConfig = ''
             proxy_set_header   X-Real-IP $remote_addr;
             proxy_set_header   X-Forwarded-Host $host;
@@ -87,12 +87,12 @@ in
             '';
           in
           "!${preStartScript}";
-        ExecStart = "${package}/bin/qbittorrent";
+        ExecStart = "${package}/bin/qbittorrent-nox";
       };
 
       environment = {
         QBT_PROFILE = cfg.home;
-        QBT_WEBUI_PORT = toString port;
+        QBT_WEBUI_PORT = port;
       };
     };
 
