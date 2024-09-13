@@ -1,4 +1,9 @@
-{ config, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 
 let
   # Do not change this value! This tracks when NixOS was installed on your system.
@@ -63,6 +68,9 @@ in
       };
     };
   };
+
+  # Disable NetworkManager
+  networking.networkmanager.enable = lib.mkForce false;
 
   # Configure the system.
   aux.system = {
@@ -129,7 +137,7 @@ in
         home = "${services-root}/forgejo";
         url = config.secrets.services.forgejo.url;
         actions = {
-          enable = true;
+          enable = false;
           token = config.secrets.services.forgejo.runner-token;
         };
       };
@@ -185,6 +193,11 @@ in
         enable = true;
         home = "${services-root}/qbittorrent";
         url = config.secrets.services.qbittorrent.url;
+        port = "8090";
+        vpn = {
+          enable = true;
+          privateKey = config.secrets.services.protonvpn.privateKey;
+        };
       };
       ssh = {
         enable = true;
