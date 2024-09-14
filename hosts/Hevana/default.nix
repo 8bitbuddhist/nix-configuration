@@ -127,7 +127,10 @@ in
         onCalendar = "daily";
         user = config.users.users.aires.name;
       };
-      boinc.enable = true;
+      boinc = {
+        enable = false;
+        home = "${services-root}/boinc";
+      };
       duplicacy-web = {
         enable = true;
         home = "/storage/backups/settings/Haven";
