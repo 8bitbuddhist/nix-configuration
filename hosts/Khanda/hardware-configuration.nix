@@ -17,6 +17,12 @@ in
     # NOTE: Uncomment to use a default kernel and skip full kernel rebuilds
     #kernelPackages = lib.mkForce pkgs.linuxPackages_latest;
 
+    # NOTE: Loading the camera driver results in a kernel panic on 6.10 kernels. See https://github.com/linux-surface/linux-surface/issues/1516
+    blacklistedKernelModules = [
+      "intel-ipu6"
+      "intel-ipu6-isys"
+    ];
+
     # Enable antenna aggregation
     extraModprobeConfig = ''
       options iwlwifi 11n_disable=8
@@ -101,18 +107,11 @@ in
 
   hardware = {
     cpu.intel.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;
-    # Enable camera driver
-    # NOTE: Results in a kernel panic on 6.10 kernels. See https://github.com/linux-surface/linux-surface/issues/1516
-    # ALSO: This causes a build failure on NixOS anyway. ee https://github.com/NixOS/nixpkgs/issues/303067
     ipu6 = {
       enable = true;
       platform = "ipu6ep";
     };
   };
-  boot.blacklistedKernelModules = [
-    "intel-ipu6"
-    "intel-ipu6-isys"
-  ];
 
   # Limit the number of cores Nix can use
   nix.settings.cores = 8;
