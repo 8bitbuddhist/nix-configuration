@@ -173,7 +173,7 @@ in
               return = "301 https://${config.secrets.services.forgejo.url}";
             };
           };
-          "]${config.secrets.networking.domains.blog}" = {
+          "${config.secrets.networking.domains.blog}" = {
             useACMEHost = config.secrets.networking.domains.blog;
             forceSSL = true;
             root = "${services-root}/nginx/sites/${config.secrets.networking.domains.blog}";
