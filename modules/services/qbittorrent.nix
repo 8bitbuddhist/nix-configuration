@@ -9,7 +9,6 @@ let
   cfg = config.aux.system.services.qbittorrent;
   UID = 850;
   GID = 850;
-  package = pkgs.qbittorrent-nox;
 in
 {
   options = {
