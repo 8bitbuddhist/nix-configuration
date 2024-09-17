@@ -93,7 +93,11 @@ in
     gpu.amd.enable = true;
 
     # Enable support for primary RAID array
-    raid.storage.enable = true;
+    raid.storage = {
+      enable = true;
+      keyFile = config.secrets.devices.storage.keyFile.path;
+      mailAddr = config.secrets.users.aires.email;
+    };
 
     # Change how long old generations are kept for.
     retentionPeriod = "30d";

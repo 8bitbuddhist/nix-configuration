@@ -31,6 +31,8 @@ in
       allowRemoteGuiRpc = true;
     };
 
+    systemd.services.boinc.unitConfig.RequiresMountsFor = cfg.home;
+
     # Allow connections via BOINC Manager
     networking.firewall.allowedTCPPorts = [ 31416 ];
   };
