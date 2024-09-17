@@ -154,7 +154,25 @@ in
         home = "${services-root}/jellyfin";
         url = config.secrets.services.jellyfin.url;
       };
-      msmtp.enable = true;
+      msmtp = {
+        enable = true;
+        accounts.default = {
+          host = config.secrets.services.msmtp.host;
+          user = config.secrets.services.msmtp.user;
+          password = config.secrets.services.msmtp.password;
+          auth = true;
+          tls = true;
+          tls_starttls = true;
+          port = 587;
+          from = "${config.networking.hostName}@${config.secrets.networking.domains.primary}";
+        };
+        aliases = {
+          text = ''
+            default: ${config.secrets.users.aires.email}
+          '';
+          mode = "0644";
+        };
+      };
       netdata = {
         enable = true;
         type = "parent";
