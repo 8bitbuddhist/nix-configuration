@@ -18,7 +18,10 @@ in
       allowUnfree = true;
       ui.flatpak = {
         enable = true;
-        packages = [ "com.discordapp.Discord" ];
+        packages = [
+          "com.discordapp.Discord"
+          "im.riot.Riot" # Element
+        ];
       };
     };
 

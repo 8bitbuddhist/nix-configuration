@@ -17,9 +17,9 @@ in
         };
         keyFile = lib.mkOption {
           default = "";
-          type = lib.types.path;
+          type = lib.types.str;
           description = "Path to the key file to use to auto-unlock the array.";
-          example = /home/user/storage.key;
+          example = "/home/user/storage.key";
         };
       };
     };
@@ -35,9 +35,9 @@ in
       '';
 
       # Auto-unlock RAID array with a key file
-      environment.etc."crypttab".text = lib.mkIf (cfg.storage.keyFile != "") ''
-        storage /dev/md/Sapana ${toString cfg.storage.keyFile} nofail,keyfile-timeout=5s
-      '';
+      environment.etc."crypttab" = lib.mkIf (cfg.storage.keyFile != "") {
+        text = "storage /dev/md/Sapana ${cfg.storage.keyFile} nofail,keyfile-timeout=5s";
+      };
       fileSystems."/storage" = {
         device = "/dev/mapper/storage";
         # Keep booting even if the array fails to unlock
