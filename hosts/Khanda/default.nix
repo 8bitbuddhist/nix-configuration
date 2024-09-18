@@ -55,7 +55,7 @@ in
     ui = {
       desktops.gnome = {
         enable = true;
-        tripleBuffering.enable = true;
+        experimentalFeatures.enable = true;
       };
       flatpak = {
         # Enable Flatpak support.

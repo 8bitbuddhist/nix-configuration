@@ -14,7 +14,7 @@ in
   options = {
     aux.system.ui.desktops.gnome = {
       enable = lib.mkEnableOption "Enables the Gnome Desktop Environment.";
-      tripleBuffering.enable = lib.mkEnableOption "(Experimental) Enables dynamic triple buffering";
+      experimentalFeatures.enable = lib.mkEnableOption "Enables dynamic triple buffering and fractional scaling for xwayland applications.";
     };
   };
 
@@ -102,7 +102,7 @@ in
       style = "adwaita-dark";
     };
 
-    nixpkgs.overlays = lib.mkIf cfg.tripleBuffering.enable [
+    nixpkgs.overlays = lib.mkIf cfg.experimentalFeatures.enable [
       # GNOME 46: triple-buffering-v4-46
       # For details, see https://wiki.nixos.org/wiki/GNOME#Dynamic_triple_buffering
       (final: prev: {
@@ -116,6 +116,9 @@ in
                 rev = "triple-buffering-v4-46";
                 hash = "sha256-C2VfW3ThPEZ37YkX7ejlyumLnWa9oij333d5c4yfZxc=";
               };
+
+              # Scaling patch sourced from https://aur.archlinux.org/packages/mutter-xwayland-scaling
+              patches = [ ./patches/gnome-mutter-xwayland-scaling.patch ];
             });
           }
         );

@@ -7,7 +7,8 @@
       workspaces-only-on-primary = false;
       experimental-features = [
         "scale-monitor-framebuffer" # Fractional scaling
-        "variable-refresh-rate"
+        "xwayland-native-scaling" # Related to fractional scaline
+        "variable-refresh-rate" # VRR
       ];
     };
 

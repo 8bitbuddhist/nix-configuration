@@ -108,7 +108,7 @@ in
       };
       desktops.gnome = {
         enable = true;
-        tripleBuffering.enable = true;
+        experimentalFeatures.enable = true;
       };
     };
     users = {
