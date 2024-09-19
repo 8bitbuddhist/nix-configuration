@@ -38,6 +38,13 @@
       url = "git+file:./secrets";
       flake = false;
     };
+
+    # Repository for Gnome triple buffering patch
+    # For details, see https://wiki.nixos.org/wiki/GNOME#Dynamic_triple_buffering
+    gnome-triplebuffering = {
+      url = "gitlab:vanvugt/mutter/triple-buffering-v4-46?host=gitlab.gnome.org";
+      flake = false;
+    };
   };
 
   outputs =

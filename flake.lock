@@ -131,6 +131,25 @@
         "type": "github"
       }
     },
+    "gnome-triplebuffering": {
+      "flake": false,
+      "locked": {
+        "host": "gitlab.gnome.org",
+        "lastModified": 1722924508,
+        "narHash": "sha256-C2VfW3ThPEZ37YkX7ejlyumLnWa9oij333d5c4yfZxc=",
+        "owner": "vanvugt",
+        "repo": "mutter",
+        "rev": "29a72bfb0bdb060d91196c57dc1940e5049858ed",
+        "type": "gitlab"
+      },
+      "original": {
+        "host": "gitlab.gnome.org",
+        "owner": "vanvugt",
+        "ref": "triple-buffering-v4-46",
+        "repo": "mutter",
+        "type": "gitlab"
+      }
+    },
     "home-manager": {
       "inputs": {
         "nixpkgs": [
@@ -340,6 +359,7 @@
     },
     "root": {
       "inputs": {
+        "gnome-triplebuffering": "gnome-triplebuffering",
         "home-manager": "home-manager",
         "lanzaboote": "lanzaboote",
         "lix-module": "lix-module",

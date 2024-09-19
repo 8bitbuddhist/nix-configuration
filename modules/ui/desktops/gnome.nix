@@ -1,5 +1,6 @@
 # Enables the Gnome desktop environment.
 {
+  inputs,
   pkgs,
   config,
   lib,
@@ -103,20 +104,12 @@ in
     };
 
     nixpkgs.overlays = lib.mkIf cfg.experimentalFeatures.enable [
-      # GNOME 46: triple-buffering-v4-46
-      # For details, see https://wiki.nixos.org/wiki/GNOME#Dynamic_triple_buffering
       (final: prev: {
         gnome = prev.gnome.overrideScope (
           gnomeFinal: gnomePrev: {
             mutter = gnomePrev.mutter.overrideAttrs (old: {
-              src = pkgs.fetchFromGitLab {
-                domain = "gitlab.gnome.org";
-                owner = "vanvugt";
-                repo = "mutter";
-                rev = "triple-buffering-v4-46";
-                hash = "sha256-C2VfW3ThPEZ37YkX7ejlyumLnWa9oij333d5c4yfZxc=";
-              };
-
+              # Triple buffering
+              src = inputs.gnome-triplebuffering;
               # Scaling patch sourced from https://aur.archlinux.org/packages/mutter-xwayland-scaling
               patches = [ ./patches/gnome-mutter-xwayland-scaling.patch ];
             });
