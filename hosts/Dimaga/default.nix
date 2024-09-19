@@ -51,7 +51,7 @@ in
       path = config.aux.system.corePackages;
       script = ''
         cd ${config.secrets.nixConfigFolder}
-        nh os build . --hostname Khanda
+        nixos-rebuild build --flake .#Khanda
       '';
     };
     timers."build-hosts" = {
