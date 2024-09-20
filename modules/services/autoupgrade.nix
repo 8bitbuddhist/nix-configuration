@@ -67,7 +67,8 @@ in
           # If we have changes (git diff returns 1), pull changes and run the update
           if [ $? -eq 1 ]; then
             echo "Updates found, running nixos-rebuild..."
-            /run/wrappers/bin/sudo -u ${cfg.user} git pull --recurse-submodules
+            /run/wrappers/bin/sudo -u ${cfg.user} git pull
+            /run/wrappers/bin/sudo -u ${cfg.user} git submodule update --remote
             nixos-rebuild switch --flake .
           else
             echo "No updates found. Exiting."
@@ -99,7 +100,8 @@ in
           cd ${cfg.configDir}
           # Make sure we're up-to-date
           echo "Pulling the latest version..."
-          /run/wrappers/bin/sudo -u ${cfg.user} git pull --recurse-submodules
+          /run/wrappers/bin/sudo -u ${cfg.user} git pull
+          /run/wrappers/bin/sudo -u ${cfg.user} git submodule update --remote
           /run/wrappers/bin/sudo -u ${cfg.user} nix flake update --commit-lock-file
           /run/wrappers/bin/sudo -u ${cfg.user} git push
         '';
