@@ -9,13 +9,9 @@ A full set of configuration files managed via NixOS. This project is an **unoffi
 
 ### Note on secrets management
 
-Secrets are stored in a separate repo called `secrets`, which is included here as a flake input. This is a poor man's secret management solution, but y'know what, it works. These "secrets" will be readable to users on the system with access to the `/nix/store/`, but for single-user systems, it's fine.
+Secrets are managed using [git-crypt](https://github.com/AGWA/git-crypt). To unlock the repo, use `git-crypt unlock [path to key file]`. git-crypt will transparently encrypt/decrypt files stored in `modules/secrets` going forward, but you'll need this key file on all hosts that are using secrets.
 
-Initialize the submodule with:
-
-```sh
-git submodule update --init --recursive
-```
+Note: This is a poor man's secret management solution. These secrets will be world-readable in the `/nix/store/`.
 
 ### First-time installation
 
@@ -83,7 +79,7 @@ To enable root builds on a host, add this to its config:
 nix.distributedBuilds = true;
 ```
 
-For hosts where `nix.distributedBuilds` is true, this repo automatically gives the local root user SSH access to an unprivileged user on the build systems. This is configured in `nix-secrets`, but the build systems are defined in [`modules/system/nix.nix`](https://code.8bitbuddhism.com/aires/nix-configuration/src/commit/433821ef0c46f08855a041c3aa97143a954564f5/modules/system/nix.nix#L57).
+For hosts where `nix.distributedBuilds` is true, this repo automatically gives the local root user SSH access to an unprivileged user on the build systems. This is configured in `modules/secrets.nix`, but the build systems are defined in [`modules/system/nix.nix`](https://code.8bitbuddhism.com/aires/nix-configuration/src/commit/433821ef0c46f08855a041c3aa97143a954564f5/modules/system/nix.nix#L57).
 
 If you want to ensure a build happens on a remote system, you can use:
 

@@ -366,8 +366,7 @@
         "nix-flatpak": "nix-flatpak",
         "nixos-hardware": "nixos-hardware",
         "nixpkgs": "nixpkgs_2",
-        "nixpkgs-unstable": "nixpkgs-unstable",
-        "secrets": "secrets"
+        "nixpkgs-unstable": "nixpkgs-unstable"
       }
     },
     "rust-overlay": {
@@ -393,22 +392,6 @@
         "owner": "oxalica",
         "repo": "rust-overlay",
         "type": "github"
-      }
-    },
-    "secrets": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1726240258,
-        "narHash": "sha256-kdESoz3wOmRxcSCFC7JttpR75s+2mEoK4nSW2LZxt5o=",
-        "ref": "refs/heads/main",
-        "rev": "98c890dfd160353f4f1b2490263edf3deeb43a27",
-        "revCount": 76,
-        "type": "git",
-        "url": "file:./secrets"
-      },
-      "original": {
-        "type": "git",
-        "url": "file:./secrets"
       }
     },
     "systems": {

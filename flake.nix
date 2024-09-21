@@ -33,12 +33,6 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    # "Secrets management"
-    secrets = {
-      url = "git+file:./secrets";
-      flake = false;
-    };
-
     # Repository for Gnome triple buffering patch
     # For details, see https://wiki.nixos.org/wiki/GNOME#Dynamic_triple_buffering
     gnome-triplebuffering = {
@@ -55,7 +49,6 @@
       nix-flatpak,
       nixos-hardware,
       nixpkgs,
-      secrets,
       ...
     }:
     let
@@ -69,7 +62,6 @@
       # Define shared modules and imports
       defaultModules = [
         ./modules/autoimport.nix
-        (import secrets)
         lix-module.nixosModules.default
         lanzaboote.nixosModules.lanzaboote
         nix-flatpak.nixosModules.nix-flatpak
