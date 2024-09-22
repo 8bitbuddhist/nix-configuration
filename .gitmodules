@@ -1,4 +1,0 @@
-[submodule "secrets"]
-	path = secrets
-	url = ssh://code.8bitbuddhism.com/aires/nix-secrets.git
-    branch = main

@@ -75,14 +75,7 @@ in
               enable = true;
               userName = config.secrets.users.aires.firstName;
               userEmail = config.secrets.users.aires.email;
-              extraConfig = {
-                push.autoSetupRemote = "true";
-                alias = {
-                  add = "add *";
-                  pull = "!git pull && git submodule foreach --recursive 'git pull origin main'";
-                  unstage = "reset HEAD --";
-                };
-              };
+              extraConfig.push.autoSetupRemote = "true";
             };
 
             # Set up SSH

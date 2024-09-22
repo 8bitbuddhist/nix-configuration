@@ -68,7 +68,6 @@ in
           if [ $? -eq 1 ]; then
             echo "Updates found, running nixos-rebuild..."
             /run/wrappers/bin/sudo -u ${cfg.user} git pull
-            /run/wrappers/bin/sudo -u ${cfg.user} git submodule update --remote
             nixos-rebuild switch --flake .
           else
             echo "No updates found. Exiting."
@@ -101,8 +100,9 @@ in
           # Make sure we're up-to-date
           echo "Pulling the latest version..."
           /run/wrappers/bin/sudo -u ${cfg.user} git pull
-          /run/wrappers/bin/sudo -u ${cfg.user} git submodule update --remote
+          echo "Checking for updates..."
           /run/wrappers/bin/sudo -u ${cfg.user} nix flake update --commit-lock-file
+          echo "Pushing any changes..."
           /run/wrappers/bin/sudo -u ${cfg.user} git push
         '';
       };

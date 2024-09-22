@@ -38,7 +38,7 @@ nixos-install --verbose --root /mnt --flake .#host --no-root-password
 
 All hosts are configured to run automatic daily updates (see `modules/system/system.nix`). You can disable this by adding `aux.system.services.autoUpgrade = false;` to a host's config.
 
-Automatic updates work by `git pull`ing the latest version of the repo from Forgejo. This repo gets updated nightly by [`Haven`](./hosts/Haven), which updates the `flake.lock` file and pushes it back up to Forgejo. Only one host needs to do this, and you can enable this feature on a host using `aux.system.services.autoUpgrade.pushUpdates = true;`.
+Automatic updates work by `git pull`ing the latest version of the repo from Forgejo. This repo gets updated nightly by [`Hevana`](./hosts/Hevana), which updates the `flake.lock` file and pushes it back up to Forgejo. Only one host needs to do this, and you can enable this feature on a host using `aux.system.services.autoUpgrade.pushUpdates = true;`.
 
 #### Manually updating
 
