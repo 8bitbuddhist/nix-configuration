@@ -51,4 +51,7 @@ in
       AttrKeyboardIntegration=internal
     '';
   };
+
+  # Limit the number of cores Nix can use
+  nix.settings.cores = 12;
 }

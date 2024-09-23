@@ -109,6 +109,7 @@ in
           };
         };
         # Set up streaming
+        # FIXME: Requires a non-HTTP port. See https://community.netdata.cloud/t/properly-running-parent-child-nodes/1417/4
         configDir = {
           "stream.conf" = pkgs.writeText "stream.conf" ''
             [stream]

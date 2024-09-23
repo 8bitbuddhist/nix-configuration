@@ -18,7 +18,7 @@ stdenv.mkDerivation rec {
   installPhase = ''
     runHook preInstall
 
-    install -Dm644 ${pname}-${version}/*.otf -t $out/share/fonts/opentype
+    install -m 644 -D Freight-${version}/*.otf -t $out/share/fonts/opentype
 
     runHook postInstall
   '';
