@@ -18,6 +18,7 @@ in
       experimental = {
         fractionalScaling.enable = lib.mkEnableOption "Enables fractional scaling.";
         tripleBuffering.enable = lib.mkEnableOption "Enables dynamic triple buffering for xwayland applications.";
+        vrr.enable = lib.mkEnableOption "Enables variable refresh rate (VRR).";
       };
     };
   };
@@ -35,14 +36,21 @@ in
         desktopManager.gnome = {
           enable = true;
 
-          # Enable fractional scaling
-          extraGSettingsOverrides = lib.mkIf cfg.experimental.fractionalScaling.enable ''
-                    	[org.gnome.mutter]
-            		    experimental-features=['scale-monitor-framebuffer']
+          # Enable experimental features
+          extraGSettingsOverrides = ''
+            [org.gnome.mutter]
+            experimental-features = ${
+              lib.strings.concatStrings [
+                "[ "
+                (lib.mkIf cfg.experimental.fractionalScaling.enable "'scale-monitor-framebuffer', ").content
+                (lib.mkIf cfg.experimental.vrr.enable "'variable-refresh-rate'").content
+                " ]"
+              ]
+            }
           '';
-          extraGSettingsOverridePackages = lib.mkIf cfg.experimental.fractionalScaling.enable [
-            pkgs.gnome.mutter
-          ];
+          extraGSettingsOverridePackages = lib.mkIf (
+            config.services.xserver.desktopManager.gnome.extraGSettingsOverrides != ""
+          ) [ pkgs.gnome.mutter ];
         };
         displayManager.gdm.enable = true;
       };
@@ -122,7 +130,6 @@ in
         gnome = prev.gnome.overrideScope (
           gnomeFinal: gnomePrev: {
             mutter = gnomePrev.mutter.overrideAttrs (old: {
-              # Triple buffering
               src = inputs.gnome-triplebuffering;
             });
           }

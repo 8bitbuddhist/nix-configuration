@@ -5,11 +5,6 @@
     "org/gnome/mutter" = {
       edge-tiling = true;
       workspaces-only-on-primary = false;
-      experimental-features = [
-        "scale-monitor-framebuffer" # Fractional scaling
-        "xwayland-native-scaling" # Related to fractional scaline
-        "variable-refresh-rate" # VRR
-      ];
     };
 
     "org/gnome/desktop/interface" = {
