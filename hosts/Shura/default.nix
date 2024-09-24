@@ -108,7 +108,7 @@ in
       };
       desktops.gnome = {
         enable = true;
-        experimentalFeatures.enable = true;
+        experimental.fractionalScaling.enable = true;
       };
     };
     users = {

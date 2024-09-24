@@ -15,7 +15,10 @@ in
   options = {
     aux.system.ui.desktops.gnome = {
       enable = lib.mkEnableOption "Enables the Gnome Desktop Environment.";
-      experimentalFeatures.enable = lib.mkEnableOption "Enables dynamic triple buffering and fractional scaling for xwayland applications.";
+      experimental = {
+        fractionalScaling.enable = lib.mkEnableOption "Enables fractional scaling.";
+        tripleBuffering.enable = lib.mkEnableOption "Enables dynamic triple buffering for xwayland applications.";
+      };
     };
   };
 
@@ -29,7 +32,18 @@ in
         excludePackages = [ pkgs.xterm ];
 
         # Enable Gnome
-        desktopManager.gnome.enable = true;
+        desktopManager.gnome = {
+          enable = true;
+
+          # Enable fractional scaling
+          extraGSettingsOverrides = lib.mkIf cfg.experimental.fractionalScaling.enable ''
+                    	[org.gnome.mutter]
+            		    experimental-features=['scale-monitor-framebuffer']
+          '';
+          extraGSettingsOverridePackages = lib.mkIf cfg.experimental.fractionalScaling.enable [
+            pkgs.gnome.mutter
+          ];
+        };
         displayManager.gdm.enable = true;
       };
 
@@ -103,15 +117,13 @@ in
       style = "adwaita-dark";
     };
 
-    nixpkgs.overlays = lib.mkIf cfg.experimentalFeatures.enable [
+    nixpkgs.overlays = lib.mkIf cfg.experimental.tripleBuffering.enable [
       (final: prev: {
         gnome = prev.gnome.overrideScope (
           gnomeFinal: gnomePrev: {
             mutter = gnomePrev.mutter.overrideAttrs (old: {
               # Triple buffering
               src = inputs.gnome-triplebuffering;
-              # Scaling patch sourced from https://aur.archlinux.org/packages/mutter-xwayland-scaling
-              patches = [ ./patches/gnome-mutter-xwayland-scaling.patch ];
             });
           }
         );
