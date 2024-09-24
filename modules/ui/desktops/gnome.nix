@@ -48,9 +48,7 @@ in
               ]
             }
           '';
-          extraGSettingsOverridePackages = lib.mkIf (
-            config.services.xserver.desktopManager.gnome.extraGSettingsOverrides != ""
-          ) [ pkgs.gnome.mutter ];
+          extraGSettingsOverridePackages = lib.mkIf (cfg.experimental.fractionalScaling.enable || cfg.experimental.vrr.enable) [ pkgs.gnome.mutter ];
         };
         displayManager.gdm.enable = true;
       };
