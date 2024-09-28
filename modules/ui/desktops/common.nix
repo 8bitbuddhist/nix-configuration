@@ -78,8 +78,18 @@ in
       # Enable touchpad support (enabled by default in most desktop managers, buuuut just in case).
       libinput.enable = true;
 
-      # Enable printing support.
-      printing.enable = true;
+      # Enable printing support, but disable browsed per .
+      printing = {
+        enable = true;
+        # FIXME: Once this option's available, uncomment it and remove the `systemd.services.cups-browsed` section below.
+        # browsed.enable = false;
+      };
+    };
+
+    # Disable broswed per https://discourse.nixos.org/t/cups-cups-filters-and-libppd-security-issues/52780
+    systemd.services.cups-browsed = {
+      enable = false;
+      unitConfig.Mask = true;
     };
 
     # Support for AppImage files
