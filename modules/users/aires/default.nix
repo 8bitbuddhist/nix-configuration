@@ -90,7 +90,7 @@ in
                 theme = "gentoo";
               };
               shellAliases = {
-                nos = lib.mkIf config.aux.system.nixos-upgrade-script.enable "nixos-upgrade-script";
+                nos = "nixos-upgrade-script";
                 z = "zellij";
                 update = "upgrade";
                 upgrade = "nh os boot --update --ask";
