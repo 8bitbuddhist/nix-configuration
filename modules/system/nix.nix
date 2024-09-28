@@ -1,13 +1,18 @@
 # Core Nix configuration
 {
   config,
-  lib,
   inputs,
+  lib,
+  pkgs,
   ...
 }:
 
 let
   cfg = config.aux.system;
+
+  nixos-upgrade-script = pkgs.writeShellScriptBin "nixos-upgrade-script" (
+    builtins.readFile ../../bin/nixos-upgrade-script.sh
+  );
 in
 {
   options = {
@@ -17,6 +22,17 @@ in
         description = "How long to retain NixOS generations. Defaults to one month.";
         type = lib.types.str;
         default = "monthly";
+      };
+      nixos-upgrade-script = {
+        enable = lib.mkEnableOption "Installs the nos (nixos-upgrade-script) helper script.";
+        configDir = lib.mkOption {
+          type = lib.types.str;
+          description = "Path to your NixOS configuration files.";
+        };
+        user = lib.mkOption {
+          type = lib.types.str;
+          description = "The user to run the upgrade script as.";
+        };
       };
     };
   };
@@ -37,13 +53,14 @@ in
         # Only allow these users to use Nix
         allowed-users = with config.users.users; [
           root.name
-          aires.name
+          (lib.mkIf config.aux.system.users.aires.enable aires.name)
         ];
 
         # Avoid signature verification messages when doing remote builds
-        trusted-users =
-          with config.users.users;
-          [ aires.name ] ++ lib.optionals (config.aux.system.users.gremlin.enable) [ gremlin.name ];
+        trusted-users = with config.users.users; [
+          root.name
+          (lib.mkIf config.aux.system.users.aires.enable aires.name)
+        ];
       };
 
       # Optimize the Nix store on each build
@@ -88,5 +105,7 @@ in
 
     # Support for standard, dynamically-linked executables
     programs.nix-ld.enable = true;
+
+    aux.system.packages = [ (lib.mkIf cfg.nixos-upgrade-script.enable nixos-upgrade-script) ];
   };
 }

@@ -82,6 +82,7 @@ in
           OnCalendar = cfg.onCalendar;
           Persistent = cfg.persistent;
           Unit = "nixos-upgrade.service";
+          RandomizedDelaySec = "30m";
         };
       };
     })

@@ -52,6 +52,12 @@ in
     # Enable GPU support.
     gpu.amd.enable = true;
 
+    nixos-upgrade-script = {
+      enable = true;
+      configDir = config.secrets.nixConfigFolder;
+      user = config.users.users.aires.name;
+    };
+
     packages = with pkgs; [
       boinc # Boinc client
       keepassxc # Use native instead of Flatpak due to weird performance issues
