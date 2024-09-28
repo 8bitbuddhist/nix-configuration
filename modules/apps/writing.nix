@@ -41,7 +41,7 @@ in
       # Enable Ngrams
       settings.languageModel = lib.mkIf cfg.languagetool.ngrams.enable "${
         (pkgs.callPackage ../../packages/languagetool-ngrams.nix { inherit pkgs lib; })
-      }/ngrams";
+      }/share/languagetool/ngrams";
     };
   };
 }

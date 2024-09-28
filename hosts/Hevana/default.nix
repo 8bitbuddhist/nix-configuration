@@ -158,6 +158,14 @@ in
         home = "${services-root}/jellyfin";
         url = config.secrets.services.jellyfin.url;
       };
+      languagetool = {
+        enable = true;
+        url = config.secrets.services.languagetool.url;
+        port = 8090;
+        auth.user = config.secrets.services.languagetool.auth.user;
+        auth.password = config.secrets.services.languagetool.auth.password;
+        ngrams.enable = true;
+      };
       msmtp = {
         enable = true;
         accounts.default = {
