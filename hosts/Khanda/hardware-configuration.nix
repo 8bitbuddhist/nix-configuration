@@ -61,9 +61,11 @@ in
       ];
     };
 
+    # Improve Khanda's responsiveness
     kernel.sysctl = {
-      # Try to reduce swappiness - Khanda hates paging, even to NVMe storage
-      "vm.swappiness" = 20;
+      "vm.swappiness" = 20; # Try to reduce swappiness - Khanda hates paging, even to NVMe storage
+      "vm.vfs_cache_pressure" = 50; # https://wiki.archlinux.org/title/Sysctl#VFS_cache
+      "kernel.core_pattern" = "|${pkgs.coreutils}/bin/false"; # Disable core dumps per https://wiki.archlinux.org/title/Core_dump#Using_sysctl
     };
 
     kernelModules = [
@@ -99,6 +101,12 @@ in
       size = 16384;
     };
   };
+
+  # Change I/O scheduler to Kyber to try and reduce stuttering under load.
+  # NVME supports `mq-deadline` and `kyber` schedulers
+  services.udev.extraRules = ''
+    ACTION=="add|change", KERNEL=="nvme0n1", ATTR{queue/rotational}=="0", ATTR{queue/scheduler}="kyber"
+  '';
 
   hardware = {
     cpu.intel.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;
