@@ -56,11 +56,13 @@ in
     services = {
       forgejo = {
         enable = true;
-        settings.server = {
-          DOMAIN = pkgs.util.getDomainFromURL cfg.url;
-          ROOT_URL = cfg.url;
-          HTTP_PORT = 3000;
-          REPO_INDEXER_ENABLED = true; # Enable code indexing
+        settings = {
+          server = {
+            DOMAIN = pkgs.util.getDomainFromURL cfg.url;
+            ROOT_URL = cfg.url;
+            HTTP_PORT = 3000;
+          };
+          indexer.REPO_INDEXER_ENABLED = true; # Enable code indexing
         };
         useWizard = true;
       } // lib.optionalAttrs (cfg.home != null) { stateDir = cfg.home; };
