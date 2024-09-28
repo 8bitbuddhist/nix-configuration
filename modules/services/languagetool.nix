@@ -46,13 +46,13 @@ in
     services = {
       languagetool = lib.mkIf cfg.enable {
         enable = true;
-        port = 8090;
+        port = cfg.port;
         public = true;
         allowOrigin = "*";
         # Enable Ngrams
         settings.languageModel = lib.mkIf cfg.ngrams.enable "${
           (pkgs.callPackage ../../packages/languagetool-ngrams.nix { inherit pkgs lib; })
-        }/ngrams";
+        }/share/languagetool/ngrams";
       };
       # Create Nginx virtualhost
       nginx.virtualHosts."${cfg.url}" = {
@@ -62,7 +62,7 @@ in
           "${cfg.auth.user}" = cfg.auth.password;
         };
         locations."/" = {
-          proxyPass = "http://127.0.0.1:8090";
+          proxyPass = "http://127.0.0.1:${builtins.toString cfg.port}";
           extraConfig = "proxy_ssl_server_name on;";
         };
       };

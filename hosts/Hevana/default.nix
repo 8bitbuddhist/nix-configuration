@@ -28,6 +28,7 @@ let
     forgejo.url
     gremlin-lab.url
     jellyfin.url
+    languagetool.url
     netdata.url
     qbittorrent.url
   ];
@@ -161,7 +162,7 @@ in
       languagetool = {
         enable = true;
         url = config.secrets.services.languagetool.url;
-        port = 8090;
+        port = 8100;
         auth.user = config.secrets.services.languagetool.auth.user;
         auth.password = config.secrets.services.languagetool.auth.password;
         ngrams.enable = true;
