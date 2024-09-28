@@ -196,6 +196,21 @@
         "type": "github"
       }
     },
+    "lib": {
+      "locked": {
+        "dir": "lib",
+        "lastModified": 1726973702,
+        "narHash": "sha256-3MhRNhPikBf/rfqI+z1kprqeyR8OZFgCL6G6ZTFBjR8=",
+        "rev": "d7762a5a78273ffb76da6f6902245983143f63f6",
+        "type": "tarball",
+        "url": "https://git.auxolotl.org/api/v1/repos/auxolotl/labs/archive/d7762a5a78273ffb76da6f6902245983143f63f6.tar.gz?rev=d7762a5a78273ffb76da6f6902245983143f63f6"
+      },
+      "original": {
+        "dir": "lib",
+        "type": "tarball",
+        "url": "https://git.auxolotl.org/auxolotl/labs/archive/main.tar.gz"
+      }
+    },
     "lix": {
       "flake": false,
       "locked": {
@@ -252,11 +267,11 @@
     },
     "nixos-hardware": {
       "locked": {
-        "lastModified": 1727437159,
-        "narHash": "sha256-v4qLwEw5OmprgQZTT7KZMNU7JjXJzRypw8+Cw6++fWk=",
+        "lastModified": 1727528503,
+        "narHash": "sha256-wZd8OqPeQt9h7VU2VxsW4Vx0Ze+3hDLHql3pNbIMYEU=",
         "owner": "NixOS",
         "repo": "nixos-hardware",
-        "rev": "d830ad47cc992b4a46b342bbc79694cbd0e980b2",
+        "rev": "c1f051bf032273b9f0e707c8826eb25122d279fa",
         "type": "github"
       },
       "original": {
@@ -316,11 +331,11 @@
     },
     "nixpkgs_2": {
       "locked": {
-        "lastModified": 1727264057,
-        "narHash": "sha256-KQPI8CTTnB9CrJ7LrmLC4VWbKZfljEPBXOFGZFRpxao=",
+        "lastModified": 1727397532,
+        "narHash": "sha256-pojbL/qteElw/nIXlN8kmHn/w6PQbEHr7Iz+WOXs0EM=",
         "owner": "nixos",
         "repo": "nixpkgs",
-        "rev": "759537f06e6999e141588ff1c9be7f3a5c060106",
+        "rev": "f65141456289e81ea0d5a05af8898333cab5c53d",
         "type": "github"
       },
       "original": {
@@ -362,6 +377,7 @@
         "gnome-triplebuffering": "gnome-triplebuffering",
         "home-manager": "home-manager",
         "lanzaboote": "lanzaboote",
+        "lib": "lib",
         "lix-module": "lix-module",
         "nix-flatpak": "nix-flatpak",
         "nixos-hardware": "nixos-hardware",

@@ -10,6 +10,25 @@
     nixpkgs.url = "github:nixos/nixpkgs/nixos-24.05";
     nixpkgs-unstable.url = "github:nixos/nixpkgs/nixos-unstable";
 
+    # Repository for Gnome triple buffering patch
+    # For details, see https://wiki.nixos.org/wiki/GNOME#Dynamic_triple_buffering
+    gnome-triplebuffering = {
+      url = "gitlab:vanvugt/mutter/triple-buffering-v4-46?host=gitlab.gnome.org";
+      flake = false;
+    };
+
+    # Home-manager support
+    home-manager = {
+      url = "github:nix-community/home-manager/release-24.05";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
+    # SecureBoot support
+    lanzaboote.url = "github:nix-community/lanzaboote/v0.4.1";
+
+    # Aux lib
+    lib.url = "https://git.auxolotl.org/auxolotl/labs/archive/main.tar.gz?dir=lib";
+
     # Use Lix in place of Nix.
     #   If you'd rather use regular Nix, remove `lix-module.nixosModules.default` from the `modules` section below.
     #   To learn more about Lix, see https://lix.systems/
@@ -21,24 +40,8 @@
     # Flatpak support
     nix-flatpak.url = "github:gmodena/nix-flatpak/v0.4.1";
 
-    # SecureBoot support
-    lanzaboote.url = "github:nix-community/lanzaboote/v0.4.1";
-
     # NixOS hardware quirks
     nixos-hardware.url = "github:NixOS/nixos-hardware/master";
-
-    # Home-manager support
-    home-manager = {
-      url = "github:nix-community/home-manager/release-24.05";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-
-    # Repository for Gnome triple buffering patch
-    # For details, see https://wiki.nixos.org/wiki/GNOME#Dynamic_triple_buffering
-    gnome-triplebuffering = {
-      url = "gitlab:vanvugt/mutter/triple-buffering-v4-46?host=gitlab.gnome.org";
-      flake = false;
-    };
   };
 
   outputs =
