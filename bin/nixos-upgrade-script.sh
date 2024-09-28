@@ -1,15 +1,13 @@
 #!/usr/bin/env bash
 # Wrapper script for nixos-rebuild
 
-#set -e
-
 # Configuration parameters
 operation="switch"		# The nixos-rebuild operation to use
 hostname=$(hostname)	# The name of the host to build
-flakeDir="."					# Path to the flake file (and optionally the hostname)
-remainingArgs=""			# All remaining arguments that haven't been processed
-commit=true						# Whether to update git (true by default)
-buildHost=""					# Which host to build the system on.
+flakeDir="."			# Path to the flake file (and optionally the hostname)
+remainingArgs=""		# All remaining arguments that haven't been processed
+commit=true				# Whether to update git (true by default)
+buildHost=""			# Which host to build the system on.
 
 function usage() {
 	echo "Usage: nixos-upgrade-script.sh [-o|--operation operation] [-f|--flake path-to-flake-file] [extra nixos-rebuild parameters]"
@@ -24,14 +22,15 @@ function usage() {
 }
 
 function run_operation {
-	echo "Full operation: nixos-rebuild $1 --flake $flakeDir#$hostname $( [ "$buildHost" != "" ] && echo "--build-host $buildHost" ) $remainingArgs"
+	echo "Full operation: nixos-rebuild $1 --flake $flakeDir#$hostname $( [ "$buildHost" != "" ] && echo "--build-host $buildHost" ) $remainingArgs --use-remote-sudo"
+	nixos-rebuild $operation --flake .#$hostname $remainingArgs --use-remote-sudo
 
 	# Only request super-user permission if we're switching
-	if [[ "$1" =~ ^(switch|boot|test)$ ]]; then
-		sudo nixos-rebuild $operation --flake .#$hostname $remainingArgs
-	else
-		nixos-rebuild $operation --flake .#$hostname $remainingArgs
-	fi
+	#if [[ "$1" =~ ^(switch|boot|test)$ ]]; then
+	#	nixos-rebuild $operation --flake .#$hostname $remainingArgs --use-remote-sudo
+	#else
+	#	nixos-rebuild $operation --flake .#$hostname $remainingArgs
+	#fi
 } 
 
 # Argument processing logic shamelessly stolen from https://stackoverflow.com/questions/192249/how-do-i-parse-command-line-arguments-in-bash
@@ -83,11 +82,6 @@ if [ $commit = true ]; then
 	echo "Update and push lock file"
 	nix flake update --commit-lock-file
 	git push
-fi
-
-# If this is a remote build, run the build as non-sudo first
-if [[ "$buildHost" != "" ]]; then
-	run_operation "build"
 fi
 
 run_operation $operation

@@ -23,17 +23,7 @@ in
         type = lib.types.str;
         default = "monthly";
       };
-      nixos-upgrade-script = {
-        enable = lib.mkEnableOption "Installs the nos (nixos-upgrade-script) helper script.";
-        configDir = lib.mkOption {
-          type = lib.types.str;
-          description = "Path to your NixOS configuration files.";
-        };
-        user = lib.mkOption {
-          type = lib.types.str;
-          description = "The user to run the upgrade script as.";
-        };
-      };
+      nixos-upgrade-script.enable = lib.mkEnableOption "Installs the nos (nixos-upgrade-script) helper script.";
     };
   };
   config = {

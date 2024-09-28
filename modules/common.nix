@@ -17,6 +17,9 @@
       zellij # Terminal multiplexer
     ];
 
+    # Install the nos helper script
+    aux.system.nixos-upgrade-script.enable = true;
+
     nixpkgs.overlays = [
       (final: _prev: {
         # Allow packages from the unstable repo by using 'pkgs.unstable'
