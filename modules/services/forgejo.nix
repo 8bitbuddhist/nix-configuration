@@ -57,16 +57,10 @@ in
       forgejo = {
         enable = true;
         settings.server = {
-          DOMAIN =
-            let
-              parsedURL = (lib.strings.splitString "." cfg.url);
-            in
-            builtins.concatStringsSep "." [
-              (builtins.elemAt parsedURL 1)
-              (builtins.elemAt parsedURL 2)
-            ];
+          DOMAIN = pkgs.util.getDomainFromURL cfg.url;
           ROOT_URL = cfg.url;
           HTTP_PORT = 3000;
+          REPO_INDEXER_ENABLED = true; # Enable code indexing
         };
         useWizard = true;
       } // lib.optionalAttrs (cfg.home != null) { stateDir = cfg.home; };
