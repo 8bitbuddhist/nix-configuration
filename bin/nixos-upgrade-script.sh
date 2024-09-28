@@ -23,7 +23,7 @@ function usage() {
 
 function run_operation {
 	echo "Full operation: nixos-rebuild $1 --flake $flakeDir#$hostname $( [ "$buildHost" != "" ] && echo "--build-host $buildHost" ) $remainingArgs --use-remote-sudo"
-	nixos-rebuild $operation --flake .#$hostname $remainingArgs --use-remote-sudo
+	nixos-rebuild $operation --flake .#$hostname $remainingArgs --use-remote-sudo --log-format multiline-with-logs
 
 	# Only request super-user permission if we're switching
 	#if [[ "$1" =~ ^(switch|boot|test)$ ]]; then

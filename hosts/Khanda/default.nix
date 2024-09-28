@@ -25,13 +25,7 @@ in
       office.enable = true;
       recording.enable = true;
       social.enable = true;
-      writing = {
-        enable = true;
-        languagetool = {
-          enable = true;
-          ngrams.enable = true;
-        };
-      };
+      writing.enable = true;
     };
 
     # Enable Secure Boot support.
