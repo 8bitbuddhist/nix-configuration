@@ -8,15 +8,6 @@ in
   options = {
     aux.system.services.autoUpgrade = {
       enable = lib.mkEnableOption "Enables automatic system updates.";
-      branches = lib.mkOption {
-        type = lib.types.attrs;
-        description = "Which local and remote branches to compare.";
-        default = {
-          local = "main";
-          remote = "main";
-          remoteName = "origin";
-        };
-      };
       configDir = lib.mkOption {
         type = lib.types.str;
         description = "Path where your NixOS configuration files are stored.";
@@ -39,42 +30,35 @@ in
     };
   };
 
-  config = lib.mkMerge [
-    (lib.mkIf cfg.enable {
-      # Assert that system.autoUpgrade is not also enabled
-      assertions = [
-        {
-          assertion = !config.system.autoUpgrade.enable;
-          message = "The system.autoUpgrade option conflicts with this module.";
-        }
-      ];
+  config = lib.mkIf cfg.enable {
+    # Assert that system.autoUpgrade is not also enabled
+    assertions = [
+      {
+        assertion = !config.system.autoUpgrade.enable;
+        message = "The system.autoUpgrade option conflicts with this module.";
+      }
+    ];
 
-      # Pull and apply updates.
-      systemd.services."nixos-upgrade" = {
+    # Deploy update script
+    aux.system.nixos-upgrade-script.enable = true;
+
+    # Pull and apply updates.
+    systemd = {
+      services."nixos-upgrade" = {
         serviceConfig = {
           Type = "oneshot";
           User = "root";
         };
         path = config.aux.system.corePackages;
         unitConfig.RequiresMountsFor = cfg.configDir;
-        # Git diffing strategy courtesy of https://stackoverflow.com/a/40255467
-        script = ''
-          cd ${cfg.configDir}
-          # Check if there are changes from Git.
-          echo "Pulling latest version..."
-          /run/wrappers/bin/sudo -u ${cfg.user} git fetch
-          /run/wrappers/bin/sudo -u ${cfg.user} git diff --quiet --exit-code ${cfg.branches.local} ${cfg.branches.remoteName}/${cfg.branches.remote} || true
-          # If we have changes (git diff returns 1), pull changes and run the update
-          if [ $? -eq 1 ]; then
-            echo "Updates found, running nixos-rebuild..."
-            /run/wrappers/bin/sudo -u ${cfg.user} git pull
-            nixos-rebuild switch --flake .
-          else
-            echo "No updates found. Exiting."
-          fi
-        '';
+        script = lib.strings.concatStrings [
+          "/run/current-system/sw/bin/nixos-upgrade-script --operation switch "
+          (lib.mkIf (cfg.configDir != "") "--flake ${cfg.configDir} ").content
+          (lib.mkIf (cfg.user != "") "--user ${cfg.user} ").content
+          (lib.mkIf (!cfg.pushUpdates) "--no-update").content
+        ];
       };
-      systemd.timers."nixos-upgrade" = {
+      timers."nixos-upgrade" = {
         wants = [ "network-online.target" ];
         after = [ "network-online.target" ];
         wantedBy = [ "timers.target" ];
@@ -85,39 +69,6 @@ in
           RandomizedDelaySec = "30m";
         };
       };
-    })
-    (lib.mkIf cfg.pushUpdates {
-      # Automatically update Flake configuration for other hosts to use
-      systemd.services."nixos-upgrade-flake" = {
-        serviceConfig = {
-          Type = "oneshot";
-          User = cfg.user;
-        };
-        path = config.aux.system.corePackages;
-        unitConfig.RequiresMountsFor = cfg.configDir;
-        script = ''
-          set -eu
-          cd ${cfg.configDir}
-          # Make sure we're up-to-date
-          echo "Pulling the latest version..."
-          /run/wrappers/bin/sudo -u ${cfg.user} git pull
-          echo "Checking for updates..."
-          /run/wrappers/bin/sudo -u ${cfg.user} nix flake update --commit-lock-file
-          echo "Pushing any changes..."
-          /run/wrappers/bin/sudo -u ${cfg.user} git push
-        '';
-      };
-
-      systemd.timers."nixos-upgrade-flake" = {
-        wants = [ "network-online.target" ];
-        after = [ "network-online.target" ];
-        wantedBy = [ "timers.target" ];
-        timerConfig = {
-          OnCalendar = cfg.onCalendar;
-          Persistent = cfg.persistent;
-          Unit = "nixos-upgrade-flake.service";
-        };
-      };
-    })
-  ];
+    };
+  };
 }

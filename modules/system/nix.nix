@@ -45,6 +45,7 @@ in
           allowed-users = with config.users.users; [
             root.name
             (lib.mkIf config.aux.system.users.aires.enable aires.name)
+            (lib.mkIf config.aux.system.users.gremlin.enable gremlin.name)
           ];
 
           # Avoid signature verification messages when doing remote builds
