@@ -31,10 +31,10 @@ function usage() {
 
 function run_operation {
 	options="--flake $flakeDir $remainingArgs --use-remote-sudo --log-format multiline-with-logs"
-	
+
 	echo "Running this operation: nixos-rebuild $1 $options"
 	nixos-rebuild $operation $options
-} 
+}
 
 # Argument processing logic shamelessly stolen from https://stackoverflow.com/questions/192249/how-do-i-parse-command-line-arguments-in-bash
 POSITIONAL_ARGS=()
