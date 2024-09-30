@@ -29,13 +29,6 @@ function usage() {
 	exit 2
 }
 
-function run_operation {
-	options="--flake $flakeDir $remainingArgs --use-remote-sudo --log-format multiline-with-logs"
-
-	echo "Running this operation: nixos-rebuild $1 $options"
-	nixos-rebuild $operation $options
-}
-
 # Argument processing logic shamelessly stolen from https://stackoverflow.com/questions/192249/how-do-i-parse-command-line-arguments-in-bash
 POSITIONAL_ARGS=()
 while [[ $# -gt 0 ]]; do
@@ -81,16 +74,19 @@ fi
 cd $flakeDir
 
 echo "Pulling the latest version of the repository..."
-sudo -u $user git pull
+/run/wrappers/bin/sudo -u $user git pull
 
 if [ $update = true ]; then
 	echo "Checking for updates..."
-	sudo -u $user nix flake update --commit-lock-file
-	sudo -u $user git push
+	/run/wrappers/bin/sudo -u $user nix flake update --commit-lock-file
+	/run/wrappers/bin/sudo -u $user git push
 else
 	echo "Skipping 'nix flake update'..."
 fi
 
-run_operation $operation
+options="--flake $flakeDir $remainingArgs --use-remote-sudo --log-format multiline-with-logs"
+
+echo "Running this operation: nixos-rebuild $operation $options"
+nixos-rebuild $operation $options
 
 exit 0
