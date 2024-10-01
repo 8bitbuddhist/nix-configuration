@@ -3,11 +3,11 @@
 
 # Configuration parameters
 operation="switch"		# The nixos-rebuild operation to use
-hostname=$(hostname)	# The name of the host to build
+hostname=$(/run/current-system/sw/bin/hostname)	# The name of the host to build
 flakeDir="${FLAKE_DIR}"	# Path to the flake file (and optionally the hostname). Defaults to the FLAKE_DIR environment variable.
 remainingArgs=""		# All remaining arguments that haven't been processed
 update=true				# Whether to update git (true by default)
-user=$(whoami)		    # Which user account to use for git commands.
+user=$(/run/current-system/sw/bin/whoami)		    # Which user account to use for git commands.
 
 function usage() {
 	echo "nixos-rebuild Operations Script (NOS) updates your system and your flake.lock file by pulling the latest versions."
@@ -87,6 +87,6 @@ fi
 options="--flake $flakeDir $remainingArgs --use-remote-sudo --log-format multiline-with-logs"
 
 echo "Running this operation: nixos-rebuild $operation $options"
-nixos-rebuild $operation $options
+/run/current-system/sw/bin/nixos-rebuild $operation $options
 
 exit 0

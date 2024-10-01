@@ -1,4 +1,4 @@
-{ ... }:
+{ config, ... }:
 
 let
   # Do not change this value! This tracks when NixOS was installed on your system.
@@ -48,7 +48,13 @@ in
     retentionPeriod = "14d";
 
     services = {
-      autoUpgrade.enable = false;
+      autoUpgrade = {
+        enable = true;
+        extraFlags = "--build-host hevana";
+        configDir = config.secrets.nixConfigFolder;
+        onCalendar = "weekly";
+        user = config.users.users.aires.name;
+      };
       virtualization.enable = true;
     };
 
