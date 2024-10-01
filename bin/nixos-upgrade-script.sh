@@ -41,7 +41,6 @@ while [[ $# -gt 0 ]]; do
 	--no-update|--no-upgrade|-n)
 		update=false
 		shift
-		shift
 		;;
 	--operation|-o)
 		operation="$2"
@@ -55,11 +54,11 @@ while [[ $# -gt 0 ]]; do
 		;;
 	--help|-h)
 		usage
-		shift
+		exit 0
 		;;
 	*)
 		POSITIONAL_ARGS+=("$1") # save positional arg
-      	shift # past argument
+		shift
 		;;
 	esac
 done
@@ -77,9 +76,8 @@ echo "Pulling the latest version of the repository..."
 /run/wrappers/bin/sudo -u $user git pull
 
 if [ $update = true ]; then
-	echo "Checking for updates..."
-	/run/wrappers/bin/sudo -u $user nix flake update --commit-lock-file
-	/run/wrappers/bin/sudo -u $user git push
+	echo "Updating flake.lock..."
+	/run/wrappers/bin/sudo -u $user nix flake update --commit-lock-file && /run/wrappers/bin/sudo -u $user git push
 else
 	echo "Skipping 'nix flake update'..."
 fi
