@@ -38,7 +38,7 @@ while [[ $# -gt 0 ]]; do
 		shift
 		shift
 		;;
-	--no-update|-n)
+	--no-update|--no-upgrade|-n)
 		update=false
 		shift
 		shift

@@ -15,6 +15,7 @@ in
       extraFlags = lib.mkOption {
         type = lib.types.str;
         description = "Extra flags to pass to nixos-rebuild.";
+        default = "";
       };
       onCalendar = lib.mkOption {
         default = "daily";
@@ -57,10 +58,10 @@ in
         unitConfig.RequiresMountsFor = cfg.configDir;
         script = lib.strings.concatStrings [
           "/run/current-system/sw/bin/nixos-upgrade-script --operation switch "
-          (lib.mkIf (cfg.configDir) "--flake ${cfg.configDir} ").content
-          (lib.mkIf (cfg.user) "--user ${cfg.user} ").content
+          (lib.mkIf (cfg.configDir != "") "--flake ${cfg.configDir} ").content
+          (lib.mkIf (cfg.user != "") "--user ${cfg.user} ").content
           (lib.mkIf (!cfg.pushUpdates) "--no-update ").content
-          (lib.mkIf (cfg.extraFlags) cfg.extraFlags).content
+          (lib.mkIf (cfg.extraFlags != "") cfg.extraFlags).content
         ];
       };
       timers."nixos-upgrade" = {
