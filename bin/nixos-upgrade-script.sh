@@ -2,12 +2,12 @@
 # Wrapper script for nixos-rebuild
 
 # Configuration parameters
-operation="switch"		# The nixos-rebuild operation to use
-hostname=$(/run/current-system/sw/bin/hostname)	# The name of the host to build
-flakeDir="${FLAKE_DIR}"	# Path to the flake file (and optionally the hostname). Defaults to the FLAKE_DIR environment variable.
-remainingArgs=""		# All remaining arguments that haven't been processed
-update=true				# Whether to update git (true by default)
-user=$(/run/current-system/sw/bin/whoami)		    # Which user account to use for git commands.
+operation="switch"                              # The nixos-rebuild operation to use
+hostname=$(/run/current-system/sw/bin/hostname) # The name of the host to build
+flakeDir="${FLAKE_DIR}"                         # Path to the flake file (and optionally the hostname). Defaults to the FLAKE_DIR environment variable.
+update=false                                    # Whether to update flake.lock (false by default)
+user=$(/run/current-system/sw/bin/whoami)       # Which user account to use for git commands (defaults to whoever called the script)
+remainingArgs=""                                # All remaining arguments that haven't yet been processed (will be passed to nixos-rebuild)
 
 function usage() {
 	echo "nixos-rebuild Operations Script (NOS) updates your system and your flake.lock file by pulling the latest versions."
@@ -23,7 +23,7 @@ function usage() {
 	echo " -h, --help          Show this help screen."
 	echo " -o, --operation     The nixos-rebuild operation to perform."
 	echo " -f, --flake <path>  The path to your flake.nix file (and optionally, the hostname to build)."
-	echo " -n, --no-update     Don't update and commit the lock file."
+	echo " -U, --update        Update and commit flake.lock."
 	echo " -u, --user          Which user account to run git commands under."
 	echo ""
 	exit 2
@@ -38,8 +38,8 @@ while [[ $# -gt 0 ]]; do
 		shift
 		shift
 		;;
-	--no-update|--no-upgrade|-n)
-		update=false
+	--update|--upgrade|-U)
+		update=true
 		shift
 		;;
 	--operation|-o)
@@ -85,6 +85,6 @@ fi
 options="--flake $flakeDir $remainingArgs --use-remote-sudo --log-format multiline-with-logs"
 
 echo "Running this operation: nixos-rebuild $operation $options"
-/run/current-system/sw/bin/nixos-rebuild $operation $options
+/run/wrappers/bin/sudo -u root /run/current-system/sw/bin/nixos-rebuild $operation $options
 
 exit 0

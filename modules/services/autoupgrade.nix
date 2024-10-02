@@ -22,6 +22,15 @@ in
         type = lib.types.str;
         description = "How frequently to run updates. See systemd.timer(5) and systemd.time(7) for configuration details.";
       };
+      operation = lib.mkOption {
+        type = lib.types.enum [
+          "boot"
+          "switch"
+          "test"
+        ];
+        default = "switch";
+        description = "Which `nixos-rebuild` operation to perform. Defaults to `switch`.";
+      };
       persistent = lib.mkOption {
         default = true;
         type = lib.types.bool;
@@ -57,10 +66,10 @@ in
         path = config.aux.system.corePackages;
         unitConfig.RequiresMountsFor = cfg.configDir;
         script = lib.strings.concatStrings [
-          "/run/current-system/sw/bin/nixos-upgrade-script --operation switch "
+          "/run/current-system/sw/bin/nixos-upgrade-script --operation ${cfg.operation} "
           (lib.mkIf (cfg.configDir != "") "--flake ${cfg.configDir} ").content
           (lib.mkIf (cfg.user != "") "--user ${cfg.user} ").content
-          (lib.mkIf (!cfg.pushUpdates) "--no-update ").content
+          (lib.mkIf (cfg.pushUpdates) "--update ").content
           (lib.mkIf (cfg.extraFlags != "") cfg.extraFlags).content
         ];
       };
