@@ -93,9 +93,9 @@ in
                 nos = "nixos-upgrade-script";
                 z = "zellij";
                 update = "upgrade";
-                upgrade = "nh os boot --update --ask";
+                upgrade = "nos";
               };
-              loginExtra = "fastfetch";
+              loginExtra = "fastfetch --memory-percent-green 75 --memory-percent-yellow 90";
             };
           };
         };

@@ -110,7 +110,6 @@ in
         gnomeExtensions.alphabetical-app-grid
         gnomeExtensions.appindicator
         gnomeExtensions.dash-to-panel
-        gnomeExtensions.random-wallpaper
         # Themeing
         gnome.gnome-themes-extra
         papirus-icon-theme

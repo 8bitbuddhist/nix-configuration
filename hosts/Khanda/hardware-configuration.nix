@@ -61,13 +61,6 @@ in
       ];
     };
 
-    # Improve Khanda's responsiveness
-    kernel.sysctl = {
-      "vm.swappiness" = 20; # Try to reduce swappiness - Khanda hates paging, even to NVMe storage
-      "vm.vfs_cache_pressure" = 50; # https://wiki.archlinux.org/title/Sysctl#VFS_cache
-      "kernel.core_pattern" = "|${pkgs.coreutils}/bin/false"; # Disable core dumps per https://wiki.archlinux.org/title/Core_dump#Using_sysctl
-    };
-
     kernelModules = [
       "kvm-intel"
       "surface_aggregator"
@@ -85,7 +78,6 @@ in
 
     kernelParams = [
       "pci=hpiosize=0" # Prevent ACPI interrupt storm. See https://github.com/linux-surface/linux-surface/wiki/Surface-Pro-9#acpi-interrupt-storm
-      "nvme_core.default_ps_max_latency_us=0" # Disable NVME powersaving to prevent system stuttering. See https://forums.linuxmint.com/viewtopic.php?t=392387
     ];
   };
 
@@ -101,12 +93,6 @@ in
       size = 16384;
     };
   };
-
-  # Change I/O scheduler to Kyber to try and reduce stuttering under load.
-  # NVME supports `mq-deadline` and `kyber` schedulers
-  services.udev.extraRules = ''
-    ACTION=="add|change", KERNEL=="nvme0n1", ATTR{queue/rotational}=="0", ATTR{queue/scheduler}="kyber"
-  '';
 
   hardware = {
     cpu.intel.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;
