@@ -27,6 +27,9 @@ in
   config = lib.mkIf cfg.enable {
     aux.system = {
       bluetooth.enable = true;
+      packages = with pkgs; [
+        qjournalctl # Journalctl frontend
+      ];
       ui.audio.enable = true;
     };
 

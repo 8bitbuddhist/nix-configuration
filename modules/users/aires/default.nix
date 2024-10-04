@@ -75,7 +75,10 @@ in
               enable = true;
               userName = config.secrets.users.aires.firstName;
               userEmail = config.secrets.users.aires.email;
-              extraConfig.push.autoSetupRemote = "true";
+              extraConfig = {
+                safe.directory = "${config.secrets.nixConfigFolder}/.git";
+                push.autoSetupRemote = "true";
+              };
             };
 
             # Set up SSH
