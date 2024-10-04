@@ -46,6 +46,11 @@ in
           type = lib.types.str;
           description = "Wireguard private key.";
         };
+        countries = lib.mkOption {
+          type = lib.types.listOf lib.types.str;
+          description = "List of countries to base the VPN out of.";
+          default = [ "Netherlands" ];
+        };
       };
     };
   };
@@ -97,7 +102,7 @@ in
             VPN_SERVICE_PROVIDER = "protonvpn";
             VPN_TYPE = "wireguard";
             WIREGUARD_PRIVATE_KEY = config.secrets.services.protonvpn.privateKey;
-            SERVER_COUNTRIES = "Netherlands";
+            SERVER_COUNTRIES = (lib.strings.concatStringsSep "," cfg.vpn.countries);
             TZ = "America/New_York";
           };
           ports = [ "${cfg.port}:${cfg.port}" ];
