@@ -6,6 +6,8 @@
 }:
 let
   cfg = config.aux.system.services.netdata;
+
+  socket = "/run/services/netdata/web.socket";
 in
 {
   options = {
@@ -49,26 +51,6 @@ in
   config = lib.mkMerge [
     (lib.mkIf (cfg.enable && cfg.type == "parent") {
       services = {
-        nginx.virtualHosts."${cfg.url}" = {
-          useACMEHost = pkgs.util.getDomainFromURL cfg.url;
-          forceSSL = true;
-          basicAuth = {
-            "${cfg.auth.user}" = cfg.auth.password;
-          };
-          locations."/" = {
-            proxyPass = "http://127.0.0.1:19999";
-            extraConfig = ''
-              # Taken from https://learn.netdata.cloud/docs/netdata-agent/configuration/running-the-netdata-agent-behind-a-reverse-proxy/nginx
-              proxy_set_header X-Forwarded-Host $host;
-              proxy_set_header X-Forwarded-Server $host;
-              proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-              proxy_pass_request_headers on;
-              proxy_set_header Connection "keep-alive";
-              proxy_store off;
-            '';
-          };
-        };
-
         netdata = {
           enable = true;
           package = pkgs.unstable.netdataCloud;
@@ -86,6 +68,30 @@ in
                 default memory mode = dbengine
                 health enabled by default = auto
                 allow streaming from = *
+            '';
+            "socket.conf" = pkgs.writeText "socket.conf" ''
+              [web]
+                bind to = unix:${socket}
+            '';
+          };
+        };
+
+        nginx.virtualHosts."${cfg.url}" = {
+          useACMEHost = pkgs.util.getDomainFromURL cfg.url;
+          forceSSL = true;
+          basicAuth = {
+            "${cfg.auth.user}" = cfg.auth.password;
+          };
+          locations."/" = {
+            proxyPass = "http://unix:${socket}:";
+            extraConfig = ''
+              # Taken from https://learn.netdata.cloud/docs/netdata-agent/configuration/running-the-netdata-agent-behind-a-reverse-proxy/nginx
+              proxy_set_header X-Forwarded-Host $host;
+              proxy_set_header X-Forwarded-Server $host;
+              proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+              proxy_pass_request_headers on;
+              proxy_set_header Connection "keep-alive";
+              proxy_store off;
             '';
           };
         };

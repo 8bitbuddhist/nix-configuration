@@ -6,20 +6,8 @@
 }:
 let
   cfg = config.aux.system.services.forgejo;
-  cli-cfg = config.services.forgejo;
 
-  forgejo-cli = pkgs.writeScriptBin "forgejo-cli" ''
-    #!${pkgs.runtimeShell}
-    cd ${cli-cfg.stateDir}
-    sudo=exec
-    if [[ "$USER" != forgejo ]]; then
-      sudo='exec /run/wrappers/bin/sudo -u ${cli-cfg.user} -g ${cli-cfg.group} --preserve-env=GITEA_WORK_DIR --preserve-env=GITEA_CUSTOM'
-    fi
-    # Note that these variable names will change
-    export GITEA_WORK_DIR=${cli-cfg.stateDir}
-    export GITEA_CUSTOM=${cli-cfg.customDir}
-    $sudo ${lib.getExe cli-cfg.package} "$@"
-  '';
+  socket = "/run/services/forgejo/web.socket";
 in
 {
   options = {
@@ -49,10 +37,7 @@ in
   };
 
   config = lib.mkIf cfg.enable {
-    environment.systemPackages = [
-      forgejo-cli
-      pkgs.podman-tui
-    ];
+    environment.systemPackages = [ pkgs.podman-tui ];
     services = {
       forgejo = {
         enable = true;
@@ -60,7 +45,8 @@ in
           server = {
             DOMAIN = pkgs.util.getDomainFromURL cfg.url;
             ROOT_URL = cfg.url;
-            HTTP_PORT = 3000;
+            PROTOCOL = "http+unix";
+            HTTP_ADDR = socket;
           };
           indexer.REPO_INDEXER_ENABLED = true; # Enable code indexing
         };
@@ -71,7 +57,7 @@ in
         useACMEHost = pkgs.util.getDomainFromURL cfg.url;
         forceSSL = true;
         locations."/" = {
-          proxyPass = "http://127.0.0.1:3000";
+          proxyPass = "http://unix:${socket}:";
           proxyWebsockets = true;
           extraConfig = "proxy_ssl_server_name on;"; # required when the target is also TLS server with multiple hosts
         };
