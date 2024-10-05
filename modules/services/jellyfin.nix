@@ -7,8 +7,6 @@
 let
   cfg = config.aux.system.services.jellyfin;
 
-  socket = "/run/services/jellyfin/web.socket";
-
   jellyfin-audio-save = pkgs.jellyfin.overrideAttrs (
     finalAttrs: prevAttrs: { patches = [ ./jellyfin/jellyfin-audio-save-position.patch ]; }
   );
@@ -35,18 +33,11 @@ in
     aux.system.users.media.enable = true;
 
     services = {
-      jellyfin = {
-        enable = true;
-        dataDir = cfg.home;
-        group = "media";
-        package = jellyfin-audio-save;
-      };
-
       nginx.virtualHosts."${cfg.url}" = {
         useACMEHost = pkgs.util.getDomainFromURL cfg.url;
         forceSSL = true;
         locations."/" = {
-          proxyPass = "http://unix:${socket}:";
+          proxyPass = "http://127.0.0.1:8096";
           proxyWebsockets = true;
           extraConfig = ''
             # Taken from https://jellyfin.org/docs/general/networking/nginx/
@@ -69,7 +60,7 @@ in
           '';
         };
         locations."/socket" = {
-          proxyPass = "http://unix:${socket}:";
+          proxyPass = "http://127.0.0.1:8096";
           proxyWebsockets = true;
           extraConfig = ''
             # Proxy Jellyfin Websockets traffic
@@ -84,6 +75,13 @@ in
           '';
         };
       };
+
+      jellyfin = {
+        enable = true;
+        dataDir = cfg.home;
+        group = "media";
+        package = jellyfin-audio-save;
+      };
     };
 
     # Install packages for plugins
@@ -93,15 +91,7 @@ in
     ];
 
     systemd.services = {
-      jellyfin = {
-        # Use Unix sockets in place of ports
-        environment = {
-          JELLYFIN_kestrel__socketPermissions = "0777";
-          JELLYFIN_kestrel__socketPath = socket;
-          JELLYFIN_kestrel__socket = "true";
-        };
-        unitConfig.RequiresMountsFor = cfg.home;
-      };
+      jellyfin.unitConfig.RequiresMountsFor = cfg.home;
       nginx.wants = [ config.systemd.services.jellyfin.name ];
     };
   };
