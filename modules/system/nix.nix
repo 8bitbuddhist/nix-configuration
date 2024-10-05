@@ -70,25 +70,6 @@ in
         registry.nixpkgs.flake = inputs.nixpkgs;
         nixPath = [ "nixpkgs=${inputs.nixpkgs}" ];
 
-        # Configure remote build machines
-        # To enable a system to use remote build machines, add `nix.distributedBuilds = true;` to its config
-        buildMachines = [
-          {
-            hostName = "hevana";
-            systems = [
-              "x86_64-linux"
-              "aarch64-linux"
-            ];
-            protocol = "ssh-ng";
-            supportedFeatures = [
-              "nixos-test"
-              "kvm"
-              "benchmark"
-              "big-parallel"
-            ];
-          }
-        ];
-
         # When using a builder, use its package store
         extraOptions = ''
           builders-use-substitutes = true

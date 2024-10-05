@@ -88,7 +88,4 @@ in
       services.syncthing.enable = true;
     };
   };
-
-  # Build remotely
-  nix.distributedBuilds = true;
 }

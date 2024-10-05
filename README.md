@@ -68,20 +68,7 @@ Nix can create builds for or on remote systems, and transfer them via SSH.
 
 ##### Generating a build on a remote system
 
-You can run a build on a remote server, then pull it down to the local system. This is called a `distributedBuild`.
-
-> [!NOTE]
-> For distributed builds, the root user on the local system needs SSH access to the build target. This is done automatically.
-
-To enable root builds on a host, add this to its config:
-
-```nix
-nix.distributedBuilds = true;
-```
-
-For hosts where `nix.distributedBuilds` is true, this repo automatically gives the local root user SSH access to an unprivileged user on the build systems. This is configured in `modules/secrets.nix`, but the build systems are defined in [`modules/system/nix.nix`](https://code.8bitbuddhism.com/aires/nix-configuration/src/commit/433821ef0c46f08855a041c3aa97143a954564f5/modules/system/nix.nix#L57).
-
-If you want to ensure a build happens on a remote system, you can use:
+You can run a build on a remote server by using `--build-host`:
 
 ```sh
 nixos-rebuild build --flake . --build-host [remote hostname]

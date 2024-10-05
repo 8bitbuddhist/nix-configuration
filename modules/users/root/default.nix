@@ -4,7 +4,7 @@
   home-manager.users.root = {
     home.stateVersion = "24.05";
     programs = {
-      ssh = lib.mkIf config.nix.distributedBuilds {
+      ssh = {
         enable = true;
         matchBlocks = config.secrets.users.root.sshConfig;
       };
