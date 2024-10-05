@@ -1,4 +1,6 @@
 # Enables Intel GPU support.
+# https://wiki.nixos.org/wiki/Intel_Graphics
+# https://nixos.org/manual/nixos/stable/#sec-x11--graphics-cards-intel
 {
   pkgs,
   config,
@@ -14,32 +16,17 @@ in
   };
 
   config = lib.mkIf cfg.enable {
-    # Configuration options from NixOS-Hardware: https://github.com/NixOS/nixos-hardware/blob/master/common/gpu/intel/default.nix
-    boot.initrd.kernelModules = [ "i915" ];
+    services.xserver.videoDrivers = [ "intel" ];
 
-    environment.variables.VDPAU_DRIVER = "va_gl";
-
-    hardware.opengl = {
-      extraPackages = with pkgs; [
-        (
-          if (lib.versionOlder (lib.versions.majorMinor lib.version) "23.11") then
-            vaapiIntel
-          else
-            intel-vaapi-driver
-        )
-        libvdpau-va-gl
-        intel-media-driver
+    hardware.graphics = {
+      enable = true;
+      extraPackages = [
+        pkgs.intel-media-driver
+        pkgs.unstable.vpl-gpu-rt
       ];
-
       extraPackages32 = with pkgs.driversi686Linux; [
-        (
-          if (lib.versionOlder (lib.versions.majorMinor lib.version) "23.11") then
-            vaapiIntel
-          else
-            intel-vaapi-driver
-        )
-        libvdpau-va-gl
         intel-media-driver
+        pkgs.unstable.vpl-gpu-rt
       ];
     };
   };

@@ -38,6 +38,4 @@ in
     };
     users.aires.enable = true;
   };
-
-  nix.distributedBuilds = true;
 }
