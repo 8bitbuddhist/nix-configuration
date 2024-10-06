@@ -51,6 +51,7 @@ in
 
       home-manager.users.gremlin = {
         imports = [
+          ../common/home-manager/git-crypt.nix
           ../common/home-manager/gnome.nix
           ../common/home-manager/zsh.nix
         ];
