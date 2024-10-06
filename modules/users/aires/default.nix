@@ -94,7 +94,7 @@ in
                 theme = "gentoo";
               };
               shellAliases = {
-                nos = "nixos-upgrade-script";
+                nos = "nixos-operations-script";
                 z = "zellij";
                 update = "upgrade";
                 upgrade = "nos";

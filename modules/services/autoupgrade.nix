@@ -54,7 +54,7 @@ in
     ];
 
     # Deploy update script
-    aux.system.nixos-upgrade-script.enable = true;
+    aux.system.nixos-operations-script.enable = true;
 
     # Pull and apply updates.
     systemd = {
@@ -66,7 +66,7 @@ in
         path = config.aux.system.corePackages;
         unitConfig.RequiresMountsFor = cfg.configDir;
         script = lib.strings.concatStrings [
-          "/run/current-system/sw/bin/nixos-upgrade-script --operation ${cfg.operation} "
+          "/run/current-system/sw/bin/nixos-operations-script --operation ${cfg.operation} "
           (lib.mkIf (cfg.configDir != "") "--flake ${cfg.configDir} ").content
           (lib.mkIf (cfg.user != "") "--user ${cfg.user} ").content
           (lib.mkIf (cfg.pushUpdates) "--update ").content

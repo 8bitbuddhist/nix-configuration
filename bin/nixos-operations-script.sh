@@ -10,15 +10,13 @@ user=$(/run/current-system/sw/bin/whoami)       # Which user account to use for 
 remainingArgs=""                                # All remaining arguments that haven't yet been processed (will be passed to nixos-rebuild)
 
 function usage() {
-	echo "nixos-rebuild Operations Script (NOS) updates your system and your flake.lock file by pulling the latest versions."
+	echo "The NixOS Operations Script (NOS) is a nixos-rebuild wrapper for system maintenance."
 	echo ""
 	echo "Running the script with no parameters performs the following operations:"
-	echo "  1. Pull the latest version of the config"
-	echo "  2. Update your flake.lock file"
-	echo "  3. Commit any changes back to the repository"
-	echo "  4. Run 'nixos-rebuild switch'."
+	echo "  1. Pull the latest version of your Nix config repository"
+	echo "  2. Run 'nixos-rebuild switch'."
 	echo ""
-	echo "Advanced usage: nixos-upgrade-script.sh [-o|--operation operation] [-f|--flake path-to-flake] [extra nixos-rebuild parameters]"
+	echo "Advanced usage: nixos-operations-script.sh [-o|--operation operation] [-f|--flake path-to-flake] [extra nixos-rebuild parameters]"
 	echo "Options:"
 	echo " -h, --help          Show this help screen."
 	echo " -o, --operation     The nixos-rebuild operation to perform."

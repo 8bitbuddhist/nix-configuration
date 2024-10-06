@@ -10,8 +10,8 @@
 let
   cfg = config.aux.system;
 
-  nixos-upgrade-script = pkgs.writeShellScriptBin "nixos-upgrade-script" (
-    builtins.readFile ../../bin/nixos-upgrade-script.sh
+  nixos-operations-script = pkgs.writeShellScriptBin "nixos-operations-script" (
+    builtins.readFile ../../bin/nixos-operations-script.sh
   );
 in
 {
@@ -23,7 +23,7 @@ in
         type = lib.types.str;
         default = "monthly";
       };
-      nixos-upgrade-script.enable = lib.mkEnableOption "Installs the nos (nixos-upgrade-script) helper script.";
+      nixos-operations-script.enable = lib.mkEnableOption "Installs the nos (nixos-operations-script) helper script.";
     };
   };
   config = lib.mkMerge [
@@ -79,9 +79,9 @@ in
       # Support for standard, dynamically-linked executables
       programs.nix-ld.enable = true;
     }
-    (lib.mkIf cfg.nixos-upgrade-script.enable {
+    (lib.mkIf cfg.nixos-operations-script.enable {
       # Enable and configure NOS
-      aux.system.packages = [ nixos-upgrade-script ];
+      aux.system.packages = [ nixos-operations-script ];
       environment.variables."FLAKE_DIR" = config.secrets.nixConfigFolder;
     })
   ];

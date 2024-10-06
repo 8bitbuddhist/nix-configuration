@@ -18,7 +18,7 @@
     ];
 
     # Install the nos helper script
-    aux.system.nixos-upgrade-script.enable = true;
+    aux.system.nixos-operations-script.enable = true;
 
     nixpkgs.overlays = [
       (final: _prev: {
