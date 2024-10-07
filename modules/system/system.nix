@@ -28,6 +28,7 @@ in
           dconf
           direnv
           git
+          git-crypt # Secrets management
           gnutar
           gzip
           home-manager

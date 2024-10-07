@@ -12,7 +12,6 @@
     # Install base packages
     aux.system.packages = with pkgs; [
       fastfetch # Show a neat system statistics screen when opening a terminal
-      git-crypt # Secrets management
       htop # System monitor
       zellij # Terminal multiplexer
     ];

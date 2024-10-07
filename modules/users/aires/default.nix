@@ -50,7 +50,6 @@ in
         # Configure home-manager
         home-manager.users.aires = {
           imports = [
-            ../common/home-manager/git-crypt.nix
             ../common/home-manager/gnome.nix
             ../common/home-manager/zsh.nix
           ];
