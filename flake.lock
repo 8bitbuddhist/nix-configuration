@@ -199,11 +199,11 @@
     "lib": {
       "locked": {
         "dir": "lib",
-        "lastModified": 1726973702,
-        "narHash": "sha256-3MhRNhPikBf/rfqI+z1kprqeyR8OZFgCL6G6ZTFBjR8=",
-        "rev": "d7762a5a78273ffb76da6f6902245983143f63f6",
+        "lastModified": 1728413071,
+        "narHash": "sha256-5WHctvz0R9N9oBGda1ROuJ/V/m/tZsEXloGWDrd9G7Y=",
+        "rev": "866b8902c975a1aaec547445976dd39d60def4ab",
         "type": "tarball",
-        "url": "https://git.auxolotl.org/api/v1/repos/auxolotl/labs/archive/d7762a5a78273ffb76da6f6902245983143f63f6.tar.gz?rev=d7762a5a78273ffb76da6f6902245983143f63f6"
+        "url": "https://git.auxolotl.org/api/v1/repos/auxolotl/labs/archive/866b8902c975a1aaec547445976dd39d60def4ab.tar.gz?rev=866b8902c975a1aaec547445976dd39d60def4ab"
       },
       "original": {
         "dir": "lib",
@@ -315,11 +315,11 @@
     },
     "nixpkgs-unstable": {
       "locked": {
-        "lastModified": 1728018373,
-        "narHash": "sha256-NOiTvBbRLIOe5F6RbHaAh6++BNjsb149fGZd1T4+KBg=",
+        "lastModified": 1728241625,
+        "narHash": "sha256-yumd4fBc/hi8a9QgA9IT8vlQuLZ2oqhkJXHPKxH/tRw=",
         "owner": "nixos",
         "repo": "nixpkgs",
-        "rev": "bc947f541ae55e999ffdb4013441347d83b00feb",
+        "rev": "c31898adf5a8ed202ce5bea9f347b1c6871f32d1",
         "type": "github"
       },
       "original": {
@@ -331,11 +331,11 @@
     },
     "nixpkgs_2": {
       "locked": {
-        "lastModified": 1728193676,
-        "narHash": "sha256-PbDWAIjKJdlVg+qQRhzdSor04bAPApDqIv2DofTyynk=",
+        "lastModified": 1728328465,
+        "narHash": "sha256-a0a0M1TmXMK34y3M0cugsmpJ4FJPT/xsblhpiiX1CXo=",
         "owner": "nixos",
         "repo": "nixpkgs",
-        "rev": "ecbc1ca8ffd6aea8372ad16be9ebbb39889e55b6",
+        "rev": "1bfbbbe5bbf888d675397c66bfdb275d0b99361c",
         "type": "github"
       },
       "original": {
