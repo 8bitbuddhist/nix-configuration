@@ -32,26 +32,45 @@ nixos-install --verbose --root /mnt --flake .#host --no-root-password
 ``` 
 
 > [!TIP]
-> This config installs a [Nix wrapper called nh](https://github.com/viperML/nh). Basic install/upgrade commands can be run using `nh`, but more advanced stuff should use `nixos-rebuild`.
+> This config installs a nixos-rebuild wrapper called `nos` (NixOS Operations Script). Basic install/upgrade commands can be run using `nos`, but more advanced stuff should use `nixos-rebuild`.
 
 ### Running updates
 
-All hosts are configured to run automatic daily updates (see `modules/system/system.nix`). You can disable this by adding `aux.system.services.autoUpgrade = false;` to a host's config.
+To update a system, run `sudo nixos-operations-script` (or just `sudo nos`). To commit updates back to the repo, use `sudo nos --update`.
 
-Automatic updates work by `git pull`ing the latest version of the repo from Forgejo. This repo gets updated nightly by [`Hevana`](./hosts/Hevana), which updates the `flake.lock` file and pushes it back up to Forgejo. Only one host needs to do this, and you can enable this feature on a host using `aux.system.services.autoUpgrade.pushUpdates = true;`.
+#### Automatic updates
+
+To enable automatic updates for a host, set `aux.system.services.autoUpgrade = true;`. You can configure the autoUpgrade module with additional settings, e.g.:
+
+```nix
+aux.system.services.autoUpgrade = {
+  enable = true;
+  configDir = config.secrets.nixConfigFolder;
+  extraFlags = "--build-host hevana";
+  onCalendar = "daily";
+  user = config.users.users.aires.name;
+};
+```
+
+Automatic updates work by `git pull`ing the latest version of the repo from Forgejo. This repo gets updated nightly by [`Hevana`](./hosts/Hevana), which updates the `flake.lock` file and pushes it back up to Forgejo. Only one host needs to do this, but you can safely enable it for multiple hosts as long as they have access to the same repository. You can enable this feature on a host using `aux.system.services.autoUpgrade.pushUpdates = true;`.
 
 #### Manually updating
 
-Run `nh` to update the system. Use the `--update` flag to update `flake.lock` as part of the process. After the first build, you can omit the hostname and path to your flake.nix file:
+Run `nos` to update the system. Use the `--update` flag to update `flake.lock` as part of the process. For the first build, you'll need to specify the path to your `flake.nix` file and the hostname using `--flake /path/to/flake.nix/#hostname`.
+
+After the first build, you can omit the hostname and path:
 
 ```sh
-nh os switch --update
+nos --update
 ```
 
 This is the equivalent of running:
 
 ```sh 
-nix flake update
+cd [flake dir]
+git pull
+nix flake update --commit-lock-file
+git push
 sudo nixos-rebuild switch --flake .
 ```
 

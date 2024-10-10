@@ -32,10 +32,7 @@ in
           gnutar
           gzip
           home-manager
-          lm_sensors
-          config.nix.package.out
-          nh
-          config.programs.ssh.package
+          openssh
           sudo
           xz.bin
         ];

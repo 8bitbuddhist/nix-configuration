@@ -13,6 +13,7 @@
     aux.system.packages = with pkgs; [
       fastfetch # Show a neat system statistics screen when opening a terminal
       htop # System monitor
+      lm_sensors # System temperature monitoring
       zellij # Terminal multiplexer
     ];
 
