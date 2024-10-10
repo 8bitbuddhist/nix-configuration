@@ -5,6 +5,12 @@ let
   # LUKS partition will decrypt to /dev/mapper/nixos-root
   decryptPart = "nixos-root";
   decryptPath = "/dev/mapper/${decryptPart}";
+
+  # Default mount options for your main partitions
+  primaryPartOpts = [
+    "compress=zstd"
+    (lib.mkIf cfg.discard "discard=async").content
+  ];
 in
 {
   options = {
@@ -56,56 +62,44 @@ in
       # Enable TPM auto-unlocking if configured
       crypttabExtraOpts = lib.mkIf config.aux.system.bootloader.tpm2.enable [ "tpm2-device=auto" ];
     };
-    fileSystems =
-      {
-        "/" = {
-          device = decryptPath;
-          fsType = "btrfs";
-          options = [
-            "subvol=@"
-            "compress=zstd"
-          ] ++ lib.optionals cfg.discard [ "discard=async" ];
-        };
-        "/boot" = {
-          device = cfg.partitions.boot;
-          fsType = "vfat";
-        };
-        "/home" = {
-          device = decryptPath;
-          fsType = "btrfs";
-          options = [
-            "subvol=@home"
-            "compress=zstd"
-          ] ++ lib.optionals cfg.discard [ "discard=async" ];
-        };
-        "/var/log" = {
-          device = decryptPath;
-          fsType = "btrfs";
-          options = [
-            "subvol=@log"
-            "compress=zstd"
-          ] ++ lib.optionals cfg.discard [ "discard=async" ];
-        };
-        "/nix" = {
-          device = decryptPath;
-          fsType = "btrfs";
-          options = [
-            "subvol=@nix"
-            "compress=zstd"
-            "noatime"
-          ] ++ lib.optionals cfg.discard [ "discard=async" ];
-        };
-      }
-      // lib.optionalAttrs cfg.swapFile.enable {
-        "/swap" = {
-          device = decryptPath;
-          fsType = "btrfs";
-          options = [
-            "subvol=@swap"
-            "noatime"
-          ] ++ lib.optionals cfg.discard [ "discard=async" ];
-        };
+    fileSystems = {
+      "/" = {
+        device = decryptPath;
+        fsType = "btrfs";
+        options = [ "subvol=@" ] ++ primaryPartOpts;
       };
+      "/boot" = {
+        device = cfg.partitions.boot;
+        fsType = "vfat";
+      };
+      "/home" = {
+        device = decryptPath;
+        fsType = "btrfs";
+        options = [ "subvol=@home" ] ++ primaryPartOpts;
+      };
+      "/var/log" = {
+        device = decryptPath;
+        fsType = "btrfs";
+        options = [ "subvol=@log" ] ++ primaryPartOpts;
+      };
+      "/nix" = {
+        device = decryptPath;
+        fsType = "btrfs";
+        options = [
+          "subvol=@nix"
+          "noatime"
+        ] ++ primaryPartOpts;
+      };
+      "/swap" = lib.mkIf cfg.swapFile.enable {
+        device = decryptPath;
+        fsType = "btrfs";
+        options = [
+          "subvol=@swap"
+          "noatime"
+          (lib.mkIf cfg.discard "discard=async").content
+        ];
+      };
+    };
 
     swapDevices = lib.mkIf cfg.swapFile.enable [
       {
