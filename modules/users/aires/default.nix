@@ -87,16 +87,13 @@ in
               matchBlocks = config.secrets.users.aires.sshConfig;
             };
 
-            # Set up Zsh
+            # Tweak Zsh
             zsh = {
-              oh-my-zsh = {
-                theme = "gentoo";
-              };
               shellAliases = {
                 nos = "nixos-operations-script";
                 z = "zellij";
                 update = "upgrade";
-                upgrade = "nos";
+                upgrade = "nos --update";
               };
               loginExtra = "fastfetch --memory-percent-green 75 --memory-percent-yellow 90";
             };

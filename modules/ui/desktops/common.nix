@@ -59,6 +59,7 @@ in
         noto-fonts-emoji
         liberation_ttf
         fira-code
+        fira-code-nerdfont
         fira-code-symbols
         fira
         roboto-slab

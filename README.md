@@ -11,32 +11,33 @@ A full set of configuration files managed via NixOS. This project is an **unoffi
 
 Secrets are managed using [git-crypt](https://github.com/AGWA/git-crypt). To unlock the repo, use `git-crypt unlock [path to key file]`. git-crypt will transparently encrypt/decrypt files stored in `modules/secrets` going forward, but you'll need this key file on all hosts that are using secrets.
 
-Note: This is a poor man's secret management solution. These secrets will be world-readable in the `/nix/store/`.
+> [!NOTE]
+> This is a poor man's secret management solution. If you use this, your secrets will be world-readable in the `/nix/store/`.
 
 ### First-time installation
 
-When installing on a brand new system, partition the main drive into two partitions: a `/boot` partition, and a LUKS partition. Then, run `bin/format-drives.sh --root [root partition] --luks [luks partition]`. This also creates a `hardware-configuration.nix` file.
+When installing on a brand new system, partition the main drive into two partitions: a `/boot` partition, and a LUKS partition. Then, run `bin/format-drives.sh --root [root partition] --luks [luks partition]` (the script will request sudo privileges):
 
 ```sh
 ./bin/format-drives.sh --boot /dev/nvme0n1p1 --luks /dev/nvme0n1p2 
 ```
 
-Next, set up the host's config under in the `hosts` folder by copying `configuration.nix.template` and `hardware-configuration.nix.template` into a new folder.
+Next, set up the host's config under in the `hosts` folder by copying `configuration.nix.template` and `hardware-configuration.nix.template` into a new folder. Running `format-drives.sh` also generates a `hardware-configuration.nix` file you can use.
 
 Then, add the host to `flake.nix` under the `nixosConfigurations` section.
 
 Finally, run the NixOS installer, replacing `host` with your actual hostname:
 
 ```sh
-nixos-install --verbose --root /mnt --flake .#host --no-root-password
+sudo nixos-install --verbose --root /mnt --flake .#host --no-root-password
 ``` 
 
 > [!TIP]
-> This config installs a nixos-rebuild wrapper called `nos` (NixOS Operations Script). Basic install/upgrade commands can be run using `nos`, but more advanced stuff should use `nixos-rebuild`.
+> This config installs a nixos-rebuild wrapper called `nos` (NixOS Operations Script) that handles pulling and pushing changes to your configuration repository via git. For more info, run `nixos-operations-script --help`.
 
 ### Running updates
 
-To update a system, run `sudo nixos-operations-script` (or just `sudo nos`). To commit updates back to the repo, use `sudo nos --update`.
+To update a system, run `nixos-operations-script` (or just `nos`). To commit updates back to the repo, use `nos --update`. Do not run this script as root - it will automatically request sudo permissions as needed.
 
 #### Automatic updates
 
@@ -52,16 +53,16 @@ aux.system.services.autoUpgrade = {
 };
 ```
 
-Automatic updates work by `git pull`ing the latest version of the repo from Forgejo. This repo gets updated nightly by [`Hevana`](./hosts/Hevana), which updates the `flake.lock` file and pushes it back up to Forgejo. Only one host needs to do this, but you can safely enable it for multiple hosts as long as they have access to the same repository. You can enable this feature on a host using `aux.system.services.autoUpgrade.pushUpdates = true;`.
+Automatic updates work by running `nos`. There's an additional `pushUpdates` option that, when enabled, updates the `flake.lock` file and pushes it back up to the Git repository. Only one host needs to do this (in this case, it's [Hevana](./hosts/Hevana), but you can safely enable it on multiple hosts as long as they use the same repository and update at different times.
 
 #### Manually updating
 
-Run `nos` to update the system. Use the `--update` flag to update `flake.lock` as part of the process. For the first build, you'll need to specify the path to your `flake.nix` file and the hostname using `--flake /path/to/flake.nix/#hostname`.
+Run `nos` to update the system. Use the `--update` flag to update `flake.lock` as part of the process. For the first build, you'll need to specify the path to your `flake.nix` file and the hostname using `nos --hostname my_hostname --flake /path/to/flake.nix`.
 
 After the first build, you can omit the hostname and path:
 
 ```sh
-nos --update
+nos
 ```
 
 This is the equivalent of running:

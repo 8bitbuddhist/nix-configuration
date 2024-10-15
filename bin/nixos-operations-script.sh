@@ -1,12 +1,13 @@
 #!/usr/bin/env bash
-# Wrapper script for nixos-rebuild
+# The NixOS Operations Script (NOS) is a wrapper script for nixos-rebuild and Flake-based configurations.
+# It handles pulling the latest version of your repository using Git, running system updates, and pushing changes back up.
 
 # Configuration parameters
 operation="switch"                              # The nixos-rebuild operation to use
 hostname=$(/run/current-system/sw/bin/hostname) # The name of the host to build
-flakeDir="${FLAKE_DIR}"                         # Path to the flake file (and optionally the hostname). Defaults to the FLAKE_DIR environment variable.
-update=false                                    # Whether to update flake.lock (false by default)
-user=$(/run/current-system/sw/bin/whoami)       # Which user account to use for git commands (defaults to whoever called the script)
+flakeDir="${FLAKE_DIR}"                         # Path to the flake file (and optionally the hostname)
+update=false                                    # Whether to update and commmit flake.lock
+user=$(/run/current-system/sw/bin/whoami)       # Which user account to use for git commands
 remainingArgs=""                                # All remaining arguments that haven't yet been processed (will be passed to nixos-rebuild)
 
 function usage() {
@@ -16,15 +17,17 @@ function usage() {
 	echo "  1. Pull the latest version of your Nix config repository"
 	echo "  2. Run 'nixos-rebuild switch'."
 	echo ""
-	echo "Advanced usage: nixos-operations-script.sh [-o|--operation operation] [-f|--flake path-to-flake] [extra nixos-rebuild parameters]"
-	echo "Options:"
-	echo " -h, --help          Show this help screen."
-	echo " -o, --operation     The nixos-rebuild operation to perform."
-	echo " -f, --flake <path>  The path to your flake.nix file (and optionally, the hostname to build)."
-	echo " -U, --update        Update and commit flake.lock."
-	echo " -u, --user          Which user account to run git commands under."
+	echo "Advanced usage: nixos-operations-script.sh [-h | --hostname hostname-to-build] [-o | --operation operation] [-f | --flake path-to-flake] [extra nixos-rebuild parameters]"
 	echo ""
-	exit 2
+	echo "Options:"
+	echo " --help                       Show this help screen."
+	echo " -f, --flake [path]           The path to your flake.nix file (defualts to the FLAKE_DIR environment variable)."
+	echo " -h, --hostname [hostname]    The name of the host to build (defaults to the current system's hostname)."
+	echo " -o, --operation [operation]  The nixos-rebuild operation to perform (defaults to 'switch')."
+	echo " -U, --update                 Update and commit the flake.lock file."
+	echo " -u, --user [username]        Which user account to run git commands under (defaults to the user running this script)."
+	echo ""
+	exit 0
 }
 
 # Argument processing logic shamelessly stolen from https://stackoverflow.com/questions/192249/how-do-i-parse-command-line-arguments-in-bash
@@ -36,6 +39,11 @@ while [[ $# -gt 0 ]]; do
 		shift
 		shift
 		;;
+	--hostname|-h)
+	    hostname="$2"
+	    shift
+	    shift
+	    ;;
 	--update|--upgrade|-U)
 		update=true
 		shift
@@ -50,9 +58,8 @@ while [[ $# -gt 0 ]]; do
 		shift
 		shift
 		;;
-	--help|-h)
+	--help)
 		usage
-		exit 0
 		;;
 	*)
 		POSITIONAL_ARGS+=("$1") # save positional arg
@@ -80,9 +87,9 @@ else
 	echo "Skipping 'nix flake update'..."
 fi
 
-options="--flake $flakeDir $remainingArgs --use-remote-sudo --log-format multiline-with-logs"
+options="--flake ${flakeDir}#${hostname} ${remainingArgs} --use-remote-sudo --log-format multiline-with-logs"
 
-echo "Running this operation: nixos-rebuild $operation $options"
-/run/wrappers/bin/sudo -u root /run/current-system/sw/bin/nixos-rebuild $operation $options
+echo "Running this operation: nixos-rebuild ${operation} ${options}"
+/run/wrappers/bin/sudo -u $user /run/current-system/sw/bin/nixos-rebuild $operation $options
 
 exit 0
