@@ -203,7 +203,7 @@
         "narHash": "sha256-5WHctvz0R9N9oBGda1ROuJ/V/m/tZsEXloGWDrd9G7Y=",
         "rev": "866b8902c975a1aaec547445976dd39d60def4ab",
         "type": "tarball",
-        "url": "https://git.auxolotl.org/api/v1/repos/auxolotl/labs/archive/866b8902c975a1aaec547445976dd39d60def4ab.tar.gz?rev=866b8902c975a1aaec547445976dd39d60def4ab"
+        "url": "https://git.auxolotl.org/api/v1/repos/auxolotl/labs/archive/d7762a5a78273ffb76da6f6902245983143f63f6.tar.gz?rev=d7762a5a78273ffb76da6f6902245983143f63f6"
       },
       "original": {
         "dir": "lib",
