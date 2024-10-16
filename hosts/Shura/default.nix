@@ -72,7 +72,7 @@ in
         user = config.users.users.aires.name;
       };
       netdata = {
-        # Disabled until I get Nginx configured to provide a streaming endpoint
+        # FIXME: Disabled until I get Nginx configured to provide a streaming endpoint
         enable = false;
         type = "child";
         url = config.secrets.services.netdata.url;

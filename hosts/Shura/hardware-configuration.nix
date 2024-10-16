@@ -40,18 +40,6 @@ in
     };
   };
 
-  # Detect keyboard as "internal" so we can automatically disable the touchpad while typing
-  # If this doesn't work, try changing "MatchName" to "AT Raw Set 2 keyboard"
-  environment.etc."libinput/keyboard-touchpard.quirks" = {
-    mode = "0600";
-    text = ''
-      [Serial Keyboards]
-      MatchUdevType=keyboard
-      MatchName=ITE Tech. Inc. ITE Device(8258) Keyboard
-      AttrKeyboardIntegration=internal
-    '';
-  };
-
   # Limit the number of cores Nix can use
   nix.settings.cores = 12;
 }

@@ -69,11 +69,6 @@ in
         # Configure NixOS to use the same software channel as Flakes
         registry.nixpkgs.flake = inputs.nixpkgs;
         nixPath = [ "nixpkgs=${inputs.nixpkgs}" ];
-
-        # When using a builder, use its package store
-        extraOptions = ''
-          builders-use-substitutes = true
-        '';
       };
 
       # Support for standard, dynamically-linked executables

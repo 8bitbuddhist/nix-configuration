@@ -70,9 +70,6 @@ in
     };
   };
 
-  # Disable NetworkManager
-  networking.networkmanager.enable = lib.mkForce false;
-
   # Configure the system.
   aux.system = {
     # Enable to allow unfree (e.g. closed source) packages.
