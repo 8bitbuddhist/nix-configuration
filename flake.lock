@@ -267,16 +267,16 @@
     },
     "nixos-hardware": {
       "locked": {
-        "lastModified": 1728729581,
-        "narHash": "sha256-oazkQ/z7r43YkDLLQdMg8oIB3CwWNb+2ZrYOxtLEWTQ=",
-        "owner": "NixOS",
+        "lastModified": 1729143336,
+        "narHash": "sha256-0RtqGBSp9PYpQg/+ZOgJ79ypUt/Sf1dv/ym/xMmyaE0=",
+        "owner": "mexisme",
         "repo": "nixos-hardware",
-        "rev": "a8dd1b21995964b115b1e3ec639dd6ce24ab9806",
+        "rev": "5871b0a32ec6bc9420795dcede8c644a5fe0d85d",
         "type": "github"
       },
       "original": {
-        "owner": "NixOS",
-        "ref": "master",
+        "owner": "mexisme",
+        "ref": "ms-surface/update-kernel-6.10.10",
         "repo": "nixos-hardware",
         "type": "github"
       }
