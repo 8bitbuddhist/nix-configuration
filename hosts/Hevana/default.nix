@@ -1,9 +1,4 @@
-{
-  config,
-  lib,
-  pkgs,
-  ...
-}:
+{ config, pkgs, ... }:
 
 let
   # Do not change this value! This tracks when NixOS was installed on your system.
@@ -115,10 +110,6 @@ in
         enable = true;
         home = "${services-root}/forgejo";
         url = config.secrets.services.forgejo.url;
-        actions = {
-          enable = false;
-          token = config.secrets.services.forgejo.runner-token;
-        };
       };
       home-assistant = {
         enable = false;
@@ -210,7 +201,7 @@ in
       };
       ssh = {
         enable = true;
-        ports = [ config.secrets.hosts.dimaga.ssh.port ];
+        ports = [ config.secrets.hosts.hevana.ssh.port ];
       };
       virtualization.host = {
         enable = true;
