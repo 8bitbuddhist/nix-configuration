@@ -90,6 +90,6 @@ fi
 options="--flake ${flakeDir}#${hostname} ${remainingArgs} --use-remote-sudo --log-format multiline-with-logs"
 
 echo "Running this operation: nixos-rebuild ${operation} ${options}"
-/run/wrappers/bin/sudo -u $user /run/current-system/sw/bin/nixos-rebuild $operation $options
+/run/current-system/sw/bin/nixos-rebuild $operation $options
 
 exit 0
