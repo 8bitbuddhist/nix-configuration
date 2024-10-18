@@ -47,7 +47,6 @@ To enable automatic updates for a host, set `aux.system.services.autoUpgrade = t
 aux.system.services.autoUpgrade = {
   enable = true;
   configDir = config.secrets.nixConfigFolder;
-  extraFlags = "--build-host hevana";
   onCalendar = "daily";
   user = config.users.users.aires.name;
 };

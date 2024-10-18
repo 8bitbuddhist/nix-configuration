@@ -44,32 +44,6 @@ in
   #   To see all available timezones, run `timedatectl list-timezones`.
   time.timeZone = "America/New_York";
 
-  # Build Nix packages for other hosts.
-  # Runs every day at 4 AM
-  systemd = {
-    services."build-hosts" = {
-      serviceConfig = {
-        Type = "oneshot";
-        User = "root";
-      };
-      path = config.aux.system.corePackages;
-      script = ''
-        cd ${config.secrets.nixConfigFolder}
-        nixos-rebuild build --flake .#Khanda
-      '';
-    };
-    timers."build-hosts" = {
-      wants = [ "network-online.target" ];
-      after = [ "network-online.target" ];
-      wantedBy = [ "timers.target" ];
-      timerConfig = {
-        OnCalendar = "04:00";
-        Persistent = true;
-        Unit = "build-hosts.service";
-      };
-    };
-  };
-
   # Configure the system.
   aux.system = {
     # Enable to allow unfree (e.g. closed source) packages.
