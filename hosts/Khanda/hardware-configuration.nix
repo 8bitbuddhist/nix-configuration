@@ -30,10 +30,12 @@ in
 
     initrd = {
       availableKernelModules = [
+        "kvm-intel"
         "surface_aggregator"
         "surface_aggregator_registry"
         "surface_aggregator_hub"
         "surface_hid_core"
+        "surface_hid"
         "hid_multitouch"
         "8250_dw"
         "intel_lpss"
@@ -46,35 +48,7 @@ in
         "surface_kbd"
         "pinctrl_tigerlake"
       ];
-      kernelModules = [
-        "surface_aggregator"
-        "surface_aggregator_registry"
-        "surface_aggregator_hub"
-        "surface_hid_core"
-        "surface_hid"
-        "hid_multitouch"
-        "8250_dw"
-        "intel_lpss"
-        "intel_lpss_pci"
-        "surface_kbd"
-        "pinctrl_tigerlake"
-      ];
     };
-
-    kernelModules = [
-      "kvm-intel"
-      "surface_aggregator"
-      "surface_aggregator_registry"
-      "surface_aggregator_hub"
-      "surface_hid_core"
-      "surface_hid"
-      "hid_multitouch"
-      "8250_dw"
-      "intel_lpss"
-      "intel_lpss_pci"
-      "surface_kbd"
-      "pinctrl_tigerlake"
-    ];
 
     kernelParams = [
       "pci=hpiosize=0" # Prevent ACPI interrupt storm. See https://github.com/linux-surface/linux-surface/wiki/Surface-Pro-9#acpi-interrupt-storm

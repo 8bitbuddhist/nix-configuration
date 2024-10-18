@@ -14,6 +14,7 @@ in
   options = {
     aux.system.bluetooth = {
       enable = lib.mkEnableOption "Enables bluetooth.";
+      experimental.enable = lib.mkEnableOption "Enables experimental features, like device power reporting.";
     };
   };
 
@@ -22,7 +23,7 @@ in
     hardware.bluetooth = {
       enable = true;
       powerOnBoot = true;
-      settings = {
+      settings = lib.mkIf cfg.experimental.enable {
         General = {
           Enable = "Source,Sink,Media,Socket";
           Experimental = true;
