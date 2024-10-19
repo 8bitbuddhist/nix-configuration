@@ -19,7 +19,7 @@ in
       haskellPackages.pandoc
       haskellPackages.pandoc-cli
       haskellPackages.pandoc-crossref
-      texliveSmall
+      (texlive.combine { inherit (texlive) scheme-small draftwatermark;})
     ];
   };
 }
