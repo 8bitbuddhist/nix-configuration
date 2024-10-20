@@ -15,11 +15,7 @@ in
   options = {
     aux.system.ui.desktops.gnome = {
       enable = lib.mkEnableOption "Enables the Gnome Desktop Environment.";
-      experimental = {
-        fractionalScaling.enable = lib.mkEnableOption "Enables fractional scaling.";
-        tripleBuffering.enable = lib.mkEnableOption "Enables dynamic triple buffering for xwayland applications.";
-        vrr.enable = lib.mkEnableOption "Enables variable refresh rate (VRR).";
-      };
+      experimental.enable = lib.mkEnableOption "Enables fractional scaling, dynamic triple buffering, and variable refresh rate (VRR).";
     };
   };
 
@@ -37,20 +33,11 @@ in
           enable = true;
 
           # Enable experimental features
-          extraGSettingsOverrides = ''
+          extraGSettingsOverrides = lib.mkIf cfg.experimental.enable ''
             [org.gnome.mutter]
-            experimental-features = ${
-              lib.strings.concatStrings [
-                "[ "
-                (lib.mkIf cfg.experimental.fractionalScaling.enable "'scale-monitor-framebuffer', ").content
-                (lib.mkIf cfg.experimental.vrr.enable "'variable-refresh-rate'").content
-                " ]"
-              ]
-            }
+            experimental-features = [ 'scale-monitor-framebuffer','variable-refresh-rate' ]
           '';
-          extraGSettingsOverridePackages = lib.mkIf (
-            cfg.experimental.fractionalScaling.enable || cfg.experimental.vrr.enable
-          ) [ pkgs.gnome.mutter ];
+          extraGSettingsOverridePackages = lib.mkIf cfg.experimental.enable [ pkgs.gnome.mutter ];
         };
         displayManager.gdm.enable = true;
       };
@@ -124,7 +111,7 @@ in
       style = "adwaita-dark";
     };
 
-    nixpkgs.overlays = lib.mkIf cfg.experimental.tripleBuffering.enable [
+    nixpkgs.overlays = lib.mkIf cfg.experimental.enable [
       (final: prev: {
         gnome = prev.gnome.overrideScope (
           gnomeFinal: gnomePrev: {
