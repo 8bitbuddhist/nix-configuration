@@ -78,11 +78,11 @@ fi
 cd $flakeDir
 
 echo "Pulling the latest version of the repository..."
-/run/wrappers/bin/sudo -u $user git pull
+/run/wrappers/bin/sudo -u $user /run/current-system/sw/bin/git pull
 
 if [ $update = true ]; then
 	echo "Updating flake.lock..."
-	/run/wrappers/bin/sudo -u $user nix flake update --commit-lock-file && /run/wrappers/bin/sudo -u $user git push
+	/run/wrappers/bin/sudo -u $user /run/current-system/sw/bin/nix flake update --commit-lock-file && /run/wrappers/bin/sudo -u $user git push
 else
 	echo "Skipping 'nix flake update'..."
 fi
