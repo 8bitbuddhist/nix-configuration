@@ -65,13 +65,12 @@ in
         };
         path = config.aux.system.corePackages;
         unitConfig.RequiresMountsFor = cfg.configDir;
-        script = lib.strings.concatStrings [
+        script =
           "/run/current-system/sw/bin/nixos-operations-script --operation ${cfg.operation} "
-          (lib.mkIf (cfg.configDir != "") "--flake ${cfg.configDir} ").content
-          (lib.mkIf (cfg.user != "") "--user ${cfg.user} ").content
-          (lib.mkIf (cfg.pushUpdates) "--update ").content
-          (lib.mkIf (cfg.extraFlags != "") cfg.extraFlags).content
-        ];
+          + (if (cfg.configDir != "") then "--flake ${cfg.configDir} " else "")
+          + (if (cfg.user != "") then "--user ${cfg.user} " else "")
+          + (if (cfg.pushUpdates) then "--update " else "")
+          + (if (cfg.extraFlags != "") then cfg.extraFlags else "");
       };
       timers."nixos-upgrade" = {
         wants = [ "network-online.target" ];
