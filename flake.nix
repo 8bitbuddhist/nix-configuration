@@ -42,7 +42,7 @@
 
     # NixOS hardware quirks
     #nixos-hardware.url = "github:NixOS/nixos-hardware/master";
-    nixos-hardware.url = "github:mexisme/nixos-hardware?ref=ms-surface/update-kernel-6.10.10";
+    nixos-hardware.url = "github:8bitbuddhist/nixos-hardware?ref=ms-surface/update-kernel-6.11.4";
   };
 
   outputs =
