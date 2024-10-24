@@ -20,13 +20,13 @@ in
 
     hardware.graphics = {
       enable = true;
-      extraPackages = [
-        pkgs.intel-media-driver
-        pkgs.unstable.vpl-gpu-rt
+      extraPackages = with pkgs; [
+        intel-media-driver
+        onevpl-intel-gpu
       ];
       extraPackages32 = with pkgs.driversi686Linux; [
         intel-media-driver
-        pkgs.unstable.vpl-gpu-rt
+        onevpl-intel-gpu
       ];
     };
   };

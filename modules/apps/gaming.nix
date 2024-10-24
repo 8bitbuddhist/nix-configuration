@@ -43,16 +43,16 @@ in
       ACTION=="add", ATTRS{id/vendor}==${vendorID}, ATTRS{id/product}==${productID}, RUN+="${pkgs.bash}/bin/bash -c 'echo 0x03 ${vendorID} ${productID} > /sys/bus/hid/drivers/xpadneo/new_id && echo 0x05 ${vendorID} ${productID} > /sys/bus/hid/drivers/xpadneo/new_id'"
     '';
     /*
-    services.udev.packages = [
-      (pkgs.writeTextFile {
-        name = "victrix-pro-bfg.rules";
-        executable = true;
-        destination = "/etc/udev/rules.d/70-victrix-pro-bfg.rules";
-        text = ''
-          	ACTION=="add", ATTRS{id/vendor}==${vendorID}, ATTRS{id/product}==${productID}, RUN+="${pkgs.bash}/bin/bash -c 'echo 0x03 ${vendorID} ${productID} > /sys/bus/hid/drivers/xpadneo/new_id && echo 0x05 ${vendorID} ${productID} > /sys/bus/hid/drivers/xpadneo/new_id'"
-        '';
-      })
-    ];
+      services.udev.packages = [
+        (pkgs.writeTextFile {
+          name = "victrix-pro-bfg.rules";
+          executable = true;
+          destination = "/etc/udev/rules.d/70-victrix-pro-bfg.rules";
+          text = ''
+            	ACTION=="add", ATTRS{id/vendor}==${vendorID}, ATTRS{id/product}==${productID}, RUN+="${pkgs.bash}/bin/bash -c 'echo 0x03 ${vendorID} ${productID} > /sys/bus/hid/drivers/xpadneo/new_id && echo 0x05 ${vendorID} ${productID} > /sys/bus/hid/drivers/xpadneo/new_id'"
+          '';
+        })
+      ];
     */
 
     # Add script to restart xpadneo in case of issues
