@@ -20,6 +20,7 @@ let
 
   # List of subdomains to add to the TLS certificate
   subdomains = with config.secrets.services; [
+    dav.url
     forgejo.url
     gremlin-lab.url
     jellyfin.url
@@ -211,6 +212,12 @@ in
           cores = 3;
           ram = 4096;
         };
+      };
+      webdav = {
+        enable = false;
+        home = "${services-root}/webdav";
+        url = config.secrets.services.webdav.url;
+        users = config.secrets.services.webdav.users;
       };
     };
 
