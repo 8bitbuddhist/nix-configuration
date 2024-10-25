@@ -14,7 +14,7 @@ in
   system.stateVersion = stateVersion;
   networking.hostName = hostName;
 
-  custom-fonts.Freight-Pro.enable = true;
+  custom-fonts.Freight-Pro.enable = config.aux.system.users.gremlin.enable;
 
   aux.system = {
     apps = {
@@ -42,7 +42,6 @@ in
     gpu.amd.enable = true;
 
     packages = with pkgs; [
-      boinc # Boinc client
       keepassxc # Use native instead of Flatpak due to weird performance issues
     ];
 
