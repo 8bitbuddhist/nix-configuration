@@ -51,6 +51,7 @@ in
       autoUpgrade = {
         enable = true;
         configDir = config.secrets.nixConfigFolder;
+        extraFlags = "--build-host hevana";
         onCalendar = "weekly";
         user = config.users.users.aires.name;
       };
