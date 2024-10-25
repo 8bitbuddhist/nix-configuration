@@ -48,12 +48,6 @@
       # Install ZSH for all users
       zsh.enable = true;
 
-      # Enable NH, an alternative nixos-rebuild frontend.
-      # https://github.com/viperML/nh
-      nh = {
-        enable = true;
-        flake = "${config.secrets.nixConfigFolder}";
-      };
       # Configure nano
       nano.nanorc = ''
         set tabsize 4

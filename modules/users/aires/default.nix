@@ -76,8 +76,12 @@ in
               userName = config.secrets.users.aires.firstName;
               userEmail = config.secrets.users.aires.email;
               extraConfig = {
-                safe.directory = "${config.secrets.nixConfigFolder}/.git";
+                core.editor = config.aux.system.editor;
+                merge.conflictStyle = "zdiff3";
+                pull.ff = "only";
                 push.autoSetupRemote = "true";
+                safe.directory = "${config.secrets.nixConfigFolder}/.git";
+                submodule.recurse = true;
               };
             };
 

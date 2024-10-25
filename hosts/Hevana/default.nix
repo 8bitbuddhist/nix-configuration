@@ -112,11 +112,6 @@ in
         home = "${services-root}/forgejo";
         url = config.secrets.services.forgejo.url;
       };
-      home-assistant = {
-        enable = false;
-        home = "${services-root}/home-assistant";
-        url = config.secrets.services.home-assistant.url;
-      };
       jellyfin = {
         enable = true;
         home = "${services-root}/jellyfin";
