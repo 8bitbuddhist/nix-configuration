@@ -72,6 +72,7 @@ in
           "com.github.tchx84.Flatseal"
           "com.github.wwmm.easyeffects"
           "md.obsidian.Obsidian"
+          "org.chromium.Chromium"
           "org.keepassxc.KeePassXC"
           "org.mozilla.firefox"
         ];
