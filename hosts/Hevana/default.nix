@@ -8,13 +8,13 @@ let
   # Where to store service files
   services-root = "/storage/services";
 
-  # Credentials for interacting with the Namecheap API
-  namecheapCredentials = {
-    "NAMECHEAP_API_USER_FILE" = "${pkgs.writeText "namecheap-api-user" ''
-      ${config.secrets.networking.namecheap.api.user}
+  # Credentials for interacting with the Porkbun API
+  porkbunCredentials = {
+    "PORKBUN_API_KEY_FILE" = "${pkgs.writeText "porkbun-api-key" ''
+      ${config.secrets.networking.porkbun.api.apiKey}
     ''}";
-    "NAMECHEAP_API_KEY_FILE" = "${pkgs.writeText "namecheap-api-key" ''
-      ${config.secrets.networking.namecheap.api.key}
+    "PORKBUN_SECRET_API_KEY_FILE" = "${pkgs.writeText "porkbun-secret-api-key" ''
+      ${config.secrets.networking.porkbun.api.secretKey}
     ''}";
   };
 
@@ -76,15 +76,15 @@ in
         defaultEmail = config.secrets.users.aires.email;
         certs = {
           "${config.secrets.networking.domains.primary}" = {
-            dnsProvider = "namecheap";
+            dnsProvider = "porkbun";
             extraDomainNames = subdomains;
             webroot = null; # Required in order to prevent a failed assertion
-            credentialFiles = namecheapCredentials;
+            credentialFiles = porkbunCredentials;
           };
           "${config.secrets.networking.domains.blog}" = {
-            dnsProvider = "namecheap";
+            dnsProvider = "porkbun";
             webroot = null; # Required in order to prevent a failed assertion
-            credentialFiles = namecheapCredentials;
+            credentialFiles = porkbunCredentials;
           };
         };
       };
