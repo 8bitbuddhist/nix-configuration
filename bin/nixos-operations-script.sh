@@ -8,6 +8,7 @@ hostname=$(/run/current-system/sw/bin/hostname) # The name of the host to build
 flakeDir="${FLAKE_DIR}"                         # Path to the flake file (and optionally the hostname)
 update=false                                    # Whether to update and commmit flake.lock
 user=$(/run/current-system/sw/bin/whoami)       # Which user account to use for git commands
+buildHost=""                                    # Which host to use to generate the build (defaults to the local host)
 remainingArgs=""                                # All remaining arguments that haven't yet been processed (will be passed to nixos-rebuild)
 
 function usage() {
@@ -34,16 +35,21 @@ function usage() {
 POSITIONAL_ARGS=()
 while [[ $# -gt 0 ]]; do
   case "$1" in
+	--build-host)
+		buildHost="$2"
+		shift
+		shift
+		;;
 	--flake|-f)
 		flakeDir="$2"
 		shift
 		shift
 		;;
 	--hostname|-h)
-	    hostname="$2"
-	    shift
-	    shift
-	    ;;
+		hostname="$2"
+		shift
+		shift
+		;;
 	--update|--upgrade|-U)
 		update=true
 		shift
@@ -88,6 +94,12 @@ else
 fi
 
 options="--flake ${flakeDir}#${hostname} ${remainingArgs} --use-remote-sudo --log-format multiline-with-logs"
+
+if [[ -n "${buildHost}" && $operation != "build" && $operation != *"dry"* ]]; then
+	echo "Remote build detected, running this operation first: nixos-rebuild build ${options} --build-host $buildHost"
+	/run/current-system/sw/bin/nixos-rebuild build $options --build-host $buildHost
+	echo "Remote build complete!"
+fi
 
 echo "Running this operation: nixos-rebuild ${operation} ${options}"
 /run/current-system/sw/bin/nixos-rebuild $operation $options

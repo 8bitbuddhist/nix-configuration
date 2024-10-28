@@ -51,6 +51,7 @@ in
       autoUpgrade = {
         enable = true;
         configDir = config.secrets.nixConfigFolder;
+        extraFlags = "--build-host hevana";
         onCalendar = "weekly";
         user = config.users.users.aires.name;
       };
@@ -71,6 +72,7 @@ in
           "com.github.tchx84.Flatseal"
           "com.github.wwmm.easyeffects"
           "md.obsidian.Obsidian"
+          "org.chromium.Chromium"
           "org.keepassxc.KeePassXC"
           "org.mozilla.firefox"
         ];

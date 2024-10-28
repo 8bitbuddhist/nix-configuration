@@ -8,18 +8,19 @@ let
   # Where to store service files
   services-root = "/storage/services";
 
-  # Credentials for interacting with the Namecheap API
-  namecheapCredentials = {
-    "NAMECHEAP_API_USER_FILE" = "${pkgs.writeText "namecheap-api-user" ''
-      ${config.secrets.networking.namecheap.api.user}
+  # Credentials for interacting with the Porkbun API
+  porkbunCredentials = {
+    "PORKBUN_API_KEY_FILE" = "${pkgs.writeText "porkbun-api-key" ''
+      ${config.secrets.networking.porkbun.api.apiKey}
     ''}";
-    "NAMECHEAP_API_KEY_FILE" = "${pkgs.writeText "namecheap-api-key" ''
-      ${config.secrets.networking.namecheap.api.key}
+    "PORKBUN_SECRET_API_KEY_FILE" = "${pkgs.writeText "porkbun-secret-api-key" ''
+      ${config.secrets.networking.porkbun.api.secretKey}
     ''}";
   };
 
   # List of subdomains to add to the TLS certificate
   subdomains = with config.secrets.services; [
+    dav.url
     forgejo.url
     gremlin-lab.url
     jellyfin.url
@@ -75,15 +76,15 @@ in
         defaultEmail = config.secrets.users.aires.email;
         certs = {
           "${config.secrets.networking.domains.primary}" = {
-            dnsProvider = "namecheap";
+            dnsProvider = "porkbun";
             extraDomainNames = subdomains;
             webroot = null; # Required in order to prevent a failed assertion
-            credentialFiles = namecheapCredentials;
+            credentialFiles = porkbunCredentials;
           };
           "${config.secrets.networking.domains.blog}" = {
-            dnsProvider = "namecheap";
+            dnsProvider = "porkbun";
             webroot = null; # Required in order to prevent a failed assertion
-            credentialFiles = namecheapCredentials;
+            credentialFiles = porkbunCredentials;
           };
         };
       };
@@ -110,11 +111,6 @@ in
         enable = true;
         home = "${services-root}/forgejo";
         url = config.secrets.services.forgejo.url;
-      };
-      home-assistant = {
-        enable = false;
-        home = "${services-root}/home-assistant";
-        url = config.secrets.services.home-assistant.url;
       };
       jellyfin = {
         enable = true;
@@ -208,6 +204,12 @@ in
           cores = 3;
           ram = 4096;
         };
+      };
+      webdav = {
+        enable = false;
+        home = "${services-root}/webdav";
+        url = config.secrets.services.webdav.url;
+        users = config.secrets.services.webdav.users;
       };
     };
 
