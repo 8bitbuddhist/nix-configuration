@@ -93,7 +93,7 @@ in
         };
 
         gluetun = lib.mkIf cfg.vpn.enable {
-          image = "qmcgaw/gluetun:latest";
+          image = "qmcgaw/gluetun:v3";
           extraOptions = [
             "--cap-add=NET_ADMIN"
             "--device=/dev/net/tun"

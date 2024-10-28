@@ -189,7 +189,10 @@ in
         vpn = {
           enable = true;
           privateKey = config.secrets.services.protonvpn.privateKey;
-          countries = [ "Netherlands" ];
+          countries = [
+            "Switzerland"
+            "Netherlands"
+          ];
         };
       };
       ssh = {
