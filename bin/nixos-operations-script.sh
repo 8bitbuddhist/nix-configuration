@@ -88,7 +88,8 @@ echo "Pulling the latest version of the repository..."
 
 if [ $update = true ]; then
 	echo "Updating flake.lock..."
-	/run/wrappers/bin/sudo -u $user /run/current-system/sw/bin/nix flake update --commit-lock-file && /run/wrappers/bin/sudo -u $user git push
+	/run/wrappers/bin/sudo -u $user /run/current-system/sw/bin/nix flake update --commit-lock-file
+	/run/wrappers/bin/sudo -u $user git push
 else
 	echo "Skipping 'nix flake update'..."
 fi
