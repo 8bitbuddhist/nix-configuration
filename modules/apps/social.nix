@@ -18,14 +18,8 @@ in
       allowUnfree = true;
       ui.flatpak = {
         enable = true;
-        packages = [
-          "com.discordapp.Discord"
-          "im.riot.Riot" # Element
-        ];
+        packages = [ "com.discordapp.Discord" ];
       };
     };
-
-    # Check Beeper Flatpak status here: https://github.com/daegalus/beeper-flatpak-wip/issues/1
-    environment.systemPackages = [ pkgs.beeper ];
   };
 }
