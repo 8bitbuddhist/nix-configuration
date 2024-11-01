@@ -40,6 +40,33 @@ in
   #   To see all available timezones, run `timedatectl list-timezones`.
   time.timeZone = "America/New_York";
 
+  # Enable dynamic DNS with Porkbun                                                                                                                 
+  services.oink = {
+    enable = true;
+    settings = {
+      apiKey = config.secrets.networking.porkbun.api.apiKey;
+      secretApiKey = config.secrets.networking.porkbun.api.secretKey;
+    };
+    domains = [
+      {
+        domain = config.secrets.networking.domains.blog;
+        subdomain = "";
+      }
+      {
+        domain = config.secrets.networking.domains.blog;
+        subdomain = "*";
+      }
+      {
+        domain = config.secrets.networking.domains.primary;
+        subdomain = "";
+      }
+      {
+        domain = config.secrets.networking.domains.primary;
+        subdomain = "*";
+      }
+    ];
+  };
+
   # Configure the system.
   aux.system = {
     # Enable to allow unfree (e.g. closed source) packages.
