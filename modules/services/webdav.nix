@@ -43,6 +43,7 @@ in
           port = port;
           scope = cfg.home;
           users = cfg.users;
+          behindProxy = true;
         };
       };
 
@@ -58,6 +59,32 @@ in
           proxy_redirect off;
         '';
       };
+    };
+
+    environment.etc = lib.mkIf config.services.fail2ban.enable {
+      "fail2ban/filter.d/webdav.conf".text = ''
+        [INCLUDES]
+        before = common.conf
+
+        [Definition]
+        # Failregex to match "invalid password" and extract remote_address only
+        failregex = ^.*invalid password\s*\{.*"remote_address":\s*"<HOST>"\s*\}
+
+        # Failregex to match "invalid username" and extract remote_address only (if applicable)
+        failregex += ^.*invalid username\s*\{.*"remote_address":\s*"<HOST>"\s*\}
+
+        ignoreregex =
+      '';
+
+      "fail2ban/jail.d/webdav.conf".text = ''
+        [webdav]
+        enabled = true
+        port = ${builtins.toString port}
+        filter = webdav
+        logpath = /var/log/webdav/fail2ban.log
+        banaction = iptables-allports
+        ignoreself = false
+      '';
     };
 
     systemd.services = {

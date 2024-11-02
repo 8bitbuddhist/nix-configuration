@@ -236,7 +236,7 @@ in
         };
       };
       webdav = {
-        enable = false;
+        enable = true;
         home = "${services-root}/webdav";
         url = config.secrets.services.webdav.url;
         users = config.secrets.services.webdav.users;
