@@ -1,9 +1,4 @@
-{
-  pkgs,
-  config,
-  lib,
-  ...
-}:
+{ config, lib, ... }:
 
 let
   cfg = config.aux.system.apps.social;
@@ -18,7 +13,10 @@ in
       allowUnfree = true;
       ui.flatpak = {
         enable = true;
-        packages = [ "com.discordapp.Discord" ];
+        packages = [
+          "com.discordapp.Discord"
+          "dev.geopjr.Tuba"
+        ];
       };
     };
   };
