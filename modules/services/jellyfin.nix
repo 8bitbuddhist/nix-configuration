@@ -84,15 +84,19 @@ in
       };
     };
 
-    # Install packages for plugins
-    environment.systemPackages = with pkgs; [
-      id3v2
-      yt-dlp
-    ];
-
     systemd.services = {
-      jellyfin.unitConfig.RequiresMountsFor = cfg.home;
+      jellyfin = {
+        # Install packages for plugins
+        path = with pkgs; [
+          id3v2
+          yt-dlp
+        ];
+        unitConfig.RequiresMountsFor = cfg.home;
+      };
       nginx.wants = [ config.systemd.services.jellyfin.name ];
     };
+
+    # Set permissions for media folders
+    systemd.tmpfiles.rules = [ "Z /storage/Media 6775 aires media - -" ];
   };
 }
