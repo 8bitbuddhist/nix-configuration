@@ -1,6 +1,5 @@
 # Modules common to all systems
 {
-  config,
   inputs,
   lib,
   pkgs,
