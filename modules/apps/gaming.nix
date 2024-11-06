@@ -14,9 +14,12 @@ let
     sudo systemctl restart bluetooth.service
   '';
 
-  # FIXME: replace with real vendorID and product ID for Victrix Pro BFG controller
+  # vendorID and product ID for Victrix Pro BFG controller
   vendorID = "0e6f";
   productID = "024b";
+
+  # Bluetooth config for Victrix PDP pro
+  vitrix-pdp-pro-bluetooth = pkgs.writeText "info" (builtins.readFile ./bluetooth/vitrix-pdp-pro);
 in
 {
   options = {
@@ -35,6 +38,11 @@ in
 
     # Enable Xbox controller driver (XPadNeo)
     hardware.xpadneo.enable = true;
+
+    systemd.tmpfiles.rules = lib.mkIf config.aux.system.bluetooth.enable [
+      "d /var/lib/bluetooth/${config.aux.system.bluetooth.adapter}/ 0700 root root" # First, make sure the directory exists
+      "L+ /var/lib/bluetooth/${config.aux.system.bluetooth.adapter}/00:34:30:47:37:AB/info - - - - ${vitrix-pdp-pro-bluetooth}"
+    ];
 
     # Create udev rule to force PDP Victrix controller to use xpadneo
     # Udev rule taken from https://github.com/atar-axis/xpadneo/blob/master/hid-xpadneo/etc-udev-rules.d/60-xpadneo.rules

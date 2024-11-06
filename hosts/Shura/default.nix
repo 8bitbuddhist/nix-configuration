@@ -35,6 +35,8 @@ in
       tpm2.enable = true;
     };
 
+    bluetooth.adapter = "AC:50:DE:9F:AB:88";
+
     # Change the default text editor. Options are "emacs", "nano", or "vim".
     editor = "nano";
 
