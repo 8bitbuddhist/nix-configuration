@@ -9,8 +9,7 @@ in
 
   # Configure the kernel.
   boot = {
-    # First, install the latest Zen kernel
-    kernelPackages = pkgs.linuxPackages_zen;
+    kernelPackages = pkgs.linuxPackages_latest;
 
     # Hardware defaults detected by nixos-generate-configuration
     initrd = {
