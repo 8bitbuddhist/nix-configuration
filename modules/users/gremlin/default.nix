@@ -90,6 +90,13 @@ in
             enable = true;
             matchBlocks = config.secrets.users.gremlin.sshConfig;
           };
+
+          # Set up Zsh
+          zsh = {
+            oh-my-zsh = {
+              theme = "gnzh";
+            };
+          };
         };
       };
     })

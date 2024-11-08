@@ -91,8 +91,11 @@ in
               matchBlocks = config.secrets.users.aires.sshConfig;
             };
 
-            # Tweak Zsh
+            # Set up Zsh
             zsh = {
+              oh-my-zsh = {
+                theme = "gentoo";
+              };
               shellAliases = {
                 nos = "nixos-operations-script";
                 z = "zellij";
