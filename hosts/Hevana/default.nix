@@ -40,30 +40,17 @@ in
   time.timeZone = "America/New_York";
 
   # Enable dynamic DNS with Porkbun                                                                                                                 
-  services.oink = {
+  services.ddclient = {
     enable = true;
-    settings = {
-      apiKey = config.secrets.networking.porkbun.api.apiKey;
-      secretApiKey = config.secrets.networking.porkbun.api.secretKey;
-    };
-    domains = [
-      {
-        domain = config.secrets.networking.domains.blog;
-        subdomain = "";
-      }
-      {
-        domain = config.secrets.networking.domains.blog;
-        subdomain = "*";
-      }
-      {
-        domain = config.secrets.networking.domains.primary;
-        subdomain = "";
-      }
-      {
-        domain = config.secrets.networking.domains.primary;
-        subdomain = "*";
-      }
-    ];
+    configFile = pkgs.writeText "ddclient.conf" ''
+            use=web, web=checkip.dyndns.com/, web-skip='IP Address'
+            protocol=porkbun
+            apikey=${config.secrets.networking.porkbun.api.apiKey}
+            secretapikey=${config.secrets.networking.porkbun.api.secretKey}
+            *.${config.secrets.networking.domains.primary},*.${config.secrets.networking.domains.blog}
+            cache=/tmp/ddclient.cache
+      	    pid=/var/run/ddclient.pid
+    '';
   };
 
   # Configure the system.
