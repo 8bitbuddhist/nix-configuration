@@ -103,12 +103,11 @@ in
 
     # Enable Syncthing
     (lib.mkIf cfg.services.syncthing.enable {
-      users.users.gremlin = {
-        packages = [
-          pkgs.syncthing
-          (lib.mkIf cfg.services.syncthing.enableTray pkgs.syncthingtray)
-        ];
-      };
+      users.users.gremlin.packages = [ pkgs.syncthing ];
+
+      services.flatpak.packages = lib.mkIf (
+        config.aux.system.ui.flatpak.enable && cfg.services.syncthing.enableTray
+      ) [ "io.github.martchus.syncthingtray" ];
 
       home-manager.users.gremlin = {
         # Syncthing options

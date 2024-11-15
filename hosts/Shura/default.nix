@@ -105,11 +105,17 @@ in
     users = {
       aires = {
         enable = true;
-        services.syncthing.enable = true;
+        services.syncthing = {
+          enable = true;
+          enableTray = true;
+        };
       };
       gremlin = {
         enable = true;
-        services.syncthing.enable = true;
+        services.syncthing = {
+          enable = true;
+          enableTray = true;
+        };
       };
     };
   };

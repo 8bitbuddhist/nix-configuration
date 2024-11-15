@@ -122,10 +122,11 @@ in
 
       # Enable Syncthing
       (lib.mkIf cfg.services.syncthing.enable {
-        users.users.aires.packages = [
-          pkgs.syncthing
-          (lib.mkIf cfg.services.syncthing.enableTray pkgs.syncthingtray)
-        ];
+        users.users.aires.packages = [ pkgs.syncthing ];
+
+        services.flatpak.packages = lib.mkIf (
+          config.aux.system.ui.flatpak.enable && cfg.services.syncthing.enableTray
+        ) [ "io.github.martchus.syncthingtray" ];
 
         # Open port 8080
         networking.firewall.allowedTCPPorts = [ 8080 ];
