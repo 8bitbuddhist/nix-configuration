@@ -71,8 +71,8 @@ in
         packages = [
           "com.github.tchx84.Flatseal"
           "com.github.wwmm.easyeffects"
+          "io.github.elevenhsoft.WebApps"
           "md.obsidian.Obsidian"
-          "org.chromium.Chromium"
           "org.keepassxc.KeePassXC"
           "org.mozilla.firefox"
         ];

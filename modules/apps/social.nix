@@ -1,4 +1,9 @@
-{ config, lib, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 
 let
   cfg = config.aux.system.apps.social;
@@ -11,6 +16,7 @@ in
   config = lib.mkIf cfg.enable {
     aux.system = {
       allowUnfree = true;
+      packages = [ pkgs.beeper ];
       ui.flatpak = {
         enable = true;
         packages = [
