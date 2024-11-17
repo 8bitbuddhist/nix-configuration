@@ -13,16 +13,6 @@ in
   options = {
     aux.system.users.gremlin = {
       enable = lib.mkEnableOption "Enables gremlin user account";
-
-      services.syncthing = {
-        enable = lib.mkEnableOption "Enables Syncthing";
-        enableTray = lib.mkEnableOption "Enables the Syncthing Tray application";
-        home = lib.mkOption {
-          default = "${config.users.users.gremlin.home}/.config/syncthing";
-          type = lib.types.str;
-          description = "Where to store Syncthing's configuration files";
-        };
-      };
     };
   };
 
@@ -98,29 +88,6 @@ in
             };
           };
         };
-      };
-    })
-
-    # Enable Syncthing
-    (lib.mkIf cfg.services.syncthing.enable {
-      users.users.gremlin.packages = [ pkgs.syncthing ];
-
-      services.flatpak.packages = lib.mkIf (
-        config.aux.system.ui.flatpak.enable && cfg.services.syncthing.enableTray
-      ) [ "io.github.martchus.syncthingtray" ];
-
-      home-manager.users.gremlin = {
-        # Syncthing options
-        services.syncthing = {
-          enable = true;
-          extraOptions = [
-            "--gui-address=0.0.0.0:8081"
-            "--home=${cfg.services.syncthing.home}"
-            "--no-default-folder"
-          ];
-        };
-
-        systemd.user.services."syncthing".Unit.RequiresMountsFor = cfg.services.syncthing.home;
       };
     })
   ];

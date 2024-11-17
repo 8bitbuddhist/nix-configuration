@@ -229,6 +229,11 @@ in
         syncthing = {
           enable = true;
           home = "${services-root}/syncthing/aires";
+          web = {
+            enable = true;
+            port = 8080;
+            public = true;
+          };
         };
       };
     };

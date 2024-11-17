@@ -108,15 +108,13 @@ in
         services.syncthing = {
           enable = true;
           enableTray = true;
+          web = {
+            enable = true;
+            port = 8080;
+          };
         };
       };
-      gremlin = {
-        enable = true;
-        services.syncthing = {
-          enable = true;
-          enableTray = true;
-        };
-      };
+      gremlin.enable = true;
     };
   };
 

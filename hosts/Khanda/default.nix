@@ -83,7 +83,14 @@ in
 
     users.aires = {
       enable = true;
-      services.syncthing.enable = true;
+      services.syncthing = {
+        enable = true;
+        enableTray = true;
+        web = {
+          enable = true;
+          port = 8080;
+        };
+      };
     };
   };
 }

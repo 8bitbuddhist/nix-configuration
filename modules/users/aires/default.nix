@@ -23,6 +23,15 @@ in
           type = lib.types.str;
           description = "Where to store Syncthing's configuration files";
         };
+        web = {
+          enable = lib.mkEnableOption "Enables the Syncthing web UI.";
+          port = lib.mkOption {
+            type = lib.types.int;
+            default = 8384;
+            description = "The port to host Syncthing web on.";
+          };
+          public = lib.mkEnableOption "Whether to expose the Syncthing web UI to the network.";
+        };
       };
     };
   };
@@ -120,7 +129,7 @@ in
         };
       })
 
-      # Enable Syncthing
+      # Configure Syncthing
       (lib.mkIf cfg.services.syncthing.enable {
         users.users.aires.packages = [ pkgs.syncthing ];
 
@@ -128,18 +137,25 @@ in
           config.aux.system.ui.flatpak.enable && cfg.services.syncthing.enableTray
         ) [ "io.github.martchus.syncthingtray" ];
 
-        # Open port 8080
-        networking.firewall.allowedTCPPorts = [ 8080 ];
+        # If the web UI is public, open the port in the firewall
+        networking.firewall.allowedTCPPorts =
+          with cfg.services.syncthing.web;
+          lib.mkIf (enable && public) [ port ];
 
         home-manager.users.aires = {
-          # Syncthing options
           services.syncthing = {
             enable = true;
-            extraOptions = [
-              "--gui-address=0.0.0.0:8080"
-              "--home=${cfg.services.syncthing.home}"
-              "--no-default-folder"
-            ];
+            extraOptions =
+              let
+                listenAddress =
+                  with cfg.services.syncthing.web;
+                  (if (enable && public) then "0.0.0.0" else "127.0.0.1");
+              in
+              [
+                "--gui-address=${listenAddress}:${builtins.toString cfg.services.syncthing.web.port}"
+                "--home=${cfg.services.syncthing.home}"
+                "--no-default-folder"
+              ];
           };
 
           systemd.user.services."syncthing".Unit.RequiresMountsFor = cfg.services.syncthing.home;
