@@ -59,10 +59,7 @@ in
     };
 
     ui = {
-      desktops.gnome = {
-        enable = true;
-        experimental.enable = false;
-      };
+      desktops.gnome.enable = true;
       flatpak = {
         # Enable Flatpak support.
         enable = true;

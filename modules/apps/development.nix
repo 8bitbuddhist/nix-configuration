@@ -20,7 +20,6 @@ in
     (lib.mkIf cfg.enable {
       aux.system = {
         packages = with pkgs; [
-          nixd
           nix-prefetch-scripts
         ];
         ui.flatpak = {

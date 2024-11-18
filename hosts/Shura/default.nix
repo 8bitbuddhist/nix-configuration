@@ -97,10 +97,7 @@ in
 
         useBindFS = true;
       };
-      desktops.gnome = {
-        enable = true;
-        experimental.enable = true;
-      };
+      desktops.gnome.enable = true;
     };
     users = {
       aires = {

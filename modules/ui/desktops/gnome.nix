@@ -15,7 +15,6 @@ in
   options = {
     aux.system.ui.desktops.gnome = {
       enable = lib.mkEnableOption "Enables the Gnome Desktop Environment.";
-      experimental.enable = lib.mkEnableOption "Enables fractional scaling, dynamic triple buffering, and variable refresh rate (VRR).";
     };
   };
 
@@ -31,13 +30,10 @@ in
         # Enable Gnome
         desktopManager.gnome = {
           enable = true;
-
-          # Enable experimental features
-          extraGSettingsOverrides = lib.mkIf cfg.experimental.enable ''
+          extraGSettingsOverrides = ''
             [org.gnome.mutter]
-            experimental-features = [ 'scale-monitor-framebuffer','variable-refresh-rate' ]
+            experimental-features = [ 'variable-refresh-rate' ]
           '';
-          extraGSettingsOverridePackages = lib.mkIf cfg.experimental.enable [ pkgs.gnome.mutter ];
         };
         displayManager.gdm.enable = true;
       };
@@ -67,14 +63,13 @@ in
 
     environment = {
       # Remove default Gnome packages that came with the install, then install the ones I actually use
-      gnome.excludePackages =
-        (with pkgs; [
+      gnome.excludePackages = (
+        with pkgs;
+        [
           gnome-photos
           gnome-tour
           gnomeExtensions.extension-list
           gedit # text editor
-        ])
-        ++ (with pkgs.gnome; [
           gnome-music
           gnome-calendar
           epiphany # web browser
@@ -87,18 +82,15 @@ in
           iagno # go game
           hitori # sudoku game
           atomix # puzzle game
-        ]);
+        ]
+      );
 
       # Install additional packages
       systemPackages = with pkgs; [
         # Gnome tweak tools
-        gnome.gnome-tweaks
-        # Gnome extensions
-        gnomeExtensions.alphabetical-app-grid
-        gnomeExtensions.appindicator
-        gnomeExtensions.dash-to-panel
+        gnome-tweaks
         # Themeing
-        gnome.gnome-themes-extra
+        gnome-themes-extra
         papirus-icon-theme
         qogir-icon-theme
       ];
@@ -110,17 +102,5 @@ in
       platformTheme = "gnome";
       style = "adwaita-dark";
     };
-
-    nixpkgs.overlays = lib.mkIf cfg.experimental.enable [
-      (final: prev: {
-        gnome = prev.gnome.overrideScope (
-          gnomeFinal: gnomePrev: {
-            mutter = gnomePrev.mutter.overrideAttrs (old: {
-              src = inputs.gnome-triplebuffering;
-            });
-          }
-        );
-      })
-    ];
   };
 }

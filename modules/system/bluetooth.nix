@@ -8,9 +8,6 @@
 
 let
   cfg = config.aux.system.bluetooth;
-
-  # Copy bluetooth device configs
-  shure-aonic-bluetooth = pkgs.writeText "info" (builtins.readFile ./bluetooth/shure-aonic-tw2);
 in
 {
 
@@ -42,11 +39,5 @@ in
 
     # Add Bluetooth LE audio support
     environment.systemPackages = with pkgs; [ liblc3 ];
-
-    # Install Bluetooth device profiles
-    systemd.tmpfiles.rules = lib.mkIf (cfg.adapter != "") [
-      "d /var/lib/bluetooth/${cfg.adapter}/ 0700 root root" # First, make sure the directory exists
-      "L+ /var/lib/bluetooth/${cfg.adapter}/00:0E:DD:72:2F:0C/info - - - - ${shure-aonic-bluetooth}"
-    ];
   };
 }

@@ -34,7 +34,7 @@ in
     ];
     services.ssh = {
       enable = true;
-      ports = [ config.secrets.hosts.dimaga.ssh.port ];
+      ports = [ config.secrets.hosts.hevana.ssh.port ];
     };
     users.aires.enable = true;
   };

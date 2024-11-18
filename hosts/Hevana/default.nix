@@ -35,9 +35,6 @@ in
   networking.hostName = hostName;
 
   ###*** Configure your system below this line. ***###
-  # Set your time zone.
-  #   To see all available timezones, run `timedatectl list-timezones`.
-  time.timeZone = "America/New_York";
 
   # Enable dynamic DNS with Porkbun                                                                                                                 
   services.ddclient = {
