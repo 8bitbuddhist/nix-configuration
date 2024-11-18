@@ -32,8 +32,9 @@ in
           enable = true;
           extraGSettingsOverrides = ''
             [org.gnome.mutter]
-            experimental-features = [ 'variable-refresh-rate' ]
+            experimental-features = [ 'scale-monitor-framebuffer', 'xwayland-native-scaling', 'variable-refresh-rate' ]
           '';
+          extraGSettingsOverridePackages = [ pkgs.mutter ];
         };
         displayManager.gdm.enable = true;
       };
