@@ -50,6 +50,7 @@ in
             "plugdev"
             "tss"
             "wheel"
+            "users"
           ]; # tss group has access to TPM devices
 
           # Allow systemd services to run even while aires is logged out
