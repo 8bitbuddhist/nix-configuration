@@ -7,7 +7,7 @@
 let
   cfg = config.aux.system.services.jellyfin;
 
-  jellyfin-audio-save = pkgs.jellyfin.overrideAttrs (
+  jellyfin-audio-save = pkgs.unstable.jellyfin.overrideAttrs (
     finalAttrs: prevAttrs: { patches = [ ./jellyfin/jellyfin-audio-save-position.patch ]; }
   );
 in
