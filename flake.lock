@@ -235,11 +235,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1729360442,
-        "narHash": "sha256-6U0CyPycIBc04hbYy2hBINnVso58n/ZyywY2BD3hu+s=",
+        "lastModified": 1731963943,
+        "narHash": "sha256-iL1fB7dlO8UPOm1ALoGTpgdOac9TZtRgDppM/uPyDRE=",
         "ref": "release-2.91",
-        "rev": "2bbdcd73b9a464f8acf45a7100feb979883ba485",
-        "revCount": 110,
+        "rev": "38e2631a98c8a66d61f135f4f0b6548e8c35e96b",
+        "revCount": 111,
         "type": "git",
         "url": "https://git.lix.systems/lix-project/nixos-module"
       },
