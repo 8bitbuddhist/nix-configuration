@@ -32,7 +32,7 @@ in
           enable = true;
           extraGSettingsOverrides = ''
             [org.gnome.mutter]
-            experimental-features = [ 'scale-monitor-framebuffer', 'xwayland-native-scaling', 'variable-refresh-rate' ]
+            experimental-features = [ 'scale-monitor-framebuffer', 'variable-refresh-rate' ]
           '';
           extraGSettingsOverridePackages = [ pkgs.mutter ];
         };
