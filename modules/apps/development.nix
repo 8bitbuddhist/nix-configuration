@@ -20,6 +20,7 @@ in
     (lib.mkIf cfg.enable {
       aux.system = {
         packages = with pkgs; [
+          nil # Nix Language server: https://github.com/oxalica/nil
           nix-prefetch-scripts
         ];
         ui.flatpak = {
