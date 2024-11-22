@@ -36,18 +36,28 @@ in
 
   ###*** Configure your system below this line. ***###
 
-  # Enable dynamic DNS with Porkbun                                                                                                                 
-  services.ddclient = {
-    enable = true;
-    configFile = pkgs.writeText "ddclient.conf" ''
-            use=web, web=checkip.dyndns.com/, web-skip='IP Address'
-            protocol=porkbun
-            apikey=${config.secrets.networking.porkbun.api.apiKey}
-            secretapikey=${config.secrets.networking.porkbun.api.secretKey}
-            *.${config.secrets.networking.domains.primary},*.${config.secrets.networking.domains.blog}
-            cache=/tmp/ddclient.cache
-      	    pid=/var/run/ddclient.pid
-    '';
+  services = {
+    # Enable dynamic DNS with Porkbun
+    ddclient = {
+      enable = true;
+      configFile = pkgs.writeText "ddclient.conf" ''
+        use=web, web=checkip.dyndns.com/, web-skip='IP Address'
+        protocol=porkbun
+        apikey=${config.secrets.networking.porkbun.api.apiKey}
+        secretapikey=${config.secrets.networking.porkbun.api.secretKey}
+        *.${config.secrets.networking.domains.primary},*.${config.secrets.networking.domains.blog}
+        cache=/tmp/ddclient.cache
+        pid=/var/run/ddclient.pid
+      '';
+    };
+
+    # Monitor RAID drives using SMART
+    smartd.devices = [
+      { device = "/dev/sda"; }
+      { device = "/dev/sdb"; }
+      { device = "/dev/sdc"; }
+      { device = "/dev/sdd"; }
+    ];
   };
 
   # Configure the system.

@@ -58,7 +58,15 @@ in
       smartd = {
         enable = true;
         autodetect = true;
-        notifications.wall.enable = true;
+        notifications = {
+          wall.enable = true;
+          mail = lib.mkIf config.aux.system.services.msmtp.enable {
+            enable = true;
+            mailer = "/run/wrappers/bin/sendmail";
+            sender = "${config.networking.hostName}@${config.secrets.networking.domains.primary}";
+            recipient = config.secrets.users.aires.email;
+          };
+        };
       };
     };
 
