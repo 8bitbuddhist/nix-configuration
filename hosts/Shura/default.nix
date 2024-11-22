@@ -59,6 +59,7 @@ in
         enable = true;
         configDir = config.secrets.nixConfigFolder;
         onCalendar = "daily";
+        operation = "boot";
         user = config.users.users.aires.name;
       };
       netdata = {
