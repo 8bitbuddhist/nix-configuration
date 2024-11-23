@@ -83,10 +83,7 @@ in
       services.syncthing = {
         enable = true;
         enableTray = true;
-        web = {
-          enable = true;
-          port = 8080;
-        };
+        web.enable = true;
       };
     };
   };
