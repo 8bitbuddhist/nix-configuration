@@ -82,7 +82,6 @@ in
       enable = true;
       services.syncthing = {
         enable = true;
-        enableTray = true;
         web.enable = true;
       };
     };
