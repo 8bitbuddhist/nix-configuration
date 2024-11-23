@@ -30,11 +30,17 @@ in
         # Enable Gnome
         desktopManager.gnome = {
           enable = true;
+          # Enable native app scaling and VRR, and disable version checks for gnome extensions
           extraGSettingsOverrides = ''
             [org.gnome.mutter]
             experimental-features = [ 'scale-monitor-framebuffer', 'variable-refresh-rate' ]
+            [org.gnome.shell]
+            disable-extension-version-validation = true
           '';
-          extraGSettingsOverridePackages = [ pkgs.mutter ];
+          extraGSettingsOverridePackages = with pkgs; [
+            mutter
+            gnome-shell
+          ];
         };
         displayManager.gdm.enable = true;
       };
@@ -94,6 +100,12 @@ in
         gnome-themes-extra
         papirus-icon-theme
         qogir-icon-theme
+        # Gnome extensions
+        gnomeExtensions.another-window-session-manager
+        gnomeExtensions.appindicator
+        gnomeExtensions.dash-to-panel
+        gnomeExtensions.random-wallpaper
+        gnomeExtensions.syncthing-indicator
       ];
     };
 
