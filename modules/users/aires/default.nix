@@ -1,5 +1,4 @@
 {
-  pkgs,
   lib,
   config,
   ...
@@ -14,25 +13,6 @@ in
     aux.system.users.aires = {
       enable = lib.mkEnableOption "Enables aires user account";
       autologin = lib.mkEnableOption "Automatically logs aires in on boot";
-
-      services.syncthing = {
-        enable = lib.mkEnableOption "Enables Syncthing";
-        enableTray = lib.mkEnableOption "Enables the Syncthing Tray application";
-        home = lib.mkOption {
-          default = "${config.users.users.aires.home}/.config/syncthing";
-          type = lib.types.str;
-          description = "Where to store Syncthing's configuration files";
-        };
-        web = {
-          enable = lib.mkEnableOption "Enables the Syncthing web UI.";
-          port = lib.mkOption {
-            type = lib.types.int;
-            default = 8384;
-            description = "The port to host Syncthing web on.";
-          };
-          public = lib.mkEnableOption "Whether to expose the Syncthing web UI to the network.";
-        };
-      };
     };
   };
 
@@ -127,39 +107,6 @@ in
         systemd.services = {
           "getty@tty1".enable = false;
           "autovt@tty1".enable = false;
-        };
-      })
-
-      # Configure Syncthing
-      (lib.mkIf cfg.services.syncthing.enable {
-        users.users.aires.packages = [ pkgs.syncthing ];
-
-        services.flatpak.packages = lib.mkIf (
-          config.aux.system.ui.flatpak.enable && cfg.services.syncthing.enableTray
-        ) [ "io.github.martchus.syncthingtray" ];
-
-        # If the web UI is public, open the port in the firewall
-        networking.firewall.allowedTCPPorts =
-          with cfg.services.syncthing.web;
-          lib.mkIf (enable && public) [ port ];
-
-        home-manager.users.aires = {
-          services.syncthing = {
-            enable = true;
-            extraOptions =
-              let
-                listenAddress =
-                  with cfg.services.syncthing.web;
-                  (if (enable && public) then "0.0.0.0" else "127.0.0.1");
-              in
-              [
-                "--gui-address=${listenAddress}:${builtins.toString cfg.services.syncthing.web.port}"
-                "--home=${cfg.services.syncthing.home}"
-                "--no-default-folder"
-              ];
-          };
-
-          systemd.user.services."syncthing".Unit.RequiresMountsFor = cfg.services.syncthing.home;
         };
       })
     ]

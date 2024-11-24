@@ -219,6 +219,15 @@ in
         enable = true;
         ports = [ config.secrets.hosts.hevana.ssh.port ];
       };
+      syncthing = {
+        enable = true;
+        home = "${services-root}/syncthing/aires";
+        user = "aires";
+        web = {
+          enable = true;
+          public = true;
+        };
+      };
       virtualization.host = {
         enable = true;
         user = "aires";
@@ -230,18 +239,6 @@ in
       };
     };
 
-    users.aires = {
-      enable = true;
-      services = {
-        syncthing = {
-          enable = true;
-          home = "${services-root}/syncthing/aires";
-          web = {
-            enable = true;
-            public = true;
-          };
-        };
-      };
-    };
+    users.aires.enable = true;
   };
 }

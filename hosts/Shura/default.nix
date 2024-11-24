@@ -69,6 +69,12 @@ in
         url = config.secrets.services.netdata.url;
         auth.apiKey = config.secrets.services.netdata.apiKey;
       };
+      syncthing = {
+        enable = true;
+        home = "/home/aires/.config/syncthing";
+        user = "aires";
+        web.enable = true;
+      };
       # Install virtual machine management tools
       virtualization = {
         enable = true;
@@ -101,13 +107,7 @@ in
       desktops.gnome.enable = true;
     };
     users = {
-      aires = {
-        enable = true;
-        services.syncthing = {
-          enable = true;
-          web.enable = true;
-        };
-      };
+      aires.enable = true;
       gremlin.enable = true;
     };
   };

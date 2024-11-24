@@ -55,6 +55,12 @@ in
         onCalendar = "weekly";
         user = config.users.users.aires.name;
       };
+      syncthing = {
+        enable = true;
+        home = "/home/aires/.config/syncthing";
+        user = "aires";
+        web.enable = true;
+      };
       virtualization.enable = true;
     };
 
@@ -78,12 +84,6 @@ in
       };
     };
 
-    users.aires = {
-      enable = true;
-      services.syncthing = {
-        enable = true;
-        web.enable = true;
-      };
-    };
+    users.aires.enable = true;
   };
 }
