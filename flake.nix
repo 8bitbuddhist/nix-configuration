@@ -10,13 +10,6 @@
     nixpkgs.url = "github:nixos/nixpkgs/nixos-24.11";
     nixpkgs-unstable.url = "github:nixos/nixpkgs/nixos-unstable";
 
-    # Repository for Gnome triple buffering patch
-    # For details, see https://wiki.nixos.org/wiki/GNOME#Dynamic_triple_buffering
-    gnome-triplebuffering = {
-      url = "gitlab:vanvugt/mutter/triple-buffering-v4-46?host=gitlab.gnome.org";
-      flake = false;
-    };
-
     # Home-manager support
     home-manager = {
       url = "github:nix-community/home-manager/release-24.11";
