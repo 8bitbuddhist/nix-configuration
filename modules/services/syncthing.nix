@@ -7,7 +7,8 @@ in
 {
   options = {
     aux.system.services.syncthing = {
-      enable = lib.mkEnableOption "Enables Syncthing";
+      enable = lib.mkEnableOption "Enables Syncthing.";
+      enableTray = lib.mkEnableOption "Enables the Syncthing Tray applet.";
       home = lib.mkOption {
         default = "/var/lib/syncthing";
         type = lib.types.str;
@@ -34,16 +35,22 @@ in
     # If the web UI is public, open the port in the firewall
     networking.firewall.allowedTCPPorts = with cfg.web; lib.mkIf (enable && public) [ port ];
 
-    services.syncthing = {
-      enable = true;
-      user = cfg.user;
-      group = config.users.users.${cfg.user}.group;
-      configDir = cfg.home;
-      guiAddress =
-        let
-          listenAddress = with cfg.web; (if (enable && public) then "0.0.0.0" else "127.0.0.1");
-        in
-        "${listenAddress}:${builtins.toString cfg.web.port}";
+    services = {
+      flatpak.packages = lib.mkIf (config.aux.system.ui.flatpak.enable && cfg.enableTray) [
+        "io.github.martchus.syncthingtray"
+      ];
+
+      syncthing = {
+        enable = true;
+        user = cfg.user;
+        group = config.users.users.${cfg.user}.group;
+        configDir = cfg.home;
+        guiAddress =
+          let
+            listenAddress = with cfg.web; (if (enable && public) then "0.0.0.0" else "127.0.0.1");
+          in
+          "${listenAddress}:${builtins.toString cfg.web.port}";
+      };
     };
 
     systemd.services.syncthing = {

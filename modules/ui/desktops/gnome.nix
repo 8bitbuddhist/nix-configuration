@@ -105,7 +105,6 @@ in
         gnomeExtensions.appindicator
         gnomeExtensions.dash-to-panel
         gnomeExtensions.random-wallpaper
-        gnomeExtensions.syncthing-indicator
       ];
     };
 
