@@ -112,7 +112,12 @@ in
     };
   };
 
-  # Move files into target system
+  # Mount Gremlin's Notes folder
+  fileSystems."/home/gremlin/Documents/Notes/Gremlin" = {
+    device = "/home/aires/Documents/Notes";
+    options = [ "bind" ];
+  };
+
   systemd.tmpfiles.rules = [
     # Use gremlin user's monitor config for GDM (defined above)
     "L+ /run/gdm/.config/monitors.xml - - - - ${monitorsConfig}"
