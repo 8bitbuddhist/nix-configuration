@@ -9,7 +9,8 @@ in
 
   # Configure the kernel.
   boot = {
-    kernelPackages = pkgs.linuxPackages_latest;
+    #kernelPackages = pkgs.linuxPackages_latest;
+    kernelPackages = pkgs.linuxKernel.packages.linux_lqx;
 
     # Hardware defaults detected by nixos-generate-configuration
     initrd = {
