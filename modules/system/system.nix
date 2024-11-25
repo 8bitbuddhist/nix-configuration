@@ -37,11 +37,17 @@ in
           xz.bin
         ];
       };
+
+      powerManagement.enable = lib.mkEnableOption "Enables power management, e.g. for laptops.";
     };
   };
   config = {
     # Install base packages
     environment.systemPackages = cfg.corePackages ++ cfg.packages;
+
+    # Configure power management via auto-cpufreq
+    # https://github.com/AdnanHodzic/auto-cpufreq
+    programs.auto-cpufreq.enable = cfg.powerManagement.enable;
 
     services = {
       # Automatically set the timezone based on location

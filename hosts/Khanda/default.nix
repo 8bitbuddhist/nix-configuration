@@ -41,6 +41,8 @@ in
     # Enable GPU support.
     gpu.intel.enable = true;
 
+    powerManagement.enable = true;
+
     # Enable support for primary RAID array (just in case)
     raid.storage.enable = true;
 

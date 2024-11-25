@@ -35,10 +35,17 @@
 
     # NixOS hardware quirks
     nixos-hardware.url = "github:NixOS/nixos-hardware/master";
+
+    # Power management via auto-cpufreq
+    auto-cpufreq = {
+      url = "github:AdnanHodzic/auto-cpufreq";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs =
     inputs@{
+      auto-cpufreq,
       home-manager,
       lanzaboote,
       lix-module,
@@ -58,6 +65,7 @@
       # Define shared modules and imports
       defaultModules = [
         ./modules/autoimport.nix
+        auto-cpufreq.nixosModules.default
         lix-module.nixosModules.default
         lanzaboote.nixosModules.lanzaboote
         nix-flatpak.nixosModules.nix-flatpak

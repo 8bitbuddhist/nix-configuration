@@ -53,6 +53,8 @@ in
     # Keep old generations for two weeks.
     retentionPeriod = "14d";
 
+    powerManagement.enable = true;
+
     services = {
       # Run daily automatic updates.
       autoUpgrade = {
