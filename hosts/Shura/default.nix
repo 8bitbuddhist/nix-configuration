@@ -113,8 +113,8 @@ in
   };
 
   # Mount Gremlin's Notes folder
-  fileSystems."/home/gremlin/Documents/Notes/Gremlin" = {
-    device = "/home/aires/Documents/Notes";
+  fileSystems."/home/gremlin/Documents/Notes" = {
+    device = "/home/aires/Documents/Notes/Gremlin";
     options = [ "bind" ];
   };
 
