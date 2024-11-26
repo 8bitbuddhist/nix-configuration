@@ -74,14 +74,10 @@ in
           package = pkgs.unstable.netdataCloud;
           enableAnalyticsReporting = false;
           configDir = {
-            # Enable nvidia-smi: https://nixos.wiki/wiki/Netdata#nvidia-smi
-            "python.d.conf" = pkgs.writeText "python.d.conf" ''
-              nvidia_smi: yes
-            '';
             # Allow incoming streams
             "stream.conf" = pkgs.writeText "stream.conf" ''
               [${config.secrets.services.netdata.apiKey}]
-                enabled = yes
+                enabled = no
                 default history = 3600
                 default memory mode = dbengine
                 health enabled by default = auto

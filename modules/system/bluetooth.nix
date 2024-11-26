@@ -14,11 +14,6 @@ in
   options = {
     aux.system.bluetooth = {
       enable = lib.mkEnableOption "Enables bluetooth.";
-      adapter = lib.mkOption {
-        type = lib.types.str;
-        description = "The MAC address of your primary Bluetooth adapter Used to install device configs.";
-        default = "";
-      };
       experimental.enable = lib.mkEnableOption "Enables experimental features, like device power reporting.";
     };
   };

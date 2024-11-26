@@ -35,8 +35,6 @@ in
       tpm2.enable = true;
     };
 
-    bluetooth.adapter = "AC:50:DE:9F:AB:88";
-
     # Change the default text editor. Options are "emacs", "nano", or "vim".
     editor = "nano";
 
@@ -63,13 +61,6 @@ in
         onCalendar = "daily";
         operation = "boot";
         user = config.users.users.aires.name;
-      };
-      netdata = {
-        # FIXME: Disabled until I get Nginx configured to provide a streaming endpoint
-        enable = false;
-        type = "child";
-        url = config.secrets.services.netdata.url;
-        auth.apiKey = config.secrets.services.netdata.apiKey;
       };
       syncthing = {
         enable = true;
