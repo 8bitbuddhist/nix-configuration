@@ -10,6 +10,12 @@
     nixpkgs.url = "github:nixos/nixpkgs/nixos-24.11";
     nixpkgs-unstable.url = "github:nixos/nixpkgs/nixos-unstable";
 
+    # Power management via auto-cpufreq
+    auto-cpufreq = {
+      url = "github:AdnanHodzic/auto-cpufreq";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
     # Home-manager support
     home-manager = {
       url = "github:nix-community/home-manager/release-24.11";
@@ -31,16 +37,10 @@
     };
 
     # Flatpak support
-    nix-flatpak.url = "github:gmodena/nix-flatpak/v0.4.1";
+    nix-flatpak.url = "github:gmodena/nix-flatpak/v0.5.0";
 
     # NixOS hardware quirks
     nixos-hardware.url = "github:NixOS/nixos-hardware/master";
-
-    # Power management via auto-cpufreq
-    auto-cpufreq = {
-      url = "github:AdnanHodzic/auto-cpufreq";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
   };
 
   outputs =
