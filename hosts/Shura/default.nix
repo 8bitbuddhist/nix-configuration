@@ -107,7 +107,7 @@ in
 
   # Mount Gremlin's Notes folder
   fileSystems."/home/gremlin/Documents/Notes" = {
-    device = "/home/aires/Documents/Notes/Gremlin";
+    device = "/home/aires/Documents/Notes";
     options = [ "bind" ];
   };
 
