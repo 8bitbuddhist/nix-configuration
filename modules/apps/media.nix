@@ -14,7 +14,6 @@ in
       packages = [
         "app.drey.EarTag"
         "com.calibre_ebook.calibre"
-        "com.github.iwalton3.jellyfin-media-player"
         "com.github.unrud.VideoDownloader"
         "io.freetubeapp.FreeTube"
         "org.kde.krita"
