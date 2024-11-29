@@ -28,13 +28,16 @@ in
           dconf
           direnv
           git
-          git-crypt # Secrets management
           gnutar
           gzip
           home-manager
           openssh
           sudo
           xz.bin
+          # Packages required for decrypting config files
+          transcrypt
+          openssl
+          xxd
         ];
       };
 

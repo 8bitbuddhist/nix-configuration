@@ -1,1 +1,1 @@
-modules/secrets/** filter=git-crypt diff=git-crypt
+modules/secrets/** filter=crypt diff=crypt merge=crypt
