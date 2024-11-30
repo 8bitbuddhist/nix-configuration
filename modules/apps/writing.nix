@@ -7,6 +7,10 @@
 
 let
   cfg = config.aux.system.apps.writing;
+
+  compile-manuscript = pkgs.writeShellScriptBin "compile-manuscript" (
+    builtins.readFile ../../bin/compile-manuscript.sh
+  );
 in
 {
   options = {
@@ -20,6 +24,7 @@ in
       haskellPackages.pandoc-cli
       haskellPackages.pandoc-crossref
       (texlive.combine { inherit (texlive) scheme-small draftwatermark; })
+      compile-manuscript
     ];
   };
 }

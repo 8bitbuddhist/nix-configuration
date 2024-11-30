@@ -88,6 +88,7 @@ in
                 theme = "gentoo";
               };
               shellAliases = {
+                com = "compile-manuscript";
                 nos = "nixos-operations-script";
                 z = "zellij";
                 update = "upgrade";
