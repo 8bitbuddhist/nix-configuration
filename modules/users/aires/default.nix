@@ -94,9 +94,14 @@ in
                 update = "upgrade";
                 upgrade = "nos --update";
               };
-              loginExtra = "fastfetch --memory-percent-green 75 --memory-percent-yellow 90";
+              loginExtra = ''
+                fastfetch --memory-percent-green 75 --memory-percent-yellow 90
+              '';
             };
           };
+
+          # Run the SSH agent on login
+          services.ssh-agent.enable = true;
         };
       }
 
