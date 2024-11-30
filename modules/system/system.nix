@@ -7,6 +7,8 @@
 }:
 let
   cfg = config.aux.system;
+
+  gitWithLibsecret = pkgs.git.override { withLibsecret = true; };
 in
 {
   options = {
@@ -27,7 +29,7 @@ in
           coreutils
           dconf
           direnv
-          git
+          gitWithLibsecret
           gnutar
           gzip
           home-manager

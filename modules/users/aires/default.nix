@@ -72,6 +72,7 @@ in
                 push.autoSetupRemote = "true";
                 safe.directory = "${config.secrets.nixConfigFolder}/.git";
                 submodule.recurse = true;
+                credential.helper = "/run/current-system/sw/bin/git-credential-libsecret";
               };
             };
 
