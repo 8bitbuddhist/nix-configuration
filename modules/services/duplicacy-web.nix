@@ -40,7 +40,7 @@ in
         Type = "simple";
         ExecStart = ''${duplicacy-web}/duplicacy-web'';
         Restart = "on-failure";
-        RestartSrc = 10;
+        RestartSec = 10;
         KillMode = "process";
       };
       environment = {
