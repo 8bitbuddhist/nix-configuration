@@ -102,7 +102,7 @@ in
       # Tell Electron apps that they can use Wayland
       NIXOS_OZONE_WL = "1";
       # Install full GStreamer capabilities.
-      # References: 
+      # References:
       #   https://wiki.nixos.org/wiki/GStreamer
       #   https://github.com/NixOS/nixpkgs/issues/195936
       GST_PLUGIN_SYSTEM_PATH_1_0 = lib.makeSearchPathOutput "lib" "lib/gstreamer-1.0" (

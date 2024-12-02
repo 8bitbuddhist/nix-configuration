@@ -20,6 +20,7 @@ let
 
   # List of subdomains to add to the TLS certificate
   subdomains = with config.secrets.services; [
+    binary-cache.url
     forgejo.url
     gremlin-lab.url
     jellyfin.url
@@ -118,6 +119,12 @@ in
         configDir = config.secrets.nixConfigFolder;
         onCalendar = "daily";
         user = config.users.users.aires.name;
+      };
+      binary-cache = {
+        enable = true;
+        home = "${services-root}/nixos-binary-cache";
+        secretKeyFile = "${services-root}/nixos-binary-cache/certs/cache-priv-key.pem";
+        url = config.secrets.services.binary-cache.url;
       };
       boinc = {
         enable = false;

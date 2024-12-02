@@ -37,9 +37,15 @@ in
             "flakes"
           ];
 
-          # Use Lix instead of Nix
-          substituters = [ "https://cache.lix.systems" ];
-          trusted-public-keys = [ "cache.lix.systems:aBnZUw8zA7H35Cz2RyKFVs3H4PlGTLawyY5KRbvJR8o=" ];
+          # Set up secondary binary caches for Lix and Hevana
+          substituters = [
+            "https://cache.lix.systems"
+            config.secrets.services.binary-cache.url
+          ];
+          trusted-public-keys = [
+            "cache.lix.systems:aBnZUw8zA7H35Cz2RyKFVs3H4PlGTLawyY5KRbvJR8o="
+            config.secrets.services.binary-cache.pubcert
+          ];
 
           # Only allow these users to use Nix
           allowed-users = with config.users.users; [

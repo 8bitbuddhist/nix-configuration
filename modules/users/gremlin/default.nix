@@ -18,7 +18,7 @@ in
 
   config = lib.mkMerge [
     (lib.mkIf cfg.enable {
-      # Add Gremlin account	
+      # Add Gremlin account
       users.users.gremlin = {
         isNormalUser = true;
         description = "Gremlin";
