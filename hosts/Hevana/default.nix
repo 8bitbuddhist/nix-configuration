@@ -61,6 +61,29 @@ in
     ];
   };
 
+  # Build Nix packages for other hosts.
+  # Runs every Saturday morning at 4 AM
+  systemd.services."build-hosts" = {
+    serviceConfig = {
+      Type = "oneshot";
+      User = "aires";
+    };
+    path = config.aux.system.corePackages;
+    script = ''
+      /run/current-system/sw/bin/nixos-operations-script --operation build --hostname Khanda
+    '';
+  };
+  systemd.timers."build-hosts" = {
+    wants = [ "network-online.target" ];
+    after = [ "network-online.target" ];
+    wantedBy = [ "timers.target" ];
+    timerConfig = {
+      OnCalendar = "Sat, 04:00";
+      Persistent = true;
+      Unit = "build-hosts.service";
+    };
+  };
+
   # Configure the system.
   aux.system = {
     # Enable to allow unfree (e.g. closed source) packages.
