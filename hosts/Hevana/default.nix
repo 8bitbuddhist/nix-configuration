@@ -71,7 +71,7 @@ in
     };
     path = config.aux.system.corePackages;
     script = ''
-      /run/current-system/sw/bin/nixos-operations-script --operation build --hostname Khanda
+      /run/current-system/sw/bin/nixos-operations-script --operation build --hostname Khanda --flake ${config.secrets.nixConfigFolder}
     '';
   };
   systemd.timers."build-hosts" = {

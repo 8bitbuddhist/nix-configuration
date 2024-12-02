@@ -43,7 +43,7 @@ in
     services = {
       freshrss = {
         enable = true;
-        baseUrl = cfg.url;
+        baseUrl = "https://${cfg.url}";
         dataDir = cfg.home;
         defaultUser = cfg.auth.user;
         passwordFile = pkgs.writeText "rss-defaultpassword" ''
