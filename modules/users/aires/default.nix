@@ -101,7 +101,13 @@ in
           };
 
           # Run the SSH agent on login
-          services.ssh-agent.enable = true;
+          systemd.user.services."ssh-agent" = {
+            Unit.Description = "Manually starts the SSH agent.";
+            Service.ExecStart = ''
+              eval "$(ssh-agent -s)"
+            '';
+            Install.WantedBy = [ "multi-user.target" ]; # starts after login
+          };
         };
       }
 
