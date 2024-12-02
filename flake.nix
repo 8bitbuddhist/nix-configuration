@@ -12,7 +12,7 @@
 
     # Power management via auto-cpufreq
     auto-cpufreq = {
-      url = "github:AdnanHodzic/auto-cpufreq";
+      url = "github:AdnanHodzic/auto-cpufreq/v2.4.0";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
