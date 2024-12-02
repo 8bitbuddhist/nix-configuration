@@ -27,6 +27,7 @@ let
     languagetool.url
     netdata.url
     qbittorrent.url
+    rss.url
   ];
 in
 {
@@ -246,6 +247,15 @@ in
             "Switzerland"
             "Netherlands"
           ];
+        };
+      };
+      rss = {
+        enable = true;
+        home = "${services-root}/freshrss";
+        url = config.secrets.services.rss.url;
+        auth = with config.secrets.services.rss.auth; {
+          user = user;
+          password = password;
         };
       };
       ssh = {
