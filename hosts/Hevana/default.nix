@@ -120,12 +120,14 @@ in
         onCalendar = "daily";
         user = config.users.users.aires.name;
       };
-      # FIXME: Find a way to require user authentication before enabling the cache again
       binary-cache = {
-        enable = false;
-        home = "${services-root}/nixos-binary-cache";
+        enable = true;
         secretKeyFile = "${services-root}/nixos-binary-cache/certs/cache-priv-key.pem";
         url = config.secrets.services.binary-cache.url;
+        auth = {
+          user = config.secrets.services.binary-cache.auth.username;
+          password = config.secrets.services.binary-cache.auth.password;
+        };
       };
       boinc = {
         enable = false;

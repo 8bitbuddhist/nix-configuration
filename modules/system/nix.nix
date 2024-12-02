@@ -30,6 +30,11 @@ in
     {
       nixpkgs.config.allowUnfree = cfg.allowUnfree;
       nix = {
+        extraOptions = ''
+          # Ensure we can still build when secondary caches are unavailable
+          fallback = true
+        '';
+
         settings = {
           # Enable Flakes
           experimental-features = [
@@ -46,6 +51,13 @@ in
             "cache.lix.systems:aBnZUw8zA7H35Cz2RyKFVs3H4PlGTLawyY5KRbvJR8o="
             config.secrets.services.binary-cache.pubcert
           ];
+
+          # Authentication for Hevana's binary cache
+          netrc-file =
+            with config.secrets.services.binary-cache;
+            pkgs.writeText "netrc" ''
+              machine ${url} login ${auth.username} password ${auth.password}
+            '';
 
           # Only allow these users to use Nix
           allowed-users = with config.users.users; [

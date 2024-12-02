@@ -12,11 +12,6 @@ in
   options = {
     aux.system.services.binary-cache = {
       enable = lib.mkEnableOption "Enable a binary cache hosting service.";
-      home = lib.mkOption {
-        default = "/var/lib/nix-binary-cache";
-        type = lib.types.str;
-        description = "Where to store the binary cache and its config files.";
-      };
       secretKeyFile = lib.mkOption {
         default = "/var/lib/nix-binary-cache/privkey.pem";
         type = lib.types.str;
@@ -27,6 +22,20 @@ in
         type = lib.types.str;
         description = "The complete URL where the cache is hosted.";
         example = "https://cache.example.com";
+      };
+      auth = {
+        password = lib.mkOption {
+          default = "";
+          type = lib.types.str;
+          description = "The password to use for basic authentication for the cache.";
+          example = "MySuperSecurePassword123";
+        };
+        user = lib.mkOption {
+          default = "cache-user";
+          type = lib.types.str;
+          description = "The username to use for basic auth.";
+        };
+
       };
     };
   };
@@ -42,10 +51,15 @@ in
       nginx.virtualHosts."${cfg.url}" = {
         useACMEHost = pkgs.util.getDomainFromURL cfg.url;
         forceSSL = true;
+        basicAuth = {
+          "${cfg.auth.user}" = cfg.auth.password;
+        };
         locations."/" = {
           proxyPass = "http://${config.services.nix-serve.bindAddress}:${toString config.services.nix-serve.port}";
         };
       };
     };
+
+    systemd.services.nginx.wants = [ config.systemd.services.nix-serve.name ];
   };
 }
