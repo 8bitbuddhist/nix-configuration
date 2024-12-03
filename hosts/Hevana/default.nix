@@ -1,4 +1,9 @@
-{ config, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 
 let
   # Do not change this value! This tracks when NixOS was installed on your system.
@@ -18,17 +23,20 @@ let
     ''}";
   };
 
-  # List of subdomains to add to the TLS certificate
-  subdomains = with config.secrets.services; [
-    binary-cache.url
-    forgejo.url
-    gremlin-lab.url
-    jellyfin.url
-    languagetool.url
-    netdata.url
-    qbittorrent.url
-    rss.url
-  ];
+  /*
+    Add subdomains from enabled services to TLS certificate.
+
+    This doesn't _exactly_ check for enabled services, only:
+      1. Services that aren't ACME
+      2. Services with an "enable" attribute.
+
+    It still works though, so ¯\_(ツ)_/¯
+  */
+  serviceList = lib.attrsets.collect (
+    x: x != "acme" && builtins.hasAttr "enable" x
+  ) config.aux.system.services;
+  subdomains = builtins.catAttrs "url" serviceList;
+
 in
 {
   imports = [ ./hardware-configuration.nix ];

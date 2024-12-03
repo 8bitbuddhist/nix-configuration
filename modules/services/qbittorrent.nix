@@ -58,7 +58,7 @@ in
   config = lib.mkIf cfg.enable {
     services = {
       nginx.virtualHosts."${cfg.url}" = {
-        useACMEHost = pkgs.util.getDomainFromURL cfg.url;
+        useACMEHost = pkgs.util.getDomainFromURI cfg.url;
         forceSSL = true;
         locations."/" = {
           proxyPass = "http://127.0.0.1:${cfg.port}";

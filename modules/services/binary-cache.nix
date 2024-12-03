@@ -49,7 +49,7 @@ in
       };
 
       nginx.virtualHosts."${cfg.url}" = {
-        useACMEHost = pkgs.util.getDomainFromURL cfg.url;
+        useACMEHost = pkgs.util.getDomainFromURI cfg.url;
         forceSSL = true;
         basicAuth = {
           "${cfg.auth.user}" = cfg.auth.password;

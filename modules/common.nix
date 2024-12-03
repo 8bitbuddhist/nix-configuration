@@ -1,62 +1,45 @@
 # Modules common to all systems
 {
   inputs,
-  lib,
   pkgs,
   ...
 }:
 
 {
-  config = {
-    # Install base packages
-    aux.system.packages = with pkgs; [
-      fastfetch # Show a neat system statistics screen when opening a terminal
-      htop # System monitor
-      lm_sensors # System temperature monitoring
-      zellij # Terminal multiplexer
-    ];
+  # Install base packages
+  aux.system.packages = with pkgs; [
+    fastfetch # Show a neat system statistics screen when opening a terminal
+    htop # System monitor
+    lm_sensors # System temperature monitoring
+    zellij # Terminal multiplexer
+  ];
 
-    # Install the nos helper script
-    aux.system.nixos-operations-script.enable = true;
+  # Install the nos helper script
+  aux.system.nixos-operations-script.enable = true;
 
-    nixpkgs.overlays = [
-      (final: _prev: {
-        # Allow packages from the unstable repo by using 'pkgs.unstable'
-        unstable = import inputs.nixpkgs-unstable {
-          system = final.system;
-          config.allowUnfree = true;
-        };
+  # Allow packages from the unstable repo by using 'pkgs.unstable'
+  nixpkgs.overlays = [
+    (final: _prev: {
+      unstable = import inputs.nixpkgs-unstable {
+        system = final.system;
+        config.allowUnfree = true;
+      };
+    })
+  ];
 
-        # Define custom functions using 'pkgs.util'
-        util = {
-          # Parses the domain from a URL
-          getDomainFromURL =
-            url:
-            let
-              parsedURL = (lib.strings.splitString "." url);
-            in
-            builtins.concatStringsSep "." [
-              (builtins.elemAt parsedURL 1)
-              (builtins.elemAt parsedURL 2)
-            ];
-        };
-      })
-    ];
+  programs = {
+    # Install ZSH for all users
+    zsh.enable = true;
 
-    programs = {
-      # Install ZSH for all users
-      zsh.enable = true;
-
-      # Configure nano
-      nano.nanorc = ''
-        set tabsize 4
-        set softwrap
-        set autoindent
-        set indicator
-      '';
-    };
-
-    # Set ZSH as the default shell
-    users.defaultUserShell = pkgs.zsh;
+    # Configure nano
+    nano.nanorc = ''
+      set tabsize 4
+      set softwrap
+      set autoindent
+      set indicator
+    '';
   };
+
+  # Set ZSH as the default shell
+  users.defaultUserShell = pkgs.zsh;
 }
