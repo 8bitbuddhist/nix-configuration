@@ -25,15 +25,13 @@ let
 
   /*
     Add subdomains from enabled services to TLS certificate.
+    Checks for:
 
-    This doesn't _exactly_ check for enabled services, only:
       1. Services that aren't ACME
-      2. Services with an "enable" attribute.
-
-    It still works though, so ¯\_(ツ)_/¯
+      2. Services with the attribute "enable = true";
   */
   serviceList = lib.attrsets.collect (
-    x: x != "acme" && builtins.hasAttr "enable" x
+    x: x != "acme" && (lib.attrsets.matchAttrs { enable = true; } x)
   ) config.aux.system.services;
   subdomains = builtins.catAttrs "url" serviceList;
 
