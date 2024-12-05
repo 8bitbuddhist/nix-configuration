@@ -6,8 +6,8 @@
 set -e
 
 if [ "$(id -u)" != "0" ]; then
-   echo "This script must be run as root" 1>&2
-   exit 1
+  echo "This script must be run as root" 1>&2
+  exit 1
 fi
 
 # Configuration parameters
@@ -17,42 +17,42 @@ luks_partition="" # The drive partition to create the LUKS container on
 root_partition="/dev/mapper/nixos-crypt" # The partition to install NixOS to
 
 function usage() {
-	echo "Usage: format-drives.sh [--boot boot-partition-path] [--luks luks-partition-path] [--ask-root-password]"
-	echo "Options:"
-	echo "	-h | --help	Show this help screen."
-	echo "	-b | --boot <path>	      The path to the boot drive (e.g. /dev/nvme0n1p1)."
-	echo "  -l | --luks <path>        The path to the partition to create the LUKS container on (e.g. /dev/nvme0n1p2)."
-	echo "  -a | --ask-root-password  Sets a password for the root user account."
-	exit 2
+  echo "Usage: format-drives.sh [--boot boot-partition-path] [--luks luks-partition-path] [--ask-root-password]"
+  echo "Options:"
+  echo "	-h | --help	Show this help screen."
+  echo "	-b | --boot <path>	      The path to the boot drive (e.g. /dev/nvme0n1p1)."
+  echo "  -l | --luks <path>        The path to the partition to create the LUKS container on (e.g. /dev/nvme0n1p2)."
+  echo "  -a | --ask-root-password  Sets a password for the root user account."
+  exit 2
 }
 
 # Argument processing logic shamelessly stolen from https://stackoverflow.com/questions/192249/how-do-i-parse-command-line-arguments-in-bash
 POSITIONAL_ARGS=()
 while [[ $# -gt 0 ]]; do
   case "$1" in
-	--ask-root-password|-a)
-		ask_root_password=true
-		shift
-		;;
-	--boot|-b)
-		boot_partition="$2"
-		shift
-		shift
-		;;
-	--luks|-l)
-		luks_partition="$2"
-		shift
-		shift
-		;;
-	--help|-h)
-		usage
-		shift
-		;;
-	*)
-		POSITIONAL_ARGS+=("$1") # save positional arg
-      	shift # past argument
-		;;
-	esac
+    --ask-root-password|-a)
+      ask_root_password=true
+      shift
+      ;;
+    --boot|-b)
+      boot_partition="$2"
+      shift
+      shift
+      ;;
+    --luks|-l)
+      luks_partition="$2"
+      shift
+      shift
+      ;;
+    --help|-h)
+      usage
+      shift
+      ;;
+    *)
+      POSITIONAL_ARGS+=("$1") # save positional arg
+      shift # past argument
+      ;;
+  esac
 done
 
 set -- "${POSITIONAL_ARGS[@]}" # restore positional parameters

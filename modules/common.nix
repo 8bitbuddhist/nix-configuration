@@ -6,16 +6,18 @@
 }:
 
 {
-  # Install base packages
-  aux.system.packages = with pkgs; [
-    fastfetch # Show a neat system statistics screen when opening a terminal
-    htop # System monitor
-    lm_sensors # System temperature monitoring
-    zellij # Terminal multiplexer
-  ];
+  aux.system = {
+    # Install base packages
+    packages = with pkgs; [
+      fastfetch # Show a neat system statistics screen when opening a terminal
+      htop # System monitor
+      lm_sensors # System temperature monitoring
+      zellij # Terminal multiplexer
+    ];
 
-  # Install the nos helper script
-  aux.system.nixos-operations-script.enable = true;
+    # Install the nos helper script
+    nixos-operations-script.enable = true;
+  };
 
   # Allow packages from the unstable repo by using 'pkgs.unstable'
   nixpkgs.overlays = [

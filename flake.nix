@@ -25,9 +25,6 @@
     # SecureBoot support
     lanzaboote.url = "github:nix-community/lanzaboote/v0.4.1";
 
-    # Aux lib
-    lib.url = "https://git.auxolotl.org/auxolotl/labs/archive/main.tar.gz?dir=lib";
-
     # Use Lix in place of Nix.
     #   If you'd rather use regular Nix, remove `lix-module.nixosModules.default` from the `modules` section below.
     #   To learn more about Lix, see https://lix.systems/
@@ -41,97 +38,110 @@
 
     # NixOS hardware quirks
     nixos-hardware.url = "github:NixOS/nixos-hardware/master";
+
+    # Snowfall - a unified configuration manager for NixOS
+    # Quickstart guide: https://snowfall.org/guides/lib/quickstart/
+    # Jake's reference config: https://github.com/jakehamilton/config
+    snowfall-lib = {
+      url = "github:snowfallorg/lib";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
+    treefmt-nix = {
+      url = "github:numtide/treefmt-nix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs =
-    inputs@{
-      auto-cpufreq,
-      home-manager,
-      lanzaboote,
-      lix-module,
-      nix-flatpak,
-      nixos-hardware,
-      nixpkgs,
-      ...
-    }:
+    inputs:
     let
-      forAllSystems =
-        function:
-        nixpkgs.lib.genAttrs [
-          "x86_64-linux"
-          "aarch64-linux"
-        ] (system: function nixpkgs.legacyPackages.${system});
+      lib = inputs.snowfall-lib.mkLib {
+        inherit inputs;
 
-      # Define shared modules and imports
-      defaultModules = [
-        ./modules/autoimport.nix
-        auto-cpufreq.nixosModules.default
-        lix-module.nixosModules.default
-        lanzaboote.nixosModules.lanzaboote
-        nix-flatpak.nixosModules.nix-flatpak
-        home-manager.nixosModules.home-manager
-        {
-          _module.args = {
-            inherit inputs;
+        # Root dir for flake.nix
+        src = ./.;
+
+        # Configure Snowfall
+        snowfall = {
+          # Choose a namespace to use for your flake's packages, library, and overlays.
+          namespace = "Sapana";
+
+          # Add flake metadata that can be processed by tools like Snowfall Frost.
+          meta = {
+            # A slug to use in documentation when displaying things like file paths.
+            name = "aires-flake";
+
+            # A title to show for your flake, typically the name.
+            title = "Aires' Flake";
           };
-          home-manager = {
-            /*
-              When running, Home Manager will use the global package cache.
-              It will also back up any files that it would otherwise overwrite.
-              The originals will have the extension shown below.
-            */
-            useGlobalPkgs = true;
-            useUserPackages = true;
-            backupFileExtension = "home-manager-backup";
-          };
-        }
-      ];
+        };
+      };
     in
-    {
-      formatter = forAllSystems (pkgs: pkgs.nixfmt-rfc-style);
+    lib.mkFlake {
+      # Configure Nix channels
+      channels-config.allowUnfree = true;
 
-      nixosConfigurations = {
+      # Define systems
+      systems = {
+        # Modules to import for all systems
+        modules.nixos = with inputs; [
+          ./modules/autoimport.nix
+          auto-cpufreq.nixosModules.default
+          lix-module.nixosModules.default
+          lanzaboote.nixosModules.lanzaboote
+          nix-flatpak.nixosModules.nix-flatpak
+          home-manager.nixosModules.home-manager
+          {
+            _module.args = {
+              inherit inputs;
+            };
+            home-manager = {
+              /*
+                When running, Home Manager will use the global package cache.
+                It will also back up any files that it would otherwise overwrite.
+                The originals will have the extension shown below.
+              */
+              useGlobalPkgs = true;
+              useUserPackages = true;
+              backupFileExtension = "home-manager-backup";
+            };
+          }
+        ];
 
-        Dimaga = nixpkgs.lib.nixosSystem {
-          system = "x86_64-linux";
-          modules = defaultModules ++ [
+        # Individual host configurations
+        hosts = {
+          Dimaga.modules = with inputs; [
             nixos-hardware.nixosModules.common-cpu-intel
             ./hosts/Dimaga
           ];
-        };
 
-        Hevana = nixpkgs.lib.nixosSystem {
-          system = "x86_64-linux";
-          modules = defaultModules ++ [
+          Hevana.modules = with inputs; [
             nixos-hardware.nixosModules.common-cpu-amd-pstate
             nixos-hardware.nixosModules.common-gpu-amd
             ./hosts/Hevana
           ];
-        };
 
-        Khanda = nixpkgs.lib.nixosSystem {
-          system = "x86_64-linux";
-          modules = defaultModules ++ [
+          Khanda.modules = with inputs; [
             nixos-hardware.nixosModules.microsoft-surface-pro-9
             ./hosts/Khanda
           ];
-        };
 
-        Pihole = nixpkgs.lib.nixosSystem {
-          system = "aarch64-linux";
-          modules = defaultModules ++ [
+          Pihole.modules = with inputs; [
             nixos-hardware.nixosModules.raspberry-pi-4
             ./hosts/Pihole
           ];
-        };
 
-        Shura = nixpkgs.lib.nixosSystem {
-          system = "x86_64-linux";
-          modules = defaultModules ++ [
+          Shura.modules = with inputs; [
             nixos-hardware.nixosModules.lenovo-legion-16arha7
             ./hosts/Shura
           ];
         };
+      };
+
+      # Use treefmt to format project repo
+      outputs-builder = channels: {
+        formatter = (inputs.treefmt-nix.lib.evalModule channels.nixpkgs ./treefmt.nix).config.build.wrapper;
       };
     };
 }

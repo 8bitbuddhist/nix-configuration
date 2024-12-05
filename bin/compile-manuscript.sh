@@ -8,16 +8,16 @@ outDir="./out"
 metadataFile="$inDir/metadata.yml"
 
 function usage() {
-    echo "Compile a directory of Markdown (.md) files into DOCX, ePub, and PDF files."
-    echo ""
-    echo "Options:"
-    echo " --help                       Show this help screen."
-    echo " -n, --name [name]            The name of this draft."
-    echo " -i, --input [path]           Directory containing the files to convert. Defaults to this directory."
-    echo " -o, --output [path]          Directory to store the converted files in. Defaults to ./out."
-    echo " -m, --metadata [path]        Path to the YAML file containing metadata for pandoc."
-    echo ""
-    exit 0
+  echo "Compile a directory of Markdown (.md) files into DOCX, ePub, and PDF files."
+  echo ""
+  echo "Options:"
+  echo " --help                       Show this help screen."
+  echo " -n, --name [name]            The name of this draft."
+  echo " -i, --input [path]           Directory containing the files to convert. Defaults to this directory."
+  echo " -o, --output [path]          Directory to store the converted files in. Defaults to ./out."
+  echo " -m, --metadata [path]        Path to the YAML file containing metadata for pandoc."
+  echo ""
+  exit 0
 }
 
 # Argument processing logic shamelessly stolen from https://stackoverflow.com/questions/192249/how-do-i-parse-command-line-arguments-in-bash
@@ -25,47 +25,47 @@ POSITIONAL_ARGS=()
 while [[ $# -gt 0 ]]; do
   case "$1" in
     --draft-name|--name|-n)
-        draftName="$2"
-        shift
-        shift
-        ;;
+      draftName="$2"
+      shift
+      shift
+      ;;
     --input|--indir|-i)
-        inDir="$2"
-        shift
-        shift
-        ;;
+      inDir="$2"
+      shift
+      shift
+      ;;
     --output|--outdir|-o)
-        outDir="$2"
-        shift
-        shift
-        ;;
+      outDir="$2"
+      shift
+      shift
+      ;;
     --metadata|--metadataFile|-m)
-        metadataFile="$2"
-        shift
-        shift
-        ;;
+      metadataFile="$2"
+      shift
+      shift
+      ;;
     --help)
-        usage
-        ;;
+      usage
+      ;;
     *)
-        POSITIONAL_ARGS+=("$1") # save positional arg
-        shift
-        ;;
-    esac
+      POSITIONAL_ARGS+=("$1") # save positional arg
+      shift
+      ;;
+  esac
 done
 remainingArgs=${POSITIONAL_ARGS[@]}
 set -- "${POSITIONAL_ARGS[@]}" # restore positional parameters
 
 # If this is a git repo and no name has been provided, name the draft after the current branch
 if [ -d ".git" ] && [ "$draftName" = "draft" ]; then
-    draftName=$(git rev-parse --abbrev-ref HEAD)
+  draftName=$(git rev-parse --abbrev-ref HEAD)
 fi
 
 # Check if this directory already exists
 outDir="$outDir/${draftName}"
 if [ -d $outDir ]; then
-    echo "The folder $outDir already exists."
-    read -p "Enter YES to overwrite, or Ctrl-C to cancel: " confirm && [ $confirm = "YES" ] || exit 1
+  echo "The folder $outDir already exists."
+  read -p "Enter YES to overwrite, or Ctrl-C to cancel: " confirm && [ $confirm = "YES" ] || exit 1
 fi
 
 draftFile="$outDir/${draftName}"
@@ -82,11 +82,11 @@ echo > $draftFile.md
 # Obsidian specifically creates "folder notes," which are named for the directory, so we make sure to exclude it.
 find "$inDir" -type f -wholename "* *.md" ! -name content.md -print0 | sort -z | while read -d $'\0' file
 do
-    # Add newline to Markdown doc
-    echo >> $draftFile.md
-    # Clean up incoming Markdown and append it to final doc
-    sed "s|(../|($inDir/../|g" "$file" >> $draftFile.md
-    echo "\\newpage" >> $draftFile.md
+  # Add newline to Markdown doc
+  echo >> $draftFile.md
+  # Clean up incoming Markdown and append it to final doc
+  sed "s|(../|($inDir/../|g" "$file" >> $draftFile.md
+  echo "\\newpage" >> $draftFile.md
 done
 
 # Generate the output files:

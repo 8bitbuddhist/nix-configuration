@@ -19,7 +19,7 @@ Secrets are managed using [git-crypt](https://github.com/AGWA/git-crypt). To unl
 When installing on a brand new system, partition the main drive into two partitions: a `/boot` partition, and a LUKS partition. Then, run `bin/format-drives.sh --root [root partition] --luks [luks partition]` (the script will request sudo privileges):
 
 ```sh
-./bin/format-drives.sh --boot /dev/nvme0n1p1 --luks /dev/nvme0n1p2 
+./bin/format-drives.sh --boot /dev/nvme0n1p1 --luks /dev/nvme0n1p2
 ```
 
 Next, set up the host's config under in the `hosts` folder by copying `configuration.nix.template` and `hardware-configuration.nix.template` into a new folder. Running `format-drives.sh` also generates a `hardware-configuration.nix` file you can use.
@@ -30,7 +30,7 @@ Finally, run the NixOS installer, replacing `host` with your actual hostname:
 
 ```sh
 sudo nixos-install --verbose --root /mnt --flake .#host --no-root-password
-``` 
+```
 
 > [!TIP]
 > This config installs a nixos-rebuild wrapper called `nos` (NixOS Operations Script) that handles pulling and pushing changes to your configuration repository via git. For more info, run `nixos-operations-script --help`.
@@ -66,7 +66,7 @@ nos
 
 This is the equivalent of running:
 
-```sh 
+```sh
 cd [flake dir]
 git pull
 nix flake update --commit-lock-file
@@ -130,10 +130,11 @@ nixos-rebuild build-vm --flake .
 ### Layout
 
 This config uses a custom templating system built off of the [Auxolotl system templates](https://git.auxolotl.org/auxolotl/templates).
+
 - Flakes are the entrypoint, via `flake.nix`. This is where Flake inputs and Flake-specific options get defined.
 - Hosts are defined in the `hosts` folder.
 - Modules are defined in `modules`. All of these files are automatically imported (except home-manager modules). You simply enable the ones you want to use, and disable the ones you don't. For example, to install Flatpak support, set `aux.system.ui.flatpak.enable = true;`.
-    - After adding a new module, make sure to `git add` it before running `nixos-rebuild`.
+  - After adding a new module, make sure to `git add` it before running `nixos-rebuild`.
 - Home-manager configs live in the `users/` folders.
 
 ### Features
