@@ -256,7 +256,7 @@ in
         };
       };
       rss = {
-        enable = true;
+        enable = false;
         home = "${services-root}/freshrss";
         url = config.secrets.services.rss.url;
         auth = with config.secrets.services.rss.auth; {
