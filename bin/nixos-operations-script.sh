@@ -98,11 +98,11 @@ options="--flake ${flakeDir}#${hostname} ${remainingArgs} --use-remote-sudo --lo
 
 if [[ -n "${buildHost}" && "$operation" != "build" && "$operation" != *"dry"* ]]; then
   echo "Remote build detected, running this operation first: nixos-rebuild build ${options} --build-host $buildHost"
-  /run/current-system/sw/bin/nixos-rebuild build "$options" --build-host "$buildHost"
+  /run/current-system/sw/bin/nixos-rebuild build $options --build-host $buildHost
   echo "Remote build complete!"
 fi
 
 echo "Running this operation: nixos-rebuild ${operation} ${options}"
-/run/current-system/sw/bin/nixos-rebuild "$operation" "$options"
+/run/current-system/sw/bin/nixos-rebuild $operation $options
 
 exit 0
