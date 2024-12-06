@@ -1,5 +1,5 @@
 # Minisforum UM340
-{ modulesPath, ... }:
+{ modulesPath, namespace, ... }:
 let
   bootUUID = "D2E7-FE8F"; # The UUID of the boot partition.
   luksUUID = "7b9c756c-ba9d-43fc-b935-7c77a70f5f1b"; # The UUID of the locked LUKS partition.
@@ -30,7 +30,7 @@ in
   };
 
   # Configure the main filesystem.
-  aux.system.filesystem = {
+  ${namespace}.filesystem = {
     enable = true;
     partitions = {
       boot = "/dev/disk/by-uuid/${bootUUID}";

@@ -4,11 +4,12 @@
   inputs,
   lib,
   pkgs,
+  namespace,
   ...
 }:
 
 let
-  cfg = config.aux.system;
+  cfg = config.${namespace};
 
   nixos-operations-script = pkgs.writeShellScriptBin "nixos-operations-script" (
     builtins.readFile ../../../../bin/nixos-operations-script.sh
@@ -16,7 +17,7 @@ let
 in
 {
   options = {
-    aux.system = {
+    ${namespace} = {
       retentionPeriod = lib.mkOption {
         description = "How long to retain NixOS generations. Defaults to one month.";
         type = lib.types.str;
@@ -28,8 +29,11 @@ in
   config = lib.mkMerge [
     {
       nix = {
+        # Use Lix in place of Nix
+        package = pkgs.lix;
+
+        # Ensure we can still build when secondary caches are unavailable
         extraOptions = ''
-          # Ensure we can still build when secondary caches are unavailable
           fallback = true
         '';
 
@@ -60,14 +64,14 @@ in
           # Only allow these users to use Nix
           allowed-users = with config.users.users; [
             root.name
-            (lib.mkIf config.aux.system.users.aires.enable aires.name)
-            (lib.mkIf config.aux.system.users.gremlin.enable gremlin.name)
+            (lib.mkIf config.${namespace}.users.aires.enable aires.name)
+            (lib.mkIf config.${namespace}.users.gremlin.enable gremlin.name)
           ];
 
           # Avoid signature verification messages when doing remote builds
           trusted-users = with config.users.users; [
             root.name
-            (lib.mkIf config.aux.system.users.aires.enable aires.name)
+            (lib.mkIf config.${namespace}.users.aires.enable aires.name)
           ];
         };
 
@@ -92,7 +96,7 @@ in
     }
     (lib.mkIf cfg.nixos-operations-script.enable {
       # Enable and configure NOS
-      aux.system.packages = [ nixos-operations-script ];
+      ${namespace}.packages = [ nixos-operations-script ];
       environment.variables."FLAKE_DIR" = config.secrets.nixConfigFolder;
     })
   ];

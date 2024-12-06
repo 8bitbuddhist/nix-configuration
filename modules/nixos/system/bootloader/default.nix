@@ -4,17 +4,18 @@
   config,
   lib,
   pkgs,
+  namespace,
   ...
 }:
 
 # Bootloader
 let
-  cfg = config.aux.system.bootloader;
+  cfg = config.${namespace}.bootloader;
 in
 {
 
   options = {
-    aux.system.bootloader = {
+    ${namespace}.bootloader = {
       enable = lib.mkOption {
         description = "Automatically configures the bootloader. Set to false to configure manually.";
         type = lib.types.bool;

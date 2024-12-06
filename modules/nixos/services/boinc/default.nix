@@ -2,15 +2,16 @@
   config,
   lib,
   pkgs,
+  namespace,
   ...
 }:
 
 let
-  cfg = config.aux.system.services.boinc;
+  cfg = config.${namespace}.services.boinc;
 in
 {
   options = {
-    aux.system.services.boinc = {
+    ${namespace}.services.boinc = {
       enable = lib.mkEnableOption "Enables BOINC distributed computing service.";
       home = lib.mkOption {
         default = "/var/lib/boinc";
@@ -27,7 +28,7 @@ in
       dataDir = cfg.home;
       extraEnvPackages = [
         pkgs.ocl-icd
-      ] ++ lib.optionals config.aux.system.gpu.nvidia.enable [ pkgs.linuxPackages.nvidia_x11 ];
+      ] ++ lib.optionals config.${namespace}.gpu.nvidia.enable [ pkgs.linuxPackages.nvidia_x11 ];
       allowRemoteGuiRpc = true;
     };
 

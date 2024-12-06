@@ -1,15 +1,20 @@
 # Enables the Hyprland desktop environment.
-{ config, lib, ... }:
+{
+  config,
+  lib,
+  namespace,
+  ...
+}:
 let
-  cfg = config.aux.system.ui.desktops.hyprland;
+  cfg = config.${namespace}.ui.desktops.hyprland;
 in
 {
   options = {
-    aux.system.ui.desktops.hyprland.enable = lib.mkEnableOption "Enables the Hyprland desktop environment.";
+    ${namespace}.ui.desktops.hyprland.enable = lib.mkEnableOption "Enables the Hyprland desktop environment.";
   };
 
   config = lib.mkIf cfg.enable {
-    aux.system.ui.desktops.enable = true;
+    ${namespace}.ui.desktops.enable = true;
 
     programs.hyprland = {
       enable = true;

@@ -1,12 +1,17 @@
 # See https://wiki.nixos.org/wiki/Msmtp
-{ config, lib, ... }:
+{
+  config,
+  lib,
+  namespace,
+  ...
+}:
 
 let
-  cfg = config.aux.system.services.msmtp;
+  cfg = config.${namespace}.services.msmtp;
 in
 {
   options = {
-    aux.system.services.msmtp = {
+    ${namespace}.services.msmtp = {
       enable = lib.mkEnableOption "Enables mail server";
       accounts = lib.mkOption {
         type = lib.types.attrs;

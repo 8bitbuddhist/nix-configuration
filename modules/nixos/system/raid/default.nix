@@ -1,11 +1,16 @@
-{ lib, config, ... }:
+{
+  lib,
+  config,
+  namespace,
+  ...
+}:
 let
-  cfg = config.aux.system.raid;
+  cfg = config.${namespace}.raid;
 in
 {
 
   options = {
-    aux.system.raid = {
+    ${namespace}.raid = {
       enable = lib.mkEnableOption "Enables RAID support.";
       storage = {
         enable = lib.mkEnableOption "Enables support for the storage array.";
@@ -28,7 +33,7 @@ in
   config = lib.mkMerge [
     (lib.mkIf cfg.enable { boot.swraid.enable = true; })
     (lib.mkIf cfg.storage.enable {
-      aux.system.raid.enable = true;
+      ${namespace}.raid.enable = true;
       boot.swraid.mdadmConf = ''
         ARRAY /dev/md/Sapana metadata=1.2 UUID=51076daf:efdb34dd:bce48342:3b549fcb
         MAILADDR ${cfg.storage.mailAddr}

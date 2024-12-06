@@ -1,5 +1,4 @@
-{ lib, osConfig, ... }:
-{
+_: {
   # NOTE: Allegedly prevents random Gnome crashes. But really, it just prevents me from logging in.
   # See https://www.reddit.com/r/archlinux/comments/1erbika/fyi_if_you_experience_crashes_on_gnome_on_amd/
   /*
@@ -9,7 +8,7 @@
   */
 
   # Additional Gnome configurations via home-manager.
-  dconf.settings = lib.mkIf osConfig.aux.system.ui.desktops.gnome.enable {
+  dconf.settings = {
     "org/gnome/mutter" = {
       edge-tiling = true;
       workspaces-only-on-primary = false;

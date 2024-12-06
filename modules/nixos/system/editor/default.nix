@@ -1,12 +1,17 @@
 # Basic system-wide text editor configuration.
-{ config, lib, ... }:
+{
+  config,
+  lib,
+  namespace,
+  ...
+}:
 
 let
-  cfg = config.aux.system.editor;
+  cfg = config.${namespace}.editor;
 in
 {
   options = {
-    aux.system.editor = lib.mkOption {
+    ${namespace}.editor = lib.mkOption {
       description = "Selects the default text editor.";
       default = "nano";
       type = lib.types.enum [

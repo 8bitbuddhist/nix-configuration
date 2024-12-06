@@ -1,16 +1,16 @@
 {
   config,
   lib,
-  pkgs,
+  namespace,
   ...
 }:
 
 let
-  cfg = config.aux.system.services.binary-cache;
+  cfg = config.${namespace}.services.binary-cache;
 in
 {
   options = {
-    aux.system.services.binary-cache = {
+    ${namespace}.services.binary-cache = {
       enable = lib.mkEnableOption "Enable a binary cache hosting service.";
       secretKeyFile = lib.mkOption {
         default = "/var/lib/nix-binary-cache/privkey.pem";

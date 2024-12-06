@@ -2,11 +2,11 @@
 { config, lib, ... }:
 
 let
-  cfg = config.aux.system.services.myModule;
+  cfg = config.${namespace}.services.myModule;
 in
 {
   options = {
-    aux.system.services.myModule = {
+    ${namespace}.services.myModule = {
       enable = lib.mkEnableOption "Enables this example module.";
       attributes = lib.mkOption {
         default = { };

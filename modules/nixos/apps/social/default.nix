@@ -2,19 +2,20 @@
   config,
   lib,
   pkgs,
+  namespace,
   ...
 }:
 
 let
-  cfg = config.aux.system.apps.social;
+  cfg = config.${namespace}.apps.social;
 in
 {
   options = {
-    aux.system.apps.social.enable = lib.mkEnableOption "Enables chat apps";
+    ${namespace}.apps.social.enable = lib.mkEnableOption "Enables chat apps";
   };
 
   config = lib.mkIf cfg.enable {
-    aux.system = {
+    ${namespace} = {
       packages = [ pkgs.beeper ];
       ui.flatpak = {
         enable = true;

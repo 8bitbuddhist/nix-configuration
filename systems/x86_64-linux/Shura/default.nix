@@ -1,4 +1,9 @@
-{ config, pkgs, ... }:
+{
+  config,
+  pkgs,
+  namespace,
+  ...
+}:
 let
   # Do not change this value! This tracks when NixOS was installed on your system.
   stateVersion = "24.05";
@@ -14,9 +19,9 @@ in
   system.stateVersion = stateVersion;
   networking.hostName = hostName;
 
-  custom-fonts.Freight-Pro.enable = config.aux.system.users.gremlin.enable;
+  custom-fonts.Freight-Pro.enable = config.${namespace}.users.gremlin.enable;
 
-  aux.system = {
+  ${namespace} = {
     apps = {
       development.enable = true;
       gaming.enable = true;

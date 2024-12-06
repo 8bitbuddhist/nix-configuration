@@ -2,16 +2,17 @@
   pkgs,
   lib,
   config,
+  namespace,
   ...
 }:
 
 # Define 'gremlin' user
 let
-  cfg = config.aux.system.users.gremlin;
+  cfg = config.${namespace}.users.gremlin;
 in
 {
   options = {
-    aux.system.users.gremlin = {
+    ${namespace}.users.gremlin = {
       enable = lib.mkEnableOption "Enables gremlin user account";
     };
   };
@@ -35,7 +36,7 @@ in
       };
 
       # Install gremlin-specific flatpaks
-      aux.system.ui.flatpak.packages = [
+      ${namespace}.ui.flatpak.packages = [
         "com.google.Chrome"
         "com.slack.Slack"
       ];

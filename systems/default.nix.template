@@ -4,6 +4,7 @@
   home-manager,
   lib,
   config,
+  namespace,
   ...
 }:
 let
@@ -22,8 +23,7 @@ in
   networking.hostName = hostName;
 
   # Configure the system here.
-  aux.system = {
-    role = "workstation";
+  config.${namespace} = {
     apps = {
       # Define applications here
     };

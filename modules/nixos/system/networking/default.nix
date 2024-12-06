@@ -1,5 +1,5 @@
 # Configure basic networking options.
-{ lib, ... }:
+{ lib, namespace, ... }:
 {
   networking = {
     # Default to DHCP. Set to false to use static IPs.

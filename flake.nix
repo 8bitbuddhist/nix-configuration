@@ -1,4 +1,4 @@
-# Based on the Auxolotl template: https://github.com/auxolotl/templates
+# Uses Snowfall: https://snowfall.org/
 # For info on Flakes, see: https://nixos-and-flakes.thiscute.world/nixos-with-flakes/nixos-with-flakes-enabled
 {
   description = "Aires' system Flake";
@@ -39,8 +39,7 @@
     # NixOS hardware quirks
     nixos-hardware.url = "github:NixOS/nixos-hardware/master";
 
-    # Snowfall - a unified configuration manager for NixOS
-    # Quickstart guide: https://snowfall.org/guides/lib/quickstart/
+    # Snowfall lib: https://snowfall.org/guides/lib/quickstart/
     # Jake's reference config: https://github.com/jakehamilton/config
     snowfall-lib = {
       url = "github:snowfallorg/lib";

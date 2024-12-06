@@ -2,6 +2,7 @@
   config,
   pkgs,
   lib,
+  namespace,
   ...
 }:
 let
@@ -24,7 +25,7 @@ in
     };
   };
 
-  aux.system = {
+  ${namespace} = {
     bootloader.enable = false; # Bootloader configured in hardware-configuration.nix
     packages = with pkgs; [
       libraspberrypi

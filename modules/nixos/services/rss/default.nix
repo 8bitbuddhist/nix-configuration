@@ -2,14 +2,15 @@
   pkgs,
   config,
   lib,
+  namespace,
   ...
 }:
 let
-  cfg = config.aux.system.services.rss;
+  cfg = config.${namespace}.services.rss;
 in
 {
   options = {
-    aux.system.services.rss = {
+    ${namespace}.services.rss = {
       enable = lib.mkEnableOption "Enables RSS hosting service via FreshRSS.";
       auth = {
         password = lib.mkOption {

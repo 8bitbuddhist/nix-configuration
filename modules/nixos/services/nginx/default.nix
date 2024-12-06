@@ -1,11 +1,16 @@
-{ config, lib, ... }:
+{
+  config,
+  lib,
+  namespace,
+  ...
+}:
 
 let
-  cfg = config.aux.system.services.nginx;
+  cfg = config.${namespace}.services.nginx;
 in
 {
   options = {
-    aux.system.services.nginx = {
+    ${namespace}.services.nginx = {
       enable = lib.mkEnableOption "Enable the Nginx web server.";
 
       virtualHosts = lib.mkOption {

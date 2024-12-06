@@ -2,11 +2,12 @@
   pkgs,
   config,
   lib,
+  namespace,
   ...
 }:
 
 let
-  cfg = config.aux.system.apps.writing;
+  cfg = config.${namespace}.apps.writing;
 
   compile-manuscript = pkgs.writeShellScriptBin "compile-manuscript" (
     builtins.readFile ../../../../bin/compile-manuscript.sh
@@ -14,7 +15,7 @@ let
 in
 {
   options = {
-    aux.system.apps.writing.enable = lib.mkEnableOption "Enables writing and editing tools";
+    ${namespace}.apps.writing.enable = lib.mkEnableOption "Enables writing and editing tools";
   };
 
   config = lib.mkIf cfg.enable {

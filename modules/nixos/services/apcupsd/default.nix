@@ -1,10 +1,15 @@
-{ config, lib, ... }:
+{
+  config,
+  lib,
+  namespace,
+  ...
+}:
 let
-  cfg = config.aux.system.services.apcupsd;
+  cfg = config.${namespace}.services.apcupsd;
 in
 {
   options = {
-    aux.system.services.apcupsd = {
+    ${namespace}.services.apcupsd = {
       enable = lib.mkEnableOption "Enables apcupsd";
       configText = lib.mkOption {
         type = lib.types.str;

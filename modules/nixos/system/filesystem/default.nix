@@ -1,6 +1,11 @@
-{ lib, config, ... }:
+{
+  lib,
+  config,
+  namespace,
+  ...
+}:
 let
-  cfg = config.aux.system.filesystem;
+  cfg = config.${namespace}.filesystem;
 
   # LUKS partition will decrypt to /dev/mapper/nixos-root
   decryptPart = "nixos-root";
@@ -14,7 +19,7 @@ let
 in
 {
   options = {
-    aux.system.filesystem = {
+    ${namespace}.filesystem = {
       enable = lib.mkEnableOption "Enables standard BTRFS subvolumes and parameters.";
       partitions = {
         boot = lib.mkOption {
@@ -60,7 +65,7 @@ in
     boot.initrd.luks.devices.${decryptPart} = {
       device = cfg.partitions.luks;
       # Enable TPM auto-unlocking if configured
-      crypttabExtraOpts = lib.mkIf config.aux.system.bootloader.tpm2.enable [ "tpm2-device=auto" ];
+      crypttabExtraOpts = lib.mkIf config.${namespace}.bootloader.tpm2.enable [ "tpm2-device=auto" ];
     };
     fileSystems = {
       "/" = {

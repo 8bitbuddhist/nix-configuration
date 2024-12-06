@@ -2,14 +2,15 @@
   pkgs,
   config,
   lib,
+  namespace,
   ...
 }:
 let
-  cfg = config.aux.system.services.netdata;
+  cfg = config.${namespace}.services.netdata;
 in
 {
   options = {
-    aux.system.services.netdata = {
+    ${namespace}.services.netdata = {
       enable = lib.mkEnableOption "Enables Netdata monitoring.";
       auth = {
         user = lib.mkOption {

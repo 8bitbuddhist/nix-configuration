@@ -2,15 +2,16 @@
   pkgs,
   config,
   lib,
+  namespace,
   ...
 }:
 
 let
-  cfg = config.aux.system.services.duplicacy-web;
+  cfg = config.${namespace}.services.duplicacy-web;
 in
 {
   options = {
-    aux.system.services.duplicacy-web = {
+    ${namespace}.services.duplicacy-web = {
       enable = lib.mkEnableOption "Enables duplicacy-web";
       home = lib.mkOption {
         default = "/var/lib/duplicacy-web";

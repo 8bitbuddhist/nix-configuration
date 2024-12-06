@@ -3,15 +3,16 @@
   pkgs,
   config,
   lib,
+  namespace,
   ...
 }:
 
 let
-  cfg = config.aux.system.ui.desktops;
+  cfg = config.${namespace}.ui.desktops;
 in
 {
   options = {
-    aux.system.ui.desktops = {
+    ${namespace}.ui.desktops = {
       enable = lib.mkEnableOption "Enables base desktop environment support.";
       xkb = lib.mkOption {
         description = "The keyboard layout to use by default. Defaults to us.";
@@ -25,7 +26,7 @@ in
   };
 
   config = lib.mkIf cfg.enable {
-    aux.system = {
+    ${namespace} = {
       bluetooth = {
         enable = true;
         experimental.enable = true;
@@ -79,7 +80,7 @@ in
         enable = true;
 
         # Configure keymap in X11
-        xkb = config.aux.system.ui.desktops.xkb;
+        xkb = config.${namespace}.ui.desktops.xkb;
       };
 
       # Enable touchpad support (enabled by default in most desktop managers, buuuut just in case).

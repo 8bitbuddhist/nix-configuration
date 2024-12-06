@@ -1,12 +1,17 @@
 # See https://wiki.nixos.org/wiki/Syncthing
-{ config, lib, ... }:
+{
+  config,
+  lib,
+  namespace,
+  ...
+}:
 
 let
-  cfg = config.aux.system.services.syncthing;
+  cfg = config.${namespace}.services.syncthing;
 in
 {
   options = {
-    aux.system.services.syncthing = {
+    ${namespace}.services.syncthing = {
       enable = lib.mkEnableOption "Enables Syncthing.";
       enableTray = lib.mkEnableOption "Enables the Syncthing Tray applet.";
       home = lib.mkOption {
@@ -36,7 +41,7 @@ in
     networking.firewall.allowedTCPPorts = with cfg.web; lib.mkIf (enable && public) [ port ];
 
     services = {
-      flatpak.packages = lib.mkIf (config.aux.system.ui.flatpak.enable && cfg.enableTray) [
+      flatpak.packages = lib.mkIf (config.${namespace}.ui.flatpak.enable && cfg.enableTray) [
         "io.github.martchus.syncthingtray"
       ];
 

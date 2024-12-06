@@ -3,16 +3,17 @@
   lib,
   config,
   pkgs,
+  namespace,
   ...
 }:
 
 let
-  cfg = config.aux.system.bluetooth;
+  cfg = config.${namespace}.bluetooth;
 in
 {
 
   options = {
-    aux.system.bluetooth = {
+    ${namespace}.bluetooth = {
       enable = lib.mkEnableOption "Enables bluetooth.";
       experimental.enable = lib.mkEnableOption "Enables experimental features, like device power reporting.";
     };

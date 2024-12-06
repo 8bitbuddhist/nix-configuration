@@ -2,6 +2,7 @@
   config,
   lib,
   pkgs,
+  namespace,
   ...
 }:
 
@@ -32,7 +33,7 @@ let
   */
   serviceList = lib.attrsets.collect (
     x: x != "acme" && (lib.attrsets.matchAttrs { enable = true; } x)
-  ) config.aux.system.services;
+  ) config.${namespace}.services;
   subdomains = builtins.catAttrs "url" serviceList;
 
 in
@@ -75,7 +76,7 @@ in
       Type = "oneshot";
       User = "aires";
     };
-    path = config.aux.system.corePackages;
+    path = config.${namespace}.corePackages;
     script = ''
       /run/current-system/sw/bin/nixos-operations-script --operation build --hostname Khanda --flake ${config.secrets.nixConfigFolder}
     '';
@@ -92,7 +93,7 @@ in
   };
 
   # Configure the system.
-  aux.system = {
+  ${namespace} = {
     # Enable Secure Boot support.
     bootloader = {
       enable = true;

@@ -3,15 +3,16 @@
   config,
   lib,
   pkgs,
+  namespace,
   ...
 }:
 
 let
-  cfg = config.aux.system.services.virtualization;
+  cfg = config.${namespace}.services.virtualization;
 in
 {
   options = {
-    aux.system.services.virtualization = {
+    ${namespace}.services.virtualization = {
       enable = lib.mkEnableOption "Enables virtualization tools on this host.";
       host = {
         enable = lib.mkEnableOption "Enables virtual machine hosting.";

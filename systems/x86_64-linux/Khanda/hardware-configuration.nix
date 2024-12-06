@@ -4,6 +4,7 @@
   lib,
   pkgs,
   modulesPath,
+  namespace,
   ...
 }:
 let
@@ -56,7 +57,7 @@ in
   };
 
   # Configure the main filesystem.
-  aux.system.filesystem = {
+  ${namespace}.filesystem = {
     enable = true;
     partitions = {
       boot = "/dev/disk/by-uuid/${bootUUID}";

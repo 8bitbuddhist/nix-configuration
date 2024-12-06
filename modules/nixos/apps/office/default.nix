@@ -1,15 +1,20 @@
-{ config, lib, ... }:
+{
+  config,
+  lib,
+  namespace,
+  ...
+}:
 
 let
-  cfg = config.aux.system.apps.office;
+  cfg = config.${namespace}.apps.office;
 in
 {
   options = {
-    aux.system.apps.office.enable = lib.mkEnableOption "Enables office and workstation apps";
+    ${namespace}.apps.office.enable = lib.mkEnableOption "Enables office and workstation apps";
   };
 
   config = lib.mkIf cfg.enable {
-    aux.system.ui.flatpak = {
+    ${namespace}.ui.flatpak = {
       enable = true;
       packages = [
         "org.onlyoffice.desktopeditors"

@@ -3,14 +3,15 @@
   pkgs,
   config,
   lib,
+  namespace,
   ...
 }:
 let
-  cfg = config.aux.system.gpu;
+  cfg = config.${namespace}.gpu;
 in
 {
   options = {
-    aux.system.gpu = {
+    ${namespace}.gpu = {
       amd.enable = lib.mkEnableOption "Enables AMD GPU support.";
       intel.enable = lib.mkEnableOption "Enables Intel GPU support.";
       nvidia = {
@@ -87,7 +88,7 @@ in
         opengl.extraPackages = with pkgs; [ vaapiVdpau ];
         nvidia = {
           modesetting.enable = true;
-          nvidiaSettings = config.aux.system.ui.desktops.enable;
+          nvidiaSettings = config.${namespace}.ui.desktops.enable;
           package = config.boot.kernelPackages.nvidiaPackages.stable;
           prime = lib.mkIf cfg.nvidia.hybrid.enable {
 

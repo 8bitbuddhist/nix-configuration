@@ -1,15 +1,20 @@
 # Enables the Budgie desktop environment.
-{ config, lib, ... }:
+{
+  config,
+  lib,
+  namespace,
+  ...
+}:
 let
-  cfg = config.aux.system.ui.desktops.budgie;
+  cfg = config.${namespace}.ui.desktops.budgie;
 in
 {
   options = {
-    aux.system.ui.desktops.budgie.enable = lib.mkEnableOption "Enables the Budgie desktop environment.";
+    ${namespace}.ui.desktops.budgie.enable = lib.mkEnableOption "Enables the Budgie desktop environment.";
   };
 
   config = lib.mkIf cfg.enable {
-    aux.system.ui.desktops.enable = true;
+    ${namespace}.ui.desktops.enable = true;
 
     services.xserver = {
       enable = true;

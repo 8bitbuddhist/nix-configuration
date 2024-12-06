@@ -1,13 +1,18 @@
-{ lib, config, ... }:
+{
+  lib,
+  config,
+  namespace,
+  ...
+}:
 
 # Define user for managing media files
 let
-  cfg = config.aux.system.users.media;
+  cfg = config.${namespace}.users.media;
 in
 {
 
   options = {
-    aux.system.users.media = {
+    ${namespace}.users.media = {
       enable = lib.mkEnableOption "Enables media user account";
     };
   };

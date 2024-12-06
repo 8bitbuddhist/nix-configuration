@@ -2,14 +2,15 @@
   pkgs,
   config,
   lib,
+  namespace,
   ...
 }:
 let
-  cfg = config.aux.system.services.languagetool;
+  cfg = config.${namespace}.services.languagetool;
 in
 {
   options = {
-    aux.system.services.languagetool = {
+    ${namespace}.services.languagetool = {
       enable = lib.mkEnableOption (lib.mdDoc "Enables LanguageTool server.");
       auth = {
         password = lib.mkOption {

@@ -1,4 +1,4 @@
-{ ... }:
+{ namespace, ... }:
 {
   home-manager.users.root = {
     imports = [ ../common/home-manager/zsh.nix ];

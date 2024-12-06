@@ -1,5 +1,10 @@
 # Lenovo Legion Slim 7 Gen 7 AMD (16ARHA7)
-{ pkgs, modulesPath, ... }:
+{
+  pkgs,
+  modulesPath,
+  namespace,
+  ...
+}:
 let
   bootUUID = "AFCB-D880"; # The UUID of the boot partition.
   luksUUID = "bcf67e34-339e-40b9-8ffd-bec8f7f55248"; # The UUID of the locked LUKS partition.
@@ -28,7 +33,7 @@ in
   };
 
   # Configure the main filesystem.
-  aux.system.filesystem = {
+  ${namespace}.filesystem = {
     enable = true;
     partitions = {
       boot = "/dev/disk/by-uuid/${bootUUID}";

@@ -1,11 +1,12 @@
 # Modules common to all systems
 {
   pkgs,
+  namespace,
   ...
 }:
 
 {
-  aux.system = {
+  ${namespace} = {
     # Install base packages
     packages = with pkgs; [
       fastfetch # Show a neat system statistics screen when opening a terminal

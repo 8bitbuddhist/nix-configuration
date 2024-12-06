@@ -1,18 +1,23 @@
-{ config, lib, ... }:
+{
+  config,
+  lib,
+  namespace,
+  ...
+}:
 
 let
-  cfg = config.aux.system.apps.media;
+  cfg = config.${namespace}.apps.media;
 in
 {
   options = {
-    aux.system.apps.media = {
+    ${namespace}.apps.media = {
       enable = lib.mkEnableOption "Enables media playback and editing apps.";
       mixxx.enable = lib.mkEnableOption "Installs the Mixxx DJing software.";
     };
   };
 
   config = lib.mkIf cfg.enable {
-    aux.system.ui.flatpak = {
+    ${namespace}.ui.flatpak = {
       enable = true;
       packages = [
         "app.drey.EarTag"

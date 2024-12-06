@@ -1,4 +1,4 @@
-{ config, ... }:
+{ config, namespace, ... }:
 
 let
   # Do not change this value! This tracks when NixOS was installed on your system.
@@ -13,7 +13,7 @@ in
 
   ###*** Configure your system below this line. ***###
   # Configure the system.
-  aux.system = {
+  ${namespace} = {
     apps = {
       development.enable = true;
       media.enable = true;

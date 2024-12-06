@@ -1,11 +1,16 @@
-{ config, lib, ... }:
+{
+  config,
+  lib,
+  namespace,
+  ...
+}:
 
 let
-  cfg = config.aux.system.services.acme;
+  cfg = config.${namespace}.services.acme;
 in
 {
   options = {
-    aux.system.services.acme = {
+    ${namespace}.services.acme = {
       enable = lib.mkEnableOption "Enable the ACME client (for Let's Encrypt TLS certificates).";
       certs = lib.mkOption {
         default = { };
@@ -30,6 +35,6 @@ in
     # /var/lib/acme/.challenges must be writable by the ACME user
     # and readable by the Nginx user. The easiest way to achieve
     # this is to add the Nginx user to the ACME group.
-    users.users.nginx.extraGroups = lib.mkIf config.aux.system.services.nginx.enable [ "acme" ];
+    users.users.nginx.extraGroups = lib.mkIf config.${namespace}.services.nginx.enable [ "acme" ];
   };
 }

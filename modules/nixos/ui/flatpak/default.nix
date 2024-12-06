@@ -2,16 +2,17 @@
   pkgs,
   config,
   lib,
+  namespace,
   ...
 }:
 
 # Flatpak support and options
 let
-  cfg = config.aux.system.ui.flatpak;
+  cfg = config.${namespace}.ui.flatpak;
 in
 {
   options = {
-    aux.system.ui.flatpak = {
+    ${namespace}.ui.flatpak = {
       enable = lib.mkEnableOption { description = "Enables Flatpak support."; };
       packages = lib.mkOption {
         description = "Flatpak packages to install.";
@@ -72,8 +73,8 @@ in
           aggregatedIcons = pkgs.buildEnv {
             name = "system-icons";
             paths = with pkgs; [
-              (lib.mkIf config.aux.system.ui.desktops.gnome.enable gnome-themes-extra)
-              (lib.mkIf config.aux.system.ui.desktops.kde.enable kdePackages.breeze-icons)
+              (lib.mkIf config.${namespace}.ui.desktops.gnome.enable gnome-themes-extra)
+              (lib.mkIf config.${namespace}.ui.desktops.kde.enable kdePackages.breeze-icons)
               papirus-icon-theme
               qogir-icon-theme
             ];

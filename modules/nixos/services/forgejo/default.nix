@@ -1,14 +1,15 @@
 {
   config,
   lib,
+  namespace,
   ...
 }:
 let
-  cfg = config.aux.system.services.forgejo;
+  cfg = config.${namespace}.services.forgejo;
 in
 {
   options = {
-    aux.system.services.forgejo = {
+    ${namespace}.services.forgejo = {
       enable = lib.mkEnableOption "Enables Forgejo Git hosting service.";
       home = lib.mkOption {
         default = "";

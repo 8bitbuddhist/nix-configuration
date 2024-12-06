@@ -3,16 +3,17 @@
   pkgs,
   config,
   lib,
+  namespace,
   ...
 }:
 let
-  cfg = config.aux.system;
+  cfg = config.${namespace};
 
   gitWithLibsecret = pkgs.git.override { withLibsecret = true; };
 in
 {
   options = {
-    aux.system = {
+    ${namespace} = {
       packages = lib.mkOption {
         description = "Additional system packages to install. This is just a wrapper for environment.systemPackages.";
         type = lib.types.listOf lib.types.package;
@@ -71,7 +72,7 @@ in
         autodetect = true;
         notifications = {
           wall.enable = true;
-          mail = lib.mkIf config.aux.system.services.msmtp.enable {
+          mail = lib.mkIf config.${namespace}.services.msmtp.enable {
             enable = true;
             mailer = "/run/wrappers/bin/sendmail";
             sender = "${config.networking.hostName}@${config.secrets.networking.domains.primary}";

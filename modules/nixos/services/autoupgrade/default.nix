@@ -1,12 +1,17 @@
 # Run automatic updates. Replaces system.autoUpgrade.
-{ config, lib, ... }:
+{
+  config,
+  lib,
+  namespace,
+  ...
+}:
 
 let
-  cfg = config.aux.system.services.autoUpgrade;
+  cfg = config.${namespace}.services.autoUpgrade;
 in
 {
   options = {
-    aux.system.services.autoUpgrade = {
+    ${namespace}.services.autoUpgrade = {
       enable = lib.mkEnableOption "Enables automatic system updates.";
       configDir = lib.mkOption {
         type = lib.types.str;
@@ -54,7 +59,7 @@ in
     ];
 
     # Deploy update script
-    aux.system.nixos-operations-script.enable = true;
+    ${namespace}.nixos-operations-script.enable = true;
 
     # Pull and apply updates.
     systemd = {
@@ -63,7 +68,7 @@ in
           Type = "oneshot";
           User = "root";
         };
-        path = config.aux.system.corePackages;
+        path = config.${namespace}.corePackages;
         unitConfig.RequiresMountsFor = cfg.configDir;
         script =
           "/run/current-system/sw/bin/nixos-operations-script --operation ${cfg.operation} "

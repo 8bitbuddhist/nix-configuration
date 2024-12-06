@@ -2,10 +2,11 @@
   pkgs,
   config,
   lib,
+  namespace,
   ...
 }:
 let
-  cfg = config.aux.system.services.jellyfin;
+  cfg = config.${namespace}.services.jellyfin;
 
   jellyfin-audio-save = pkgs.unstable.jellyfin.overrideAttrs (
     finalAttrs: prevAttrs: { patches = [ ./jellyfin-audio-save-position.patch ]; }
@@ -13,7 +14,7 @@ let
 in
 {
   options = {
-    aux.system.services.jellyfin = {
+    ${namespace}.services.jellyfin = {
       enable = lib.mkEnableOption "Enables the Jellyfin media streaming service.";
       home = lib.mkOption {
         default = "/var/lib/jellyfin";
@@ -30,7 +31,7 @@ in
   };
 
   config = lib.mkIf cfg.enable {
-    aux.system.users.media.enable = true;
+    ${namespace}.users.media.enable = true;
 
     services = {
       nginx.virtualHosts."${cfg.url}" = {

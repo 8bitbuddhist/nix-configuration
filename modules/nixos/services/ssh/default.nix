@@ -1,11 +1,16 @@
-{ config, lib, ... }:
+{
+  config,
+  lib,
+  namespace,
+  ...
+}:
 
 let
-  cfg = config.aux.system.services.ssh;
+  cfg = config.${namespace}.services.ssh;
 in
 {
   options = {
-    aux.system.services.ssh = {
+    ${namespace}.services.ssh = {
       enable = lib.mkEnableOption "Enables SSH server.";
       ports = lib.mkOption {
         default = [ 22 ];

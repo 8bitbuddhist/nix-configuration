@@ -3,22 +3,23 @@
   pkgs,
   config,
   lib,
+  namespace,
   ...
 }:
 
 let
-  cfg = config.aux.system.ui.desktops.kde;
+  cfg = config.${namespace}.ui.desktops.kde;
 in
 {
   options = {
-    aux.system.ui.desktops.kde = {
+    ${namespace}.ui.desktops.kde = {
       enable = lib.mkEnableOption "Enables the KDE Desktop Environment.";
       useX11 = lib.mkEnableOption "Uses X11 instead of Wayland.";
     };
   };
 
   config = lib.mkIf cfg.enable {
-    aux.system.ui.desktops.enable = true;
+    ${namespace}.ui.desktops.enable = true;
 
     programs.dconf.enable = true;
 

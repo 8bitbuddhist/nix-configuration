@@ -2,15 +2,16 @@
   config,
   lib,
   pkgs,
+  namespace,
   ...
 }:
 
 let
-  cfg = config.aux.system.apps.development;
+  cfg = config.${namespace}.apps.development;
 in
 {
   options = {
-    aux.system.apps.development = {
+    ${namespace}.apps.development = {
       enable = lib.mkEnableOption "Enables development tools";
       kubernetes.enable = lib.mkEnableOption "Enables kubectl, virtctl, and similar tools.";
     };
@@ -18,7 +19,7 @@ in
 
   config = lib.mkMerge [
     (lib.mkIf cfg.enable {
-      aux.system = {
+      ${namespace} = {
         packages = with pkgs; [
           nil # Nix Language server: https://github.com/oxalica/nil
           nix-prefetch-scripts

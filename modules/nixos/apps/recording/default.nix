@@ -2,19 +2,20 @@
   config,
   lib,
   pkgs,
+  namespace,
   ...
 }:
 
 let
-  cfg = config.aux.system.apps.recording;
+  cfg = config.${namespace}.apps.recording;
 in
 {
   options = {
-    aux.system.apps.recording.enable = lib.mkEnableOption "Enables video editing tools";
+    ${namespace}.apps.recording.enable = lib.mkEnableOption "Enables video editing tools";
   };
 
   config = lib.mkIf cfg.enable {
-    aux.system.ui.flatpak.enable = true;
+    ${namespace}.ui.flatpak.enable = true;
 
     services.flatpak.packages = [
       "com.obsproject.Studio"

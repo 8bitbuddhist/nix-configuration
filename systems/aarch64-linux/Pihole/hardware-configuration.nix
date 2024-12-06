@@ -1,6 +1,11 @@
 # Raspberry Pi 4B
 # See https://wiki.nixos.org/wiki/NixOS_on_ARM/Raspberry_Pi_4
-{ lib, modulesPath, ... }:
+{
+  lib,
+  modulesPath,
+  namespace,
+  ...
+}:
 
 {
   imports = [ (modulesPath + "/installer/scan/not-detected.nix") ];

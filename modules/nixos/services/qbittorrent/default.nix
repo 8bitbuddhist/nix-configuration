@@ -2,17 +2,18 @@
   config,
   lib,
   pkgs,
+  namespace,
   ...
 }:
 
 let
-  cfg = config.aux.system.services.qbittorrent;
+  cfg = config.${namespace}.services.qbittorrent;
   UID = 850;
   GID = 850;
 in
 {
   options = {
-    aux.system.services.qbittorrent = {
+    ${namespace}.services.qbittorrent = {
       enable = lib.mkEnableOption "Enables qBittorrent.";
       home = lib.mkOption {
         default = "/var/lib/qbittorrent";

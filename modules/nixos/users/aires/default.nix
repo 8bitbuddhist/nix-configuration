@@ -1,16 +1,17 @@
 {
   lib,
   config,
+  namespace,
   ...
 }:
 
 # Define 'aires'
 let
-  cfg = config.aux.system.users.aires;
+  cfg = config.${namespace}.users.aires;
 in
 {
   options = {
-    aux.system.users.aires = {
+    ${namespace}.users.aires = {
       enable = lib.mkEnableOption "Enables aires user account";
       autologin = lib.mkEnableOption "Automatically logs aires in on boot";
     };
@@ -66,7 +67,7 @@ in
               userName = config.secrets.users.aires.firstName;
               userEmail = config.secrets.users.aires.email;
               extraConfig = {
-                core.editor = config.aux.system.editor;
+                core.editor = config.${namespace}.editor;
                 merge.conflictStyle = "zdiff3";
                 pull.ff = "only";
                 push.autoSetupRemote = "true";

@@ -4,22 +4,23 @@
   pkgs,
   config,
   lib,
+  namespace,
   ...
 }:
 
 let
-  cfg = config.aux.system.ui.desktops.gnome;
+  cfg = config.${namespace}.ui.desktops.gnome;
 in
 {
 
   options = {
-    aux.system.ui.desktops.gnome = {
+    ${namespace}.ui.desktops.gnome = {
       enable = lib.mkEnableOption "Enables the Gnome Desktop Environment.";
     };
   };
 
   config = lib.mkIf cfg.enable {
-    aux.system.ui.desktops.enable = true;
+    ${namespace}.ui.desktops.enable = true;
 
     # Enable Gnome
     services = {

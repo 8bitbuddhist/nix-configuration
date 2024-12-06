@@ -3,15 +3,16 @@
   pkgs,
   lib,
   config,
+  namespace,
   ...
 }:
 
 let
-  cfg = config.aux.system.ui.audio;
+  cfg = config.${namespace}.ui.audio;
 in
 {
   options = {
-    aux.system.ui.audio = {
+    ${namespace}.ui.audio = {
       enable = lib.mkEnableOption "Enables audio.";
       enableLowLatency = lib.mkEnableOption "Enables low-latency audio (may cause crackling) per https://wiki.nixos.org/wiki/PipeWire#Low-latency_setup.";
     };
