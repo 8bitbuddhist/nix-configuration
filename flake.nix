@@ -10,12 +10,6 @@
     nixpkgs.url = "github:nixos/nixpkgs/nixos-24.11";
     nixpkgs-unstable.url = "github:nixos/nixpkgs/nixos-unstable";
 
-    # Power management via auto-cpufreq
-    auto-cpufreq = {
-      url = "github:AdnanHodzic/auto-cpufreq/v2.4.0";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-
     # Flatpak support
     flatpak.url = "github:gmodena/nix-flatpak/v0.5.1";
 
@@ -86,7 +80,6 @@
       systems = {
         # Modules to import for all systems
         modules.nixos = with inputs; [
-          auto-cpufreq.nixosModules.default
           lix.nixosModules.default
           lanzaboote.nixosModules.lanzaboote
           flatpak.nixosModules.nix-flatpak
