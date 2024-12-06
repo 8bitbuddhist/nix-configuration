@@ -5,6 +5,7 @@
   lib,
   pkgs,
   namespace,
+  system,
   ...
 }:
 
@@ -30,7 +31,7 @@ in
     {
       nix = {
         # Use Lix in place of Nix
-        package = pkgs.lix;
+        package = inputs.lix.packages.${system}.default;
 
         # Ensure we can still build when secondary caches are unavailable
         extraOptions = ''
