@@ -53,7 +53,6 @@ while [[ $# -gt 0 ]]; do
       ;;
   esac
 done
-remainingArgs=${POSITIONAL_ARGS[@]}
 set -- "${POSITIONAL_ARGS[@]}" # restore positional parameters
 
 # If this is a git repo and no name has been provided, name the draft after the current branch
@@ -63,9 +62,9 @@ fi
 
 # Check if this directory already exists
 outDir="$outDir/${draftName}"
-if [ -d $outDir ]; then
+if [ -d "$outDir" ]; then
   echo "The folder $outDir already exists."
-  read -p "Enter YES to overwrite, or Ctrl-C to cancel: " confirm && [ $confirm = "YES" ] || exit 1
+  read -rp "Enter YES to overwrite, or Ctrl-C to cancel: " confirm && [ "$confirm" = "YES" ] || exit 1
 fi
 
 draftFile="$outDir/${draftName}"
@@ -73,20 +72,20 @@ draftFile="$outDir/${draftName}"
 echo "Compiling draft \"${draftName}\"..."
 
 # Create the draft directory if it doesn't already exist
-mkdir -p $outDir
+mkdir -p "$outDir"
 
 # Initialize merged file
-echo > $draftFile.md
+echo > "$draftFile".md
 
 # Grab content files and add a page break to the end of each one.
 # Obsidian specifically creates "folder notes," which are named for the directory, so we make sure to exclude it.
-find "$inDir" -type f -wholename "* *.md" ! -name content.md -print0 | sort -z | while read -d $'\0' file
+find "$inDir" -type f -wholename "* *.md" ! -name content.md -print0 | sort -z | while read -rd $'\0' file
 do
   # Add newline to Markdown doc
-  echo >> $draftFile.md
+  echo >> "$draftFile".md
   # Clean up incoming Markdown and append it to final doc
-  sed "s|(../|($inDir/../|g" "$file" >> $draftFile.md
-  echo "\\newpage" >> $draftFile.md
+  sed "s|(../|($inDir/../|g" "$file" >> "$draftFile".md
+  echo "\\newpage" >> "$draftFile".md
 done
 
 # Generate the output files:
@@ -94,9 +93,9 @@ done
 #		Markdown -> EPUB
 #		Markdown -> PDF (A4 size)
 #		Markdown -> PDF (B6/Standard book size)
-pandoc -t docx $draftFile.md -o $draftFile.docx --metadata-file "$metadataFile"
-pandoc -t epub $draftFile.md -o $draftFile.epub --metadata-file "$metadataFile"
-pandoc $draftFile.md -o ${draftFile}-a4.pdf --metadata-file "$metadataFile" -V geometry:"a4paper" -V fontsize:"12pt"
-pandoc $draftFile.md -o ${draftFile}-b6.pdf --metadata-file "$metadataFile" -V geometry:"b6paper" -V fontsize:"10pt"
+pandoc -t docx "$draftFile".md -o "$draftFile".docx --metadata-file "$metadataFile"
+pandoc -t epub "$draftFile".md -o "$draftFile".epub --metadata-file "$metadataFile"
+pandoc "$draftFile".md -o "$draftFile"-a4.pdf --metadata-file "$metadataFile" -V geometry:"a4paper" -V fontsize:"12pt"
+pandoc "$draftFile".md -o "$draftFile"-b6.pdf --metadata-file "$metadataFile" -V geometry:"b6paper" -V fontsize:"10pt"
 
 echo "Done! Your new draft is in $outDir"

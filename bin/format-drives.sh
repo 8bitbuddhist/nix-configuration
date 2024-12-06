@@ -46,7 +46,6 @@ while [[ $# -gt 0 ]]; do
       ;;
     --help|-h)
       usage
-      shift
       ;;
     *)
       POSITIONAL_ARGS+=("$1") # save positional arg
@@ -57,8 +56,8 @@ done
 
 set -- "${POSITIONAL_ARGS[@]}" # restore positional parameters
 
-cryptsetup luksOpen $luks_partition nixos-crypt
-mkfs.btrfs -L nixos $root_partition
+cryptsetup luksOpen "$luks_partition" nixos-crypt
+mkfs.btrfs -L nixos "$root_partition"
 mount /dev/mapper/nixos-crypt /mnt
 btrfs subvolume create /mnt/@
 btrfs subvolume create /mnt/@home
@@ -67,13 +66,13 @@ btrfs subvolume create /mnt/@nix
 btrfs subvolume create /mnt/@swap
 umount /mnt
 
-mount -o subvol=@ $root_partition /mnt
+mount -o subvol=@ "$root_partition" /mnt
 mkdir -p /mnt/{boot,home,var/log,nix,swap}
-mount $boot_partition /mnt/boot
-mount -o subvol=@home $root_partition /mnt/home
-mount -o subvol=@log $root_partition /mnt/var/log
-mount -o subvol=@nix $root_partition /mnt/nix
-mount -o subvol=@swap $root_partition /mnt/swap
+mount "$boot_partition" /mnt/boot
+mount -o subvol=@home "$root_partition" /mnt/home
+mount -o subvol=@log "$root_partition" /mnt/var/log
+mount -o subvol=@nix "$root_partition" /mnt/nix
+mount -o subvol=@swap "$root_partition" /mnt/swap
 echo "Disks partitioned and mounted to /mnt."
 
 # Generate hardware-configuration.nix
