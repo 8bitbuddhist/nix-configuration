@@ -19,9 +19,11 @@ in
   aux.system = {
     apps = {
       development.enable = true;
-      dj.enable = true;
       gaming.enable = true;
-      media.enable = true;
+      media = {
+        enable = true;
+        mixxx.enable = true;
+      };
       office.enable = true;
       recording.enable = true;
       social.enable = true;

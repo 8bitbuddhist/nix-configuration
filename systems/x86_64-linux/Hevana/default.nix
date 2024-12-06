@@ -93,11 +93,6 @@ in
 
   # Configure the system.
   aux.system = {
-    # Enable to allow unfree (e.g. closed source) packages.
-    # Some settings may override this (e.g. enabling Nvidia GPU support).
-    # https://nixos.org/manual/nixpkgs/stable/#sec-allow-unfree
-    allowUnfree = true;
-
     # Enable Secure Boot support.
     bootloader = {
       enable = true;

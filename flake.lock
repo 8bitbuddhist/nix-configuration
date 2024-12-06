@@ -183,6 +183,22 @@
         "type": "github"
       }
     },
+    "flatpak": {
+      "locked": {
+        "lastModified": 1732285094,
+        "narHash": "sha256-OD9tu/QN71OnEWtgvm9pXuQs+SGQtKnLHOGVRG5f9CU=",
+        "owner": "gmodena",
+        "repo": "nix-flatpak",
+        "rev": "d3a763532be5d223bb3474642f089667a8091cdf",
+        "type": "github"
+      },
+      "original": {
+        "owner": "gmodena",
+        "ref": "v0.5.0",
+        "repo": "nix-flatpak",
+        "type": "github"
+      }
+    },
     "gitignore": {
       "inputs": {
         "nixpkgs": [
@@ -252,24 +268,10 @@
       }
     },
     "lix": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1729298361,
-        "narHash": "sha256-hiGtfzxFkDc9TSYsb96Whg0vnqBVV7CUxyscZNhed0U=",
-        "rev": "ad9d06f7838a25beec425ff406fe68721fef73be",
-        "type": "tarball",
-        "url": "https://git.lix.systems/api/v1/repos/lix-project/lix/archive/ad9d06f7838a25beec425ff406fe68721fef73be.tar.gz?rev=ad9d06f7838a25beec425ff406fe68721fef73be"
-      },
-      "original": {
-        "type": "tarball",
-        "url": "https://git.lix.systems/lix-project/lix/archive/2.91.1.tar.gz"
-      }
-    },
-    "lix-module": {
       "inputs": {
         "flake-utils": "flake-utils_2",
         "flakey-profile": "flakey-profile",
-        "lix": "lix",
+        "lix": "lix_2",
         "nixpkgs": [
           "nixpkgs"
         ]
@@ -289,20 +291,18 @@
         "url": "https://git.lix.systems/lix-project/nixos-module"
       }
     },
-    "nix-flatpak": {
+    "lix_2": {
+      "flake": false,
       "locked": {
-        "lastModified": 1732285094,
-        "narHash": "sha256-OD9tu/QN71OnEWtgvm9pXuQs+SGQtKnLHOGVRG5f9CU=",
-        "owner": "gmodena",
-        "repo": "nix-flatpak",
-        "rev": "d3a763532be5d223bb3474642f089667a8091cdf",
-        "type": "github"
+        "lastModified": 1729298361,
+        "narHash": "sha256-hiGtfzxFkDc9TSYsb96Whg0vnqBVV7CUxyscZNhed0U=",
+        "rev": "ad9d06f7838a25beec425ff406fe68721fef73be",
+        "type": "tarball",
+        "url": "https://git.lix.systems/api/v1/repos/lix-project/lix/archive/ad9d06f7838a25beec425ff406fe68721fef73be.tar.gz?rev=ad9d06f7838a25beec425ff406fe68721fef73be"
       },
       "original": {
-        "owner": "gmodena",
-        "ref": "v0.5.0",
-        "repo": "nix-flatpak",
-        "type": "github"
+        "type": "tarball",
+        "url": "https://git.lix.systems/lix-project/lix/archive/2.91.1.tar.gz"
       }
     },
     "nixos-hardware": {
@@ -415,15 +415,15 @@
     "root": {
       "inputs": {
         "auto-cpufreq": "auto-cpufreq",
+        "flatpak": "flatpak",
         "home-manager": "home-manager",
         "lanzaboote": "lanzaboote",
-        "lix-module": "lix-module",
-        "nix-flatpak": "nix-flatpak",
+        "lix": "lix",
         "nixos-hardware": "nixos-hardware",
         "nixpkgs": "nixpkgs_2",
         "nixpkgs-unstable": "nixpkgs-unstable",
         "snowfall-lib": "snowfall-lib",
-        "treefmt-nix": "treefmt-nix"
+        "treefmt": "treefmt"
       }
     },
     "rust-overlay": {
@@ -518,18 +518,18 @@
         "type": "github"
       }
     },
-    "treefmt-nix": {
+    "treefmt": {
       "inputs": {
         "nixpkgs": [
           "nixpkgs"
         ]
       },
       "locked": {
-        "lastModified": 1733222881,
-        "narHash": "sha256-JIPcz1PrpXUCbaccEnrcUS8jjEb/1vJbZz5KkobyFdM=",
+        "lastModified": 1733440889,
+        "narHash": "sha256-qKL3vjO+IXFQ0nTinFDqNq/sbbnnS5bMI1y0xX215fU=",
         "owner": "numtide",
         "repo": "treefmt-nix",
-        "rev": "49717b5af6f80172275d47a418c9719a31a78b53",
+        "rev": "50862ba6a8a0255b87377b9d2d4565e96f29b410",
         "type": "github"
       },
       "original": {

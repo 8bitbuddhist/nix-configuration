@@ -14,11 +14,6 @@ in
   ###*** Configure your system below this line. ***###
   # Configure the system.
   aux.system = {
-    # Enable to allow unfree (e.g. closed source) packages.
-    # Some settings may override this (e.g. enabling Nvidia GPU support).
-    # https://nixos.org/manual/nixpkgs/stable/#sec-allow-unfree
-    allowUnfree = true;
-
     apps = {
       development.enable = true;
       media.enable = true;

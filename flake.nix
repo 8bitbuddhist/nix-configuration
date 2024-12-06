@@ -16,6 +16,9 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    # Flatpak support
+    flatpak.url = "github:gmodena/nix-flatpak/v0.5.0";
+
     # Home-manager support
     home-manager = {
       url = "github:nix-community/home-manager/release-24.11";
@@ -28,13 +31,10 @@
     # Use Lix in place of Nix.
     #   If you'd rather use regular Nix, remove `lix-module.nixosModules.default` from the `modules` section below.
     #   To learn more about Lix, see https://lix.systems/
-    lix-module = {
+    lix = {
       url = "git+https://git.lix.systems/lix-project/nixos-module?ref=release-2.91";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-
-    # Flatpak support
-    nix-flatpak.url = "github:gmodena/nix-flatpak/v0.5.0";
 
     # NixOS hardware quirks
     nixos-hardware.url = "github:NixOS/nixos-hardware/master";
@@ -47,7 +47,7 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    treefmt-nix = {
+    treefmt = {
       url = "github:numtide/treefmt-nix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
@@ -86,11 +86,10 @@
       systems = {
         # Modules to import for all systems
         modules.nixos = with inputs; [
-          ./modules/autoimport.nix
           auto-cpufreq.nixosModules.default
-          lix-module.nixosModules.default
+          lix.nixosModules.default
           lanzaboote.nixosModules.lanzaboote
-          nix-flatpak.nixosModules.nix-flatpak
+          flatpak.nixosModules.nix-flatpak
           home-manager.nixosModules.home-manager
           {
             _module.args = {
@@ -113,35 +112,41 @@
         hosts = {
           Dimaga.modules = with inputs; [
             nixos-hardware.nixosModules.common-cpu-intel
-            ./hosts/Dimaga
           ];
 
           Hevana.modules = with inputs; [
             nixos-hardware.nixosModules.common-cpu-amd-pstate
             nixos-hardware.nixosModules.common-gpu-amd
-            ./hosts/Hevana
           ];
 
           Khanda.modules = with inputs; [
             nixos-hardware.nixosModules.microsoft-surface-pro-9
-            ./hosts/Khanda
           ];
 
           Pihole.modules = with inputs; [
             nixos-hardware.nixosModules.raspberry-pi-4
-            ./hosts/Pihole
           ];
 
           Shura.modules = with inputs; [
             nixos-hardware.nixosModules.lenovo-legion-16arha7
-            ./hosts/Shura
           ];
         };
       };
 
       # Use treefmt to format project repo
-      outputs-builder = channels: {
-        formatter = (inputs.treefmt-nix.lib.evalModule channels.nixpkgs ./treefmt.nix).config.build.wrapper;
-      };
+      outputs-builder =
+        channels:
+        let
+          treefmtEval = inputs.treefmt.lib.evalModule channels.nixpkgs ./treefmt.nix;
+        in
+        {
+          # For `nix fmt`
+          formatter = treefmtEval.config.build.wrapper;
+
+          # For `nix flake check`
+          checks = {
+            formatting = treefmtEval.config.build.check inputs.self;
+          };
+        };
     };
 }

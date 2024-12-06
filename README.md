@@ -9,7 +9,7 @@ A full set of configuration files managed via NixOS. This project is an **unoffi
 
 ### Note on secrets management
 
-Secrets are managed using [git-crypt](https://github.com/AGWA/git-crypt). To unlock the repo, use `git-crypt unlock [path to key file]`. git-crypt will transparently encrypt/decrypt files stored in `modules/secrets` going forward, but you'll need this key file on all hosts that are using secrets.
+Secrets are managed using [git-crypt](https://github.com/AGWA/git-crypt). To unlock the repo, use `git-crypt unlock [path to key file]`. git-crypt will transparently encrypt/decrypt files stored in `modules/nixos/secrets` going forward, but you'll need this key file on all hosts that are using secrets.
 
 > [!NOTE]
 > This is a poor man's secret management solution. If you use this, your secrets will be world-readable in the `/nix/store/`.

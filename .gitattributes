@@ -1,1 +1,1 @@
-modules/secrets/** filter=crypt diff=crypt merge=crypt
+modules/nixos/secrets/** filter=crypt diff=crypt merge=crypt
