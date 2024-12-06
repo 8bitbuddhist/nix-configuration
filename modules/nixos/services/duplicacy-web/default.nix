@@ -1,0 +1,51 @@
+{
+  pkgs,
+  config,
+  lib,
+  namespace,
+  ...
+}:
+
+let
+  cfg = config.${namespace}.services.duplicacy-web;
+in
+{
+  options = {
+    ${namespace}.services.duplicacy-web = {
+      enable = lib.mkEnableOption "Enables duplicacy-web";
+      home = lib.mkOption {
+        default = "/var/lib/duplicacy-web";
+        type = lib.types.str;
+        description = "Environment where duplicacy-web stores its config files";
+      };
+    };
+  };
+
+  config = lib.mkIf cfg.enable {
+    environment.systemPackages = [ pkgs.Sapana.duplicacy-web ];
+
+    networking.firewall.allowedTCPPorts = [ 3875 ];
+
+    # Install systemd service.
+    systemd.services.duplicacy-web = {
+      enable = true;
+      wants = [ "network-online.target" ];
+      after = [
+        "syslog.target"
+        "network-online.target"
+      ];
+      description = "Start the Duplicacy backup service and web UI";
+      serviceConfig = {
+        Type = "simple";
+        ExecStart = ''${pkgs.Sapana.duplicacy-web}/duplicacy-web'';
+        Restart = "on-failure";
+        RestartSec = 10;
+        KillMode = "process";
+      };
+      environment = {
+        HOME = cfg.home;
+      };
+      unitConfig.RequiresMountsFor = cfg.home;
+    };
+  };
+}
