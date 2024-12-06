@@ -10,7 +10,8 @@ let
 in
 {
   options = {
-    ${namespace}.ui.desktops.budgie.enable = lib.mkEnableOption "Enables the Budgie desktop environment.";
+    ${namespace}.ui.desktops.budgie.enable =
+      lib.mkEnableOption "Enables the Budgie desktop environment.";
   };
 
   config = lib.mkIf cfg.enable {

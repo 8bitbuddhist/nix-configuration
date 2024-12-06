@@ -10,7 +10,8 @@ let
 in
 {
   options = {
-    ${namespace}.ui.desktops.hyprland.enable = lib.mkEnableOption "Enables the Hyprland desktop environment.";
+    ${namespace}.ui.desktops.hyprland.enable =
+      lib.mkEnableOption "Enables the Hyprland desktop environment.";
   };
 
   config = lib.mkIf cfg.enable {

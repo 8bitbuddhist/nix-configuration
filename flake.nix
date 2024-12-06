@@ -17,7 +17,7 @@
     };
 
     # Flatpak support
-    flatpak.url = "github:gmodena/nix-flatpak/v0.5.0";
+    flatpak.url = "github:gmodena/nix-flatpak/v0.5.1";
 
     # Home-manager support
     home-manager = {
@@ -32,7 +32,7 @@
     #   If you'd rather use regular Nix, remove `lix-module.nixosModules.default` from the `modules` section below.
     #   To learn more about Lix, see https://lix.systems/
     lix = {
-      url = "git+https://git.lix.systems/lix-project/nixos-module?ref=release-2.91";
+      url = "git+https://git.lix.systems/lix-project/nixos-module?ref=stable";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
@@ -46,6 +46,7 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    # Code formatter
     treefmt = {
       url = "github:numtide/treefmt-nix";
       inputs.nixpkgs.follows = "nixpkgs";
