@@ -55,8 +55,8 @@ in
     # Enable support for primary RAID array (just in case)
     raid.storage.enable = true;
 
-    # Keep old generations for two weeks.
-    retentionPeriod = "14d";
+    # Keep one week of generations.
+    nix.retention = "7d";
 
     powerManagement.enable = true;
 

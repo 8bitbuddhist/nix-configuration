@@ -114,9 +114,6 @@ in
       mailAddr = config.secrets.users.aires.email;
     };
 
-    # Change how long old generations are kept for.
-    retentionPeriod = "30d";
-
     services = {
       acme = {
         enable = true;

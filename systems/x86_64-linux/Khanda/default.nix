@@ -41,9 +41,6 @@ in
     # Enable support for primary RAID array (just in case)
     raid.storage.enable = true;
 
-    # Change how long old generations are kept for.
-    retentionPeriod = "14d";
-
     services = {
       autoUpgrade = {
         enable = true;

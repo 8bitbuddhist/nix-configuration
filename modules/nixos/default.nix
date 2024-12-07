@@ -16,7 +16,7 @@
     ];
 
     # Install the nos helper script
-    nixos-operations-script.enable = true;
+    nix.nixos-operations-script.enable = true;
   };
 
   programs = {

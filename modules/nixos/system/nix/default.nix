@@ -10,22 +10,20 @@
 }:
 
 let
-  cfg = config.${namespace};
+  cfg = config.${namespace}.nix;
 
   nixos-operations-script = pkgs.writeShellScriptBin "nixos-operations-script" (
     builtins.readFile (lib.snowfall.fs.get-file "bin/nixos-operations-script.sh")
   );
 in
 {
-  options = {
-    ${namespace} = {
-      retentionPeriod = lib.mkOption {
-        description = "How long to retain NixOS generations. Defaults to one month.";
-        type = lib.types.str;
-        default = "monthly";
-      };
-      nixos-operations-script.enable = lib.mkEnableOption "Installs the nos (nixos-operations-script) helper script.";
+  options.${namespace}.nix = {
+    retention = lib.mkOption {
+      description = "How long to retain NixOS generations. Defaults to two weeks.";
+      type = lib.types.str;
+      default = "14d";
     };
+    nixos-operations-script.enable = lib.mkEnableOption "Installs the nos (nixos-operations-script) helper script.";
   };
   config = lib.mkMerge [
     {
@@ -82,7 +80,7 @@ in
         gc = {
           automatic = true;
           dates = "weekly";
-          options = "--delete-older-than ${cfg.retentionPeriod}";
+          options = "--delete-older-than ${cfg.retention}";
           persistent = true;
           randomizedDelaySec = "1hour";
         };

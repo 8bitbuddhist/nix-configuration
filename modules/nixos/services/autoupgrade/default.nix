@@ -59,7 +59,7 @@ in
     ];
 
     # Deploy update script
-    ${namespace}.nixos-operations-script.enable = true;
+    ${namespace}.nix.nixos-operations-script.enable = true;
 
     # Pull and apply updates.
     systemd = {
