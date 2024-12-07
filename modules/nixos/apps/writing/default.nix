@@ -10,7 +10,7 @@ let
   cfg = config.${namespace}.apps.writing;
 
   compile-manuscript = pkgs.writeShellScriptBin "compile-manuscript" (
-    builtins.readFile ../../../../bin/compile-manuscript.sh
+    builtins.readFile (lib.snowfall.fs.get-file "bin/compile-manuscript.sh")
   );
 in
 {

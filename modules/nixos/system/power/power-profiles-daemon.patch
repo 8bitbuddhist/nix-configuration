@@ -1,0 +1,26 @@
+diff --git a/src/ppd-driver-amd-pstate.c b/src/ppd-driver-amd-pstate.c
+    index 55635b0..0ed87ab 100644
+    --- a/src/ppd-driver-amd-pstate.c
+    +++ b/src/ppd-driver-amd-pstate.c
+    @@ -175,7 +175,7 @@ profile_to_epp_pref (PpdProfile profile, gboolean battery)
+       case PPD_PROFILE_POWER_SAVER:
+         return "power";
+       case PPD_PROFILE_BALANCED:
+    -    return battery ? "balance_power" : "balance_performance";
+    +    return "balance_performance";
+       case PPD_PROFILE_PERFORMANCE:
+         return "performance";
+       }
+    diff --git a/src/ppd-driver-intel-pstate.c b/src/ppd-driver-intel-pstate.c
+    index 90a5d17..4eaca2e 100644
+    --- a/src/ppd-driver-intel-pstate.c
+    +++ b/src/ppd-driver-intel-pstate.c
+    @@ -300,7 +300,7 @@ profile_to_epp_pref (PpdProfile profile, gboolean battery)
+       case PPD_PROFILE_POWER_SAVER:
+         return "power";
+       case PPD_PROFILE_BALANCED:
+    -    return battery ? "balance_power" : "balance_performance";
+    +    return "balance_performance";
+       case PPD_PROFILE_PERFORMANCE:
+         return "performance";
+       }

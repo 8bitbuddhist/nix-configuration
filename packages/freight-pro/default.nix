@@ -1,4 +1,8 @@
-{ stdenv, pkgs }:
+{
+  lib,
+  stdenv,
+  pkgs,
+}:
 
 stdenv.mkDerivation rec {
   pname = "freight-pro-fonts";
@@ -6,7 +10,7 @@ stdenv.mkDerivation rec {
   nativeBuildInputs = [ pkgs.unzip ];
   buildInputs = [ pkgs.unzip ];
 
-  src = ../../modules/nixos/secrets/Freight-20240828T164047Z-001.zip;
+  src = lib.snowfall.fs.get-file "modules/nixos/secrets/Freight-20240828T164047Z-001.zip";
 
   unpackPhase = ''
     runHook preUnpack

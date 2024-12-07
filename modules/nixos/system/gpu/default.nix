@@ -57,7 +57,7 @@ in
     })
 
     (lib.mkIf cfg.intel.enable {
-      services.xserver.videoDrivers = [ "intel" ];
+      services.xserver.videoDrivers = [ "modesetting" ];
 
       hardware.graphics = {
         enable = true;

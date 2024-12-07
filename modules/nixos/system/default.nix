@@ -43,17 +43,11 @@ in
           xxd
         ];
       };
-
-      powerManagement.enable = lib.mkEnableOption "Enables power management, e.g. for laptops.";
     };
   };
   config = {
     # Install base packages
     environment.systemPackages = cfg.corePackages ++ cfg.packages;
-
-    # Configure power management via power-profiles-daemon
-    # https://gitlab.freedesktop.org/upower/power-profiles-daemon
-    services.power-profiles-daemon.enable = cfg.powerManagement.enable;
 
     services = {
       # Automatically set the timezone based on location

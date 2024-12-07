@@ -13,7 +13,7 @@ let
   cfg = config.${namespace};
 
   nixos-operations-script = pkgs.writeShellScriptBin "nixos-operations-script" (
-    builtins.readFile ../../../../bin/nixos-operations-script.sh
+    builtins.readFile (lib.snowfall.fs.get-file "bin/nixos-operations-script.sh")
   );
 in
 {

@@ -1,6 +1,6 @@
 { channels, inputs, ... }:
 
-final: prev:
+final: _prev:
 
 {
   unstable = import inputs.nixpkgs-unstable {
