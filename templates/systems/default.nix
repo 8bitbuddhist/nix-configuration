@@ -1,16 +1,11 @@
 # Template file for configuring a new host
 {
-  pkgs,
-  home-manager,
-  lib,
-  config,
   namespace,
   ...
 }:
 let
   # Do not change this value! This tracks when NixOS was installed on your system.
   stateVersion = "24.11";
-
   # The hostname for this system.
   hostName = "myHost";
 in
@@ -22,7 +17,7 @@ in
   system.stateVersion = stateVersion;
   networking.hostName = hostName;
 
-  # Configure the system here.
+  # Main system configuration happens here.
   config.${namespace} = {
     apps = {
       # Define applications here
@@ -39,5 +34,5 @@ in
     };
   };
 
-  # Additional host-specific configuration options go here
+  # Additional configuration options go here
 }

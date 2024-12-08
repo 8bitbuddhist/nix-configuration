@@ -73,7 +73,7 @@
       };
     in
     lib.mkFlake {
-      # Configure Nix channels
+      # Allow unfree packages in Nix config
       channels-config.allowUnfree = true;
 
       # Define systems
@@ -103,10 +103,6 @@
 
         # Individual host configurations
         hosts = {
-          Dimaga.modules = with inputs; [
-            nixos-hardware.nixosModules.common-cpu-intel
-          ];
-
           Hevana.modules = with inputs; [
             nixos-hardware.nixosModules.common-cpu-amd-pstate
             nixos-hardware.nixosModules.common-gpu-amd
@@ -124,6 +120,12 @@
             nixos-hardware.nixosModules.lenovo-legion-16arha7
           ];
         };
+      };
+
+      # Define .nix file templates
+      templates = {
+        module.description = "Template for creating a new module.";
+        systems.description = "Template for defining a new system.";
       };
 
       # Use treefmt to format project repo

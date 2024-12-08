@@ -1,5 +1,10 @@
 # This is an example of a blank module.
-{ config, lib, ... }:
+{
+  config,
+  lib,
+  namespace,
+  ...
+}:
 
 let
   cfg = config.${namespace}.services.myModule;
@@ -23,9 +28,9 @@ in
         type = lib.types.listOf lib.types.int;
         description = "An example of a list (of integers) option.";
       };
-      enum = mkOption {
+      enum = lib.mkOption {
         default = "one";
-        type = types.enum [
+        type = lib.types.enum [
           "one"
           "two"
         ];
@@ -36,14 +41,14 @@ in
   };
 
   config = lib.mkIf cfg.enable {
-    # Add changes applied by this module here.
+    # Define the changes applied by this module here.
   };
 
   systemd.services = {
-    # Forces systemd to wait for the module's configuration directory to be available before starting the service.
+    # Tell systemd to wait for the module's configuration directory to be available before starting the service.
     myModule.unitConfig.RequiresMountsFor = cfg.home;
 
-    # Tells Nginx to wait for the service to be available before coming online.
+    # Tell Nginx to wait for the service to be available before coming online.
     nginx.wants = [ config.systemd.services.myModule.name ];
   };
 }

@@ -1,8 +1,7 @@
 # Template for setting a new host's hardware configuration
 {
-  config,
-  lib,
   modulesPath,
+  namespace,
   ...
 }:
 let
