@@ -55,6 +55,11 @@ in
         user = "aires";
         web.enable = true;
       };
+      tor = {
+        enable = true;
+        browser.enable = true;
+        snowflake-proxy.enable = true;
+      };
       virtualization.enable = true;
     };
 
