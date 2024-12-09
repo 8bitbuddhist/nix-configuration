@@ -75,7 +75,11 @@ in
         user = "aires";
         web.enable = true;
       };
-      # Install virtual machine management tools
+      tor = {
+        enable = true;
+        browser.enable = true;
+        snowflake-proxy.enable = true;
+      };
       virtualization = {
         enable = true;
         host = {
@@ -90,10 +94,7 @@ in
     };
     ui = {
       flatpak = {
-        # Enable Flatpak support.
         enable = true;
-
-        # Define Flatpak packages to install.
         packages = [
           "com.github.tchx84.Flatseal"
           "com.github.wwmm.easyeffects"

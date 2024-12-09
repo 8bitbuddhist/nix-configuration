@@ -270,6 +270,13 @@ in
           public = true;
         };
       };
+      tor = {
+        enable = true;
+        snowflake-proxy = {
+          enable = true;
+          capacity = 50;
+        };
+      };
       virtualization.host = {
         enable = true;
         user = "aires";
