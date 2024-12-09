@@ -19,8 +19,8 @@ in
     # Connect to the network automagically
     networkmanager.enable = lib.mkForce false;
     wireless.networks = {
-      "${config.secrets.networking.networks.home.SSID}" = {
-        psk = "${config.secrets.networking.networks.home.password}";
+      "${config.${namespace}.secrets.networking.networks.home.SSID}" = {
+        psk = "${config.${namespace}.secrets.networking.networks.home.password}";
       };
     };
   };
@@ -35,7 +35,7 @@ in
     ];
     services.ssh = {
       enable = true;
-      ports = [ config.secrets.hosts.hevana.ssh.port ];
+      ports = [ config.${namespace}.secrets.hosts.hevana.ssh.port ];
     };
     users.aires.enable = true;
   };

@@ -19,8 +19,6 @@ in
   system.stateVersion = stateVersion;
   networking.hostName = hostName;
 
-  custom-fonts.Freight-Pro.enable = config.${namespace}.users.gremlin.enable;
-
   ${namespace} = {
     apps = {
       development.enable = true;
@@ -41,6 +39,8 @@ in
       secureboot.enable = true;
       tpm2.enable = true;
     };
+
+    custom-fonts.Freight-Pro.enable = config.${namespace}.users.gremlin.enable;
 
     # Change the default text editor. Options are "emacs", "nano", or "vim".
     editor = "nano";
@@ -64,7 +64,7 @@ in
       # Run daily automatic updates.
       autoUpgrade = {
         enable = true;
-        configDir = config.secrets.nixConfigFolder;
+        configDir = config.${namespace}.secrets.nixConfigFolder;
         onCalendar = "daily";
         operation = "boot";
         user = config.users.users.aires.name;

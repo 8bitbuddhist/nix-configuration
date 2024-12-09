@@ -24,7 +24,7 @@ in
         isNormalUser = true;
         description = "Gremlin";
         uid = 1001;
-        hashedPassword = config.secrets.users.gremlin.hashedPassword;
+        hashedPassword = config.${namespace}.secrets.users.gremlin.hashedPassword;
         extraGroups = [
           "networkmanager"
           "input"
@@ -80,7 +80,7 @@ in
           # Set up SSH
           ssh = {
             enable = true;
-            matchBlocks = config.secrets.users.gremlin.sshConfig;
+            matchBlocks = config.${namespace}.secrets.users.gremlin.sshConfig;
           };
 
           # Set up Zsh

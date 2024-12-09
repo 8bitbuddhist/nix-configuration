@@ -51,7 +51,7 @@ in
     (lib.mkIf (cfg.enable && cfg.type == "parent") {
       services = {
         nginx.virtualHosts."${cfg.url}" = {
-          useACMEHost = lib.Sapana.getDomainFromURI cfg.url;
+          useACMEHost = lib.${namespace}.getDomainFromURI cfg.url;
           forceSSL = true;
           basicAuth = {
             "${cfg.auth.user}" = cfg.auth.password;
@@ -77,7 +77,7 @@ in
           configDir = {
             # Allow incoming streams
             "stream.conf" = pkgs.writeText "stream.conf" ''
-              [${config.secrets.services.netdata.apiKey}]
+              [${config.${namespace}.secrets.services.netdata.apiKey}]
                 enabled = no
                 default history = 3600
                 default memory mode = dbengine

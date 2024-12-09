@@ -69,8 +69,8 @@ in
           mail = lib.mkIf config.${namespace}.services.msmtp.enable {
             enable = true;
             mailer = "/run/wrappers/bin/sendmail";
-            sender = "${config.networking.hostName}@${config.secrets.networking.domains.primary}";
-            recipient = config.secrets.users.aires.email;
+            sender = "${config.networking.hostName}@${config.${namespace}.secrets.networking.domains.primary}";
+            recipient = config.${namespace}.secrets.users.aires.email;
           };
         };
       };

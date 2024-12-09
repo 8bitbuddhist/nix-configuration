@@ -49,7 +49,7 @@ in
       };
 
       nginx.virtualHosts."${cfg.url}" = {
-        useACMEHost = lib.Sapana.getDomainFromURI cfg.url;
+        useACMEHost = lib.${namespace}.getDomainFromURI cfg.url;
         forceSSL = true;
         basicAuth = {
           "${cfg.auth.user}" = cfg.auth.password;

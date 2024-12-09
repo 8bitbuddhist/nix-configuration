@@ -24,7 +24,7 @@ in
           isNormalUser = true;
           description = "Aires";
           uid = 1000;
-          hashedPassword = config.secrets.users.aires.hashedPassword;
+          hashedPassword = config.${namespace}.secrets.users.aires.hashedPassword;
           extraGroups = [
             "input"
             "networkmanager"
@@ -64,14 +64,14 @@ in
             # Set up git
             git = {
               enable = true;
-              userName = config.secrets.users.aires.firstName;
-              userEmail = config.secrets.users.aires.email;
+              userName = config.${namespace}.secrets.users.aires.firstName;
+              userEmail = config.${namespace}.secrets.users.aires.email;
               extraConfig = {
                 core.editor = config.${namespace}.editor;
                 merge.conflictStyle = "zdiff3";
                 pull.ff = "only";
                 push.autoSetupRemote = "true";
-                safe.directory = "${config.secrets.nixConfigFolder}/.git";
+                safe.directory = "${config.${namespace}.secrets.nixConfigFolder}/.git";
                 submodule.recurse = true;
                 credential.helper = "/run/current-system/sw/bin/git-credential-libsecret";
               };
@@ -80,7 +80,7 @@ in
             # Set up SSH
             ssh = {
               enable = true;
-              matchBlocks = config.secrets.users.aires.sshConfig;
+              matchBlocks = config.${namespace}.secrets.users.aires.sshConfig;
             };
 
             # Set up Zsh

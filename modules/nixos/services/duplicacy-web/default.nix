@@ -22,7 +22,7 @@ in
   };
 
   config = lib.mkIf cfg.enable {
-    environment.systemPackages = [ pkgs.Sapana.duplicacy-web ];
+    environment.systemPackages = [ pkgs.${namespace}.duplicacy-web ];
 
     networking.firewall.allowedTCPPorts = [ 3875 ];
 
@@ -37,7 +37,7 @@ in
       description = "Start the Duplicacy backup service and web UI";
       serviceConfig = {
         Type = "simple";
-        ExecStart = ''${pkgs.Sapana.duplicacy-web}/duplicacy-web'';
+        ExecStart = ''${pkgs.${namespace}.duplicacy-web}/duplicacy-web'';
         Restart = "on-failure";
         RestartSec = 10;
         KillMode = "process";

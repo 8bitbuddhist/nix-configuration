@@ -46,7 +46,7 @@ To enable automatic updates for a host, set `config.${namespace}.services.autoUp
 ```nix
 services.autoUpgrade = {
   enable = true;
-  configDir = config.secrets.nixConfigFolder;
+  configDir = config.${namespace}.secrets.nixConfigFolder;
   onCalendar = "daily";
   user = config.users.users.aires.name;
 };

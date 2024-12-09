@@ -32,7 +32,7 @@ in
         enable = true;
         settings = {
           server = {
-            DOMAIN = lib.Sapana.getDomainFromURI cfg.url;
+            DOMAIN = lib.${namespace}.getDomainFromURI cfg.url;
             ROOT_URL = cfg.url;
             HTTP_PORT = 3000;
           };
@@ -42,7 +42,7 @@ in
       } // lib.optionalAttrs (cfg.home != null) { stateDir = cfg.home; };
 
       nginx.virtualHosts."${cfg.url}" = {
-        useACMEHost = lib.Sapana.getDomainFromURI cfg.url;
+        useACMEHost = lib.${namespace}.getDomainFromURI cfg.url;
         forceSSL = true;
         locations."/" = {
           proxyPass = "http://127.0.0.1:3000";

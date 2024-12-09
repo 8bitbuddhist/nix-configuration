@@ -59,7 +59,7 @@ in
   config = lib.mkIf cfg.enable {
     services = {
       nginx.virtualHosts."${cfg.url}" = {
-        useACMEHost = lib.Sapana.getDomainFromURI cfg.url;
+        useACMEHost = lib.${namespace}.getDomainFromURI cfg.url;
         forceSSL = true;
         locations."/" = {
           proxyPass = "http://127.0.0.1:${cfg.port}";
@@ -102,7 +102,7 @@ in
           environment = {
             VPN_SERVICE_PROVIDER = "protonvpn";
             VPN_TYPE = "wireguard";
-            WIREGUARD_PRIVATE_KEY = config.secrets.services.protonvpn.privateKey;
+            WIREGUARD_PRIVATE_KEY = config.${namespace}.secrets.services.protonvpn.privateKey;
             SERVER_COUNTRIES = (lib.strings.concatStringsSep "," cfg.vpn.countries);
             TZ = "America/New_York";
           };

@@ -17,10 +17,10 @@ let
   # Credentials for interacting with the Porkbun API
   porkbunCredentials = {
     "PORKBUN_API_KEY_FILE" = "${pkgs.writeText "porkbun-api-key" ''
-      ${config.secrets.networking.porkbun.api.apiKey}
+      ${config.${namespace}.secrets.networking.porkbun.api.apiKey}
     ''}";
     "PORKBUN_SECRET_API_KEY_FILE" = "${pkgs.writeText "porkbun-secret-api-key" ''
-      ${config.secrets.networking.porkbun.api.secretKey}
+      ${config.${namespace}.secrets.networking.porkbun.api.secretKey}
     ''}";
   };
 
@@ -34,7 +34,9 @@ let
   serviceList = lib.attrsets.collect (
     x: x != "acme" && (lib.attrsets.matchAttrs { enable = true; } x)
   ) config.${namespace}.services;
-  subdomains = builtins.catAttrs "url" serviceList;
+  subdomains = (builtins.catAttrs "url" serviceList) ++ [
+    config.${namespace}.secrets.services.gremlin-lab.url
+  ];
 
 in
 {
@@ -52,9 +54,11 @@ in
       configFile = pkgs.writeText "ddclient.conf" ''
         use=web, web=checkip.dyndns.com/, web-skip='IP Address'
         protocol=porkbun
-        apikey=${config.secrets.networking.porkbun.api.apiKey}
-        secretapikey=${config.secrets.networking.porkbun.api.secretKey}
-        *.${config.secrets.networking.domains.primary},*.${config.secrets.networking.domains.blog}
+        apikey=${config.${namespace}.secrets.networking.porkbun.api.apiKey}
+        secretapikey=${config.${namespace}.secrets.networking.porkbun.api.secretKey}
+        *.${config.${namespace}.secrets.networking.domains.primary},*.${
+          config.${namespace}.secrets.networking.domains.blog
+        }
         cache=/tmp/ddclient.cache
         pid=/var/run/ddclient.pid
       '';
@@ -78,7 +82,9 @@ in
     };
     path = config.${namespace}.corePackages;
     script = ''
-      /run/current-system/sw/bin/nixos-operations-script --operation build --hostname Khanda --flake ${config.secrets.nixConfigFolder}
+      /run/current-system/sw/bin/nixos-operations-script --operation build --hostname Khanda --flake ${
+        config.${namespace}.secrets.nixConfigFolder
+      }
     '';
   };
   systemd.timers."build-hosts" = {
@@ -110,22 +116,22 @@ in
     # Enable support for primary RAID array
     raid.storage = {
       enable = true;
-      keyFile = config.secrets.devices.storage.keyFile.path;
-      mailAddr = config.secrets.users.aires.email;
+      keyFile = config.${namespace}.secrets.devices.storage.keyFile.path;
+      mailAddr = config.${namespace}.secrets.users.aires.email;
     };
 
     services = {
       acme = {
         enable = true;
-        defaultEmail = config.secrets.users.aires.email;
+        defaultEmail = config.${namespace}.secrets.users.aires.email;
         certs = {
-          "${config.secrets.networking.domains.primary}" = {
+          "${config.${namespace}.secrets.networking.domains.primary}" = {
             dnsProvider = "porkbun";
             extraDomainNames = subdomains;
             webroot = null; # Required in order to prevent a failed assertion
             credentialFiles = porkbunCredentials;
           };
-          "${config.secrets.networking.domains.blog}" = {
+          "${config.${namespace}.secrets.networking.domains.blog}" = {
             dnsProvider = "porkbun";
             webroot = null; # Required in order to prevent a failed assertion
             credentialFiles = porkbunCredentials;
@@ -139,17 +145,17 @@ in
       autoUpgrade = {
         enable = true;
         pushUpdates = true; # Update automatically and push updates back up to Forgejo
-        configDir = config.secrets.nixConfigFolder;
+        configDir = config.${namespace}.secrets.nixConfigFolder;
         onCalendar = "daily";
         user = config.users.users.aires.name;
       };
       binary-cache = {
         enable = true;
         secretKeyFile = "${services-root}/nixos-binary-cache/certs/cache-priv-key.pem";
-        url = config.secrets.services.binary-cache.url;
+        url = config.${namespace}.secrets.services.binary-cache.url;
         auth = {
-          user = config.secrets.services.binary-cache.auth.username;
-          password = config.secrets.services.binary-cache.auth.password;
+          user = config.${namespace}.secrets.services.binary-cache.auth.username;
+          password = config.${namespace}.secrets.services.binary-cache.auth.password;
         };
       };
       boinc = {
@@ -163,36 +169,36 @@ in
       forgejo = {
         enable = true;
         home = "${services-root}/forgejo";
-        url = config.secrets.services.forgejo.url;
+        url = config.${namespace}.secrets.services.forgejo.url;
       };
       jellyfin = {
         enable = true;
         home = "${services-root}/jellyfin";
-        url = config.secrets.services.jellyfin.url;
+        url = config.${namespace}.secrets.services.jellyfin.url;
       };
       languagetool = {
         enable = true;
-        url = config.secrets.services.languagetool.url;
+        url = config.${namespace}.secrets.services.languagetool.url;
         port = 8100;
-        auth.user = config.secrets.services.languagetool.auth.user;
-        auth.password = config.secrets.services.languagetool.auth.password;
+        auth.user = config.${namespace}.secrets.services.languagetool.auth.user;
+        auth.password = config.${namespace}.secrets.services.languagetool.auth.password;
         ngrams.enable = true;
       };
       msmtp = {
         enable = true;
         accounts.default = {
-          host = config.secrets.services.msmtp.host;
-          user = config.secrets.services.msmtp.user;
-          password = config.secrets.services.msmtp.password;
+          host = config.${namespace}.secrets.services.msmtp.host;
+          user = config.${namespace}.secrets.services.msmtp.user;
+          password = config.${namespace}.secrets.services.msmtp.password;
           auth = true;
           tls = true;
           tls_starttls = true;
           port = 587;
-          from = "${config.networking.hostName}@${config.secrets.networking.domains.primary}";
+          from = "${config.networking.hostName}@${config.${namespace}.secrets.networking.domains.primary}";
         };
         aliases = {
           text = ''
-            default: ${config.secrets.users.aires.email}
+            default: ${config.${namespace}.secrets.users.aires.email}
           '';
           mode = "0644";
         };
@@ -200,34 +206,34 @@ in
       netdata = {
         enable = true;
         type = "parent";
-        url = config.secrets.services.netdata.url;
+        url = config.${namespace}.secrets.services.netdata.url;
         auth = {
           user = config.users.users.aires.name;
-          password = config.secrets.services.netdata.password;
-          apiKey = config.secrets.services.netdata.apiKey;
+          password = config.${namespace}.secrets.services.netdata.password;
+          apiKey = config.${namespace}.secrets.services.netdata.apiKey;
         };
       };
       nginx = {
         enable = true;
         virtualHosts = {
-          "${config.secrets.networking.domains.primary}" = {
+          "${config.${namespace}.secrets.networking.domains.primary}" = {
             default = true;
             enableACME = true; # Enable Let's Encrypt
             locations."/" = {
               # Catchall vhost, will redirect users to Forgejo
-              return = "301 https://${config.secrets.services.forgejo.url}";
+              return = "301 https://${config.${namespace}.secrets.services.forgejo.url}";
             };
           };
-          "${config.secrets.networking.domains.blog}" = {
-            useACMEHost = config.secrets.networking.domains.blog;
+          "${config.${namespace}.secrets.networking.domains.blog}" = {
+            useACMEHost = config.${namespace}.secrets.networking.domains.blog;
             forceSSL = true;
-            root = "${services-root}/nginx/sites/${config.secrets.networking.domains.blog}";
+            root = "${services-root}/nginx/sites/${config.${namespace}.secrets.networking.domains.blog}";
           };
-          "${config.secrets.services.gremlin-lab.url}" = {
-            useACMEHost = config.secrets.networking.domains.primary;
+          "${config.${namespace}.secrets.services.gremlin-lab.url}" = {
+            useACMEHost = config.${namespace}.secrets.networking.domains.primary;
             forceSSL = true;
             locations."/" = {
-              proxyPass = "http://${config.secrets.services.gremlin-lab.ip}";
+              proxyPass = "http://${config.${namespace}.secrets.services.gremlin-lab.ip}";
               proxyWebsockets = true;
               extraConfig = "proxy_ssl_server_name on;";
             };
@@ -237,11 +243,11 @@ in
       qbittorrent = {
         enable = true;
         home = "${services-root}/qbittorrent";
-        url = config.secrets.services.qbittorrent.url;
+        url = config.${namespace}.secrets.services.qbittorrent.url;
         port = "8090";
         vpn = {
           enable = true;
-          privateKey = config.secrets.services.protonvpn.privateKey;
+          privateKey = config.${namespace}.secrets.services.protonvpn.privateKey;
           countries = [
             "Switzerland"
             "Netherlands"
@@ -251,15 +257,15 @@ in
       rss = {
         enable = false;
         home = "${services-root}/freshrss";
-        url = config.secrets.services.rss.url;
-        auth = with config.secrets.services.rss.auth; {
+        url = config.${namespace}.secrets.services.rss.url;
+        auth = with config.${namespace}.secrets.services.rss.auth; {
           user = user;
           password = password;
         };
       };
       ssh = {
         enable = true;
-        ports = [ config.secrets.hosts.hevana.ssh.port ];
+        ports = [ config.${namespace}.secrets.hosts.hevana.ssh.port ];
       };
       syncthing = {
         enable = true;

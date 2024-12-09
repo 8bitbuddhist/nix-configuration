@@ -46,16 +46,16 @@ in
           # Set up secondary binary caches for Lix and Hevana
           substituters = [
             "https://cache.lix.systems"
-            "https://${config.secrets.services.binary-cache.url}"
+            "https://${config.${namespace}.secrets.services.binary-cache.url}"
           ];
           trusted-public-keys = [
             "cache.lix.systems:aBnZUw8zA7H35Cz2RyKFVs3H4PlGTLawyY5KRbvJR8o="
-            config.secrets.services.binary-cache.pubcert
+            config.${namespace}.secrets.services.binary-cache.pubcert
           ];
 
           # Authentication for Hevana's binary cache
           netrc-file =
-            with config.secrets.services.binary-cache;
+            with config.${namespace}.secrets.services.binary-cache;
             pkgs.writeText "netrc" ''
               machine ${url} login ${auth.username} password ${auth.password}
             '';
@@ -96,7 +96,7 @@ in
     (lib.mkIf cfg.nixos-operations-script.enable {
       # Enable and configure NOS
       ${namespace}.packages = [ nixos-operations-script ];
-      environment.variables."FLAKE_DIR" = config.secrets.nixConfigFolder;
+      environment.variables."FLAKE_DIR" = config.${namespace}.secrets.nixConfigFolder;
     })
   ];
 }

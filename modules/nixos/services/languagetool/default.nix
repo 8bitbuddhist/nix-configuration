@@ -51,11 +51,13 @@ in
         public = true;
         allowOrigin = "*";
         # Enable Ngrams
-        settings.languageModel = lib.mkIf cfg.ngrams.enable "${pkgs.Sapana.languagetool-ngrams}/share/languagetool/ngrams";
+        settings.languageModel = lib.mkIf cfg.ngrams.enable "${
+          pkgs.${namespace}.languagetool-ngrams
+        }/share/languagetool/ngrams";
       };
       # Create Nginx virtualhost
       nginx.virtualHosts."${cfg.url}" = {
-        useACMEHost = lib.Sapana.getDomainFromURI cfg.url;
+        useACMEHost = lib.${namespace}.getDomainFromURI cfg.url;
         forceSSL = true;
         basicAuth = {
           "${cfg.auth.user}" = cfg.auth.password;
