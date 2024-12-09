@@ -8,22 +8,17 @@ in
   imports = [ (modulesPath + "/installer/scan/not-detected.nix") ];
 
   boot = {
-    supportedFilesystems = [ "btrfs" ];
     kernelModules = [ "kvm-amd" ];
 
-    initrd = {
-      supportedFilesystems = [ "btrfs" ];
-      availableKernelModules = [
-        "nvme"
-        "xhci_pci"
-        "ahci"
-        "usb_storage"
-        "usbhid"
-        "sd_mod"
-        "btrfs"
-      ];
-      kernelModules = [ ];
-    };
+    initrd.availableKernelModules = [
+      "kvm-amd"
+      "nvme"
+      "xhci_pci"
+      "ahci"
+      "usb_storage"
+      "usbhid"
+      "sd_mod"
+    ];
 
     # Enable support for building ARM64 packages
     binfmt.emulatedSystems = [ "aarch64-linux" ];

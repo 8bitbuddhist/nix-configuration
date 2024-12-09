@@ -51,7 +51,6 @@ in
         boot.initrd = {
           # Enable modules and support for TPM auto-unlocking
           systemd.enable = true;
-          availableKernelModules = [ "tpm_crb" ];
           kernelModules = [ "tpm_crb" ];
         };
         # After installing and rebooting, set it up via https://wiki.archlinux.org/title/Systemd-cryptenroll#Trusted_Platform_Module

@@ -62,10 +62,16 @@ in
         message = "Please specify your boot partition.";
       }
     ];
-    boot.initrd.luks.devices.${decryptPart} = {
-      device = cfg.partitions.luks;
-      # Enable TPM auto-unlocking if configured
-      crypttabExtraOpts = lib.mkIf config.${namespace}.bootloader.tpm2.enable [ "tpm2-device=auto" ];
+    boot = {
+      supportedFilesystems = [ "btrfs" ];
+      initrd = {
+        availableKernelModules = [ "btrfs" ];
+        luks.devices.${decryptPart} = {
+          device = cfg.partitions.luks;
+          # Enable TPM auto-unlocking if configured
+          crypttabExtraOpts = lib.mkIf config.${namespace}.bootloader.tpm2.enable [ "tpm2-device=auto" ];
+        };
+      };
     };
     fileSystems = {
       "/" = {

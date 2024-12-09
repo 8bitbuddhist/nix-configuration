@@ -18,6 +18,8 @@ in
     # NOTE: Uncomment to use a default kernel and skip full kernel rebuilds
     #kernelPackages = lib.mkForce pkgs.linuxPackages_latest;
 
+    kernelModules = [ "kvm-intel" ];
+
     # NOTE: Loading the camera driver results in a kernel panic on 6.10 kernels. See https://github.com/linux-surface/linux-surface/issues/1516
     blacklistedKernelModules = [
       "intel-ipu6"

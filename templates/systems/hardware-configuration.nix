@@ -14,15 +14,13 @@ in
   # Configure the kernel.
   boot = {
     # Run `nixos-generate-config --no-filesystems` to generate a baseline hardware configuration.
-    initrd = {
-      availableKernelModules = [
-        "nvme"
-        "xhci_pci"
-        "usbhid"
-        "usb_storage"
-        "sd_mod"
-      ];
-    };
+    initrd.availableKernelModules = [
+      "nvme"
+      "xhci_pci"
+      "usbhid"
+      "usb_storage"
+      "sd_mod"
+    ];
 
     kernelModules = [ ];
   };

@@ -15,20 +15,18 @@ in
   # Configure the kernel.
   boot = {
     kernelPackages = pkgs.linuxKernel.packages.linux_zen;
+    kernelModules = [ "kvm-amd" ];
 
     # Hardware defaults detected by nixos-generate-configuration
-    initrd = {
-      availableKernelModules = [
-        "nvme"
-        "xhci_pci"
-        "usbhid"
-        "usb_storage"
-        "sd_mod"
-        "rtsx_pci_sdmmc"
-      ];
-    };
-
-    kernelModules = [ "kvm-amd" ];
+    initrd.availableKernelModules = [
+      "kvm-amd"
+      "nvme"
+      "xhci_pci"
+      "usbhid"
+      "usb_storage"
+      "sd_mod"
+      "rtsx_pci_sdmmc"
+    ];
   };
 
   # Configure the main filesystem.
