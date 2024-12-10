@@ -105,4 +105,12 @@ fi
 echo "Running this operation: nixos-rebuild ${operation} ${options}"
 /run/current-system/sw/bin/nixos-rebuild $operation $options
 
+case "$operation" in
+  boot|switch)
+    echo ""
+    echo "New generation created: "
+    /run/current-system/sw/bin/nixos-rebuild list-generations
+    ;;
+esac
+
 exit 0
