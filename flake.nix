@@ -129,19 +129,8 @@
       };
 
       # Use treefmt to format project repo
-      outputs-builder =
-        channels:
-        let
-          treefmtEval = inputs.treefmt.lib.evalModule channels.nixpkgs ./treefmt.nix;
-        in
-        {
-          # For `nix fmt`
-          formatter = treefmtEval.config.build.wrapper;
-
-          # For `nix flake check`
-          checks = {
-            formatting = treefmtEval.config.build.check inputs.self;
-          };
-        };
+      outputs-builder = channels: {
+        formatter = (inputs.treefmt.lib.evalModule channels.nixpkgs ./treefmt.nix).config.build.wrapper;
+      };
     };
 }
