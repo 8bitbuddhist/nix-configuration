@@ -47,5 +47,9 @@ in
         };
       };
     };
+
+    ${namespace}.ui.flatpak.packages = lib.mkIf config.${namespace}.ui.flatpak.enable [
+      "com.github.wwmm.easyeffects"
+    ];
   };
 }

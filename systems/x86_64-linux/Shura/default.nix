@@ -95,14 +95,6 @@ in
     ui = {
       flatpak = {
         enable = true;
-        packages = [
-          "com.github.tchx84.Flatseal"
-          "com.github.wwmm.easyeffects"
-          "md.obsidian.Obsidian"
-          "net.codelogistics.webapps"
-          "org.mozilla.firefox"
-        ];
-
         useBindFS = true;
       };
       desktops.gnome.enable = true;

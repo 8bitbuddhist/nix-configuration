@@ -17,6 +17,7 @@ in
     ${namespace}.ui.flatpak = {
       enable = true;
       packages = [
+        "md.obsidian.Obsidian"
         "org.onlyoffice.desktopeditors"
         "us.zoom.Zoom"
       ];

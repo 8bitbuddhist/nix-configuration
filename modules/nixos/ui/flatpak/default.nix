@@ -17,7 +17,11 @@ in
       packages = lib.mkOption {
         description = "Flatpak packages to install.";
         type = lib.types.listOf lib.types.str;
-        default = [ ];
+        default = [
+          "com.github.tchx84.Flatseal"
+          "org.mozilla.firefox"
+          "io.github.ungoogled_software.ungoogled_chromium"
+        ];
         example = lib.literalExpression "[ \"com.valvesoftware.Steam\" ]";
       };
       remotes = lib.mkOption {

@@ -1,4 +1,9 @@
-{ config, namespace, ... }:
+{
+  config,
+  lib,
+  namespace,
+  ...
+}:
 
 let
   # Do not change this value! This tracks when NixOS was installed on your system.
@@ -69,14 +74,9 @@ in
         # Enable Flatpak support.
         enable = true;
 
-        # Define Flatpak packages to install.
-        packages = [
-          "com.github.tchx84.Flatseal"
-          "com.github.wwmm.easyeffects"
-          "md.obsidian.Obsidian"
-          "net.codelogistics.webapps"
+        # Define extra Flatpak packages to install.
+        packages = lib.mkAfter [
           "org.keepassxc.KeePassXC"
-          "org.mozilla.firefox"
         ];
 
         useBindFS = true;
