@@ -1,6 +1,6 @@
 {
   config,
-  lib,
+  options,
   namespace,
   ...
 }:
@@ -75,7 +75,7 @@ in
         enable = true;
 
         # Define extra Flatpak packages to install.
-        packages = lib.mkAfter [
+        packages = options.${namespace}.ui.flatpak.packages.default ++ [
           "org.keepassxc.KeePassXC"
         ];
 
