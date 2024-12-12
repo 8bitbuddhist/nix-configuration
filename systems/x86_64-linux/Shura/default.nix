@@ -1,7 +1,8 @@
 {
   config,
-  pkgs,
+  options,
   namespace,
+  pkgs,
   ...
 }:
 let
@@ -96,6 +97,7 @@ in
       flatpak = {
         enable = true;
         useBindFS = true;
+        packages = options.${namespace}.ui.flatpak.packages.default;
       };
       desktops.gnome.enable = true;
     };
