@@ -13,12 +13,12 @@ in
   options = {
     ${namespace}.services.syncthing = {
       enable = lib.mkEnableOption "Enables Syncthing.";
-      enableTray = lib.mkEnableOption "Enables the Syncthing Tray applet.";
       home = lib.mkOption {
         default = "/var/lib/syncthing";
         type = lib.types.str;
         description = "Where to store Syncthing's configuration files";
       };
+      tray.enable = lib.mkEnableOption "Enables the Syncthing Tray applet.";
       user = lib.mkOption {
         type = lib.types.str;
         default = "syncthing";
@@ -41,7 +41,7 @@ in
     networking.firewall.allowedTCPPorts = with cfg.web; lib.mkIf (enable && public) [ port ];
 
     services = {
-      flatpak.packages = lib.mkIf (config.${namespace}.ui.flatpak.enable && cfg.enableTray) [
+      flatpak.packages = lib.mkIf (config.${namespace}.ui.flatpak.enable && cfg.tray.enable) [
         "io.github.martchus.syncthingtray"
       ];
 

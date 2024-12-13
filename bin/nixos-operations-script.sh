@@ -2,6 +2,9 @@
 # The NixOS Operations Script (NOS) is a wrapper script for nixos-rebuild and Flake-based configurations.
 # It handles pulling the latest version of your repository using Git, running system updates, and pushing changes back up.
 
+# Exit on error
+set -e
+
 # Configuration parameters
 operation="switch"                              # The nixos-rebuild operation to use
 hostname=$(/run/current-system/sw/bin/hostname) # The name of the host to build

@@ -57,6 +57,7 @@ in
       syncthing = {
         enable = true;
         home = "/home/aires/.config/syncthing";
+        tray.enable = true;
         user = "aires";
         web.enable = true;
       };
