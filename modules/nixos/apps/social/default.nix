@@ -21,7 +21,6 @@ in
         enable = true;
         packages = [
           "com.discordapp.Discord"
-          "dev.geopjr.Tuba"
         ];
       };
     };
