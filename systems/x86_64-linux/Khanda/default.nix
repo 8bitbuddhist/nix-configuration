@@ -1,5 +1,6 @@
 {
   config,
+  lib,
   options,
   namespace,
   ...
@@ -15,6 +16,15 @@ in
 
   system.stateVersion = stateVersion;
   networking.hostName = hostName;
+
+  # Enable XWayland native scaling just for Khanda.
+  # This is a workaround to get the Surface Pen working in Obsidian
+  services.xserver.desktopManager.gnome.extraGSettingsOverrides = lib.mkForce ''
+    [org.gnome.mutter]
+    experimental-features = [ 'scale-monitor-framebuffer', 'xwayland-native-scaling', 'variable-refresh-rate' ]
+    [org.gnome.shell]
+    disable-extension-version-validation = true
+  '';
 
   ###*** Configure your system below this line. ***###
   # Configure the system.

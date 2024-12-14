@@ -1,6 +1,5 @@
 # Enables the Gnome desktop environment.
 {
-  inputs,
   pkgs,
   config,
   lib,
