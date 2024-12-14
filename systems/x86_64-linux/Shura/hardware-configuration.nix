@@ -18,7 +18,7 @@ in
     kernelModules = [ "kvm-amd" ];
 
     # Hardware defaults detected by nixos-generate-configuration
-    initrd.availableKernelModules = [
+    initrd.kernelModules = [
       "kvm-amd"
       "nvme"
       "xhci_pci"

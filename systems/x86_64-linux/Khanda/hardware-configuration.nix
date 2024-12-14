@@ -31,27 +31,25 @@ in
       options iwlwifi 11n_disable=8
     '';
 
-    initrd = {
-      availableKernelModules = [
-        "kvm-intel"
-        "surface_aggregator"
-        "surface_aggregator_registry"
-        "surface_aggregator_hub"
-        "surface_hid_core"
-        "surface_hid"
-        "hid_multitouch"
-        "8250_dw"
-        "intel_lpss"
-        "intel_lpss_pci"
-        "xhci_pci"
-        "thunderbolt"
-        "nvme"
-        "usb_storage"
-        "sd_mod"
-        "surface_kbd"
-        "pinctrl_tigerlake"
-      ];
-    };
+    initrd.kernelModules = [
+      "kvm-intel"
+      "surface_aggregator"
+      "surface_aggregator_registry"
+      "surface_aggregator_hub"
+      "surface_hid_core"
+      "surface_hid"
+      "hid_multitouch"
+      "8250_dw"
+      "intel_lpss"
+      "intel_lpss_pci"
+      "xhci_pci"
+      "thunderbolt"
+      "nvme"
+      "usb_storage"
+      "sd_mod"
+      "surface_kbd"
+      "pinctrl_tigerlake"
+    ];
 
     kernelParams = [
       "pci=hpiosize=0" # Prevent ACPI interrupt storm. See https://github.com/linux-surface/linux-surface/wiki/Surface-Pro-9#acpi-interrupt-storm

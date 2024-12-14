@@ -10,7 +10,7 @@ in
   boot = {
     kernelModules = [ "kvm-amd" ];
 
-    initrd.availableKernelModules = [
+    initrd.kernelModules = [
       "kvm-amd"
       "nvme"
       "xhci_pci"
