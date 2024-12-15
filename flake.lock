@@ -261,16 +261,16 @@
     },
     "nixos-hardware": {
       "locked": {
-        "lastModified": 1733861262,
-        "narHash": "sha256-+jjPup/ByS0LEVIrBbt7FnGugJgLeG9oc+ivFASYn2U=",
-        "owner": "NixOS",
+        "lastModified": 1734207752,
+        "narHash": "sha256-mfv+J/vO4nqmIOlq8Y1rRW8hVsGH3M+I2ESMjhuebDs=",
+        "owner": "matthiasdotsh",
         "repo": "nixos-hardware",
-        "rev": "cf737e2eba82b603f54f71b10cb8fd09d22ce3f5",
+        "rev": "4a6a098803d4050471e9d8085afca86bd1ae9a9e",
         "type": "github"
       },
       "original": {
-        "owner": "NixOS",
-        "ref": "master",
+        "owner": "matthiasdotsh",
+        "ref": "ms-surface/update-kernel-6.12.4",
         "repo": "nixos-hardware",
         "type": "github"
       }
