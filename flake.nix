@@ -11,7 +11,7 @@
     nixpkgs-unstable.url = "github:nixos/nixpkgs/nixos-unstable";
 
     # Flatpak support
-    flatpak.url = "github:gmodena/nix-flatpak/v0.5.1";
+    flatpak.url = "github:gmodena/nix-flatpak/latest";
 
     # Home-manager support
     home-manager = {
@@ -20,7 +20,7 @@
     };
 
     # SecureBoot support
-    lanzaboote.url = "github:nix-community/lanzaboote/v0.4.1";
+    lanzaboote.url = "github:nix-community/lanzaboote/master";
 
     # Use Lix in place of Nix.
     #   If you'd rather use regular Nix, remove `lix-module.nixosModules.default` from the `modules` section below.
