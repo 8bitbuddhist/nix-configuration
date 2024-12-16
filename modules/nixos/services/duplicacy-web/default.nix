@@ -30,6 +30,7 @@ in
     systemd.services.duplicacy-web = {
       enable = true;
       wants = [ "network-online.target" ];
+      wantedBy = [ "multi-user.target" ];
       after = [
         "syslog.target"
         "network-online.target"
