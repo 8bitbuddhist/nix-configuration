@@ -29,6 +29,11 @@ in
           Enable = "Source,Sink,Media,Socket";
           Experimental = true;
           KernelExperimental = true;
+
+          # Additional options based on:
+          # https://www.reddit.com/r/NixOS/comments/1hdsfz0/what_do_i_have_to_do_to_make_my_xbox_controller/
+          JustWorksRepairing = "always";
+          FastConnectable = true;
         };
       };
     };
