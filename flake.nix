@@ -31,8 +31,7 @@
     };
 
     # NixOS hardware quirks
-    #nixos-hardware.url = "github:NixOS/nixos-hardware/master";
-    nixos-hardware.url = "github:matthiasdotsh/nixos-hardware/ms-surface/update-kernel-6.12.4";
+    nixos-hardware.url = "github:NixOS/nixos-hardware/master";
 
     # Snowfall lib: https://snowfall.org/guides/lib/quickstart/
     # Jake's reference config: https://github.com/jakehamilton/config
