@@ -18,9 +18,12 @@ in
 
     # Connect to the network automagically
     networkmanager.enable = lib.mkForce false;
-    wireless.networks = {
-      "${config.${namespace}.secrets.networking.networks.home.SSID}" = {
-        psk = "${config.${namespace}.secrets.networking.networks.home.password}";
+    wireless = {
+      enable = true;
+      networks = {
+        "${config.${namespace}.secrets.networking.networks.home.SSID}" = {
+          psk = "${config.${namespace}.secrets.networking.networks.home.password}";
+        };
       };
     };
   };

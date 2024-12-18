@@ -31,10 +31,8 @@
     }
   ];
 
-  hardware.enableRedistributableFirmware = true;
-  networking.wireless.enable = true;
-
   hardware = {
+    enableRedistributableFirmware = true;
     raspberry-pi."4" = {
       apply-overlays-dtmerge.enable = true;
     };
