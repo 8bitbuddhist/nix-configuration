@@ -28,9 +28,6 @@ in
   config = lib.mkMerge [
     {
       nix = {
-        # Use Lix in place of Nix
-        package = inputs.lix.packages.${system}.default;
-
         # Ensure we can still build when secondary caches are unavailable
         extraOptions = ''
           fallback = true

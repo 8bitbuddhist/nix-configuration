@@ -27,15 +27,30 @@ in
 
   ${namespace} = {
     bootloader.enable = false; # Bootloader configured in hardware-configuration.nix
+
+    editor = "nano";
+
     packages = with pkgs; [
       libraspberrypi
       raspberrypifw
       raspberrypi-eeprom
       linuxKernel.kernels.linux_rpi4
     ];
-    services.ssh = {
-      enable = true;
-      ports = [ config.${namespace}.secrets.hosts.hevana.ssh.port ];
+    services = {
+      autoUpgrade = {
+        enable = true;
+        configDir = config.${namespace}.secrets.nixConfigFolder;
+        onCalendar = "daily";
+        user = config.users.users.aires.name;
+      };
+      ssh = {
+        enable = true;
+        ports = [ config.${namespace}.secrets.hosts.hevana.ssh.port ];
+      };
+      tor = {
+        enable = true;
+        snowflake-proxy.enable = true;
+      };
     };
     users.aires.enable = true;
   };
