@@ -28,7 +28,7 @@ in
         extraGroups = [
           "networkmanager"
           "input"
-          "groups"
+          "users"
         ];
 
         # Allow systemd services to keep running even while gremlin is logged out
