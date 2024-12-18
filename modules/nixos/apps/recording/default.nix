@@ -36,7 +36,7 @@ in
 
     users.users = {
       aires.extraGroups = lib.mkIf config.${namespace}.users.aires.enable [ "adbusers" ];
-      #gremlin.extraGroups = lib.mkIf config.${namespace}.users.gremlin.enable [ "adbusers" ];
+      gremlin.extraGroups = lib.mkIf config.${namespace}.users.gremlin.enable [ "adbusers" ];
     };
 
     # Add a virtual camera to use with Droidcam
