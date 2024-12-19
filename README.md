@@ -2,8 +2,10 @@
 
 A full set of configuration files managed via NixOS. This project uses the [Snowfall library](https://snowfall.org/guides/lib/quickstart).
 
-> [!WARNING]
-> DO NOT DOWNLOAD AND RUN `nixos-rebuild` ON THIS REPOSITORY! These are my personal configuration files. I invite you to look through them, modify them, and take inspiration from them, but if you run `nixos-rebuild`, it _will completely overwrite your current system_!
+> [!NOTE]
+> Are you new to NixOS? Hi, hello, and welcome! This repository probably won't make much sense to you 😅 If you're looking for a good beginner configuration or template, check out https://github.com/Misterio77/nix-starter-configs
+>
+> Warning: DO NOT DOWNLOAD AND RUN `nixos-rebuild` ON THIS REPOSITORY! These are my personal configuration files. I invite you to look through them, modify them, and take inspiration from them, but if you run `nixos-rebuild`, it _will completely overwrite your current system_!
 
 ## Using this repo
 
@@ -140,4 +142,4 @@ This config uses the [Snowfall lib](https://snowfall.org/), along with some defa
 - Custom packages and systemd services
 - Flatpaks
 - Default ZSH shell using Oh My ZSH
-- Secrets (in a janky hacky kinda way)
+- Secrets (sorta - using Transcrypt)
