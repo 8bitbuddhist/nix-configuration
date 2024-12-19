@@ -53,6 +53,7 @@ in
 
     kernelParams = [
       "pci=hpiosize=0" # Prevent ACPI interrupt storm. See https://github.com/linux-surface/linux-surface/wiki/Surface-Pro-9#acpi-interrupt-storm
+      "i915.perf_stream_paranoid=0" # Enable performance support. See https://wiki.archlinux.org/title/Intel_graphics#Enable_performance_support and https://github.com/NixOS/nixos-hardware/issues/1246
     ];
   };
 
