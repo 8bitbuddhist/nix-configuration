@@ -34,11 +34,6 @@ in
     # For details, see https://github.com/Genymobile/scrcpy/blob/master/doc/v4l2.md
     programs.adb.enable = true;
 
-    users.users = {
-      aires.extraGroups = lib.mkIf config.${namespace}.users.aires.enable [ "adbusers" ];
-      gremlin.extraGroups = lib.mkIf config.${namespace}.users.gremlin.enable [ "adbusers" ];
-    };
-
     # Add a virtual camera to use with Droidcam
     boot = {
       extraModulePackages = with config.boot.kernelPackages; [ v4l2loopback.out ];
