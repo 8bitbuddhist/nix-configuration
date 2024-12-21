@@ -35,7 +35,7 @@ let
     x: x != "acme" && (lib.attrsets.matchAttrs { enable = true; } x)
   ) config.${namespace}.services;
   subdomains = (builtins.catAttrs "url" serviceList) ++ [
-    config.${namespace}.secrets.services.gremlin-lab.url
+    config.${namespace}.secrets.hosts.gremlin-lab.URI
   ];
 
 in
@@ -229,11 +229,11 @@ in
             forceSSL = true;
             root = "${services-root}/nginx/sites/${config.${namespace}.secrets.networking.domains.blog}";
           };
-          "${config.${namespace}.secrets.services.gremlin-lab.url}" = {
+          "${config.${namespace}.secrets.hosts.gremlin-lab.URI}" = {
             useACMEHost = config.${namespace}.secrets.networking.domains.primary;
             forceSSL = true;
             locations."/" = {
-              proxyPass = "http://${config.${namespace}.secrets.services.gremlin-lab.ip}";
+              proxyPass = "http://${config.${namespace}.secrets.hosts.gremlin-lab.IP}";
               proxyWebsockets = true;
               extraConfig = "proxy_ssl_server_name on;";
             };

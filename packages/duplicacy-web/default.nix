@@ -2,11 +2,11 @@
 
 pkgs.stdenv.mkDerivation rec {
   pname = "duplicacy-web";
-  version = "1.8.0";
+  version = "1.8.3";
 
   src = builtins.fetchurl {
     url = "https://acrosync.com/${pname}/duplicacy_web_linux_x64_${version}";
-    sha256 = "f0b4d4c16781a6ccb137f161df9de86574e7a55660c582682c63062e26476c4a";
+    sha256 = "9cdcaa875ae5fc0fcf93941df3a5133fb3c3ff92c89f87babddc511ba6dd7ef8";
   };
 
   doCheck = false;
