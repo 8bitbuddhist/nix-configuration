@@ -19,8 +19,9 @@ in
         type = lib.types.listOf lib.types.str;
         default = [
           "com.github.tchx84.Flatseal"
-          "org.mozilla.firefox"
           "io.github.ungoogled_software.ungoogled_chromium"
+          "org.mozilla.firefox"
+          "one.ablaze.floorp"
         ];
         example = lib.literalExpression "[ \"com.valvesoftware.Steam\" ]";
       };
