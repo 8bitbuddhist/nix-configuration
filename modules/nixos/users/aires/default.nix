@@ -29,10 +29,11 @@ in
             "input"
             "networkmanager"
             "plugdev"
-            "tss"
+            "tss" # For access to TPM devices
             "wheel"
             "users"
-          ]; # tss group has access to TPM devices
+            (lib.mkIf config.programs.adb.enable "adbusers")
+          ];
 
           # Allow systemd services to run even while aires is logged out
           linger = true;
