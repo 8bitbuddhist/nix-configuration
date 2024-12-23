@@ -21,7 +21,6 @@ in
           "com.github.tchx84.Flatseal"
           "io.github.ungoogled_software.ungoogled_chromium"
           "org.mozilla.firefox"
-          "one.ablaze.floorp"
         ];
         example = lib.literalExpression "[ \"com.valvesoftware.Steam\" ]";
       };
