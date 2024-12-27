@@ -32,7 +32,6 @@ in
             "tss" # For access to TPM devices
             "wheel"
             "users"
-            (lib.mkIf config.programs.adb.enable "adbusers")
           ];
 
           # Allow systemd services to run even while aires is logged out

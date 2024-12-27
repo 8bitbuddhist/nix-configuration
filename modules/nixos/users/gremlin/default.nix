@@ -29,7 +29,6 @@ in
           "networkmanager"
           "input"
           "users"
-          (lib.mkIf config.programs.adb.enable "adbusers")
         ];
 
         # Allow systemd services to keep running even while gremlin is logged out
