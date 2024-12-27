@@ -213,6 +213,11 @@ in
           apiKey = config.${namespace}.secrets.services.netdata.apiKey;
         };
       };
+      nextcloud = {
+        enable = false;
+        url = config.${namespace}.secrets.services.nextcloud.url;
+        home = "${services-root}/nextcloud";
+      };
       nginx = {
         enable = true;
         virtualHosts = {
@@ -252,15 +257,6 @@ in
             "Switzerland"
             "Netherlands"
           ];
-        };
-      };
-      rss = {
-        enable = false;
-        home = "${services-root}/freshrss";
-        url = config.${namespace}.secrets.services.rss.url;
-        auth = with config.${namespace}.secrets.services.rss.auth; {
-          user = user;
-          password = password;
         };
       };
       ssh = {
