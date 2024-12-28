@@ -42,6 +42,7 @@ in
     services = {
       autoUpgrade = {
         enable = true;
+        extraFlags = "--build-host hevana";
         configDir = config.${namespace}.secrets.nixConfigFolder;
         onCalendar = "daily";
         user = config.users.users.aires.name;

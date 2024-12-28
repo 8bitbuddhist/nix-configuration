@@ -60,8 +60,7 @@ in
       autoUpgrade = {
         enable = true;
         configDir = config.${namespace}.secrets.nixConfigFolder;
-        extraFlags = "--build-host hevana";
-        onCalendar = "weekly";
+        onCalendar = "daily";
         user = config.users.users.aires.name;
       };
       syncthing = {
