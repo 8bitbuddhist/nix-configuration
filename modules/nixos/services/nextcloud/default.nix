@@ -32,6 +32,7 @@ in
         enable = true;
         home = cfg.home;
         hostName = cfg.url;
+        https = true;
         appstoreEnable = true;
         maxUploadSize = "10G";
         nginx.recommendedHttpHeaders = true;
@@ -43,7 +44,7 @@ in
 
         # Set default admin password
         config.adminpassFile = "${pkgs.writeText "nextcloud-default-pass" ''
-          config.${namespace}.secrets.services.defaultPassword;
+          ${config.${namespace}.secrets.services.defaultPassword}
         ''}";
 
         settings = {
@@ -56,6 +57,11 @@ in
           mail_smtpmode = "sendmail";
           mail_sendmailmode = "pipe";
         };
+      };
+
+      nginx.virtualHosts."${cfg.url}" = {
+        useACMEHost = lib.${namespace}.getDomainFromURI cfg.url;
+        forceSSL = true;
       };
     };
 

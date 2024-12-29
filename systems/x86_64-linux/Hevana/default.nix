@@ -214,7 +214,7 @@ in
         };
       };
       nextcloud = {
-        enable = false;
+        enable = true;
         url = config.${namespace}.secrets.services.nextcloud.url;
         home = "${services-root}/nextcloud";
       };
