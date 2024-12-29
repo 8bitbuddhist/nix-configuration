@@ -79,7 +79,7 @@ echo > "$draftFile".md
 
 # Grab content files and add a page break to the end of each one.
 # Obsidian specifically creates "folder notes," which are named for the directory, so we make sure to exclude it.
-find "$inDir" -type f -wholename "* *.md" ! -name content.md -print0 | sort -z | while read -rd $'\0' file
+find "$inDir" -type f -wholename "**.md" ! -name content.md -print0 | sort -z | while read -rd $'\0' file
 do
   # Add newline to Markdown doc
   echo >> "$draftFile".md
