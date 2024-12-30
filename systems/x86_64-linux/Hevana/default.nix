@@ -213,11 +213,6 @@ in
           apiKey = config.${namespace}.secrets.services.netdata.apiKey;
         };
       };
-      nextcloud = {
-        enable = true;
-        url = config.${namespace}.secrets.services.nextcloud.url;
-        home = "${services-root}/nextcloud";
-      };
       nginx = {
         enable = true;
         virtualHosts = {
