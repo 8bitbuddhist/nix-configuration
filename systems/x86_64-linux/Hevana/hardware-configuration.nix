@@ -1,5 +1,10 @@
 # Minisforum UM340
-{ modulesPath, namespace, ... }:
+{
+  modulesPath,
+  namespace,
+  pkgs,
+  ...
+}:
 let
   bootUUID = "D2E7-FE8F"; # The UUID of the boot partition.
   luksUUID = "7b9c756c-ba9d-43fc-b935-7c77a70f5f1b"; # The UUID of the locked LUKS partition.
@@ -8,6 +13,7 @@ in
   imports = [ (modulesPath + "/installer/scan/not-detected.nix") ];
 
   boot = {
+    kernelPackages = pkgs.linuxKernel.packages.linux_zen;
     kernelModules = [ "kvm-amd" ];
 
     initrd.kernelModules = [

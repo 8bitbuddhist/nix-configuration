@@ -36,6 +36,7 @@ in
           home-manager
           openssh
           sudo
+          treefmt2
           xz.bin
           # Packages required for decrypting config files
           transcrypt
