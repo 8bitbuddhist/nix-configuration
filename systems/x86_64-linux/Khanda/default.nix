@@ -75,7 +75,18 @@ in
         browser.enable = true;
         snowflake-proxy.enable = true;
       };
-      virtualization.enable = true;
+      virtualization = {
+        enable = true;
+        host = {
+          enable = true;
+          user = "aires";
+          vmBuilds = {
+            enable = true;
+            cores = 4;
+            ram = 3072;
+          };
+        };
+      };
     };
 
     ui = {
