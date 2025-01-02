@@ -45,8 +45,11 @@ in
       };
       fileSystems."/storage" = {
         device = "/dev/mapper/storage";
-        # Keep booting even if the array fails to unlock
-        options = [ "nofail" ];
+        options = [
+          "nofail" # Keep booting even if the array fails to unlock
+          "lazytime" # Reduce atime writes: https://wiki.archlinux.org/title/Fstab#atime_options
+          "commit=60" # Increase commit interval to 60 seconds to reduce writes: https://wiki.archlinux.org/title/Ext4#Increasing_commit_interval
+        ];
       };
 
       # Optimize RAID performance via udev rules
