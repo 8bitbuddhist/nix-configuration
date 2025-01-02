@@ -49,6 +49,13 @@ in
         options = [ "nofail" ];
       };
 
+      # Optimize RAID performance via udev rules
+      # See https://serverfault.com/questions/579489/linux-what-is-stripe-cache-size-and-what-does-it-do
+      services.udev.extraRules = ''
+        	SUBSYSTEM=="block", KERNEL=="md*", ACTION=="change", TEST=="md/stripe_cache_size", ATTR{md/stripe_cache_size}="8192"
+        	SUBSYSTEM=="block", KERNEL=="md*", ACTION=="change", TEST=="queue/read_ahead_kb", ATTR{md/read_ahead_kb}="8192"
+      '';
+
       # Automatically scrub the array monthly
       systemd = {
         services."raid-scrub" = {
