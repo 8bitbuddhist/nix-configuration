@@ -92,7 +92,7 @@ in
         in
         {
           "/usr/share/icons" = mkRoSymBind "${aggregatedIcons}/share/icons";
-          "/usr/local/share/fonts" = mkRoSymBind "${aggregatedFonts}/share/fonts";
+          "/usr/share/fonts" = mkRoSymBind "${aggregatedFonts}/share/fonts";
         };
     })
   ];

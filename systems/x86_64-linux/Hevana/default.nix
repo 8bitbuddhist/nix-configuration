@@ -35,6 +35,7 @@ let
     x: x != "acme" && (lib.attrsets.matchAttrs { enable = true; } x)
   ) config.${namespace}.services;
   subdomains = (builtins.catAttrs "url" serviceList) ++ [
+    # Add any other URLs to include in the cert in this list
     config.${namespace}.secrets.hosts.gremlin-lab.URI
   ];
 

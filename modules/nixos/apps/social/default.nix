@@ -21,6 +21,7 @@ in
         enable = true;
         packages = [
           "com.discordapp.Discord"
+          "org.gnome.Polari" # IRC client
         ];
       };
     };
