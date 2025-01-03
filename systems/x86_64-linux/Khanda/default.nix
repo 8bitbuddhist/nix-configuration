@@ -53,9 +53,6 @@ in
 
     powerManagement.enable = true;
 
-    # Enable support for primary RAID array (just in case)
-    raid.storage.enable = true;
-
     services = {
       autoUpgrade = {
         enable = true;

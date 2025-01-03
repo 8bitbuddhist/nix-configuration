@@ -53,9 +53,6 @@ in
       keepassxc # Use native instead of Flatpak due to weird performance issues
     ];
 
-    # Enable support for primary RAID array (just in case)
-    raid.storage.enable = true;
-
     # Keep one week of generations.
     nix.retention = "7d";
 

@@ -115,10 +115,13 @@ in
     gpu.amd.enable = true;
 
     # Enable support for primary RAID array
-    raid.storage = {
+    raid = {
       enable = true;
-      keyFile = config.${namespace}.secrets.devices.storage.keyFile.path;
       mailAddr = config.${namespace}.secrets.users.aires.email;
+      storage = {
+        enable = true;
+        keyFile = config.${namespace}.secrets.devices.storage.keyFile.path;
+      };
     };
 
     services = {

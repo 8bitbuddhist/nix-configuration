@@ -12,14 +12,15 @@ in
   options = {
     ${namespace}.raid = {
       enable = lib.mkEnableOption "Enables RAID support.";
+      mailAddr = lib.mkOption {
+        default = "";
+        type = lib.types.str;
+        description = "Address to email in case of issues.";
+        example = "admin@example.com";
+      };
+
       storage = {
         enable = lib.mkEnableOption "Enables support for the storage array.";
-        mailAddr = lib.mkOption {
-          default = "";
-          type = lib.types.str;
-          description = "Address to email in case of issues.";
-          example = "admin@example.com";
-        };
         keyFile = lib.mkOption {
           default = "";
           type = lib.types.str;
@@ -36,7 +37,7 @@ in
       ${namespace}.raid.enable = true;
       boot.swraid.mdadmConf = ''
         ARRAY /dev/md/Sapana metadata=1.2 UUID=51076daf:efdb34dd:bce48342:3b549fcb
-        MAILADDR ${cfg.storage.mailAddr}
+        MAILADDR ${cfg.mailAddr}
       '';
 
       # Auto-unlock RAID array with a key file
