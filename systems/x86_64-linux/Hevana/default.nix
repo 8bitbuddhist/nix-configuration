@@ -280,7 +280,6 @@ in
       };
       virtualization.host = {
         enable = true;
-        user = "aires";
         vmBuilds = {
           enable = true;
           cores = 3;

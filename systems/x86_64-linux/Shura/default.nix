@@ -82,7 +82,6 @@ in
       virtualization = {
         enable = true;
         host = {
-          user = "aires";
           vmBuilds = {
             enable = true;
             cores = 4;

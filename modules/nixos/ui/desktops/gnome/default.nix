@@ -15,14 +15,31 @@ in
   options = {
     ${namespace}.ui.desktops.gnome = {
       enable = lib.mkEnableOption "Enables the Gnome Desktop Environment.";
+      autologin = lib.mkOption {
+        type = lib.types.str;
+        default = "";
+        description = "Which user to automatically log in (leave empty to disable).";
+      };
     };
   };
 
   config = lib.mkIf cfg.enable {
     ${namespace}.ui.desktops.enable = true;
 
+    # This is a workaround for shells crashing on autologin.
+    # See https://github.com/NixOS/nixpkgs/issues/103746#issuecomment-945091229
+    systemd.services = lib.mkIf (cfg.autologin != "") {
+      "getty@tty1".enable = false;
+      "autovt@tty1".enable = false;
+    };
+
     # Enable Gnome
     services = {
+      displayManager.autoLogin = lib.mkIf (cfg.autologin != "") {
+        enable = true;
+        user = cfg.autologin;
+      };
+
       xserver = {
         # Remove default packages that came with the install
         excludePackages = [ pkgs.xterm ];

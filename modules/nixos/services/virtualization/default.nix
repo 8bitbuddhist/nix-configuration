@@ -16,11 +16,6 @@ in
       enable = lib.mkEnableOption "Enables virtualization tools on this host.";
       host = {
         enable = lib.mkEnableOption "Enables virtual machine hosting.";
-        user = lib.mkOption {
-          default = "";
-          type = lib.types.str;
-          description = "The default user to add as a KVM admin.";
-        };
         vmBuilds = {
           enable = lib.mkEnableOption "Enables builds via `nixos-rebuild build-vm` on this host.";
           cores = lib.mkOption {
@@ -56,8 +51,6 @@ in
         };
         spiceUSBRedirection.enable = true;
       };
-
-      users.users.${cfg.host.user}.extraGroups = [ "libvirtd" ];
 
       environment.systemPackages = with pkgs; [
         spice
