@@ -26,7 +26,10 @@ in
         ];
         ui.flatpak = {
           enable = true;
-          packages = [ "com.vscodium.codium" ];
+          packages = [
+            "com.vscodium.codium"
+            "org.gnome.gitg"
+          ];
         };
       };
     })

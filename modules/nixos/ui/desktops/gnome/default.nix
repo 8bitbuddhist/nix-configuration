@@ -58,8 +58,7 @@ in
         "org.gnome.Evolution"
         "org.gnome.FileRoller"
         "org.gnome.Firmware"
-        "org.gnome.gitg"
-        "org.gnome.Loupe" # Gnome's fancy new image viewer
+        "org.gnome.Loupe"
         "org.gnome.Music"
         "org.gnome.seahorse.Application"
         "org.gnome.TextEditor"
