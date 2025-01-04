@@ -62,7 +62,6 @@ in
         "org.gnome.Loupe" # Gnome's fancy new image viewer
         "org.gnome.Music"
         "org.gnome.seahorse.Application"
-        "org.gnome.Shotwell"
         "org.gnome.TextEditor"
         "org.gtk.Gtk3theme.Adwaita-dark"
       ];
