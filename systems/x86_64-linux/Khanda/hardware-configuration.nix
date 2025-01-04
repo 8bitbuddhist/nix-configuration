@@ -72,14 +72,10 @@ in
 
   hardware = {
     cpu.intel.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;
-    /*
-      FIXME: temporarily disable due to conflict with kernel 6.12+
-
-      ipu6 = {
-        enable = true;
-        platform = "ipu6ep";
-      };
-    */
+    ipu6 = {
+      enable = true;
+      platform = "ipu6ep";
+    };
   };
 
   # Limit the number of cores Nix can use
