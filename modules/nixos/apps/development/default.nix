@@ -23,6 +23,7 @@ in
         packages = with pkgs; [
           nil # Nix Language server: https://github.com/oxalica/nil
           nix-prefetch-scripts
+          zed-editor
         ];
         ui.flatpak = {
           enable = true;
