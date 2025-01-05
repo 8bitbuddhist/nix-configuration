@@ -1,11 +1,13 @@
 _: {
   # NOTE: Allegedly prevents random Gnome crashes.
-  # But it might prevent logging in in some cases.
+  #   But on Shura, it just prevents me from logging in.
   # See https://www.reddit.com/r/archlinux/comments/1erbika/fyi_if_you_experience_crashes_on_gnome_on_amd/
 
-  home.file.".config/environment.d/99-mutter-no-rt.conf".text = ''
-    MUTTER_DEBUG_KMS_THREAD_TYPE=user;
-  '';
+  /*
+    home.file.".config/environment.d/99-mutter-no-rt.conf".text = ''
+      MUTTER_DEBUG_KMS_THREAD_TYPE=user;
+    '';
+  */
 
   # Additional Gnome configurations via home-manager.
   dconf.settings = {
