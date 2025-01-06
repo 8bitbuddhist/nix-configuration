@@ -245,7 +245,7 @@ in
         };
       };
       open-webui = {
-        home = "${services-root}/open-webui";
+        #home = "${services-root}/open-webui";
         enable = true;
         url = config.${namespace}.secrets.services.open-webui.url;
         ollama.enable = true;
