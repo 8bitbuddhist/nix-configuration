@@ -1,4 +1,3 @@
-# FIXME: Clean up
 {
   config,
   lib,
@@ -6,44 +5,41 @@
   ...
 }:
 let
-  cfg = config.${namespace}.services;
+  cfg = config.${namespace}.services.open-webui;
 
   api.port = 11434;
   webui.port = 8130;
-  user = "ollama";
-  group = "ollama";
+
+  ollamaUser = "ollama";
+  ollamaGroup = ollamaUser;
 in
 {
   options = {
-    ${namespace}.services = {
+    ${namespace}.services.open-webui = {
+      enable = lib.mkEnableOption "Enables Ollama.";
+      url = lib.mkOption {
+        default = "";
+        type = lib.types.str;
+        description = "The complete URL where Open-WebUI is hosted.";
+        example = "https://open-webui.example.com";
+      };
+      home = lib.mkOption {
+        default = "/var/lib/open-webui";
+        type = lib.types.str;
+        description = "Where to store Open-webUI's files";
+      };
       ollama = {
         enable = lib.mkEnableOption "Enables Ollama.";
         home = lib.mkOption {
-          default = "";
+          default = "/var/lib/ollama";
           type = lib.types.str;
           description = "Where to store Ollama's files";
-          example = "/var/lib/ollama";
-        };
-      };
-      open-webui = {
-        enable = lib.mkEnableOption "Enables Ollama.";
-        url = lib.mkOption {
-          default = "";
-          type = lib.types.str;
-          description = "The complete URL where Open-WebUI is hosted.";
-          example = "https://open-webui.example.com";
-        };
-        home = lib.mkOption {
-          default = "/var/lib/open-webui";
-          type = lib.types.str;
-          description = "Where to store Open-webUI's files";
-          example = "/var/lib/open-webui";
         };
       };
     };
   };
 
-  config = lib.mkIf cfg.ollama.enable {
+  config = lib.mkIf cfg.enable {
     services = {
       ollama = {
         enable = true;
@@ -57,11 +53,10 @@ in
             false;
         home = cfg.ollama.home;
         port = api.port;
-        user = user;
-        group = group;
+        user = ollamaUser;
       };
 
-      open-webui = lib.mkIf cfg.open-webui.enable {
+      open-webui = {
         enable = true;
         port = webui.port;
         environment = {
@@ -70,11 +65,11 @@ in
           SCARF_NO_ANALYTICS = "True";
           OLLAMA_BASE_URL = "http://127.0.0.1:${builtins.toString api.port}";
         };
-        stateDir = cfg.open-webui.home;
+        stateDir = cfg.home;
       };
 
-      nginx.virtualHosts."${cfg.open-webui.url}" = {
-        useACMEHost = lib.${namespace}.getDomainFromURI cfg.open-webui.url;
+      nginx.virtualHosts."${cfg.url}" = {
+        useACMEHost = lib.${namespace}.getDomainFromURI cfg.url;
         forceSSL = true;
         locations."/" = {
           proxyPass = "http://127.0.0.1:${builtins.toString webui.port}";
@@ -87,11 +82,11 @@ in
       ollama.unitConfig.RequiresMountsFor = cfg.ollama.home;
       open-webui = {
         serviceConfig = {
-          User = user;
-          Group = group;
+          User = ollamaUser;
+          Group = ollamaGroup;
         };
 
-        unitConfig.RequiresMountsFor = cfg.open-webui.home;
+        unitConfig.RequiresMountsFor = cfg.home;
         wants = [ config.systemd.services.ollama.name ];
       };
       nginx.wants = [ config.systemd.services.open-webui.name ];
