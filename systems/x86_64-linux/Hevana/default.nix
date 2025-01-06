@@ -244,6 +244,15 @@ in
           };
         };
       };
+      ollama = {
+        enable = true;
+        home = "${services-root}/ollama";
+      };
+      open-webui = {
+        #home = "${services-root}/open-webui";
+        enable = true;
+        url = config.${namespace}.secrets.services.open-webui.url;
+      };
       qbittorrent = {
         enable = true;
         home = "${services-root}/qbittorrent";
