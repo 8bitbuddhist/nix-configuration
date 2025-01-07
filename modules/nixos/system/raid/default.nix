@@ -50,6 +50,8 @@ in
           "nofail" # Keep booting even if the array fails to unlock
           "lazytime" # Reduce atime writes: https://wiki.archlinux.org/title/Fstab#atime_options
           "commit=60" # Increase commit interval to 60 seconds to reduce writes: https://wiki.archlinux.org/title/Ext4#Increasing_commit_interval
+          "data=journal" # Commit to the journal before writing to the filesystem.
+          "journal_async_commit"
         ];
       };
 
