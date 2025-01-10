@@ -30,6 +30,7 @@ in
         packages = [
           "gg.minion.Minion"
           "com.valvesoftware.Steam"
+          "com.valvesoftware.Steam.CompatibilityTool.Proton-GE"
           "org.firestormviewer.FirestormViewer"
         ];
       };
