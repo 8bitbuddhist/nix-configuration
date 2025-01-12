@@ -34,6 +34,8 @@ in
     editor = "nano";
 
     packages = with pkgs; [
+      btrfs-progs
+      cryptsetup
       libraspberrypi
       raspberrypifw
       raspberrypi-eeprom

@@ -37,6 +37,13 @@ in
 
         # Allow systemd services to run even while aires is logged out
         linger = true;
+
+        # Allow these systems to log into aires' account via SSH (if enabled on the host)
+        openssh.authorizedKeys.keys = with config.${namespace}.secrets.hosts; [
+          hevana.ssh.publicKey
+          khanda.ssh.publicKey
+          shura.ssh.publicKey
+        ];
       };
 
       groups."aires" = {
