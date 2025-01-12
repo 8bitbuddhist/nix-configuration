@@ -43,14 +43,14 @@ in
             "flakes"
           ];
 
-          # Set up secondary binary caches for Lix and Hevana
+          # Set up Hevana and Lix as secondary binary caches
           substituters = [
-            "https://cache.lix.systems"
             "https://${config.${namespace}.secrets.services.binary-cache.url}"
+            "https://cache.lix.systems"
           ];
           trusted-public-keys = [
-            "cache.lix.systems:aBnZUw8zA7H35Cz2RyKFVs3H4PlGTLawyY5KRbvJR8o="
             config.${namespace}.secrets.services.binary-cache.pubcert
+            "cache.lix.systems:aBnZUw8zA7H35Cz2RyKFVs3H4PlGTLawyY5KRbvJR8o="
           ];
 
           # Authentication for Hevana's binary cache

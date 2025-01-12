@@ -3,16 +3,25 @@
 {
   lib,
   modulesPath,
-  namespace,
   ...
 }:
 
 {
   imports = [ (modulesPath + "/installer/scan/not-detected.nix") ];
 
-  boot.loader = lib.mkForce {
-    grub.enable = false;
-    generic-extlinux-compatible.enable = true;
+  boot = {
+    # Enable audio devices
+    kernelParams = [
+      "snd_bcm2835.enable_hdmi=1"
+      "snd_bcm2835.enable_headphones=1"
+      "dtparam=audio=on"
+    ];
+
+    # Configure bootloader
+    loader = lib.mkForce {
+      grub.enable = false;
+      generic-extlinux-compatible.enable = true;
+    };
   };
 
   #boot.kernelParams = [
@@ -35,11 +44,9 @@
     enableRedistributableFirmware = true;
     raspberry-pi."4" = {
       apply-overlays-dtmerge.enable = true;
+      fkms-3d.enable = true; # Enable GPU
     };
 
-    deviceTree = {
-      enable = true;
-      filter = "*rpi-4-*.dtb";
-    };
+    deviceTree.enable = true;
   };
 }
