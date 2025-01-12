@@ -31,6 +31,11 @@
   fileSystems."/" = {
     device = "/dev/disk/by-uuid/44444444-4444-4444-8888-888888888888";
     fsType = "ext4";
+    options = [
+      "lazytime" # Reduce atime writes: https://wiki.archlinux.org/title/Fstab#atime_options
+      "data=journal" # Commit to the journal before writing to the filesystem.
+      "journal_async_commit"
+    ];
   };
 
   swapDevices = [
