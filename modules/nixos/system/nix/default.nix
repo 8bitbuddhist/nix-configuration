@@ -45,6 +45,7 @@ in
 
           # Set up Hevana and Lix as secondary binary caches
           substituters = [
+            "https://cache.nixos.org/"
             "https://${config.${namespace}.secrets.services.binary-cache.url}"
             "https://cache.lix.systems"
           ];
