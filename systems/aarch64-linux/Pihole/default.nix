@@ -37,7 +37,7 @@ let
         # Symlink @home files out into my actual home
         # See https://superuser.com/a/633610
 
-        ln -s sda/@home/* /home/aires
+        ln -s /sda/@home/* /home/aires
       else
         echo "Failed to mount @home"
       fi
