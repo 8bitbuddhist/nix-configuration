@@ -17,16 +17,12 @@
       "dtparam=audio=on"
     ];
 
-    # Configure bootloader
+    # Switch to a compatible bootloader
     loader = lib.mkForce {
       grub.enable = false;
       generic-extlinux-compatible.enable = true;
     };
   };
-
-  #boot.kernelParams = [
-  #	"console=serial0,115200n8"
-  #];
 
   fileSystems."/" = {
     device = "/dev/disk/by-uuid/44444444-4444-4444-8888-888888888888";
@@ -37,13 +33,6 @@
       "journal_async_commit"
     ];
   };
-
-  swapDevices = [
-    {
-      device = "/swapfile";
-      size = 2048;
-    }
-  ];
 
   hardware = {
     enableRedistributableFirmware = true;
