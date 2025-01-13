@@ -73,6 +73,9 @@ in
     };
   };
 
+  # Disable smartd: daemon fails when it doesn't detect any drives to monitor on startup
+  services.smartd.enable = lib.mkForce false;
+
   ${namespace} = {
     bootloader.enable = false; # Bootloader configured in hardware-configuration.nix
 
