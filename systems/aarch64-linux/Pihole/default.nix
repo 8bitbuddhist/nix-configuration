@@ -21,9 +21,6 @@ let
       exit 1
     fi
 
-    # Immediately exit on any errors
-    set -e
-
     # local storage partition
     echo "Unlocking storage partition:"
     cryptsetup luksOpen /dev/disk/by-uuid/b09893d7-cc1f-4482-bf7a-126d03923b45 sda
