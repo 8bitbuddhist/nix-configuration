@@ -58,7 +58,7 @@
         upgrade = "nos --update";
       };
       loginExtra = ''
-        fastfetch --memory-percent-green 75 --memory-percent-yellow 90
+        fastfetch --memory-percent-green 75 --memory-percent-yellow 90 --localip-show-ipv6
       '';
     };
   };

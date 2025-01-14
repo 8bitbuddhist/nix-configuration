@@ -254,15 +254,7 @@ in
         enable = true;
         home = "${services-root}/qbittorrent";
         url = config.${namespace}.secrets.services.qbittorrent.url;
-        port = "8090";
-        vpn = {
-          enable = true;
-          privateKey = config.${namespace}.secrets.services.protonvpn.privateKey;
-          countries = [
-            "Switzerland"
-            "Netherlands"
-          ];
-        };
+        port = 8090;
       };
       ssh = {
         enable = true;
@@ -291,6 +283,15 @@ in
           cores = 3;
           ram = 4096;
         };
+      };
+      vpn = {
+        enable = true;
+        privateKey = config.${namespace}.secrets.services.protonvpn.privateKey;
+        countries = [
+          "Switzerland"
+          "Netherlands"
+        ];
+        port = config.${namespace}.services.qbittorrent.port;
       };
     };
 

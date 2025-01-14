@@ -1,7 +1,6 @@
 {
   config,
   lib,
-  pkgs,
   namespace,
   ...
 }:
@@ -27,8 +26,8 @@ in
         example = "https://qbittorrent.example.com";
       };
       port = lib.mkOption {
-        type = lib.types.str;
-        default = "8080";
+        type = lib.types.int;
+        default = 8080;
         description = "The port to host qBittorrent on.";
       };
       user = lib.mkOption {
@@ -41,18 +40,6 @@ in
         default = "qbittorrent";
         description = "Group under which qBittorrent runs.";
       };
-      vpn = {
-        enable = lib.mkEnableOption "Enables a VPN.";
-        privateKey = lib.mkOption {
-          type = lib.types.str;
-          description = "Wireguard private key.";
-        };
-        countries = lib.mkOption {
-          type = lib.types.listOf lib.types.str;
-          description = "List of countries to base the VPN out of.";
-          default = [ "Netherlands" ];
-        };
-      };
     };
   };
 
@@ -62,7 +49,7 @@ in
         useACMEHost = lib.${namespace}.getDomainFromURI cfg.url;
         forceSSL = true;
         locations."/" = {
-          proxyPass = "http://127.0.0.1:${cfg.port}";
+          proxyPass = "http://127.0.0.1:${builtins.toString cfg.port}";
           extraConfig = ''
             proxy_set_header   X-Real-IP $remote_addr;
             proxy_set_header   X-Forwarded-Host $host;
@@ -73,42 +60,25 @@ in
       };
     };
 
-    virtualisation = {
-      podman.autoPrune.enable = true;
-      oci-containers.containers = {
-        qbittorrent = {
-          image = "lscr.io/linuxserver/qbittorrent:latest";
-          environment = {
-            PUID = (builtins.toString UID);
-            PGID = (builtins.toString GID);
-            WEBUI_PORT = "${cfg.port}";
-          };
-          volumes = [
-            "${cfg.home}:/config"
-            "${cfg.home}/qBittorrent/downloads:/downloads"
-          ];
-          # Forward ports to gluetun if VPN is enabled. Otherwise, open ports directly
-          extraOptions = lib.mkIf cfg.vpn.enable [ "--network=container:gluetun" ];
-          dependsOn = lib.mkIf cfg.vpn.enable [ "gluetun" ];
-          ports = lib.mkIf (!cfg.vpn.enable) [ "${cfg.port}:${cfg.port}" ];
-        };
+    ${namespace}.services.virtualization.containers.enable = true;
 
-        gluetun = lib.mkIf cfg.vpn.enable {
-          image = "qmcgaw/gluetun:v3";
-          extraOptions = [
-            "--cap-add=NET_ADMIN"
-            "--device=/dev/net/tun"
-          ];
-          environment = {
-            VPN_SERVICE_PROVIDER = "protonvpn";
-            VPN_TYPE = "wireguard";
-            WIREGUARD_PRIVATE_KEY = config.${namespace}.secrets.services.protonvpn.privateKey;
-            SERVER_COUNTRIES = (lib.strings.concatStringsSep "," cfg.vpn.countries);
-            TZ = "America/New_York";
-          };
-          ports = [ "${cfg.port}:${cfg.port}" ];
-        };
+    virtualisation.oci-containers.containers.qbittorrent = {
+      image = "lscr.io/linuxserver/qbittorrent:latest";
+      environment = {
+        PUID = (builtins.toString UID);
+        PGID = (builtins.toString GID);
+        WEBUI_PORT = "${builtins.toString cfg.port}";
       };
+      volumes = [
+        "${cfg.home}:/config"
+        "${cfg.home}/qBittorrent/downloads:/downloads"
+      ];
+      # Forward ports to gluetun if VPN is enabled. Otherwise, open ports directly
+      extraOptions = lib.mkIf config.${namespace}.services.vpn.enable [ "--network=container:gluetun" ];
+      dependsOn = lib.mkIf config.${namespace}.services.vpn.enable [ "gluetun" ];
+      ports = lib.mkIf (!config.${namespace}.services.vpn.enable) [
+        "${builtins.toString cfg.port}:${builtins.toString cfg.port}"
+      ];
     };
 
     users = {
