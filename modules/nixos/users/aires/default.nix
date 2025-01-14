@@ -42,6 +42,7 @@ in
         openssh.authorizedKeys.keys = with config.${namespace}.secrets.hosts; [
           hevana.ssh.publicKey
           khanda.ssh.publicKey
+          pihole.ssh.publicKey
           shura.ssh.publicKey
         ];
       };

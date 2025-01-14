@@ -27,19 +27,14 @@ let
 
     # mount local storage
     if [ ! -f /dev/mapper/sda ]; then
-      echo "Mounting and symlinking home:"
+      echo "Mounting home:"
       mount -o relatime /dev/mapper/sda /sda
 
-      if [ $? -eq "0" ]; then
-        # Symlink @home files out into my actual home
-        # See https://superuser.com/a/633610
-
-        ln -s /sda/@home/* /home/aires
-      else
+      if [ $? -ne "0" ]; then
         echo "Failed to mount @home"
       fi
 
-      echo "Mounting and symlinking swap:"
+      echo "Mounting swap:"
       mount -o subvol=@swap,noatime /dev/mapper/sda /swap
 
       if [ $? -eq "0" ]; then
