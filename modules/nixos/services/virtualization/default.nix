@@ -14,6 +14,7 @@ in
   options = {
     ${namespace}.services.virtualization = {
       enable = lib.mkEnableOption "Enables virtualization tools on this host.";
+      containers.enable = lib.mkEnableOption "Enables containers via Podman on this host.";
       host = {
         enable = lib.mkEnableOption "Enables virtual machine hosting.";
         vmBuilds = {
@@ -36,6 +37,12 @@ in
 
   config = lib.mkMerge [
     { programs.virt-manager.enable = cfg.enable; }
+    (lib.mkIf cfg.containers.enable {
+      virtualisation.podman = {
+        enable = true;
+        autoPrune.enable = true;
+      };
+    })
     (lib.mkIf (cfg.host.enable || cfg.host.vmBuilds.enable) {
       virtualisation = {
         libvirtd = {

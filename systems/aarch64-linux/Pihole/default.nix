@@ -107,6 +107,14 @@ in
         enable = true;
         snowflake-proxy.enable = true;
       };
+      vpn = {
+        enable = true;
+        privateKey = config.${namespace}.secrets.services.protonvpn.privateKey;
+        countries = [
+          "Switzerland"
+          "Netherlands"
+        ];
+      };
     };
     users.aires.enable = true;
   };
