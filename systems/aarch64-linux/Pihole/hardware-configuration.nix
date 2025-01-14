@@ -1,8 +1,10 @@
 # Raspberry Pi 4B
 # See https://wiki.nixos.org/wiki/NixOS_on_ARM/Raspberry_Pi_4
 {
+  config,
   lib,
   modulesPath,
+  namespace,
   pkgs,
   ...
 }:
@@ -57,16 +59,7 @@
   # Configure Rclone
   environment = {
     systemPackages = [ pkgs.rclone ];
-    etc."rclone/hevana.conf".text = ''
-      [hevana]
-      type = sftp
-      host = hevana
-      user = aires
-      key_file = /home/aires/.ssh/Pihole-Private
-      vfs_cache_mode = writes
-      buffer_size = 64M
-      multi_thread_cutoff = 250M
-    '';
+    etc."rclone/hevana.conf".text = config.${namespace}.secrets.hosts.pihole.rclone-config;
   };
 
   hardware = {
