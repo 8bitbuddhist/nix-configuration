@@ -98,13 +98,12 @@ in
         certs = {
           "${config.${namespace}.secrets.networking.domains.primary}" = {
             dnsProvider = "porkbun";
-            extraDomainNames = [ "*.${config.${namespace}.secrets.networking.domains.primary}" ];
+            domain = "*.${config.${namespace}.secrets.networking.domains.primary}";
             webroot = null; # Required in order to prevent a failed assertion
             credentialFiles = porkbunCredentials;
           };
           "${config.${namespace}.secrets.networking.domains.blog}" = {
             dnsProvider = "porkbun";
-            extraDomainNames = [ "*.${config.${namespace}.secrets.networking.domains.blog}" ];
             webroot = null; # Required in order to prevent a failed assertion
             credentialFiles = porkbunCredentials;
           };
