@@ -1,6 +1,5 @@
 {
   config,
-  lib,
   pkgs,
   namespace,
   ...
@@ -23,22 +22,6 @@ let
       ${config.${namespace}.secrets.networking.porkbun.api.secretKey}
     ''}";
   };
-
-  /*
-    Add subdomains from enabled services to TLS certificate.
-    Checks for:
-
-      1. Services that aren't ACME
-      2. Services with the attribute "enable = true";
-  */
-  serviceList = lib.attrsets.collect (
-    x: x != "acme" && (lib.attrsets.matchAttrs { enable = true; } x)
-  ) config.${namespace}.services;
-  subdomains = (builtins.catAttrs "url" serviceList) ++ [
-    # Add any other URLs to include in the cert in this list
-    config.${namespace}.secrets.hosts.gremlin-lab.URI
-  ];
-
 in
 {
   imports = [ ./hardware-configuration.nix ];
@@ -46,25 +29,7 @@ in
   system.stateVersion = stateVersion;
   networking.hostName = hostName;
 
-  ###*** Configure your system below this line. ***###
-
   services = {
-    # Enable dynamic DNS with Porkbun
-    ddclient = {
-      enable = true;
-      configFile = pkgs.writeText "ddclient.conf" ''
-        use=web, web=checkip.dyndns.com/, web-skip='IP Address'
-        protocol=porkbun
-        apikey=${config.${namespace}.secrets.networking.porkbun.api.apiKey}
-        secretapikey=${config.${namespace}.secrets.networking.porkbun.api.secretKey}
-        *.${config.${namespace}.secrets.networking.domains.primary},*.${
-          config.${namespace}.secrets.networking.domains.blog
-        }
-        cache=/tmp/ddclient.cache
-        pid=/var/run/ddclient.pid
-      '';
-    };
-
     # Monitor RAID drives using SMART
     smartd.devices = [
       { device = "/dev/sda"; }
@@ -125,18 +90,21 @@ in
     };
 
     services = {
+      # FIXME: Try configuring services to use Unix sockets instead of IP addresses...again
+      #   https://search.nixos.org/options?channel=24.11&show=services.nginx.upstreams&query=nginx+upstream
       acme = {
         enable = true;
         defaultEmail = config.${namespace}.secrets.users.aires.email;
         certs = {
           "${config.${namespace}.secrets.networking.domains.primary}" = {
             dnsProvider = "porkbun";
-            extraDomainNames = subdomains;
+            extraDomainNames = [ "*.${config.${namespace}.secrets.networking.domains.primary}" ];
             webroot = null; # Required in order to prevent a failed assertion
             credentialFiles = porkbunCredentials;
           };
           "${config.${namespace}.secrets.networking.domains.blog}" = {
             dnsProvider = "porkbun";
+            extraDomainNames = [ "*.${config.${namespace}.secrets.networking.domains.blog}" ];
             webroot = null; # Required in order to prevent a failed assertion
             credentialFiles = porkbunCredentials;
           };
@@ -162,10 +130,6 @@ in
           password = config.${namespace}.secrets.services.binary-cache.auth.password;
         };
       };
-      boinc = {
-        enable = false;
-        home = "${services-root}/boinc";
-      };
       duplicacy-web = {
         enable = true;
         home = "/storage/backups/settings/Haven";
@@ -184,8 +148,10 @@ in
         enable = true;
         url = config.${namespace}.secrets.services.languagetool.url;
         port = 8100;
-        auth.user = config.${namespace}.secrets.services.languagetool.auth.user;
-        auth.password = config.${namespace}.secrets.services.languagetool.auth.password;
+        auth = {
+          user = config.${namespace}.secrets.services.languagetool.auth.user;
+          password = config.${namespace}.secrets.services.languagetool.auth.password;
+        };
         ngrams.enable = true;
       };
       msmtp = {
@@ -228,11 +194,13 @@ in
               return = "301 https://${config.${namespace}.secrets.services.forgejo.url}";
             };
           };
+          # Personal blog website
           "${config.${namespace}.secrets.networking.domains.blog}" = {
             useACMEHost = config.${namespace}.secrets.networking.domains.blog;
             forceSSL = true;
             root = "${services-root}/nginx/sites/${config.${namespace}.secrets.networking.domains.blog}";
           };
+          # Work lab VM
           "${config.${namespace}.secrets.hosts.gremlin-lab.URI}" = {
             useACMEHost = config.${namespace}.secrets.networking.domains.primary;
             forceSSL = true;
