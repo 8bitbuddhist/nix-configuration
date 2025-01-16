@@ -17,6 +17,9 @@
 
     # Create .face file
     file.".face".source = ./face.png;
+
+    # Copy fastfetch config
+    file.".config/fastfetch/config.jsonc".source = ./fastfetch-config.jsonc;
   };
 
   programs = {
