@@ -24,6 +24,10 @@ in
             "bridge"
           ];
         };
+        ORPort = lib.mkOption {
+          type = lib.types.str;
+          description = "The port (or IP:port) to bind the Tor relay to.";
+        };
       };
       # For details, see https://wiki.nixos.org/wiki/Tor#Advanced
       settings = lib.mkOption {

@@ -28,6 +28,7 @@
         enable = true;
         plugins = [
           "command-not-found"
+          "cp"
           "direnv"
           "dotenv"
           "extract"

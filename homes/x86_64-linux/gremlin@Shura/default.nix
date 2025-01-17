@@ -1,5 +1,4 @@
 {
-  config,
   namespace,
   osConfig,
   pkgs,
@@ -18,18 +17,13 @@
     # The state version is required and should stay at the version you originally installed.
     stateVersion = "24.05";
 
-    # Set environment variables
-    sessionVariables = {
-      KUBECONFIG = "/home/gremlin/.kube/config";
-    };
-
     # Install packages specific to Gremlin
-    packages = [
-      pkgs.awscli2
-      pkgs.unstable.figma-linux
+    packages = with pkgs; [
+      awscli2
+      unstable.figma-linux
     ];
 
-    # Create .face file
+    # User account image
     file.".face".source = ./face.png;
   };
 
@@ -43,11 +37,12 @@
       matchBlocks = osConfig.${namespace}.secrets.users.gremlin.sshConfig;
     };
 
-    # Set up Zsh
-    zsh = {
-      oh-my-zsh = {
-        theme = "gnzh";
-      };
+    # Tweak Zsh for Gremlin
+    zsh.oh-my-zsh = {
+      plugins = [
+        "aws"
+      ];
+      theme = "gnzh";
     };
   };
 }
