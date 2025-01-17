@@ -19,6 +19,7 @@
     file = {
       # fastfetch config
       ".config/fastfetch/config.jsonc".source = ./fastfetch-config.jsonc;
+      ".config/fastfetch/logo.txt".source = ./lion_ascii_smol.txt;
 
       # User account image
       ".face".source = ./face.png;
