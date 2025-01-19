@@ -10,6 +10,12 @@
     nixpkgs.url = "github:nixos/nixpkgs/nixos-24.11";
     nixpkgs-unstable.url = "github:nixos/nixpkgs/nixos-unstable";
 
+    # Blocklist for AI bots
+    ai-blocklist = {
+      url = "github:ai-robots-txt/ai.robots.txt";
+      flake = false;
+    };
+
     # Flatpak support
     flatpak.url = "github:gmodena/nix-flatpak/latest";
 

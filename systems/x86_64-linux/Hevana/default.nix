@@ -1,5 +1,6 @@
 {
   config,
+  inputs,
   pkgs,
   namespace,
   ...
@@ -21,6 +22,18 @@ let
     "PORKBUN_SECRET_API_KEY_FILE" = "${pkgs.writeText "porkbun-secret-api-key" ''
       ${config.${namespace}.secrets.networking.porkbun.api.secretKey}
     ''}";
+  };
+
+  # Block list for Nginx
+  nginxBlocklist = {
+    locations."/robots.txt" = {
+      alias = "${inputs.ai-blocklist}/robots.txt";
+    };
+    extraConfig = ''
+      if ($http_user_agent ~* "(${builtins.readFile "${inputs.ai-blocklist}/robots.txt"})") {
+        return 444;
+      }
+    '';
   };
 in
 {
@@ -192,13 +205,13 @@ in
               # Catchall vhost, will redirect users to Forgejo
               return = "301 https://${config.${namespace}.secrets.services.forgejo.url}";
             };
-          };
+          } // nginxBlocklist;
           # Personal blog website
           "${config.${namespace}.secrets.networking.domains.blog}" = {
             useACMEHost = config.${namespace}.secrets.networking.domains.blog;
             forceSSL = true;
             root = "${services-root}/nginx/sites/${config.${namespace}.secrets.networking.domains.blog}";
-          };
+          } // nginxBlocklist;
           # Work lab VM
           "${config.${namespace}.secrets.hosts.gremlin-lab.URI}" = {
             useACMEHost = config.${namespace}.secrets.networking.domains.primary;
