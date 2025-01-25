@@ -186,7 +186,7 @@ in
         };
       };
       netdata = {
-        enable = true;
+        enable = false;
         type = "parent";
         url = config.${namespace}.secrets.services.netdata.url;
         auth = {
