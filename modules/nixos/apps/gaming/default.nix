@@ -31,6 +31,7 @@ in
           "gg.minion.Minion"
           "com.valvesoftware.Steam"
           "com.valvesoftware.Steam.CompatibilityTool.Proton-GE"
+          "io.github.lime3ds.Lime3DS"
           "org.firestormviewer.FirestormViewer"
         ];
       };
