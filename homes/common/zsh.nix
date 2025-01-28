@@ -24,6 +24,9 @@
           };
         }
       ];
+      sessionVariables = {
+        NIX_AUTO_RUN = true;
+      };
       oh-my-zsh = {
         enable = true;
         plugins = [

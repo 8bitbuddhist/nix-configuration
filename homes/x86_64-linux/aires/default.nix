@@ -18,8 +18,8 @@
     # Copy files ~/
     file = {
       # fastfetch config
-      ".config/fastfetch/config.jsonc".source = ./fastfetch-config.jsonc;
-      ".config/fastfetch/logo.txt".source = ./lion_ascii_smol.txt;
+      ".config/fastfetch/config.jsonc".source = ./fastfetch/fastfetch-config.jsonc;
+      ".config/fastfetch/logo.txt".source = ./fastfetch/lion_ascii_smol.txt;
 
       # User account image
       ".face".source = ./face.png;
