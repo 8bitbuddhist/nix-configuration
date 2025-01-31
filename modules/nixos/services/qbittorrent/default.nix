@@ -62,23 +62,31 @@ in
 
     ${namespace}.services.virtualization.containers.enable = true;
 
-    virtualisation.oci-containers.containers.qbittorrent = {
-      image = "lscr.io/linuxserver/qbittorrent:latest";
-      environment = {
-        PUID = (builtins.toString UID);
-        PGID = (builtins.toString GID);
-        WEBUI_PORT = "${builtins.toString cfg.port}";
+    virtualisation.oci-containers.containers = {
+      qbittorrent = {
+        image = "lscr.io/linuxserver/qbittorrent:latest";
+        environment = {
+          PUID = (builtins.toString UID);
+          PGID = (builtins.toString GID);
+          WEBUI_PORT = "${builtins.toString cfg.port}";
+        };
+        volumes = [
+          "${cfg.home}:/config"
+          "${cfg.home}/qBittorrent/downloads:/downloads"
+        ];
+        # Forward ports to gluetun if VPN is enabled. Otherwise, open ports directly
+        extraOptions = lib.mkIf config.${namespace}.services.vpn.enable [ "--network=container:gluetun" ];
+        dependsOn = lib.mkIf config.${namespace}.services.vpn.enable [ "gluetun" ];
+        ports = lib.mkIf (!config.${namespace}.services.vpn.enable) [
+          "${builtins.toString cfg.port}:${builtins.toString cfg.port}"
+        ];
       };
-      volumes = [
-        "${cfg.home}:/config"
-        "${cfg.home}/qBittorrent/downloads:/downloads"
-      ];
-      # Forward ports to gluetun if VPN is enabled. Otherwise, open ports directly
-      extraOptions = lib.mkIf config.${namespace}.services.vpn.enable [ "--network=container:gluetun" ];
-      dependsOn = lib.mkIf config.${namespace}.services.vpn.enable [ "gluetun" ];
-      ports = lib.mkIf (!config.${namespace}.services.vpn.enable) [
-        "${builtins.toString cfg.port}:${builtins.toString cfg.port}"
-      ];
+
+      # Allow Gluetun to update qBittorrent when the VPN port changes.
+      # See https://github.com/qdm12/gluetun-wiki/blob/main/setup/advanced/vpn-port-forwarding.md#qbittorrent-example
+      gluetun.environment = lib.mkIf config.${namespace}.services.vpn.enable {
+        VPN_PORT_FORWARDING_UP_COMMAND = "/bin/sh -c 'wget -O- --retry-connrefused --post-data \"json={\"listen_port\":{{PORTS}}}\" http://127.0.0.1:${builtins.toString cfg.port}/api/v2/app/setPreferences 2>&1'";
+      };
     };
 
     users = {
