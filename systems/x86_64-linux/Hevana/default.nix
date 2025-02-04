@@ -128,6 +128,7 @@ in
       };
       archiveteam-warrior = {
         enable = true;
+        useVPN = true;
         home = "${services-root}/archiveteam-warrior";
         port = 8001;
       };

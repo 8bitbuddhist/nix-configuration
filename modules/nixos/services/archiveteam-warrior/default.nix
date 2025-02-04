@@ -16,6 +16,7 @@ in
   options = {
     ${namespace}.services.archiveteam-warrior = {
       enable = lib.mkEnableOption "Enables Warrior.";
+      useVPN = lib.mkEnableOption "Sends traffic from Warrior through Gluetun.";
       home = lib.mkOption {
         default = "/var/lib/archiveteam/warrior";
         type = lib.types.str;
@@ -54,17 +55,26 @@ in
 
     virtualisation.oci-containers.containers = {
       archiveteam-warrior = {
-        image = "atdr.meo.ws/archiveteam/warrior-dockerfile";
+        image = "atdr.meo.ws/archiveteam/warrior-dockerfile:latest";
         user = "${builtins.toString UID}:${builtins.toString GID}";
         volumes = [
           "${cfg.home}/data:/home/warrior/data"
           "${cfg.home}/projects:/home/warrior/projects"
         ];
-        extraOptions = [ "--label=io.containers.autoupdate=registry" ];
-        ports = lib.mkIf (cfg.port > 0) [
+        extraOptions = [
+          "--label=io.containers.autoupdate=registry"
+          (lib.mkIf config.${namespace}.services.vpn.enable "--network=container:gluetun")
+        ];
+        dependsOn = lib.mkIf config.${namespace}.services.vpn.enable [ "gluetun" ];
+        ports = lib.mkIf (cfg.port > 0 && !config.${namespace}.services.vpn.enable) [
           "8001:${builtins.toString cfg.port}"
         ];
       };
+
+      # Open port in Gluetun if we're using it
+      gluetun.ports = lib.mkIf config.${namespace}.services.vpn.enable [
+        "8001:${builtins.toString cfg.port}"
+      ];
     };
 
     systemd = {
