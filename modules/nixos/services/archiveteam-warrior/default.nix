@@ -67,13 +67,13 @@ in
         ];
         dependsOn = lib.mkIf config.${namespace}.services.vpn.enable [ "gluetun" ];
         ports = lib.mkIf (cfg.port > 0 && !config.${namespace}.services.vpn.enable) [
-          "8001:${builtins.toString cfg.port}"
+          "127.0.0.1:8001:${builtins.toString cfg.port}"
         ];
       };
 
       # Open port in Gluetun if we're using it
       gluetun.ports = lib.mkIf config.${namespace}.services.vpn.enable [
-        "8001:${builtins.toString cfg.port}"
+        "127.0.0.1:8001:${builtins.toString cfg.port}"
       ];
     };
 

@@ -44,7 +44,9 @@ in
         SERVER_COUNTRIES = (lib.strings.concatStringsSep "," cfg.countries);
         TZ = "America/New_York";
       };
-      ports = lib.mkIf (cfg.port > 0) [ "${builtins.toString cfg.port}:${builtins.toString cfg.port}" ];
+      ports = lib.mkIf (cfg.port > 0) [
+        "127.0.0.1:${builtins.toString cfg.port}:${builtins.toString cfg.port}"
+      ];
     };
   };
 }

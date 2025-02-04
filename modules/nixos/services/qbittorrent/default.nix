@@ -78,7 +78,7 @@ in
         extraOptions = lib.mkIf config.${namespace}.services.vpn.enable [ "--network=container:gluetun" ];
         dependsOn = lib.mkIf config.${namespace}.services.vpn.enable [ "gluetun" ];
         ports = lib.mkIf (!config.${namespace}.services.vpn.enable) [
-          "${builtins.toString cfg.port}:${builtins.toString cfg.port}"
+          "127.0.0.1:${builtins.toString cfg.port}:${builtins.toString cfg.port}"
         ];
       };
 
