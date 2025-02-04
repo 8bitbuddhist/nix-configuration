@@ -44,6 +44,7 @@ in
 
     users = {
       users.${cfg.user} = {
+        uid = UID;
         description = "ArchiveTeam Warrior user";
         isSystemUser = true;
         group = cfg.group;
