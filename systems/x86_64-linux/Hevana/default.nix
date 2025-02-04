@@ -126,6 +126,11 @@ in
         enable = true;
         configText = builtins.readFile ./etc/apcupsd.conf;
       };
+      archiveteam-warrior = {
+        enable = true;
+        home = "${services-root}/archiveteam-warrior";
+        port = 8001;
+      };
       autoUpgrade = {
         enable = true;
         pushUpdates = true; # Update automatically and push updates back up to Forgejo
