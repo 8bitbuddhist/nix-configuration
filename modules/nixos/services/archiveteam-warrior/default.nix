@@ -57,7 +57,8 @@ in
         image = "atdr.meo.ws/archiveteam/warrior-dockerfile";
         user = "${builtins.toString UID}:${builtins.toString GID}";
         volumes = [
-          "${cfg.home}:/home/warrior/projects"
+          "${cfg.home}/data:/home/warrior/data"
+          "${cfg.home}/projects:/home/warrior/projects"
         ];
         extraOptions = [ "--label=io.containers.autoupdate=registry" ];
         ports = lib.mkIf (cfg.port > 0) [
