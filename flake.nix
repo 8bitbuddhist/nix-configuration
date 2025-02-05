@@ -98,6 +98,10 @@
 
       # Define nix-on-droid
       nixOnDroidConfigurations.default = inputs.nix-on-droid.lib.nixOnDroidConfiguration {
+        # Pass Snowfall args into nix-on-droid
+        extraSpecialArgs = {
+          namespace = lib.snowfall.namespace;
+        };
         pkgs = import inputs.nixpkgs-2405 {
           system = "aarch64-linux";
         };
