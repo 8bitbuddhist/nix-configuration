@@ -107,7 +107,7 @@
         };
         modules = [
           ./modules/nixos/secrets
-          ./systems/aarch64-linux/Skadi
+          ./nix-on-droid/Skadi
           {
             environment.packages = with inputs.nixdroidpkgs.packages.aarch64-linux; [
               termux-auth

@@ -1,6 +1,11 @@
-{ config, namespace, pkgs, ...}:
 {
-  nix ={
+  config,
+  namespace,
+  pkgs,
+  ...
+}:
+{
+  nix = {
     settings = {
       # Enable Flakes
       experimental-features = [

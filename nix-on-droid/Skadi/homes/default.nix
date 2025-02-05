@@ -1,6 +1,5 @@
 {
-  namespace,
-  osConfig,
+  secrets,
   pkgs,
   ...
 }:
@@ -27,8 +26,8 @@
 
     git = {
       enable = true;
-      userName = osConfig.${namespace}.secrets.users.aires.firstName;
-      userEmail = osConfig.${namespace}.secrets.users.aires.email;
+      userName = secrets.users.aires.firstName;
+      userEmail = secrets.users.aires.email;
       merge.conflictStyle = "zdiff3";
       pull.ff = "only";
       push.autoSetupRemote = "true";
@@ -37,7 +36,7 @@
     # Set up SSH
     ssh = {
       enable = true;
-      matchBlocks = osConfig.${namespace}.secrets.users.aires.sshConfig;
+      matchBlocks = secrets.users.aires.sshConfig;
     };
 
     zsh = {

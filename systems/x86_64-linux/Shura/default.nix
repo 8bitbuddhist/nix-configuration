@@ -1,5 +1,6 @@
 {
   config,
+  lib,
   options,
   namespace,
   pkgs,
@@ -40,8 +41,6 @@ in
       secureboot.enable = true;
       tpm2.enable = true;
     };
-
-    custom-fonts.Freight-Pro.enable = config.${namespace}.users.gremlin.enable;
 
     # Change the default text editor. Options are "emacs", "nano", or "vim".
     editor = "nano";
@@ -109,6 +108,10 @@ in
     device = "/home/aires/Documents/Notes";
     options = [ "bind" ];
   };
+
+  fonts.packages = lib.mkIf config.${namespace}.users.gremlin.enable [
+    pkgs.${namespace}.freight-pro
+  ];
 
   systemd.tmpfiles.rules = [
     # Use gremlin user's monitor config for GDM (defined above)

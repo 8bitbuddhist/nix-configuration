@@ -1,5 +1,7 @@
 {
+  config,
   lib,
+  namespace,
   pkgs,
   ...
 }:
@@ -47,7 +49,7 @@
     ];
     # Backup etc files instead of failing to activate generation if a file already exists in /etc
     etcBackupExtension = ".bak";
-    variables."EDITOR" = "nano";
+    sessionVariables."EDITOR" = "nano";
   };
 
   # Read the changelog before changing this value
@@ -59,6 +61,9 @@
   home-manager = {
     backupFileExtension = "home-manager.bak";
     useGlobalPkgs = true;
+    extraSpecialArgs = {
+      secrets = config.${namespace}.secrets;
+    };
     config = ./homes;
   };
 
