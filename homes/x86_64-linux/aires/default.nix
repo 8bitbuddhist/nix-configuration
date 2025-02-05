@@ -33,6 +33,7 @@
     # Set up SSH
     ssh = {
       enable = true;
+      compression = true;
       matchBlocks = osConfig.${namespace}.secrets.users.aires.sshConfig;
     };
 
