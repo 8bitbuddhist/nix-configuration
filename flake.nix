@@ -106,6 +106,7 @@
           system = "aarch64-linux";
         };
         modules = [
+          ./modules/nixos/secrets
           ./systems/aarch64-linux/Skadi
           {
             environment.packages = with inputs.nixdroidpkgs.packages.aarch64-linux; [

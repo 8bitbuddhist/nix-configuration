@@ -1,6 +1,6 @@
 {
-  config,
-  lib,
+  namespace,
+  osConfig,
   pkgs,
   ...
 }:
@@ -24,6 +24,21 @@
   # insert home-manager config
   programs = {
     command-not-found.enable = true;
+
+    git = {
+      enable = true;
+      userName = osConfig.${namespace}.secrets.users.aires.firstName;
+      userEmail = osConfig.${namespace}.secrets.users.aires.email;
+      merge.conflictStyle = "zdiff3";
+      pull.ff = "only";
+      push.autoSetupRemote = "true";
+    };
+
+    # Set up SSH
+    ssh = {
+      enable = true;
+      matchBlocks = osConfig.${namespace}.secrets.users.aires.sshConfig;
+    };
 
     zsh = {
       enable = true;
@@ -57,6 +72,11 @@
           "git"
           "systemd"
         ];
+      };
+      shellAliases = {
+        z = "zellij";
+        update = "upgrade";
+        upgrade = "nix-on-droid switch --flake ~/nix-configuration";
       };
     };
   };
