@@ -51,6 +51,20 @@
       url = "github:numtide/treefmt-nix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    # Support for nix-on-droid
+    nixpkgs-2405.url = "github:nixos/nixpkgs/nixos-24.05";
+    nix-on-droid = {
+      url = "github:nix-community/nix-on-droid/release-24.05";
+      inputs.nixpkgs.follows = "nixpkgs-2405";
+    };
+
+    # Extra packages for nix-on-droid
+    nixdroidpkgs = {
+      url = "github:horriblename/nixdroidpkgs";
+      inputs.nixpkgs.follows = "nixpkgs-2405";
+    };
+
   };
 
   outputs =
@@ -82,7 +96,23 @@
       # Allow unfree packages in Nix config
       channels-config.allowUnfree = true;
 
-      # Define systems
+      # Define nix-on-droid
+      nixOnDroidConfigurations.default = inputs.nix-on-droid.lib.nixOnDroidConfiguration {
+        pkgs = import inputs.nixpkgs-2405 {
+          system = "aarch64-linux";
+        };
+        modules = [
+          ./systems/aarch64-linux/Skadi
+          {
+            environment.packages = with inputs.nixdroidpkgs.packages.aarch64-linux; [
+              termux-auth
+              #openssh # Unable to build due to outdated patches
+            ];
+          }
+        ];
+      };
+
+      # Define NixOS systems
       systems = {
         # Modules to import for all systems
         modules.nixos = with inputs; [
