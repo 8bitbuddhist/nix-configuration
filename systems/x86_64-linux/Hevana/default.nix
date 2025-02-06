@@ -131,6 +131,13 @@ in
         useVPN = true;
         home = "${services-root}/archiveteam-warrior";
         port = 8001;
+        config.${namespace}.secrets.users.common.sshConfig."hevana".localForwards =
+          with config.${namespace}.services.archiveteam-warrior; [
+            {
+              bind.port = port;
+              host.port = port;
+            }
+          ];
       };
       autoUpgrade = {
         enable = true;
@@ -151,6 +158,13 @@ in
       duplicacy-web = {
         enable = true;
         home = "/storage/backups/settings/Haven";
+        config.${namespace}.secrets.users.common.sshConfig."hevana".localForwards =
+          with config.${namespace}.services.duplicacy-web; [
+            {
+              bind.port = port;
+              host.port = port;
+            }
+          ];
       };
       forgejo = {
         enable = true;

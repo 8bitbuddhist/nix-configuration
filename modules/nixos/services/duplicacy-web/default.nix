@@ -18,13 +18,18 @@ in
         type = lib.types.str;
         description = "Environment where duplicacy-web stores its config files";
       };
+      port = lib.mkOption {
+        default = 3875;
+        type = lib.types.int;
+        description = "The port to host duplicacy-web on.";
+      };
     };
   };
 
   config = lib.mkIf cfg.enable {
     environment.systemPackages = [ pkgs.${namespace}.duplicacy-web ];
 
-    networking.firewall.allowedTCPPorts = [ 3875 ];
+    networking.firewall.allowedTCPPorts = [ cfg.port ];
 
     # Install systemd service.
     systemd.services.duplicacy-web = {
