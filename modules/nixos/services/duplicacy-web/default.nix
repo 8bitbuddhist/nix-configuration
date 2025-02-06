@@ -29,8 +29,6 @@ in
   config = lib.mkIf cfg.enable {
     environment.systemPackages = [ pkgs.${namespace}.duplicacy-web ];
 
-    networking.firewall.allowedTCPPorts = [ cfg.port ];
-
     # Install systemd service.
     systemd.services.duplicacy-web = {
       enable = true;
