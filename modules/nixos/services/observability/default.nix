@@ -71,17 +71,6 @@ in
           }
         ];
       };
-      # Promtail sends logs into Loki
-      promtail = {
-        description = "Promtail service for Loki";
-        wantedBy = [ "multi-user.target" ];
-
-        serviceConfig = {
-          ExecStart = ''
-            ${pkgs.grafana-loki}/bin/promtail --config.file ${./promtail.yaml}
-          '';
-        };
-      };
 
       nginx.virtualHosts."${cfg.url}" = {
         useACMEHost = lib.${namespace}.getDomainFromURI cfg.url;
@@ -93,6 +82,19 @@ in
       };
     };
 
-    systemd.services.nginx.wants = [ config.systemd.services.monit.name ];
+    systemd.services = {
+      nginx.wants = [ config.systemd.services.monit.name ];
+      # Promtail sends logs into Loki
+      promtail = {
+        description = "Promtail service for Loki";
+        wantedBy = [ "multi-user.target" ];
+
+        serviceConfig = {
+          ExecStart = ''
+            ${pkgs.grafana-loki}/bin/promtail --config.file ${./promtail.yaml}
+          '';
+        };
+      };
+    };
   };
 }
