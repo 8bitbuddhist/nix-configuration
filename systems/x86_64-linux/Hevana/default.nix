@@ -191,16 +191,6 @@ in
           mode = "0644";
         };
       };
-      netdata = {
-        enable = false;
-        type = "parent";
-        url = config.${namespace}.secrets.services.netdata.url;
-        auth = {
-          user = config.users.users.aires.name;
-          password = config.${namespace}.secrets.services.netdata.password;
-          apiKey = config.${namespace}.secrets.services.netdata.apiKey;
-        };
-      };
       nginx = {
         enable = true;
         virtualHosts = {
@@ -229,6 +219,11 @@ in
             };
           };
         };
+      };
+      observability = {
+        enable = false;
+        url = config.${namespace}.secrets.services.netdata.url;
+        grafana.home = "${services-root}/observability/grafana";
       };
       open-webui = {
         #home = "${services-root}/open-webui";
