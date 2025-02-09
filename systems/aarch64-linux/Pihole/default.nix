@@ -109,7 +109,10 @@ in
       };
       vpn = {
         enable = true;
-        privateKey = config.${namespace}.secrets.services.protonvpn.privateKey;
+        auth = with config.${namespace}.secrets.services.private-internet-access.auth; {
+          user = user;
+          password = password;
+        };
         countries = [
           "Switzerland"
           "Netherlands"

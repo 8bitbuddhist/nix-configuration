@@ -35,7 +35,6 @@ in
           type = lib.types.str;
           description = "The username to use for basic auth.";
         };
-
       };
     };
   };
