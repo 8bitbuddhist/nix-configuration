@@ -1,7 +1,5 @@
 # Sets up an observability stack with Prometheus, Grafana, and Loki
 # Follows https://xeiaso.net/blog/prometheus-grafana-loki-nixos-2020-11-20/
-
-# FIXME: Finish setting up observability stack
 {
   config,
   lib,
@@ -26,6 +24,11 @@ in
           default = 2342;
           type = lib.types.int;
           description = "The port to host Grafana on.";
+        };
+        smtp = lib.mkOption {
+          default = { };
+          type = lib.types.attrs;
+          description = "SMTP configuration for Grafana alerts.";
         };
       };
       loki.port = lib.mkOption {
@@ -63,6 +66,7 @@ in
             http_addr = "127.0.0.1";
             http_port = cfg.grafana.port;
           };
+          smtp = lib.mkIf (cfg.grafana.smtp != { }) cfg.grafana.smtp;
         };
         dataDir = cfg.grafana.home;
         provision = {

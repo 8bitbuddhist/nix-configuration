@@ -223,7 +223,18 @@ in
       observability = {
         enable = true;
         url = config.${namespace}.secrets.services.netdata.url;
-        grafana.home = "${services-root}/observability/grafana";
+        grafana = {
+          home = "${services-root}/observability/grafana";
+          smtp = with config.${namespace}.secrets.services.msmtp; {
+            enabled = true;
+            host = "${host}:465";
+            user = user;
+            password = password;
+            startTLS_policy = "MandatoryStartTLS";
+            from_name = "Grafana";
+            from_address = "admin@8bitbuddhism.com";
+          };
+        };
       };
       open-webui = {
         #home = "${services-root}/open-webui";
