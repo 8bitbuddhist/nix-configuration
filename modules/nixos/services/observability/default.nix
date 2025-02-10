@@ -196,13 +196,12 @@ in
           # Export this node's statistics
           node = {
             enable = true;
-            enabledCollectors = [
-              "systemd"
-              (lib.mkIf config.${namespace}.services.apcupsd.enable "apcupsd")
-              (lib.mkIf config.${namespace}.services.nginx.enable "nginx")
-              (lib.mkIf config.services.smartd.enable "smartctl")
-            ];
+            enabledCollectors = [ "systemd" ];
           };
+          # Export additional statistics
+          apcupsd.enable = config.${namespace}.services.apcupsd.enable;
+          nginx.enable = config.${namespace}.services.nginx.enable;
+          smartctl.enable = config.services.smartd.enable;
         };
         # Ingest statistics from nodes
         scrapeConfigs = [
@@ -210,7 +209,12 @@ in
             job_name = "prometheus-ingest";
             static_configs = [
               {
-                targets = [ "127.0.0.1:${toString config.services.prometheus.exporters.node.port}" ];
+                targets = with config.services.prometheus.exporters; [
+                  "127.0.0.1:${toString node.port}"
+                  "127.0.0.1:${toString apcupsd.port}"
+                  "127.0.0.1:${toString nginx.port}"
+                  "127.0.0.1:${toString smartctl.port}"
+                ];
               }
             ];
             relabel_configs = [
