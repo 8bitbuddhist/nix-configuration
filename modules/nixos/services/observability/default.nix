@@ -1,7 +1,7 @@
 # Sets up an observability stack with Prometheus, Grafana, and Loki
 # Follows https://xeiaso.net/blog/prometheus-grafana-loki-nixos-2020-11-20/
 
-# FIXME: Set up observability stack
+# FIXME: Finish setting up observability stack
 {
   config,
   lib,
@@ -104,16 +104,15 @@ in
             max_chunk_age = "1h";
             chunk_target_size = 999999;
             chunk_retain_period = "30s";
-            max_transfer_retries = 0;
           };
 
           schema_config = {
             configs = [
               {
-                from = "2022-06-06";
-                store = "boltdb-shipper";
+                from = "2025-02-01";
+                store = "boltdb";
                 object_store = "filesystem";
-                schema = "v11"; # FIXME: Update to v2
+                schema = "v13";
                 index = {
                   prefix = "index_";
                   period = "24h";
@@ -123,25 +122,18 @@ in
           };
 
           storage_config = {
-            boltdb_shipper = {
-              active_index_directory = "/var/lib/loki/boltdb-shipper-active";
-              cache_location = "/var/lib/loki/boltdb-shipper-cache";
-              cache_ttl = "24h";
-              shared_store = "filesystem";
+            boltdb = {
+              directory = "/var/lib/loki/index";
             };
-
             filesystem = {
               directory = "/var/lib/loki/chunks";
             };
           };
 
           limits_config = {
+            allow_structured_metadata = false;
             reject_old_samples = true;
             reject_old_samples_max_age = "168h";
-          };
-
-          chunk_store_config = {
-            max_look_back_period = "0s";
           };
 
           table_manager = {
@@ -151,7 +143,6 @@ in
 
           compactor = {
             working_directory = "/var/lib/loki";
-            shared_store = "filesystem";
             compactor_ring = {
               kvstore = {
                 store = "inmemory";
@@ -206,7 +197,6 @@ in
           node = {
             enable = true;
             enabledCollectors = [ "systemd" ];
-            port = 3021;
           };
         };
         # Ingest statistics from nodes
@@ -228,6 +218,15 @@ in
         locations."/" = {
           proxyPass = "http://127.0.0.1:${builtins.toString cfg.grafana.port}";
           proxyWebsockets = true;
+          extraConfig = ''
+            # Taken from https://learn.netdata.cloud/docs/netdata-agent/configuration/running-the-netdata-agent-behind-a-reverse-proxy/nginx
+            proxy_set_header X-Forwarded-Host $host;
+            proxy_set_header X-Forwarded-Server $host;
+            proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+            proxy_pass_request_headers on;
+            proxy_set_header Connection "keep-alive";
+            proxy_store off;
+          '';
         };
       };
     };

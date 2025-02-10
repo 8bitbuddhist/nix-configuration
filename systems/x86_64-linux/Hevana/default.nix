@@ -221,7 +221,7 @@ in
         };
       };
       observability = {
-        enable = false;
+        enable = true;
         url = config.${namespace}.secrets.services.netdata.url;
         grafana.home = "${services-root}/observability/grafana";
       };
