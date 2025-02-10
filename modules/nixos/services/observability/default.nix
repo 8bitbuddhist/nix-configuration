@@ -208,6 +208,15 @@ in
                 targets = [ "127.0.0.1:${toString config.services.prometheus.exporters.node.port}" ];
               }
             ];
+            relabel_configs = [
+              {
+                source_labels = [ "__address__" ];
+                separator = ":";
+                regex = "(.*):(.*)";
+                replacement = config.networking.hostName;
+                target_label = "instance";
+              }
+            ];
           }
         ];
       };
