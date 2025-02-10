@@ -212,21 +212,35 @@ in
         ];
       };
 
-      nginx.virtualHosts."${cfg.url}" = {
-        useACMEHost = lib.${namespace}.getDomainFromURI cfg.url;
-        forceSSL = true;
-        locations."/" = {
-          proxyPass = "http://127.0.0.1:${builtins.toString cfg.grafana.port}";
-          proxyWebsockets = true;
-          extraConfig = ''
-            # Taken from https://learn.netdata.cloud/docs/netdata-agent/configuration/running-the-netdata-agent-behind-a-reverse-proxy/nginx
-            proxy_set_header X-Forwarded-Host $host;
-            proxy_set_header X-Forwarded-Server $host;
-            proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-            proxy_pass_request_headers on;
-            proxy_set_header Connection "keep-alive";
-            proxy_store off;
-          '';
+      # Taken from https://grafana.com/tutorials/run-grafana-behind-a-proxy/
+      nginx = {
+        /*
+          FIXME: Nginx fails to start if this upstream is defined
+          upstreams."grafana" = {
+            servers = {
+              "http://127.0.0.1:${builtins.toString cfg.grafana.port}" = {
+                weight = 1;
+              };
+            };
+          };
+        */
+        virtualHosts."${cfg.url}" = {
+          useACMEHost = lib.${namespace}.getDomainFromURI cfg.url;
+          forceSSL = true;
+          locations."/" = {
+            proxyPass = "http://127.0.0.1:${builtins.toString cfg.grafana.port}";
+            proxyWebsockets = true;
+            extraConfig = ''
+              # Taken from https://learn.netdata.cloud/docs/netdata-agent/configuration/running-the-netdata-agent-behind-a-reverse-proxy/nginx
+              proxy_set_header Host $host;
+              proxy_set_header X-Forwarded-Host $host;
+              proxy_set_header X-Forwarded-Server $host;
+              proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+              proxy_pass_request_headers on;
+              proxy_set_header Connection "keep-alive";
+              proxy_store off;
+            '';
+          };
         };
       };
     };
