@@ -196,7 +196,12 @@ in
           # Export this node's statistics
           node = {
             enable = true;
-            enabledCollectors = [ "systemd" ];
+            enabledCollectors = [
+              "systemd"
+              (lib.mkIf config.${namespace}.services.apcupsd.enable "apcupsd")
+              (lib.mkIf config.${namespace}.services.nginx.enable "nginx")
+              (lib.mkIf config.services.smartd.enable "smartctl")
+            ];
           };
         };
         # Ingest statistics from nodes
