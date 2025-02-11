@@ -43,6 +43,9 @@ in
   networking.hostName = hostName;
 
   services = {
+    # Enable internal-only Nginx status page
+    nginx.statusPage = true;
+
     # Monitor RAID drives using SMART
     smartd.devices = [
       { device = "/dev/sda"; }
@@ -232,7 +235,7 @@ in
             password = password;
             startTLS_policy = "MandatoryStartTLS";
             from_name = "Grafana";
-            from_address = "admin@8bitbuddhism.com";
+            from_address = "admin@${config.${namespace}.secrets.networking.domains.primary}";
           };
         };
       };

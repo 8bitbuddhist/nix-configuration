@@ -206,7 +206,10 @@ in
           };
           # Export additional statistics
           apcupsd.enable = config.${namespace}.services.apcupsd.enable;
-          #nginx.enable = config.${namespace}.services.nginx.enable;
+          nginx = {
+            enable = config.${namespace}.services.nginx.enable;
+            scrapeUri = "http://127.0.0.1/nginx_status";
+          };
           smartctl.enable = config.services.smartd.enable;
         };
         # Ingest statistics from nodes
@@ -218,7 +221,7 @@ in
                 targets = with config.services.prometheus.exporters; [
                   "127.0.0.1:${toString node.port}"
                   "127.0.0.1:${toString apcupsd.port}"
-                  #"127.0.0.1:${toString nginx.port}"
+                  "127.0.0.1:${toString nginx.port}"
                   "127.0.0.1:${toString smartctl.port}"
                 ];
               }
