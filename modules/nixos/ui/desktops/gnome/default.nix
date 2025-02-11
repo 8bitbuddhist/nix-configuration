@@ -129,15 +129,5 @@ in
       platformTheme = "gnome";
       style = "adwaita-dark";
     };
-
-    # Make sure the keyring is properly unlocked at startup.
-    # See https://discourse.nixos.org/t/login-keyring-did-not-get-unlocked-hyprland/40869/8
-    # Also see https://wiki.archlinux.org/title/GNOME/Keyring
-    security.pam.services = {
-      gdm.enableGnomeKeyring = true;
-      passwd.text = lib.mkAfter ''
-        password	optional	pam_gnome_keyring.so
-      '';
-    };
   };
 }

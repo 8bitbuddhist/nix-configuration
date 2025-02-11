@@ -11,7 +11,7 @@ in
 {
   options = {
     ${namespace}.services.vpn = {
-      enable = lib.mkEnableOption "Creates a VPN connection on /dev/net/tun (via ProtonVPN).";
+      enable = lib.mkEnableOption "Creates a VPN connection on /dev/net/tun (via PIA).";
       auth = {
         password = lib.mkOption {
           default = "";

@@ -106,8 +106,6 @@ in
     };
 
     services = {
-      # FIXME: Try configuring services to use Unix sockets instead of IP addresses...again
-      #   https://search.nixos.org/options?channel=24.11&show=services.nginx.upstreams&query=nginx+upstream
       acme = {
         enable = true;
         defaultEmail = config.${namespace}.secrets.users.aires.email;
@@ -225,7 +223,7 @@ in
       };
       observability = {
         enable = true;
-        url = config.${namespace}.secrets.services.netdata.url;
+        url = config.${namespace}.secrets.services.observability.url;
         grafana = {
           home = "${services-root}/observability/grafana";
           smtp = with config.${namespace}.secrets.services.msmtp; {

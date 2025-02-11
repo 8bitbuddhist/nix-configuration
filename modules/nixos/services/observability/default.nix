@@ -258,7 +258,6 @@ in
             proxyPass = "http://127.0.0.1:${builtins.toString cfg.grafana.port}";
             proxyWebsockets = true;
             extraConfig = ''
-              # Taken from https://learn.netdata.cloud/docs/netdata-agent/configuration/running-the-netdata-agent-behind-a-reverse-proxy/nginx
               proxy_set_header Host $host;
               proxy_set_header X-Forwarded-Host $host;
               proxy_set_header X-Forwarded-Server $host;

@@ -109,6 +109,7 @@ in
     options = [ "bind" ];
   };
 
+  # Install custom font
   fonts.packages = lib.mkIf config.${namespace}.users.gremlin.enable [
     pkgs.${namespace}.freight-pro
   ];
