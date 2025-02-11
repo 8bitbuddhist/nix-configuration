@@ -64,6 +64,9 @@ in
         extraOptions = [
           "--label=io.containers.autoupdate=registry"
           (lib.mkIf config.${namespace}.services.vpn.enable "--network=container:gluetun")
+          (lib.mkIf config.${namespace}.services.vpn.enable
+            "--health-cmd='/home/warrior/data/wget-at -nv -t1 'http://gluetun:${builtins.toString cfg.port}/index.html' -O /dev/null || exit 1'"
+          )
         ];
         dependsOn = lib.mkIf config.${namespace}.services.vpn.enable [ "gluetun" ];
         ports = lib.mkIf (cfg.port > 0 && !config.${namespace}.services.vpn.enable) [
