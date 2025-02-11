@@ -196,6 +196,8 @@ in
       prometheus = {
         enable = true;
         port = cfg.prometheus.port;
+        globalConfig.scrape_interval = "15s"; # Fix data not showing on Grafana graphs for short (<3 hour) time frames. See https://github.com/grafana/grafana/issues/29858#issuecomment-2120235388
+        retentionTime = "7d"; # Retain samples for one week
         exporters = {
           # Export this node's statistics
           node = {
