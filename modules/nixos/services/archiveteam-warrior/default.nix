@@ -61,13 +61,14 @@ in
           "${cfg.home}/data:/home/warrior/data"
           "${cfg.home}/projects:/home/warrior/projects"
         ];
-        extraOptions = [
-          "--label=io.containers.autoupdate=registry"
-          (lib.mkIf config.${namespace}.services.vpn.enable "--network=container:gluetun")
-          (lib.mkIf config.${namespace}.services.vpn.enable
-            "--health-cmd='/home/warrior/data/wget-at -nv -t1 'http://gluetun:${builtins.toString cfg.port}/index.html' -O /dev/null || exit 1'"
-          )
-        ];
+        extraOptions =
+          [
+            "--label=io.containers.autoupdate=registry"
+          ]
+          ++ lib.optionals config.${namespace}.services.vpn.enable [
+            "--network=container:gluetun"
+            "--no-healthcheck"
+          ];
         dependsOn = lib.mkIf config.${namespace}.services.vpn.enable [ "gluetun" ];
         ports = lib.mkIf (cfg.port > 0 && !config.${namespace}.services.vpn.enable) [
           "127.0.0.1:8001:${builtins.toString cfg.port}"
