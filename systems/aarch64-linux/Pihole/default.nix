@@ -8,53 +8,6 @@
 let
   stateVersion = "24.05";
   hostName = "Pihole";
-
-  # Script to unlock /sda and create /home symlinks, mount /swap, etc.
-  start-pihole_script = pkgs.writeShellScriptBin "start-pihole" ''
-    #!/usr/bin/env bash
-
-    # Script to unlock the /sda partition and setup its files.
-
-    # check if the current user is root
-    if [ "$(id -u)" != "0" ]; then
-      echo "This script must be run as root" 1>&2
-      exit 1
-    fi
-
-    # local storage partition
-    echo "Unlocking storage partition:"
-    cryptsetup luksOpen /dev/disk/by-uuid/b09893d7-cc1f-4482-bf7a-126d03923b45 sda
-
-    # mount local storage
-    if [ ! -f /dev/mapper/sda ]; then
-      echo "Mounting sda:"
-      mount -o relatime /dev/mapper/sda /sda
-
-      if [ $? -ne "0" ]; then
-        echo "Failed to mount @home"
-      fi
-
-      echo "Mounting hevana:"
-      mount /Hevana
-
-      if [ $? -ne "0" ]; then
-        echo "Failed to mount hevana"
-      fi
-
-      echo "Mounting swap:"
-      mount -o subvol=@swap,noatime /dev/mapper/sda /swap
-
-      if [ $? -eq "0" ]; then
-        swapon /swap/swapfile
-      else
-        echo "Failed to mount swap"
-      fi
-    else
-      echo "Failed to unlock sda."
-    fi
-
-    exit 0
-  '';
 in
 {
   imports = [ ./hardware-configuration.nix ];
@@ -78,6 +31,12 @@ in
   # Disable smartd: daemon fails when it doesn't detect any drives to monitor on startup
   services.smartd.enable = lib.mkForce false;
 
+  # Install Docker for Kubernetes in Docker (Kind)
+  virtualisation.docker = {
+    enable = true;
+    autoPrune.enable = true;
+  };
+
   ${namespace} = {
     bootloader.enable = false; # Bootloader configured in hardware-configuration.nix
 
@@ -90,33 +49,17 @@ in
       linuxKernel.kernels.linux_rpi4
       raspberrypifw
       raspberrypi-eeprom
-      start-pihole_script
+
+      # Gremlin lab tools
+      pkgs.unstable.kind
+      pkgs.unstable.kubectl
+      pkgs.unstable.kubernetes-helm
     ];
     services = {
-      autoUpgrade = {
-        enable = true;
-        configDir = config.${namespace}.secrets.nixConfigFolder;
-        onCalendar = "daily";
-        user = config.users.users.aires.name;
-      };
+      autoUpgrade.enable = false;
       ssh = {
         enable = true;
         ports = [ config.${namespace}.secrets.hosts.hevana.ssh.port ];
-      };
-      tor = {
-        enable = true;
-        snowflake-proxy.enable = true;
-      };
-      vpn = {
-        enable = true;
-        auth = with config.${namespace}.secrets.services.private-internet-access.auth; {
-          user = user;
-          password = password;
-        };
-        countries = [
-          "Switzerland"
-          "Netherlands"
-        ];
       };
     };
     users.aires.enable = true;

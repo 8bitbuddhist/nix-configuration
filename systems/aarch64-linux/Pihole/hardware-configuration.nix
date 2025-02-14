@@ -13,11 +13,14 @@
   imports = [ (modulesPath + "/installer/scan/not-detected.nix") ];
 
   boot = {
-    # Enable audio devices
     kernelParams = [
+      # Enable audio
       "snd_bcm2835.enable_hdmi=1"
       "snd_bcm2835.enable_headphones=1"
       "dtparam=audio=on"
+      # Enable cgroups memory for Kubernetes in Docker. See https://github.com/kubernetes-sigs/kind/issues/3503
+      "cgroup_enable=memory"
+      "cgroup_memory=1"
     ];
 
     # Switch to a compatible bootloader
@@ -37,30 +40,13 @@
         "journal_async_commit"
       ];
     };
-
-    # Mount Hevana via Rclone
-    # https://wiki.nixos.org/wiki/Rclone
-    "/Hevana" = {
-      device = "hevana:/home/aires";
-      fsType = "rclone";
-      options = [
-        "noauto"
-        "nodev"
-        "nofail"
-        "allow_other"
-        "args2env"
-        "uid=1000"
-        "gid=1000"
-        "config=/etc/rclone/hevana.conf"
-      ];
-    };
   };
 
-  # Configure Rclone
-  environment = {
-    systemPackages = [ pkgs.rclone ];
-    etc."rclone/hevana.conf".text = config.${namespace}.secrets.hosts.pihole.rclone-config;
-  };
+  swapDevices = [
+    {
+      device = "/swapfile";
+    }
+  ];
 
   hardware = {
     enableRedistributableFirmware = true;
