@@ -15,6 +15,7 @@ in
   boot = {
     kernelPackages = pkgs.linuxKernel.packages.linux_zen;
     kernelModules = [ "kvm-amd" ];
+    kernelParams = [ "nvme_core.default_ps_max_latency_us=0" ]; # (Allegedly) Fixes 84 degree reading on Samsung NVMe. See https://www.reddit.com/r/unRAID/comments/s4w79b/m2_drive_bad_temp_reading_seriously_84c/
 
     initrd.kernelModules = [
       "kvm-amd"
