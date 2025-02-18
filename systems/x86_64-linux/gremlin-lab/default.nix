@@ -60,7 +60,7 @@ in
     services = {
       autoUpgrade = {
         enable = true;
-        pushUpdates = true; # ...but do push updates remotely.
+        pushUpdates = false;
         configDir = config.${namespace}.secrets.nixConfigFolder;
         onCalendar = "daily";
         user = config.users.users.aires.name;
