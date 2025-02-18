@@ -1,6 +1,8 @@
 {
   config,
+  lib,
   namespace,
+  pkgs,
   ...
 }:
 
@@ -15,12 +17,27 @@ in
   system.stateVersion = stateVersion;
   networking.hostName = hostName;
 
+  # Functionality for Kubernetes in Docker
+  virtualisation.docker = {
+    enable = true;
+    storageDriver = "btrfs";
+    autoPrune.enable = true;
+  };
+  environment.systemPackages = with pkgs.unstable; [
+    kind
+    kubectl
+    kubernetes-helm
+    skaffold
+  ];
+  #networking.firewall.allowedTCPPorts = [ 80 ];
+  networking.firewall.enable = lib.mkForce false; # Disabling due to conflict with KIND
+
   # Configure the system.
   ${namespace} = {
     # Enable Secure Boot support.
     bootloader = {
       enable = true;
-      secureboot.enable = false; # TODO: Re-enable
+      secureboot.enable = true;
       tpm2.enable = true;
     };
 
