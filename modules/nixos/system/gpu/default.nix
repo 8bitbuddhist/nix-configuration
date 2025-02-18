@@ -85,7 +85,7 @@ in
 
       services.xserver.videoDrivers = lib.mkDefault [ "nvidia" ];
       hardware = {
-        opengl.extraPackages = with pkgs; [ vaapiVdpau ];
+        graphics.extraPackages = with pkgs; [ vaapiVdpau ];
         nvidia = {
           modesetting.enable = true;
           nvidiaSettings = config.${namespace}.ui.desktops.enable;

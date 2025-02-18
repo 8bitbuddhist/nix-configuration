@@ -144,6 +144,10 @@
 
         # Individual host configurations
         hosts = {
+          gremlin-lab.modules = with inputs; [
+            nixos-hardware.nixosModules.common-cpu-intel
+          ];
+
           Hevana.modules = with inputs; [
             nixos-hardware.nixosModules.common-cpu-amd-pstate
             nixos-hardware.nixosModules.common-gpu-amd
