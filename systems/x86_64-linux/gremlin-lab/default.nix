@@ -20,7 +20,7 @@ in
     # Enable Secure Boot support.
     bootloader = {
       enable = true;
-      secureboot.enable = false; # TODO: Re-enable
+      secureboot.enable = true;
       tpm2.enable = true;
     };
 

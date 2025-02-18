@@ -8,8 +8,8 @@
 }:
 
 let
-  bootUUID = "FC20-D155"; # The UUID of the boot partition.
-  luksUUID = "9fdc521b-a037-4070-af47-f54da03675e4"; # The UUID of the locked LUKS partition.
+  bootUUID = "BB32-0650"; # The UUID of the boot partition.
+  luksUUID = "688c96d9-61a0-4c26-9504-771f6c489c9c"; # The UUID of the locked LUKS partition.
 in
 {
   imports = [ (modulesPath + "/installer/scan/not-detected.nix") ];
