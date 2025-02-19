@@ -29,8 +29,12 @@ in
     kubernetes-helm
     skaffold
   ];
-  #networking.firewall.allowedTCPPorts = [ 80 ];
-  networking.firewall.enable = lib.mkForce false; # Disabling due to conflict with KIND
+  networking.firewall = {
+    allowedTCPPorts = [ 80 ];
+    # Required to get container <-> host networking.
+    #   See https://github.com/NixOS/nixpkgs/issues/298165
+    checkReversePath = false;
+  };
 
   # Configure the system.
   ${namespace} = {
