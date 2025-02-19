@@ -3,11 +3,11 @@
     "ai-blocklist": {
       "flake": false,
       "locked": {
-        "lastModified": 1739753612,
-        "narHash": "sha256-hz3CnaAJz0SuwURUNzdjzoOC3JqC/zWlad0KsRtp728=",
+        "lastModified": 1739907775,
+        "narHash": "sha256-zeXd9ZZaBWkwRFakg19yRr4o52ZOqvSEfke8tA7/jw0=",
         "owner": "ai-robots-txt",
         "repo": "ai.robots.txt",
-        "rev": "abfd6dfcd15267ed03b5fda4cd3eac2512604ed2",
+        "rev": "9f41d4c11c1fd1eeee5050fdaa193247283a3778",
         "type": "github"
       },
       "original": {
