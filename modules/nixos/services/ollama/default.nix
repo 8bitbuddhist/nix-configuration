@@ -65,7 +65,7 @@ in
           SCARF_NO_ANALYTICS = "True";
           OLLAMA_BASE_URL = "http://127.0.0.1:${builtins.toString api.port}";
         };
-        stateDir = cfg.home; # FIXME: complains of a read-only fs when writing to certain directories. The default seems to work.
+        stateDir = cfg.home;
       };
 
       nginx.virtualHosts."${cfg.url}" = {
