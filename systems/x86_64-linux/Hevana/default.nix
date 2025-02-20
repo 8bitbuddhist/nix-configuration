@@ -137,7 +137,7 @@ in
         enable = true;
         pushUpdates = true; # Update automatically and push updates back up to Forgejo
         configDir = config.${namespace}.secrets.nixConfigFolder;
-        onCalendar = "daily";
+        onCalendar = "06:00";
         user = config.users.users.aires.name;
       };
       binary-cache = {
