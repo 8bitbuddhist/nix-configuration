@@ -47,12 +47,6 @@ in
     nginx.statusPage = true;
 
     # Monitor RAID drives using SMART
-    smartd.devices = [
-      { device = "/dev/sda"; }
-      { device = "/dev/sdb"; }
-      { device = "/dev/sdc"; }
-      { device = "/dev/sdd"; }
-    ];
   };
 
   # Build Nix packages for other hosts.
@@ -137,7 +131,6 @@ in
         enable = true;
         pushUpdates = true; # Update automatically and push updates back up to Forgejo
         configDir = config.${namespace}.secrets.nixConfigFolder;
-        onCalendar = "06:00";
         user = config.users.users.aires.name;
       };
       binary-cache = {
@@ -152,6 +145,7 @@ in
       duplicacy-web = {
         enable = true;
         home = "/storage/backups/settings/Haven";
+        homeBackupDir = "/home/aires/duplicacy-settings-backup-Hevana";
       };
       forgejo = {
         enable = true;
@@ -239,7 +233,6 @@ in
       };
       open-webui = {
         enable = true;
-        home = "${services-root}/open-webui";
         url = config.${namespace}.secrets.services.open-webui.url;
         ollama.enable = true;
       };
