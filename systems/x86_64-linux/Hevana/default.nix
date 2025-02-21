@@ -130,7 +130,6 @@ in
       archiveteam-warrior = {
         enable = true;
         useVPN = true;
-        home = "${services-root}/archiveteam-warrior";
         port = 8001;
       };
       autoUpgrade = {
@@ -242,10 +241,7 @@ in
         enable = true;
         home = "${services-root}/open-webui";
         url = config.${namespace}.secrets.services.open-webui.url;
-        ollama = {
-          enable = true;
-          home = "${services-root}/ollama";
-        };
+        ollama.enable = true;
       };
       qbittorrent = {
         enable = true;
