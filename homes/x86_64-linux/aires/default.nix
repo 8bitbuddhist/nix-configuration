@@ -42,6 +42,10 @@
       oh-my-zsh = {
         theme = "gentoo";
       };
+      sessionVariables = {
+        # Quit bugging me about unfree packages!
+        NIXPKGS_ALLOW_UNFREE = "1";
+      };
       shellAliases = {
         com = "compile-manuscript";
         nos = "nixos-operations-script";
