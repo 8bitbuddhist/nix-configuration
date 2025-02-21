@@ -89,9 +89,6 @@ in
       tpm2.enable = true;
     };
 
-    # Change the default text editor. Options are "emacs", "nano", or "vim".
-    editor = "nano";
-
     # Enable GPU support.
     gpu.amd.enable = true;
 

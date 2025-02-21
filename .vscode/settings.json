@@ -3,5 +3,5 @@
   "direnv.restart.automatic": true,
   "nix.enableLanguageServer": true,
   "nix.serverPath": "/run/current-system/sw/bin/nil",
-  "nix.formatterPath": "/run/current-system/sw/bin/nix fmt"
+  "nix.formatterPath": "treefmt"
 }

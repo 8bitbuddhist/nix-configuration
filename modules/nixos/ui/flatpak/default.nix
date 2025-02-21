@@ -79,12 +79,7 @@ in
           };
           aggregatedIcons = pkgs.buildEnv {
             name = "system-icons";
-            paths = with pkgs; [
-              (lib.mkIf config.${namespace}.ui.desktops.gnome.enable gnome-themes-extra)
-              (lib.mkIf config.${namespace}.ui.desktops.kde.enable kdePackages.breeze-icons)
-              papirus-icon-theme
-              qogir-icon-theme
-            ];
+            paths = config.${namespace}.ui.desktops.themePackages;
             pathsToLink = [ "/share/icons" ];
           };
           aggregatedFonts = pkgs.buildEnv {

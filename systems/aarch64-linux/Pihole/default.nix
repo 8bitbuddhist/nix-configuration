@@ -40,8 +40,6 @@ in
   ${namespace} = {
     bootloader.enable = false; # Bootloader configured in hardware-configuration.nix
 
-    editor = "nano";
-
     packages = with pkgs; [
       btrfs-progs
       cryptsetup

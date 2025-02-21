@@ -14,6 +14,15 @@ in
   options = {
     ${namespace}.ui.desktops = {
       enable = lib.mkEnableOption "Enables base desktop environment support.";
+      themePackages = lib.mkOption {
+        description = "List of extra packages to install as themes.";
+        type = lib.types.listOf lib.types.package;
+        default = with pkgs; [
+          gnome-themes-extra
+          papirus-icon-theme
+          qogir-icon-theme
+        ];
+      };
       xkb = lib.mkOption {
         description = "The keyboard layout to use by default. Defaults to us.";
         type = lib.types.attrs;
@@ -31,9 +40,7 @@ in
         enable = true;
         experimental.enable = true;
       };
-      packages = with pkgs; [
-        qjournalctl # Journalctl frontend
-      ];
+      packages = cfg.themePackages;
       ui.audio.enable = true;
     };
 

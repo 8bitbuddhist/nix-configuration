@@ -5,7 +5,6 @@
     userName = osConfig.${namespace}.secrets.users.aires.firstName;
     userEmail = osConfig.${namespace}.secrets.users.aires.email;
     extraConfig = {
-      core.editor = osConfig.${namespace}.editor;
       merge.conflictStyle = "zdiff3";
       pull.ff = "only";
       push.autoSetupRemote = "true";

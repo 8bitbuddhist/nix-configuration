@@ -111,10 +111,6 @@ in
       systemPackages = with pkgs; [
         # Gnome tweak tools
         gnome-tweaks
-        # Themeing
-        gnome-themes-extra
-        papirus-icon-theme
-        qogir-icon-theme
         # Gnome extensions
         gnomeExtensions.another-window-session-manager
         gnomeExtensions.appindicator

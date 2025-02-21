@@ -1,6 +1,5 @@
 {
   config,
-  lib,
   namespace,
   pkgs,
   ...
@@ -44,9 +43,6 @@ in
       secureboot.enable = true;
       tpm2.enable = true;
     };
-
-    # Change the default text editor. Options are "emacs", "nano", or "vim".
-    editor = "nano";
 
     # Enable GPU support.
     gpu = {

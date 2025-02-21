@@ -24,13 +24,20 @@
     zsh.enable = true;
 
     # Configure nano
-    nano.nanorc = ''
-      set tabsize 4
-      set softwrap
-      set autoindent
-      set indicator
-    '';
+    nano = {
+      enable = true;
+      syntaxHighlight = true;
+      nanorc = ''
+        set tabsize 4
+        set softwrap
+        set autoindent
+        set indicator
+      '';
+    };
   };
+
+  # Set nano as the default editor
+  environment.variables."EDITOR" = "nano";
 
   # Set ZSH as the default shell
   users.defaultUserShell = pkgs.zsh;
