@@ -47,6 +47,9 @@ in
         # Manage all Flatpak packages and remotes
         uninstallUnmanaged = true;
 
+        # Delete stale/unused packages
+        uninstallUnused = true;
+
         # Enable automatic updates alongside nixos-rebuild
         update.onActivation = true;
 
