@@ -59,6 +59,9 @@ in
       };
     };
 
-    systemd.services.nginx.wants = [ config.systemd.services.nix-serve.name ];
+    systemd.services = {
+      nix-serve.unitConfig.RequiresMountsFor = cfg.secretKeyFile;
+      nginx.wants = [ config.systemd.services.nix-serve.name ];
+    };
   };
 }

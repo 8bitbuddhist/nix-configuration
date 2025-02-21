@@ -99,6 +99,9 @@ in
       groups.${cfg.group}.gid = GID;
     };
 
-    systemd.services.nginx.wants = [ config.systemd.services.podman-qbittorrent.name ];
+    systemd.services = {
+      qbittorrent.unitConfig.RequiresMountsFor = cfg.home;
+      nginx.wants = [ config.systemd.services.podman-qbittorrent.name ];
+    };
   };
 }

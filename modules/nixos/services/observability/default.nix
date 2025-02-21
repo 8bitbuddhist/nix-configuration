@@ -272,6 +272,7 @@ in
     };
 
     systemd.services = {
+      grafana.unitConfig.RequiresMountsFor = cfg.grafana.home;
       nginx.wants = [ config.systemd.services.grafana.name ];
     };
   };
